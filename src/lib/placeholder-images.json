@@ -189,7 +189,7 @@
     {
       "id": "wave-gal-2",
       "description": "A swim-up bar in the main pool.",
-      "imageUrl": "https://images.unsplash.com/photo-1629466928463-7c93bcb15f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb29sJTIwYmFyfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1629466928463-7c93bcb15f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb29sJTIwYmFyfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "pool bar"
     },
     {
@@ -201,7 +201,7 @@
     {
       "id": "wave-plan-1",
       "description": "Floor plan of a one-bedroom seaside apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
@@ -261,7 +261,7 @@
     {
       "id": "trend-plan-1",
       "description": "Floor plan of a micro-apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     }
   ]

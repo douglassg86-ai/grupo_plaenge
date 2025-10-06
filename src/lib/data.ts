@@ -38,7 +38,7 @@ export const projects: Project[] = [
       address: 'Rua das Araucárias, 456, Moinhos, Metrópole',
       mapImageId: 'map-placeholder',
     },
-    videoUrl: 'https://youtu.be/pkhZo3FDBWE',
+    videoUrl: 'https://www.youtube.com/embed/pkhZo3FDBWE',
     availability: [
       { unit: 'A-3', type: '4 Suítes', area: 250, status: 'Disponível' },
       { unit: 'A-4', type: '4 Suítes', area: 250, status: 'Disponível' },
