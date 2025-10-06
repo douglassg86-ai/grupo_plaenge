@@ -55,45 +55,45 @@
       "imageHint": "floor plan"
     },
     {
-      "id": "edition-moinhos-hero",
-      "description": "Elegant residential building with classic architecture and modern touches.",
-      "imageUrl": "https://images.unsplash.com/photo-1643297550622-f800a238d348?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjbGFzc2ljJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzU5NjY0Mjc0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "classic building"
+      "id": "em-hero",
+      "description": "Fachada do Edition Moinhos",
+      "imageUrl": "/EDTION/EDT_FT_Fachada_CAM_01_Final_Res_1.png",
+      "imageHint": "building facade"
     },
     {
-      "id": "edition-moinhos-gal-1",
-      "description": "Cozy bedroom with a large bed and soft lighting.",
-      "imageUrl": "https://images.unsplash.com/photo-1611892440504-42a792e24d32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiZWRyb29tJTIwaW50ZXJpb3J8ZW58MHx8fHwxNzU5NTg4NTQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "bedroom interior"
+      "id": "em-gal-1",
+      "description": "Área de lazer do Edition Moinhos",
+      "imageUrl": "/EDTION/EDT_FT_Area-lazer-piscina-coberta_Final_Res_1.png",
+      "imageHint": "pool area"
     },
     {
-      "id": "edition-moinhos-gal-2",
-      "description": "A luxurious lobby with marble floors and a grand chandelier.",
-      "imageUrl": "https://images.unsplash.com/photo-1758448656987-cfae6bf225e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsdXh1cnklMjBsb2JieXxlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "luxury lobby"
+      "id": "em-gal-2",
+      "description": "Salão de festas do Edition Moinhos",
+      "imageUrl": "/EDTION/EDT_FT_Salao-de-festas_Final_Res_1.png",
+      "imageHint": "party room"
     },
     {
-      "id": "edition-moinhos-gal-3",
-      "description": "Gourmet kitchen with stainless steel appliances.",
-      "imageUrl": "https://images.unsplash.com/photo-1622001618569-eae18fee3a1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnb3VybWV0JTIwa2l0Y2hlbnxlbnwwfHx8fDE3NTk2NTEwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gourmet kitchen"
+      "id": "em-gal-3",
+      "description": "Brinquedoteca do Edition Moinhos",
+      "imageUrl": "/EDTION/EDT_FT_Brinquedoteca_Final_Res_1.png",
+      "imageHint": "kids playroom"
     },
     {
-      "id": "edition-moinhos-gal-4",
-      "description": "Private balcony with a view of a green park.",
-      "imageUrl": "https://images.unsplash.com/photo-1652699140205-792df2fb740f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxiYWxjb255JTIwdmlld3xlbnwwfHx8fDE3NTk2NDg0MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "balcony view"
+      "id": "em-gal-4",
+      "description": "Living do apartamento do Edition Moinhos",
+      "imageUrl": "/EDTION/EDT_FT_Apto-Living_Final_Res_1.png",
+      "imageHint": "apartment living"
     },
     {
-      "id": "edition-moinhos-plan-1",
-      "description": "Floor plan for a three-bedroom family apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1721244653580-79577d2822a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "floor plan"
+      "id": "em-gal-5",
+      "description": "Suíte do apartamento do Edition Moinhos",
+      "imageUrl": "/EDTION/EDT_FT_Apto-Suite_Final_Res_1.png",
+      "imageHint": "apartment suite"
     },
     {
-      "id": "edition-moinhos-plan-2",
-      "description": "Layout of the ground floor common areas.",
-      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "id": "em-plan-1",
+      "description": "Planta baixa do Edition Moinhos",
+      "imageUrl": "/EDTION/EDT-PLANTA-Final.png",
       "imageHint": "floor plan"
     },
     {
@@ -189,7 +189,7 @@
     {
       "id": "wave-gal-2",
       "description": "A swim-up bar in the main pool.",
-      "imageUrl": "https://images.unsplash.com/photo-1629466928463-7c93bcb15f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb29sJTIwYmFyfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1629466928463-7c93bcb15f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb29sJTIwYmFyfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "pool bar"
     },
     {
@@ -201,7 +201,7 @@
     {
       "id": "wave-plan-1",
       "description": "Floor plan of a one-bedroom seaside apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
@@ -261,7 +261,7 @@
     {
       "id": "trend-plan-1",
       "description": "Floor plan of a micro-apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     }
   ]
