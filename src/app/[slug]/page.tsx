@@ -1,9 +1,10 @@
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { projects } from '@/lib/data';
 import { placeholderImages } from '@/lib/placeholder-images';
 import type { Metadata } from 'next';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
   Carousel,
@@ -104,13 +105,16 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <TabsContent value="gallery">
                  <Carousel className="w-full max-w-4xl mx-auto mt-6">
                     <CarouselContent>
-                      {galleryImages.map((image) => image && (
-                        <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3">
-                            <Card className="overflow-hidden h-96">
-                                <Image src={image.imageUrl} alt={image.description} data-ai-hint={image.imageHint} fill className="object-cover"/>
-                            </Card>
-                        </CarouselItem>
-                      ))}
+                      {galleryImages.map((image) => {
+                        if (!image) return null;
+                        return (
+                            <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3">
+                                <Card className="overflow-hidden h-96">
+                                    <Image src={image.imageUrl} alt={image.description} data-ai-hint={image.imageHint} fill className="object-cover"/>
+                                </Card>
+                            </CarouselItem>
+                        );
+                      })}
                     </CarouselContent>
                     <CarouselPrevious className="ml-14" />
                     <CarouselNext className="mr-14" />
@@ -119,13 +123,16 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <TabsContent value="floor-plans">
                 <Carousel className="w-full max-w-4xl mx-auto mt-6">
                     <CarouselContent>
-                      {floorPlanImages.map((image) => image && (
-                        <CarouselItem key={image.id} className="md:basis-1/2">
-                           <Card className="overflow-hidden h-[500px]">
-                                <Image src={image.imageUrl} alt={image.description} data-ai-hint={image.imageHint} fill className="object-contain p-4"/>
-                            </Card>
-                        </CarouselItem>
-                      ))}
+                      {floorPlanImages.map((image) => {
+                        if (!image) return null;
+                        return (
+                          <CarouselItem key={image.id} className="md:basis-1/2">
+                            <Card className="overflow-hidden h-[500px]">
+                                  <Image src={image.imageUrl} alt={image.description} data-ai-hint={image.imageHint} fill className="object-contain p-4"/>
+                              </Card>
+                          </CarouselItem>
+                        );
+                      })}
                     </CarouselContent>
                     <CarouselPrevious className="ml-14" />
                     <CarouselNext className="mr-14" />
