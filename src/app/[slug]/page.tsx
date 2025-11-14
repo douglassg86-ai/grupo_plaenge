@@ -110,13 +110,14 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                         return (
                           <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3">
                             <Card className="overflow-hidden">
-                              <CardContent className="p-0 aspect-video relative">
+                              <CardContent className="p-0 aspect-video relative flex items-center justify-center">
                                 <Image 
                                   src={image.imageUrl} 
                                   alt={image.description} 
                                   data-ai-hint={image.imageHint} 
-                                  fill
-                                  className="object-cover"
+                                  width={800}
+                                  height={450}
+                                  className="object-cover w-full h-full"
                                 />
                               </CardContent>
                             </Card>
@@ -136,8 +137,14 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                         return (
                           <CarouselItem key={image.id} className="md:basis-1/2">
                             <Card className="overflow-hidden h-[500px]">
-                                  <Image src={image.imageUrl} alt={image.description} data-ai-hint={image.imageHint} fill className="object-contain p-4"/>
-                              </Card>
+                              <Image 
+                                src={image.imageUrl} 
+                                alt={image.description} 
+                                data-ai-hint={image.imageHint} 
+                                fill 
+                                className="object-contain p-4"
+                              />
+                            </Card>
                           </CarouselItem>
                         );
                       })}
