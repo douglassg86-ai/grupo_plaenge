@@ -61,52 +61,226 @@
       "imageHint": "building facade"
     },
     {
+      "id": "em-plan-1",
+      "description": "Planta baixa do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition7.jpg",
+      "imageHint": "floor plan"
+    },
+    {
       "id": "em-gal-1",
-      "description": "Área de lazer do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition2.jpg",
-      "imageHint": "pool area"
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition.jpg",
+      "imageHint": "building detail"
     },
     {
       "id": "em-gal-2",
-      "description": "Salão de festas do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition3.jpg",
-      "imageHint": "party room"
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition2.jpg",
+      "imageHint": "building detail"
     },
     {
       "id": "em-gal-3",
-      "description": "Brinquedoteca do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition4.jpg",
-      "imageHint": "kids playroom"
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition3.jpg",
+      "imageHint": "building detail"
     },
     {
       "id": "em-gal-4",
-      "description": "Living do apartamento do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition5.jpg",
-      "imageHint": "apartment living"
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition4.jpg",
+      "imageHint": "building detail"
     },
     {
       "id": "em-gal-5",
-      "description": "Suíte do apartamento do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition6.jpg",
-      "imageHint": "apartment suite"
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition5.jpg",
+      "imageHint": "building detail"
     },
     {
       "id": "em-gal-6",
       "description": "Imagem da galeria do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition8.jpg",
+      "imageUrl": "/EDITION/site_app_edition6.jpg",
       "imageHint": "building detail"
     },
     {
       "id": "em-gal-7",
       "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition7.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-8",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition8.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-9",
+      "description": "Imagem da galeria do Edition Moinhos",
       "imageUrl": "/EDITION/site_app_edition9.jpg",
       "imageHint": "building detail"
     },
     {
-      "id": "em-plan-1",
-      "description": "Planta baixa do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition7.jpg",
-      "imageHint": "floor plan"
+      "id": "em-gal-10",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition10.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-11",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition11.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-12",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition12.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-13",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition13.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-14",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition14.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-15",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition15.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-16",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition16.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-17",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition17.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-18",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition18.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-19",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition19.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-20",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition20.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-21",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition21.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-22",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition22.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-23",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition23.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-24",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition24.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-25",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition25.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-26",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition26.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-27",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition27.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-28",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition28.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-29",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition29.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-30",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition30.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-31",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition31.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-32",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition32.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-33",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition33.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-34",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition34.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-35",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition35.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-36",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition36.jpg",
+      "imageHint": "building detail"
     },
     {
       "id": "verdant-hero",
@@ -129,145 +303,145 @@
     {
       "id": "verdant-gal-3",
       "description": "Bathroom with natural stone and plants.",
-      "imageUrl": "https://images.unsplash.com/photo-1643949719317-4342d8d4031e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW9kZXJuJTIwYmF0aHJvb218ZW58MHx8fHwxNzU5NjM0NDYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1643949719317-4342d8d4031e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW9kZXJuJTIwYmF0aHJvb218ZW58MHx8fHwxNzU5NjM0NDYwfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "modern bathroom"
     },
     {
       "id": "verdant-gal-4",
       "description": "Building exterior detail showing plant integration.",
-      "imageUrl": "https://images.unsplash.com/photo-1746972705478-fc3a01cc6620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxidWlsZGluZyUyMGRldGFpbHxlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1746972705478-fc3a01cc6620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxidWlsZGluZyUyMGRldGFpbHxlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "building detail"
     },
     {
       "id": "verdant-plan-1",
       "description": "Floor plan of a garden apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
       "id": "verdant-plan-2",
       "description": "Floor plan of a two-story loft.",
-      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
       "id": "mood-hero",
       "description": "Vibrant and colorful apartment building in a bustling urban park.",
-      "imageUrl": "https://images.unsplash.com/photo-1653715717917-cb6b037b2e2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb2xvcmZ1bCUyMGJ1aWxkaW5nfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1653715717917-cb6b037b2e2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb2xvcmZ1bCUyMGJ1aWxkaW5nfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "colorful building"
     },
     {
       "id": "mood-gal-1",
       "description": "Modern apartment interior with bold color accents.",
-      "imageUrl": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBpbnRlcmlvcnxlbnwwfHx8fDE3NTk2NTk2Njl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBpbnRlcmlvcnxlbnwwfHx8fDE3NTk2NTk2Njl8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "modern interior"
     },
     {
       "id": "mood-gal-2",
       "description": "A creative co-working space for residents.",
-      "imageUrl": "https://images.unsplash.com/photo-1604328704120-91e8d2fdc188?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb3dvcmtpbmclMjBzcGFjZXxlbnwwfHx8fDE3NTk2MDQzMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1604328704120-91e8d2fdc188?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb3dvcmtpbmclMjBzcGFjZXxlbnwwfHx8fDE3NTk2MDQzMzB8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "coworking space"
     },
     {
       "id": "mood-gal-3",
       "description": "A fun, colorful playground area.",
-      "imageUrl": "https://images.unsplash.com/photo-1597137642623-7f1d44ed0731?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwbGF5Z3JvdW5kJTIwYXJlYXxlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1597137642623-7f1d44ed0731?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwbGF5Z3JvdW5kJTIwYXJlYXxlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "playground area"
     },
     {
       "id": "mood-gal-4",
       "description": "A close up of the colorful facade.",
-      "imageUrl": "https://images.unsplash.com/photo-1682403297823-657d648a708d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZmFjYWRlJTIwZGV0YWlsfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1682403297823-657d648a708d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZmFjYWRlJTIwZGV0YWlsfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "facade detail"
     },
     {
       "id": "mood-plan-1",
       "description": "Floor plan of a studio apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1721244654210-a505a99661e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1721244654210-a505a99661e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
       "id": "wave-hero",
       "description": "Resort-style building with a massive, wave-shaped swimming pool.",
-      "imageUrl": "https://images.unsplash.com/photo-1623718649591-311775a30c43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZXNvcnQlMjBwb29sfGVufDB8fHx8MTc1OTY1NDg4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1623718649591-311775a30c43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZXNvcnQlMjBwb29sfGVufDB8fHx8MTc1OTY1NDg4Mnww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "resort pool"
     },
     {
       "id": "wave-gal-1",
       "description": "View from a balcony overlooking the resort pool and ocean.",
-      "imageUrl": "https://images.unsplash.com/photo-1445546857131-5fc39d1c51f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxvY2VhbiUyMHZpZXd8ZW58MHx8fHwxNzU5NjA4ODk4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1445546857131-5fc39d1c51f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxvY2VhbiUyMHZpZXd8ZW58MHx8fHwxNzU5NjA4ODk4fDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "ocean view"
     },
     {
       "id": "wave-gal-2",
       "description": "A swim-up bar in the main pool.",
-      "imageUrl": "https://images.unsplash.com/photo-1629466928463-7c93bcb15f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb29sJTIwYmFyfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1629466928463-7c93bcb15f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb29sJTIwYmFyfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "pool bar"
     },
     {
       "id": "wave-gal-3",
       "description": "An open-concept living area with beach-themed decor.",
-      "imageUrl": "https://images.unsplash.com/photo-1680897981136-345e22a01d16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxiZWFjaCUyMGRlY29yfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1680897981136-345e22a01d16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxiZWFjaCUyMGRlY29yfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "beach decor"
     },
     {
       "id": "wave-plan-1",
       "description": "Floor plan of a one-bedroom seaside apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
       "id": "yuna-hero",
       "description": "A tranquil residential building nestled beside a lush botanical garden.",
-      "imageUrl": "https://images.unsplash.com/photo-1662404600864-9fa5b0d9174c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjBidWlsZGluZ3xlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1662404600864-9fa5b0d9174c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjBidWlsZGluZ3xlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "garden building"
     },
     {
       "id": "yuna-gal-1",
       "description": "A meditation and yoga deck surrounded by nature.",
-      "imageUrl": "https://images.unsplash.com/photo-1635101003219-3c1d41f12f3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx5b2dhJTIwZGVja3xlbnwwfHx8fDE3NTk2Nzk0MTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1635101003219-3c1d41f12f3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx5b2dhJTIwZGVja3xlbnwwfHx8fDE3NTk2Nzk0MTZ8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "yoga deck"
     },
     {
       "id": "yuna-gal-2",
       "description": "Kitchen with natural wood finishes and a view of the garden.",
-      "imageUrl": "https://images.unsplash.com/photo-1571115738121-1a9aaa31d0b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuYXR1cmFsJTIwa2l0Y2hlbnxlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1571115738121-1a9aaa31d0b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuYXR1cmFsJTIwa2l0Y2hlbnxlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "natural kitchen"
     },
     {
       "id": "yuna-gal-3",
       "description": "Walking path through the project's private garden.",
-      "imageUrl": "https://images.unsplash.com/photo-1621535884102-d13e00c76283?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnYXJkZW4lMjBwYXRofGVufDB8fHx8MTc1OTY3NjE3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1621535884102-d13e00c76283?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnYXJkZW4lMjBwYXRofGVufDB8fHx8MTc1OTY3NjE3Nnww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "garden path"
     },
     {
       "id": "yuna-plan-1",
       "description": "Floor plan showing integration with outdoor spaces.",
-      "imageUrl": "https://images.unsplash.com/photo-1721244653627-90b840127a7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Zmxvb3IlMjBwbGFufGVufDB8fHx8MTc1OTY2MjIyMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653627-90b840127a7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Zmxvb3IlMjBwbGFufGVufDB8fHx8MTc1OTY2MjIyMXww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
       "id": "trend-hero",
       "description": "A sleek, modern high-rise in the heart of downtown.",
-      "imageUrl": "https://images.unsplash.com/photo-1683027640176-b4ae8d559d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb3dudG93biUyMGhpZ2hyaXNlfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1683027640176-b4ae8d559d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb3dudG93biUyMGhpZ2hyaXNlfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "downtown highrise"
     },
     {
       "id": "trend-gal-1",
       "description": "A compact, efficient urban living space with smart furniture.",
-      "imageUrl": "https://images.unsplash.com/photo-1610734589344-5334a885aacd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx1cmJhbiUyMGxpdmluZ3xlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1610734589344-5334a885aacd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx1cmJhbiUyMGxpdmluZ3xlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "urban living"
     },
     {
       "id": "trend-gal-2",
       "description": "Rooftop lounge with a fire pit and city views.",
-      "imageUrl": "https://images.unsplash.com/photo-1693075267154-13a4a89900d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxyb29mdG9wJTIwbG91bmdlfGVufDB8fHx8MTc1OTYwNjU5NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1693075267154-13a4a89900d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxyb29mdG9wJTIwbG91bmdlfGVufDB8fHx8MTc1OTYwNjU5NHww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "rooftop lounge"
     },
     {
       "id": "trend-gal-3",
       "description": "Night view of the illuminated building.",
-      "imageUrl": "https://images.unsplash.com/Ys-DBJeX0nE.JPG?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxidWlsZGluZyUyMG5pZ2h0fGVufDB8fHx8MTc1OTY3OTQxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/Ys-DBJeX0nE.JPG?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxidWlsZGluZyUyMG5pZ2h0fGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "building night"
     },
     {

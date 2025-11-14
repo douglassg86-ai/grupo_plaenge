@@ -32,7 +32,16 @@ export const projects: Project[] = [
     description:
       'O charme do clássico encontra a funcionalidade do moderno. Localizado no coração do bairro Moinhos, o EDITION oferece exclusividade e elegância em cada detalhe, próximo a tudo que você precisa.',
     heroImageId: 'em-hero',
-    galleryImageIds: ['em-gal-1', 'em-gal-2', 'em-gal-3', 'em-gal-4', 'em-gal-5', 'em-gal-6', 'em-gal-7'],
+    galleryImageIds: [
+      'em-gal-1',  'em-gal-2',  'em-gal-3',  'em-gal-4',  'em-gal-5',
+      'em-gal-6',  'em-gal-7',  'em-gal-8',  'em-gal-9',  'em-gal-10',
+      'em-gal-11', 'em-gal-12', 'em-gal-13', 'em-gal-14', 'em-gal-15',
+      'em-gal-16', 'em-gal-17', 'em-gal-18', 'em-gal-19', 'em-gal-20',
+      'em-gal-21', 'em-gal-22', 'em-gal-23', 'em-gal-24', 'em-gal-25',
+      'em-gal-26', 'em-gal-27', 'em-gal-28', 'em-gal-29', 'em-gal-30',
+      'em-gal-31', 'em-gal-32', 'em-gal-33', 'em-gal-34', 'em-gal-35',
+      'em-gal-36'
+    ],
     floorPlanImageIds: ['em-plan-1'],
     location: {
       address: 'Rua das Araucárias, 456, Moinhos, Metrópole',
