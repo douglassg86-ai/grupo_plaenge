@@ -7,13 +7,6 @@ import type { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import {
   Table,
   TableBody,
   TableCell,
@@ -25,6 +18,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { MapPin, Film, BedDouble, CheckCircle, XCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProjectCarousel } from '@/components/project-carousel';
 
 type ProjectPageProps = {
   params: {
@@ -103,58 +97,19 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                 </TabsList>
               </div>
               <TabsContent value="gallery">
-                 <Carousel className="w-full max-w-4xl mx-auto mt-6">
-                    <CarouselContent>
-                      {galleryImages.map((image) => {
-                        if (!image) return null;
-                        return (
-                          <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3">
-                            <Card className="overflow-hidden">
-                              <CardContent className="p-0 aspect-video relative flex items-center justify-center">
-                                <Image 
-                                  src={image.imageUrl} 
-                                  alt={image.description} 
-                                  data-ai-hint={image.imageHint} 
-                                  width={800}
-                                  height={450}
-                                  className="object-cover w-full h-full"
-                                />
-                              </CardContent>
-                            </Card>
-                          </CarouselItem>
-                        );
-                      })}
-                    </CarouselContent>
-                    <CarouselPrevious className="ml-14" />
-                    <CarouselNext className="mr-14" />
-                </Carousel>
+                 <ProjectCarousel 
+                  images={galleryImages as any} 
+                  itemClassName="lg:basis-1/3" 
+                  aspectRatioClassName="aspect-video"
+                  />
               </TabsContent>
               <TabsContent value="floor-plans">
-                <Carousel className="w-full max-w-4xl mx-auto mt-6">
-                    <CarouselContent>
-                      {floorPlanImages.map((image) => {
-                        if (!image) return null;
-                        return (
-                          <CarouselItem key={image.id} className="md:basis-1/2">
-                            <Card className="overflow-hidden">
-                              <CardContent className="p-0 aspect-[4/3] relative flex items-center justify-center">
-                                <Image 
-                                  src={image.imageUrl} 
-                                  alt={image.description} 
-                                  data-ai-hint={image.imageHint} 
-                                  width={800}
-                                  height={600}
-                                  className="object-contain w-full h-full p-4"
-                                />
-                              </CardContent>
-                            </Card>
-                          </CarouselItem>
-                        );
-                      })}
-                    </CarouselContent>
-                    <CarouselPrevious className="ml-14" />
-                    <CarouselNext className="mr-14" />
-                </Carousel>
+                <ProjectCarousel 
+                  images={floorPlanImages as any}
+                  itemClassName="md:basis-1/2"
+                  aspectRatioClassName="aspect-[4/3]"
+                  imageClassName="object-contain p-4"
+                />
               </TabsContent>
             </Tabs>
             
