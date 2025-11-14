@@ -61,12 +61,6 @@
       "imageHint": "building facade"
     },
     {
-      "id": "em-plan-1",
-      "description": "Planta baixa do Edition Moinhos",
-      "imageUrl": "/EDITION/site_app_edition7.jpg",
-      "imageHint": "floor plan"
-    },
-    {
       "id": "em-gal-1",
       "description": "Imagem da galeria do Edition Moinhos",
       "imageUrl": "/EDITION/site_app_edition.jpg",

@@ -42,7 +42,7 @@ export const projects: Project[] = [
       'em-gal-31'
     ],
     floorPlanImageIds: [
-        'em-plan-1', 'em-plan-32', 'em-plan-33', 'em-plan-34', 'em-plan-35', 'em-plan-36'
+        'em-plan-32', 'em-plan-33', 'em-plan-34', 'em-plan-35', 'em-plan-36'
     ],
     location: {
       address: 'Rua das Araucárias, 456, Moinhos, Metrópole',
