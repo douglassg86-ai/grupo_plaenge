@@ -57,43 +57,55 @@
     {
       "id": "em-hero",
       "description": "Fachada do Edition Moinhos",
-      "imageUrl": "/site_app_edition.jpg",
+      "imageUrl": "/EDITION/site_app_edition.jpg",
       "imageHint": "building facade"
     },
     {
       "id": "em-gal-1",
       "description": "Área de lazer do Edition Moinhos",
-      "imageUrl": "/site_app_edition2.jpg",
+      "imageUrl": "/EDITION/site_app_edition2.jpg",
       "imageHint": "pool area"
     },
     {
       "id": "em-gal-2",
       "description": "Salão de festas do Edition Moinhos",
-      "imageUrl": "/site_app_edition3.jpg",
+      "imageUrl": "/EDITION/site_app_edition3.jpg",
       "imageHint": "party room"
     },
     {
       "id": "em-gal-3",
       "description": "Brinquedoteca do Edition Moinhos",
-      "imageUrl": "/site_app_edition4.jpg",
+      "imageUrl": "/EDITION/site_app_edition4.jpg",
       "imageHint": "kids playroom"
     },
     {
       "id": "em-gal-4",
       "description": "Living do apartamento do Edition Moinhos",
-      "imageUrl": "/site_app_edition5.jpg",
+      "imageUrl": "/EDITION/site_app_edition5.jpg",
       "imageHint": "apartment living"
     },
     {
       "id": "em-gal-5",
       "description": "Suíte do apartamento do Edition Moinhos",
-      "imageUrl": "/site_app_edition6.jpg",
+      "imageUrl": "/EDITION/site_app_edition6.jpg",
       "imageHint": "apartment suite"
+    },
+    {
+      "id": "em-gal-6",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition8.jpg",
+      "imageHint": "building detail"
+    },
+    {
+      "id": "em-gal-7",
+      "description": "Imagem da galeria do Edition Moinhos",
+      "imageUrl": "/EDITION/site_app_edition9.jpg",
+      "imageHint": "building detail"
     },
     {
       "id": "em-plan-1",
       "description": "Planta baixa do Edition Moinhos",
-      "imageUrl": "/site_app_edition7.jpg",
+      "imageUrl": "/EDITION/site_app_edition7.jpg",
       "imageHint": "floor plan"
     },
     {
