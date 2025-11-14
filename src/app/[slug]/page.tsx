@@ -136,14 +136,17 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                         if (!image) return null;
                         return (
                           <CarouselItem key={image.id} className="md:basis-1/2">
-                            <Card className="overflow-hidden h-[500px]">
-                              <Image 
-                                src={image.imageUrl} 
-                                alt={image.description} 
-                                data-ai-hint={image.imageHint} 
-                                fill 
-                                className="object-contain p-4"
-                              />
+                            <Card className="overflow-hidden">
+                              <CardContent className="p-0 aspect-[4/3] relative flex items-center justify-center">
+                                <Image 
+                                  src={image.imageUrl} 
+                                  alt={image.description} 
+                                  data-ai-hint={image.imageHint} 
+                                  width={800}
+                                  height={600}
+                                  className="object-contain w-full h-full p-4"
+                                />
+                              </CardContent>
                             </Card>
                           </CarouselItem>
                         );
