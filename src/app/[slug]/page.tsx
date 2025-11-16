@@ -106,9 +106,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <TabsContent value="floor-plans">
                 <ProjectCarousel 
                   images={floorPlanImages as any}
-                  itemClassName="md:basis-1/2"
-                  aspectRatioClassName="aspect-[4/3]"
-                  imageClassName="object-contain p-4"
+                  itemClassName="lg:basis-1/3"
+                  aspectRatioClassName="aspect-video"
                 />
               </TabsContent>
             </Tabs>
