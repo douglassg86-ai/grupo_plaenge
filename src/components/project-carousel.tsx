@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import type { ImagePlaceholder } from "@/lib/placeholder-images";
 
@@ -68,6 +68,7 @@ export function ProjectCarousel({ images, imageClassName, itemClassName, aspectR
                     </Card>
                   </DialogTrigger>
                   <DialogContent className="max-w-4xl w-full p-2 bg-transparent border-0">
+                      <DialogTitle className="sr-only">{image.description}</DialogTitle>
                       <Image
                         src={image.imageUrl}
                         alt={image.description}
@@ -86,7 +87,7 @@ export function ProjectCarousel({ images, imageClassName, itemClassName, aspectR
         <CarouselNext className="mr-14" />
       </Carousel>
       <div className="py-2 text-center text-sm text-muted-foreground">
-        {current} / {count}
+        {current > 0 && count > 0 ? `${current} / ${count}`: ''}
       </div>
     </div>
   );
