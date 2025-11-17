@@ -53,7 +53,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const heroImage = placeholderImages.find((img) => img.id === project.heroImageId);
-  const mapImage = placeholderImages.find((img) => img.id === project.location.mapImageId);
   const galleryImages = project.galleryImageIds.map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
   const floorPlanImages = project.floorPlanImageIds.map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
 
@@ -118,11 +117,18 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <div>
                 <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><MapPin className="text-accent" /> Localização</h2>
                 <p className="mt-4 text-muted-foreground">{project.location.address}</p>
-                 {mapImage && (
-                    <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
-                        <Image src={mapImage.imageUrl} alt={mapImage.description} width={800} height={600} className="w-full h-full object-cover" data-ai-hint={mapImage.imageHint} />
-                    </div>
-                 )}
+                 <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
+                    <iframe
+                        src={`https://maps.google.com/maps?q=${encodeURIComponent(project.location.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen={false}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title={`Mapa de ${project.name}`}
+                    ></iframe>
+                </div>
               </div>
                {project.videoUrl && (
                   <div>
