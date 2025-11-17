@@ -45,7 +45,7 @@ export const projects: Project[] = [
         'em-plan-32', 'em-plan-33', 'em-plan-34', 'em-plan-35', 'em-plan-36'
     ],
     location: {
-      address: 'Rua das Araucárias, 456, Moinhos, Metrópole',
+      address: 'Jardim Cristogel 215',
       mapImageId: 'map-placeholder',
     },
     videoUrl: 'https://www.youtube.com/embed/pkhZo3FDBWE',
