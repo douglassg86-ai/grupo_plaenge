@@ -7,6 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -48,36 +54,34 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     return Object.entries(grouped).sort(([a], [b]) => parseInt(b) - parseInt(a));
   }, [availability]);
   
-  const maxUnitsPerFloor = useMemo(() => {
-    return Math.max(...floors.map(([, units]) => units.length), 0);
-  }, [floors]);
-
 
   return (
     <Card>
       <CardContent className="p-4">
-        <div className="space-y-2">
+        <Accordion type="single" collapsible className="w-full">
             {floors.map(([floor, units]) => (
-              <div key={floor} className="grid grid-cols-[3rem_1fr] gap-2 items-center">
-                <div className="flex items-center justify-center h-10 bg-muted rounded-md font-bold text-muted-foreground">
-                  {floor}º
-                </div>
-                <div className={cn("grid gap-2 grid-cols-5 md:grid-cols-8 lg:grid-cols-15")}>
-                  {units.map((unit) => (
-                    <Button
-                      key={unit.unit}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleUnitClick(unit)}
-                      className={cn('font-mono')}
-                    >
-                      {unit.unit}
-                    </Button>
-                  ))}
-                </div>
-              </div>
+              <AccordionItem value={`item-${floor}`} key={floor}>
+                <AccordionTrigger className="font-bold text-lg hover:no-underline">
+                  {floor}º Andar
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 pt-2">
+                    {units.map((unit) => (
+                      <Button
+                        key={unit.unit}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleUnitClick(unit)}
+                        className={cn('font-mono h-10')}
+                      >
+                        {unit.unit}
+                      </Button>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-        </div>
+        </Accordion>
 
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <AlertDialogContent>
