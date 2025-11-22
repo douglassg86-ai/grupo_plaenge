@@ -104,13 +104,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           <Card className="overflow-hidden shadow-2xl">
             <CardContent className="p-4 md:p-8 space-y-12">
               
-              <div>
-                {project.slug !== 'shift' && <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2> }
-                <p className="mt-4 text-muted-foreground leading-relaxed">{project.description}</p>
-              </div>
-
-              <Separator />
-              
               {project.slug === 'shift' ? (
                 <div>
                   <ProjectCarousel 
@@ -121,34 +114,51 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                   />
                 </div>
               ) : (
-                <Tabs defaultValue="gallery">
-                  <div className="text-center">
-                    <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
-                    <TabsList>
-                      <TabsTrigger value="gallery">Galeria</TabsTrigger>
-                      <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
-                    </TabsList>
+                <>
+                  <div>
+                    <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2>
+                    <p className="mt-4 text-muted-foreground leading-relaxed">{project.description}</p>
                   </div>
-                  <TabsContent value="gallery">
-                    <ProjectCarousel 
-                      images={galleryImages as any} 
-                      itemClassName="lg:basis-1/3" 
-                      aspectRatioClassName="aspect-video"
+
+                  <Separator />
+
+                  <Tabs defaultValue="gallery">
+                    <div className="text-center">
+                      <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
+                      <TabsList>
+                        <TabsTrigger value="gallery">Galeria</TabsTrigger>
+                        <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
+                      </TabsList>
+                    </div>
+                    <TabsContent value="gallery">
+                      <ProjectCarousel 
+                        images={galleryImages as any} 
+                        itemClassName="md:basis-1/2 lg:basis-1/3" 
+                        aspectRatioClassName="aspect-video"
+                        />
+                    </TabsContent>
+                    <TabsContent value="floor-plans">
+                      <ProjectCarousel 
+                        images={floorPlanImages as any}
+                        itemClassName="md:basis-1/2 lg:basis-1/3"
+                        aspectRatioClassName="aspect-video"
                       />
-                  </TabsContent>
-                  <TabsContent value="floor-plans">
-                    <ProjectCarousel 
-                      images={floorPlanImages as any}
-                      itemClassName="lg:basis-1/3"
-                      aspectRatioClassName="aspect-[1/1.2]"
-                    />
-                  </TabsContent>
-                </Tabs>
+                    </TabsContent>
+                  </Tabs>
+                </>
               )}
               
               <Separator />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              {project.slug === 'shift' && (
+                <div>
+                  <h2 className="font-headline text-3xl font-bold text-primary text-center">LIFE ON DEMAND</h2>
+                  <p className="mt-4 text-muted-foreground leading-relaxed text-center">{project.description}</p>
+                </div>
+              )}
+
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                 <div>
                   <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><MapPin className="text-accent" /> Localização</h2>
                   <p className="mt-4 text-muted-foreground">{project.location.address}</p>
