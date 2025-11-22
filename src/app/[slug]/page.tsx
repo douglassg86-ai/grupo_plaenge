@@ -71,10 +71,28 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             data-ai-hint={heroImage.imageHint}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+        <div className={cn(
+            "absolute inset-0",
+            project.slug === 'shift' ? "bg-shift-brand/80" : "bg-gradient-to-t from-black/70 to-transparent"
+        )} />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
-          <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
-          <h1 className="font-headline text-5xl md:text-7xl font-bold">{project.name}</h1>
+          {project.slug === 'shift' ? (
+            <>
+                <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
+                <Image
+                    src="/SHIFT/logo_shift.png"
+                    alt="SHIFT Logo"
+                    width={300}
+                    height={100}
+                    className="h-auto"
+                />
+            </>
+          ) : (
+            <>
+                <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
+                <h1 className="font-headline text-5xl md:text-7xl font-bold">{project.name}</h1>
+            </>
+          )}
         </div>
       </section>
 
@@ -118,7 +136,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                   <ProjectCarousel 
                     images={floorPlanImages as any}
                     itemClassName="lg:basis-1/3"
-                    aspectRatioClassName="aspect-video"
+                    aspectRatioClassName="aspect-[1/1.2]"
                   />
                 </TabsContent>
               </Tabs>
