@@ -188,7 +188,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <Separator />
               
               <div>
-                <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center gap-3"><BedDouble className="text-accent"/> Unidades Disponíveis</h2>
+                <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center gap-3"><BedDouble className="text-accent"/> Espelho de Vendas</h2>
                 {project.slug === 'shift' ? (
                   <AvailabilityGrid availability={project.availability} />
                 ) : (
