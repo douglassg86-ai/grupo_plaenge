@@ -154,9 +154,9 @@ const shiftAvailability = [
   { unit: '1206', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '1207', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '1208', type: 'Studio', area: 23.75, status: 'Disponível' },
-  { unit: '1209', type: 'Studio', area: 74.71, status: 'Disponível' },
-  { unit: '1210', type: 'Studio', area: 25.48, status: 'Disponível' },
-  { unit: '1211', type: 'Studio', area: 25.48, status: 'Disponível' },
+  { unit: '1209', type: 'Studio', area: 74.7, status: 'Disponível' },
+  { unit: '1210', type: 'Studio', area: 33.7, status: 'Disponível' },
+  { unit: '1211', type: 'Studio', area: 24.28, status: 'Disponível' },
   { unit: '1301', type: 'Studio', area: 24.38, status: 'Disponível' },
   { unit: '1302', type: 'Studio', area: 23.66, status: 'Disponível' },
   { unit: '1303', type: 'Studio', area: 23.66, status: 'Disponível' },
@@ -174,8 +174,8 @@ const shiftAvailability = [
   { unit: '1405', type: 'Studio', area: 24.28, status: 'Disponível' },
   { unit: '1406', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '1407', type: 'Studio', area: 23.75, status: 'Disponível' },
-  { unit: '1408', type: 'Studio', area: 23.75, status: 'Disponível' },
-  { unit: '1409', type: 'Studio', area: 23.75, status: 'Disponível' },
+  { unit: '1408', type: 'Studio', area: 108, status: 'Disponível' },
+  { unit: '1409', type: 'Studio', area: 34.18, status: 'Disponível' },
   { unit: '1501', type: 'Studio', area: 24.38, status: 'Disponível' },
   { unit: '1502', type: 'Studio', area: 23.66, status: 'Disponível' },
   { unit: '1503', type: 'Studio', area: 23.66, status: 'Disponível' },
@@ -184,7 +184,7 @@ const shiftAvailability = [
   { unit: '1506', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '1507', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '1508', type: 'Studio', area: 23.75, status: 'Disponível' },
-  { unit: '1509', type: 'Studio', area: 23.75, status: 'Disponível' },
+  { unit: '1509', type: 'Studio', area: 24.5, status: 'Disponível' },
 ].map(u => ({...u, type: u.area > 40 ? 'Apartamento' : 'Studio', status: 'Disponível' })) as any[];
 
 
