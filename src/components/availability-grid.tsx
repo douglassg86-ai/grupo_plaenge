@@ -15,7 +15,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import Link from 'next/link';
 
@@ -57,16 +56,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   return (
     <Card>
       <CardContent className="p-4">
-      <div className="flex justify-end gap-4 mb-4">
-        <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-sm bg-green-200 border border-green-400"></div>
-            <span className="text-sm text-muted-foreground">Disponível</span>
-        </div>
-        <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-sm bg-red-200 border border-red-400"></div>
-            <span className="text-sm text-muted-foreground">Vendido</span>
-        </div>
-      </div>
         <div className="space-y-2">
             {floors.map(([floor, units]) => (
               <div key={floor} className="grid grid-cols-[3rem_1fr] gap-2 items-center">
@@ -80,13 +69,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                       variant="outline"
                       size="sm"
                       onClick={() => handleUnitClick(unit)}
-                      className={cn(
-                        'font-mono',
-                        unit.status === 'Disponível'
-                          ? 'bg-green-100 hover:bg-green-200 text-green-800 border-green-300'
-                          : 'bg-red-100 hover:bg-red-200 text-red-800 border-red-300 cursor-not-allowed'
-                      )}
-                      disabled={unit.status === 'Vendido'}
+                      className={cn('font-mono')}
                     >
                       {unit.unit}
                     </Button>
@@ -104,7 +87,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                 <AlertDialogDescription>
                     <p className="font-bold text-lg">Unidade: {selectedUnit.unit}</p>
                     <p className="text-base mb-4">Área: {selectedUnit.area.toFixed(2)} m²</p>
-                    Escolha duas unidades para que o seu cliente não perca esta oportunidade. Algumas unidades já possuem fila de pastas. A assinatura acontecerá no dia 01/12/2025.
+                    <p className='mb-2'>Escolha duas unidades para que o seu cliente não perca esta oportunidade. Algumas unidades já possuem fila de pastas. A assinatura acontecerá no dia 01/12/2025.</p>
+                    <p className='text-sm text-muted-foreground'>A pasta é composta por: ficha de cadastro e CNH ou RG.</p>
                 </AlertDialogDescription>
               )}
             </AlertDialogHeader>
@@ -112,7 +96,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction asChild>
                 <Link href="https://wa.me/5551980800821" target="_blank">
-                  Fale com o Gerente
+                  Enviar documentação
                 </Link>
               </AlertDialogAction>
             </AlertDialogFooter>

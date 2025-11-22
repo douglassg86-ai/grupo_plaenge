@@ -185,7 +185,7 @@ const shiftAvailability = [
   { unit: '1507', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '1508', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '1509', type: 'Studio', area: 23.75, status: 'Disponível' },
-].map(u => ({...u, type: u.area > 40 ? 'Apartamento' : 'Studio'})) as any[];
+].map(u => ({...u, type: u.area > 40 ? 'Apartamento' : 'Studio', status: 'Disponível' })) as any[];
 
 
 export const projects: Project[] = [
