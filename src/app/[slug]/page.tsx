@@ -59,164 +59,166 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
 
   return (
-    <article className="flex-1">
-      <section className="relative h-[60vh] w-full">
-        {heroImage && project.slug !== 'shift' && (
-          <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
-            fill
-            className="object-cover"
-            priority
-            data-ai-hint={heroImage.imageHint}
-          />
-        )}
-        <div className={cn(
-            "absolute inset-0",
-            project.slug === 'shift' ? "bg-shift-brand" : "bg-gradient-to-t from-black/70 to-transparent"
-        )} />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
-          {project.slug === 'shift' ? (
-            <>
-                <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
-                <Image
-                    src="/SHIFT/logo_shift.png"
-                    alt="SHIFT Logo"
-                    width={300}
-                    height={100}
-                    className="h-auto"
-                />
-            </>
-          ) : (
-            <>
-                <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
-                <h1 className="font-headline text-5xl md:text-7xl font-bold">{project.name}</h1>
-            </>
+    <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
+      <article className="flex-1">
+        <section className="relative h-[60vh] w-full">
+          {heroImage && project.slug !== 'shift' && (
+            <Image
+              src={heroImage.imageUrl}
+              alt={heroImage.description}
+              fill
+              className="object-cover"
+              priority
+              data-ai-hint={heroImage.imageHint}
+            />
           )}
-        </div>
-      </section>
-
-      <section className={cn(
-          "container relative z-20 pb-16",
-          project.slug === 'shift' ? 'pt-16' : '-mt-20 md:-mt-32'
-        )}>
-        <Card className="overflow-hidden shadow-2xl">
-          <CardContent className="p-4 md:p-8 space-y-12">
-            
-            <div>
-              {project.slug !== 'shift' && <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2> }
-              <p className="mt-4 text-muted-foreground leading-relaxed">{project.description}</p>
-            </div>
-
-            <Separator />
-            
+          <div className={cn(
+              "absolute inset-0",
+              project.slug === 'shift' ? "bg-shift-brand" : "bg-gradient-to-t from-black/70 to-transparent"
+          )} />
+          <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
             {project.slug === 'shift' ? (
-              <div>
-                <ProjectCarousel 
-                  images={bannerImages as any} 
-                  itemClassName="lg:basis-1/1" 
-                  aspectRatioClassName="aspect-[2/1]"
-                  autoplay
-                />
-              </div>
-            ) : (
-              <Tabs defaultValue="gallery">
-                <div className="text-center">
-                  <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
-                  <TabsList>
-                    <TabsTrigger value="gallery">Galeria</TabsTrigger>
-                    <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
-                  </TabsList>
-                </div>
-                <TabsContent value="gallery">
-                  <ProjectCarousel 
-                    images={galleryImages as any} 
-                    itemClassName="lg:basis-1/3" 
-                    aspectRatioClassName="aspect-video"
-                    />
-                </TabsContent>
-                <TabsContent value="floor-plans">
-                  <ProjectCarousel 
-                    images={floorPlanImages as any}
-                    itemClassName="lg:basis-1/3"
-                    aspectRatioClassName="aspect-[1/1.2]"
+              <>
+                  <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
+                  <Image
+                      src="/SHIFT/logo_shift.png"
+                      alt="SHIFT Logo"
+                      width={300}
+                      height={100}
+                      className="h-auto"
                   />
-                </TabsContent>
-              </Tabs>
+              </>
+            ) : (
+              <>
+                  <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
+                  <h1 className="font-headline text-5xl md:text-7xl font-bold">{project.name}</h1>
+              </>
             )}
-            
-            <Separator />
+          </div>
+        </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <section className={cn(
+            "container relative z-20 pb-16",
+            project.slug === 'shift' ? 'pt-16' : '-mt-20 md:-mt-32'
+          )}>
+          <Card className="overflow-hidden shadow-2xl">
+            <CardContent className="p-4 md:p-8 space-y-12">
+              
               <div>
-                <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><MapPin className="text-accent" /> Localização</h2>
-                <p className="mt-4 text-muted-foreground">{project.location.address}</p>
-                 <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
-                    <iframe
-                        src={`https://maps.google.com/maps?q=${encodeURIComponent(project.location.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen={false}
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title={`Mapa de ${project.name}`}
-                    ></iframe>
-                </div>
+                {project.slug !== 'shift' && <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2> }
+                <p className="mt-4 text-muted-foreground leading-relaxed">{project.description}</p>
               </div>
-               {project.videoUrl && (
-                  <div>
-                    <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><Film className="text-accent" /> Vídeo</h2>
-                    <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
-                      <iframe
-                        src={project.videoUrl}
-                        title={`Vídeo ${project.name}`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="w-full h-full"
-                      ></iframe>
-                    </div>
+
+              <Separator />
+              
+              {project.slug === 'shift' ? (
+                <div>
+                  <ProjectCarousel 
+                    images={bannerImages as any} 
+                    itemClassName="lg:basis-1/1" 
+                    aspectRatioClassName="aspect-[2/1]"
+                    autoplay
+                  />
+                </div>
+              ) : (
+                <Tabs defaultValue="gallery">
+                  <div className="text-center">
+                    <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
+                    <TabsList>
+                      <TabsTrigger value="gallery">Galeria</TabsTrigger>
+                      <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
+                    </TabsList>
                   </div>
-                )}
-            </div>
+                  <TabsContent value="gallery">
+                    <ProjectCarousel 
+                      images={galleryImages as any} 
+                      itemClassName="lg:basis-1/3" 
+                      aspectRatioClassName="aspect-video"
+                      />
+                  </TabsContent>
+                  <TabsContent value="floor-plans">
+                    <ProjectCarousel 
+                      images={floorPlanImages as any}
+                      itemClassName="lg:basis-1/3"
+                      aspectRatioClassName="aspect-[1/1.2]"
+                    />
+                  </TabsContent>
+                </Tabs>
+              )}
+              
+              <Separator />
 
-            <Separator />
-            
-            <div>
-              <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center gap-3"><BedDouble className="text-accent"/> Unidades Disponíveis</h2>
-              <Card>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Unidade</TableHead>
-                      <TableHead>Tipologia</TableHead>
-                      <TableHead className="text-right">Área (m²)</TableHead>
-                      <TableHead className="text-center">Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {project.availability.map((unit) => (
-                      <TableRow key={unit.unit}>
-                        <TableCell className="font-medium">{unit.unit}</TableCell>
-                        <TableCell>{unit.type}</TableCell>
-                        <TableCell className="text-right">{unit.area.toFixed(2)}</TableCell>
-                        <TableCell className="text-center">
-                          <Badge variant={unit.status === 'Disponível' ? 'default' : 'secondary'} className={cn(unit.status === 'Disponível' ? 'bg-accent/80 text-accent-foreground' : 'bg-muted')}>
-                            {unit.status === 'Disponível' ? <CheckCircle className="mr-2 h-4 w-4"/> : <XCircle className="mr-2 h-4 w-4"/>}
-                            {unit.status}
-                          </Badge>
-                        </TableCell>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><MapPin className="text-accent" /> Localização</h2>
+                  <p className="mt-4 text-muted-foreground">{project.location.address}</p>
+                   <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
+                      <iframe
+                          src={`https://maps.google.com/maps?q=${encodeURIComponent(project.location.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allowFullScreen={false}
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title={`Mapa de ${project.name}`}
+                      ></iframe>
+                  </div>
+                </div>
+                 {project.videoUrl && (
+                    <div>
+                      <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><Film className="text-accent" /> Vídeo</h2>
+                      <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
+                        <iframe
+                          src={project.videoUrl}
+                          title={`Vídeo ${project.name}`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full"
+                        ></iframe>
+                      </div>
+                    </div>
+                  )}
+              </div>
+
+              <Separator />
+              
+              <div>
+                <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center gap-3"><BedDouble className="text-accent"/> Unidades Disponíveis</h2>
+                <Card>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Unidade</TableHead>
+                        <TableHead>Tipologia</TableHead>
+                        <TableHead className="text-right">Área (m²)</TableHead>
+                        <TableHead className="text-center">Status</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Card>
-            </div>
+                    </TableHeader>
+                    <TableBody>
+                      {project.availability.map((unit) => (
+                        <TableRow key={unit.unit}>
+                          <TableCell className="font-medium">{unit.unit}</TableCell>
+                          <TableCell>{unit.type}</TableCell>
+                          <TableCell className="text-right">{unit.area.toFixed(2)}</TableCell>
+                          <TableCell className="text-center">
+                            <Badge variant={unit.status === 'Disponível' ? 'default' : 'secondary'} className={cn(unit.status === 'Disponível' ? 'bg-accent/80 text-accent-foreground' : 'bg-muted')}>
+                              {unit.status === 'Disponível' ? <CheckCircle className="mr-2 h-4 w-4"/> : <XCircle className="mr-2 h-4 w-4"/>}
+                              {unit.status}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </div>
 
-          </CardContent>
-        </Card>
-      </section>
-    </article>
+            </CardContent>
+          </Card>
+        </section>
+      </article>
+    </div>
   );
 }
