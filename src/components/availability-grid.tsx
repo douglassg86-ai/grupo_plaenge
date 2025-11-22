@@ -7,11 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import Link from 'next/link';
 
 type AvailabilityGridProps = {
   availability: Availability[];
@@ -19,18 +25,12 @@ type AvailabilityGridProps = {
 
 export function AvailabilityGrid({ availability: initialAvailability }: AvailabilityGridProps) {
   const [availability, setAvailability] = useState(initialAvailability);
+  const [selectedUnit, setSelectedUnit] = useState<Availability | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleToggleStatus = (unit: string) => {
-    setAvailability((prev) =>
-      prev.map((item) =>
-        item.unit === unit
-          ? {
-              ...item,
-              status: item.status === 'Disponível' ? 'Vendido' : 'Disponível',
-            }
-          : item
-      )
-    );
+  const handleUnitClick = (unit: Availability) => {
+    setSelectedUnit(unit);
+    setIsDialogOpen(true);
   };
 
   const floors = useMemo(() => {
@@ -68,7 +68,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         </div>
       </div>
         <div className="space-y-2">
-          <TooltipProvider>
             {floors.map(([floor, units]) => (
               <div key={floor} className="grid grid-cols-[3rem_1fr] gap-2 items-center">
                 <div className="flex items-center justify-center h-10 bg-muted rounded-md font-bold text-muted-foreground">
@@ -76,35 +75,50 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                 </div>
                 <div className={cn("grid gap-2 grid-cols-5 md:grid-cols-8 lg:grid-cols-15")}>
                   {units.map((unit) => (
-                    <Tooltip key={unit.unit}>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleToggleStatus(unit.unit)}
-                          className={cn(
-                            'font-mono',
-                            unit.status === 'Disponível'
-                              ? 'bg-green-100 hover:bg-green-200 text-green-800 border-green-300'
-                              : 'bg-red-100 hover:bg-red-200 text-red-800 border-red-300'
-                          )}
-                        >
-                          {unit.unit}
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Unidade: {unit.unit}</p>
-                        <p>Área: {unit.area.toFixed(2)} m²</p>
-                        <p>Tipo: {unit.type}</p>
-                        <p>Status: {unit.status}</p>
-                      </TooltipContent>
-                    </Tooltip>
+                    <Button
+                      key={unit.unit}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleUnitClick(unit)}
+                      className={cn(
+                        'font-mono',
+                        unit.status === 'Disponível'
+                          ? 'bg-green-100 hover:bg-green-200 text-green-800 border-green-300'
+                          : 'bg-red-100 hover:bg-red-200 text-red-800 border-red-300 cursor-not-allowed'
+                      )}
+                      disabled={unit.status === 'Vendido'}
+                    >
+                      {unit.unit}
+                    </Button>
                   ))}
                 </div>
               </div>
             ))}
-          </TooltipProvider>
         </div>
+
+        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Envie sua pasta!</AlertDialogTitle>
+              {selectedUnit && (
+                <AlertDialogDescription>
+                    <p className="font-bold text-lg">Unidade: {selectedUnit.unit}</p>
+                    <p className="text-base mb-4">Área: {selectedUnit.area.toFixed(2)} m²</p>
+                    Escolha duas unidades para que o seu cliente não perca esta oportunidade. Algumas unidades já possuem fila de pastas. A assinatura acontecerá no dia 01/12/2025.
+                </AlertDialogDescription>
+              )}
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Link href="https://wa.me/5551980800821" target="_blank">
+                  Fale com o Gerente
+                </Link>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
       </CardContent>
     </Card>
   );
