@@ -441,7 +441,7 @@
     {
       "id": "trend-plan-1",
       "description": "Floor plan of a micro-apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
@@ -473,6 +473,36 @@
       "description": "Floor plan for a SHIFT studio unit.",
       "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzYzNzUzNTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-banner-1",
+      "description": "SHIFT Banner Image 1",
+      "imageUrl": "/SHIFT/painelGRANDE_3,5x1,8m_01.jpg",
+      "imageHint": "building exterior"
+    },
+    {
+      "id": "shift-banner-2",
+      "description": "SHIFT Banner Image 2",
+      "imageUrl": "/SHIFT/painelGRANDE_3,5x1,8m_02.jpg",
+      "imageHint": "interior design"
+    },
+    {
+      "id": "shift-banner-3",
+      "description": "SHIFT Banner Image 3 - Pool",
+      "imageUrl": "/SHIFT/painelGRANDE_3,5x1,8m_03_pisicna.jpg",
+      "imageHint": "swimming pool"
+    },
+    {
+      "id": "shift-banner-4",
+      "description": "SHIFT Banner Image 4",
+      "imageUrl": "/SHIFT/painelGRANDE_3,5x1,8m_04.jpg",
+      "imageHint": "amenities area"
+    },
+    {
+      "id": "shift-banner-5",
+      "description": "SHIFT Banner Image 5 - Architecture",
+      "imageUrl": "/SHIFT/painelGRANDE_3,5x1,8m_05_arquitetura.jpg",
+      "imageHint": "architectural detail"
     }
   ]
 }

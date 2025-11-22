@@ -165,8 +165,9 @@ export const projects: Project[] = [
     description:
       'O endereço mais cobiçado de Porto Alegre. Localização absolutamente privilegiada na esquina da Rua Silva Jardim com a Rua 24 de Outubro. Morar no Shift é desfrutar da vibração urbana do Moinhos de Vento, um novo projeto VANGUARD | TGD. O entorno oferece referências gastronômicas como Roister e Leiteria, além do lazer no Parcão. O empreendimento conta com 1 Torre e 184 unidades.',
     heroImageId: 'shift-hero',
-    galleryImageIds: ['shift-gal-1', 'shift-gal-2', 'shift-gal-3'],
-    floorPlanImageIds: ['shift-plan-1'],
+    galleryImageIds: [],
+    floorPlanImageIds: [],
+    bannerImageIds: ['shift-banner-1', 'shift-banner-2', 'shift-banner-3', 'shift-banner-4', 'shift-banner-5'],
     location: {
       address: 'Rua Silva Jardim esquina com Rua 24 de Outubro, Moinhos de Vento, Porto Alegre, RS',
       mapImageId: 'map-placeholder',

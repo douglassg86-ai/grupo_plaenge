@@ -55,6 +55,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const heroImage = placeholderImages.find((img) => img.id === project.heroImageId);
   const galleryImages = project.galleryImageIds.map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
   const floorPlanImages = project.floorPlanImageIds.map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
+  const bannerImages = (project.bannerImageIds || []).map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
+
 
   return (
     <article className="flex-1">
@@ -87,29 +89,39 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
             <Separator />
             
-            <Tabs defaultValue="gallery">
-              <div className="text-center">
-                <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
-                <TabsList>
-                  <TabsTrigger value="gallery">Galeria</TabsTrigger>
-                  <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
-                </TabsList>
-              </div>
-              <TabsContent value="gallery">
-                 <ProjectCarousel 
-                  images={galleryImages as any} 
-                  itemClassName="lg:basis-1/3" 
-                  aspectRatioClassName="aspect-video"
-                  />
-              </TabsContent>
-              <TabsContent value="floor-plans">
+            {project.slug === 'shift' ? (
+              <div>
                 <ProjectCarousel 
-                  images={floorPlanImages as any}
-                  itemClassName="lg:basis-1/3"
-                  aspectRatioClassName="aspect-video"
+                  images={bannerImages as any} 
+                  itemClassName="lg:basis-1/1" 
+                  aspectRatioClassName="aspect-[2/1]"
                 />
-              </TabsContent>
-            </Tabs>
+              </div>
+            ) : (
+              <Tabs defaultValue="gallery">
+                <div className="text-center">
+                  <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
+                  <TabsList>
+                    <TabsTrigger value="gallery">Galeria</TabsTrigger>
+                    <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
+                  </TabsList>
+                </div>
+                <TabsContent value="gallery">
+                  <ProjectCarousel 
+                    images={galleryImages as any} 
+                    itemClassName="lg:basis-1/3" 
+                    aspectRatioClassName="aspect-video"
+                    />
+                </TabsContent>
+                <TabsContent value="floor-plans">
+                  <ProjectCarousel 
+                    images={floorPlanImages as any}
+                    itemClassName="lg:basis-1/3"
+                    aspectRatioClassName="aspect-video"
+                  />
+                </TabsContent>
+              </Tabs>
+            )}
             
             <Separator />
 
