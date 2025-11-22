@@ -84,11 +84,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
             <AlertDialogHeader>
               <AlertDialogTitle>Envie sua pasta!</AlertDialogTitle>
               {selectedUnit && (
-                <AlertDialogDescription>
-                    <p className="font-bold text-lg">Unidade: {selectedUnit.unit}</p>
-                    <p className="text-base mb-4">Área: {selectedUnit.area.toFixed(2)} m²</p>
+                <AlertDialogDescription asChild>
+                  <div>
+                    <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
+                    <div className="text-base mb-4 text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
                     <p className='mb-2'>Escolha duas unidades para que o seu cliente não perca esta oportunidade. Algumas unidades já possuem fila de pastas. A assinatura acontecerá no dia 01/12/2025.</p>
                     <p className='text-sm text-muted-foreground'>A pasta é composta por: ficha de cadastro e CNH ou RG.</p>
+                  </div>
                 </AlertDialogDescription>
               )}
             </AlertDialogHeader>
