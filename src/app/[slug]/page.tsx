@@ -61,7 +61,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   return (
     <article className="flex-1">
       <section className="relative h-[60vh] w-full">
-        {heroImage && (
+        {heroImage && project.slug !== 'shift' && (
           <Image
             src={heroImage.imageUrl}
             alt={heroImage.description}
@@ -73,7 +73,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         )}
         <div className={cn(
             "absolute inset-0",
-            project.slug === 'shift' ? "bg-shift-brand/80" : "bg-gradient-to-t from-black/70 to-transparent"
+            project.slug === 'shift' ? "bg-shift-brand" : "bg-gradient-to-t from-black/70 to-transparent"
         )} />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
           {project.slug === 'shift' ? (
@@ -101,7 +101,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           <CardContent className="p-4 md:p-8 space-y-12">
             
             <div>
-              <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2>
+              {project.slug !== 'shift' && <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2> }
               <p className="mt-4 text-muted-foreground leading-relaxed">{project.description}</p>
             </div>
 
