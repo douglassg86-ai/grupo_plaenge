@@ -96,7 +96,10 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         </div>
       </section>
 
-      <section className="container -mt-20 md:-mt-32 relative z-20 pb-16">
+      <section className={cn(
+          "container relative z-20 pb-16",
+          project.slug === 'shift' ? '-mt-20' : '-mt-20 md:-mt-32'
+        )}>
         <Card className="overflow-hidden shadow-2xl">
           <CardContent className="p-4 md:p-8 space-y-12">
             
