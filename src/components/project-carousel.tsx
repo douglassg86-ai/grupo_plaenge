@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from 'next/image';
+import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -22,15 +23,20 @@ type ProjectCarouselProps = {
   imageClassName?: string;
   itemClassName?: string;
   aspectRatioClassName?: string;
+  autoplay?: boolean;
 };
 
-export function ProjectCarousel({ images, imageClassName, itemClassName, aspectRatioClassName = "aspect-video" }: ProjectCarouselProps) {
+export function ProjectCarousel({ images, imageClassName, itemClassName, aspectRatioClassName = "aspect-video", autoplay = false }: ProjectCarouselProps) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
   
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
+
+  const plugins = React.useRef([
+    autoplay ? Autoplay({ delay: 2000, stopOnInteraction: true }) : null,
+  ].filter(Boolean));
 
   React.useEffect(() => {
     if (!api) {
@@ -44,7 +50,12 @@ export function ProjectCarousel({ images, imageClassName, itemClassName, aspectR
       setCurrent(api.selectedScrollSnap() + 1);
       setSelectedImageIndex(api.selectedScrollSnap());
     });
-  }, [api]);
+
+    if (autoplay) {
+      api.on('pointerDown', () => (api.plugins().autoplay as any)?.stop());
+    }
+
+  }, [api, autoplay]);
 
   const openDialog = (index: number) => {
     setSelectedImageIndex(index);
@@ -56,17 +67,17 @@ export function ProjectCarousel({ images, imageClassName, itemClassName, aspectR
   
   const selectedImage = images[selectedImageIndex];
 
-  const handlePrev = () => {
+  const handlePrev = React.useCallback(() => {
     if (api) {
         api.scrollPrev();
     }
-  }
+  }, [api]);
 
-  const handleNext = () => {
+  const handleNext = React.useCallback(() => {
     if (api) {
         api.scrollNext();
     }
-  }
+  }, [api]);
 
   if (!images || images.length === 0) {
     return null;
@@ -74,7 +85,7 @@ export function ProjectCarousel({ images, imageClassName, itemClassName, aspectR
 
   return (
     <div>
-      <Carousel setApi={setApi} className="w-full max-w-4xl mx-auto mt-6">
+      <Carousel setApi={setApi} className="w-full max-w-4xl mx-auto mt-6" plugins={plugins.current as any} opts={{ loop: autoplay }}>
         <CarouselContent>
           {images.map((image, index) => {
             if (!image) return null;

@@ -95,6 +95,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                   images={bannerImages as any} 
                   itemClassName="lg:basis-1/1" 
                   aspectRatioClassName="aspect-[2/1]"
+                  autoplay
                 />
               </div>
             ) : (
