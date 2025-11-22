@@ -6,19 +6,12 @@ import { placeholderImages } from '@/lib/placeholder-images';
 import type { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble, CheckCircle, XCircle } from 'lucide-react';
+import { MapPin, Film, BedDouble } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
+import { AvailabilityGrid } from '@/components/availability-grid';
 
 type ProjectPageProps = {
   params: {
@@ -141,7 +134,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                       <ProjectCarousel 
                         images={floorPlanImages as any}
                         itemClassName="md:basis-1/2 lg:basis-1/3"
-                        aspectRatioClassName="aspect-video"
+                        aspectRatioClassName="aspect-square"
                       />
                     </TabsContent>
                   </Tabs>
@@ -196,33 +189,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               
               <div>
                 <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center gap-3"><BedDouble className="text-accent"/> Unidades Disponíveis</h2>
-                <Card>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Unidade</TableHead>
-                        <TableHead>Tipologia</TableHead>
-                        <TableHead className="text-right">Área (m²)</TableHead>
-                        <TableHead className="text-center">Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {project.availability.map((unit) => (
-                        <TableRow key={unit.unit}>
-                          <TableCell className="font-medium">{unit.unit}</TableCell>
-                          <TableCell>{unit.type}</TableCell>
-                          <TableCell className="text-right">{unit.area.toFixed(2)}</TableCell>
-                          <TableCell className="text-center">
-                            <Badge variant={unit.status === 'Disponível' ? 'default' : 'secondary'} className={cn(unit.status === 'Disponível' ? 'bg-accent/80 text-accent-foreground' : 'bg-muted')}>
-                              {unit.status === 'Disponível' ? <CheckCircle className="mr-2 h-4 w-4"/> : <XCircle className="mr-2 h-4 w-4"/>}
-                              {unit.status}
-                            </Badge>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Card>
+                {project.slug === 'shift' ? (
+                  <AvailabilityGrid availability={project.availability} />
+                ) : (
+                  <Card>
+                    <p className="p-4 text-muted-foreground">Tabela de disponibilidade não implementada para este projeto.</p>
+                  </Card>
+                )}
               </div>
 
             </CardContent>
