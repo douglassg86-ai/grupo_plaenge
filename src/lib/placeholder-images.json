@@ -443,6 +443,36 @@
       "description": "Floor plan of a micro-apartment.",
       "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-hero",
+      "description": "SHIFT - LIFE ON DEMAND. Modern building at an urban corner.",
+      "imageUrl": "https://images.unsplash.com/photo-1573898646713-ae58ba986b95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx1cmJhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjM3MzM4OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "urban architecture"
+    },
+    {
+      "id": "shift-gal-1",
+      "description": "Vibrant urban neighborhood of Moinhos de Vento.",
+      "imageUrl": "https://images.unsplash.com/photo-1584696049838-8e692282a2e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjaXR5JTIwc3RyZWV0fGVufDB8fHx8MTc2Mzc0NDA5Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city street"
+    },
+    {
+      "id": "shift-gal-2",
+      "description": "Interior of a modern studio apartment.",
+      "imageUrl": "https://images.unsplash.com/photo-1648536474504-7bbf8a1ee3ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb2Rlcm4lMjBpbnRlcmlvcnxlbnwwfHx8fDE3NjM3Mjc2NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern interior"
+    },
+    {
+      "id": "shift-gal-3",
+      "description": "Gourmet restaurant Roister nearby.",
+      "imageUrl": "https://images.unsplash.com/photo-1596189181426-7f63a1737f0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnb3VybWV0JTIwZm9vZHxlbnwwfHx8fDE3NjM3MzY3MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gourmet food"
+    },
+    {
+      "id": "shift-plan-1",
+      "description": "Floor plan for a SHIFT studio unit.",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzYzNzUzNTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "floor plan"
     }
   ]
 }

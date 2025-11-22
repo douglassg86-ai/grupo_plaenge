@@ -51,14 +51,17 @@ export default function Home() {
             </p>
           </div>
 
-          {[{ brand: 'Plaenge', projects: plaengeProjects }, { brand: 'Vanguard', projects: vanguardProjects }].map(({ brand, projects }) => (
+          {[
+            { brand: 'Plaenge', projects: plaengeProjects }, 
+            { brand: 'Vanguard', projects: vanguardProjects }
+          ].map(({ brand, projects }) => (
             <div key={brand} className="mb-16">
               <h3 className="font-headline text-3xl md:text-4xl font-bold mb-8 text-center text-primary">{brand}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {projects.map((project, index) => {
+                {projects.map((project) => {
                   const projectHero = placeholderImages.find(img => img.id === project.heroImageId);
                   return (
-                    <Link href={`/${project.slug}`} key={project.id} className={cn("group col-span-1", (brand === 'Plaenge' && index === 0) ? 'lg:col-span-2' : '', (brand === 'Vanguard' && index === 1) ? 'lg:col-span-2' : '')}>
+                    <Link href={`/${project.slug}`} key={project.id} className="group col-span-1">
                       <Card className="h-full w-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                         <CardContent className="p-0 relative h-96">
                           {projectHero && (
