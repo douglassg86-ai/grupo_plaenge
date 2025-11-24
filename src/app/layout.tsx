@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
-import { SiteHeader } from '@/components/site-header';
-import { SiteFooter } from '@/components/site-footer';
 
 export const metadata: Metadata = {
   title: 'Plaenge & Vanguard Showcase',
@@ -30,11 +28,7 @@ export default function RootLayout({
           'min-h-screen font-body antialiased'
         )}
       >
-        <div className="relative flex min-h-screen flex-col">
-          <SiteHeader />
-          <div className="flex-1">{children}</div>
-          <SiteFooter />
-        </div>
+        {children}
         <Toaster />
       </body>
     </html>

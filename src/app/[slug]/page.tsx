@@ -12,6 +12,8 @@ import { MapPin, Film, BedDouble } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
+import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/site-footer';
 
 type ProjectPageProps = {
   params: {
@@ -51,7 +53,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const bannerImages = (project.bannerImageIds || []).map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
 
 
-  return (
+  const PageContent = () => (
     <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
       <article className="flex-1">
         <section className="relative h-[60vh] w-full">
@@ -202,6 +204,20 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           </Card>
         </section>
       </article>
+    </div>
+  );
+
+  if (project.slug === 'shift') {
+    return <PageContent />;
+  }
+
+  return (
+    <div className="relative flex min-h-screen flex-col">
+      <SiteHeader />
+      <div className="flex-1">
+        <PageContent />
+      </div>
+      <SiteFooter />
     </div>
   );
 }

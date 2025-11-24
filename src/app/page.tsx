@@ -6,6 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ArrowDown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { placeholderImages } from '@/lib/placeholder-images';
+import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/site-footer';
 
 export default function Home() {
   const plaengeProjects = projects.filter((p) => p.brand === 'Plaenge');
@@ -13,7 +15,8 @@ export default function Home() {
   const heroImage = placeholderImages.find(img => img.id === 'home-hero');
 
   return (
-    <div className="bg-background">
+    <div className="relative flex min-h-screen flex-col bg-background">
+      <SiteHeader />
       <main className="flex-1">
         <section className="relative h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center text-white">
           {heroImage && (
@@ -90,6 +93,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }
