@@ -56,7 +56,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   
   const whatsappMessage = useMemo(() => {
     if (!selectedUnit) return '';
-    const text = `Olá! Tenho interesse na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT. Gostaria de enviar minha pasta.`;
+    const text = `Olá! Gostaria de alocar a pasta do meu cliente na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT.`;
     return encodeURIComponent(text);
   }, [selectedUnit]);
 
