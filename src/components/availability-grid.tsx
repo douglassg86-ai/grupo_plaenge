@@ -54,6 +54,12 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     return Object.entries(grouped).sort(([a], [b]) => parseInt(b) - parseInt(a));
   }, [availability]);
   
+  const whatsappMessage = useMemo(() => {
+    if (!selectedUnit) return '';
+    const text = `Olá! Tenho interesse na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT. Gostaria de enviar minha pasta.`;
+    return encodeURIComponent(text);
+  }, [selectedUnit]);
+
 
   return (
     <Card>
@@ -72,7 +78,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         variant="outline"
                         size="sm"
                         onClick={() => handleUnitClick(unit)}
-                        className={cn('font-mono h-10')}
+                        className={cn('font-mono h-10 w-full text-xs p-1')}
                       >
                         {unit.unit}
                       </Button>
@@ -100,11 +106,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction asChild>
-                <Link href="https://wa.me/5551980800821" target="_blank">
-                  Enviar documentação
-                </Link>
-              </AlertDialogAction>
+              {selectedUnit && (
+                <AlertDialogAction asChild>
+                  <Link href={`https://wa.me/5551980800821?text=${whatsappMessage}`} target="_blank">
+                    Enviar documentação
+                  </Link>
+                </AlertDialogAction>
+              )}
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
