@@ -44,7 +44,7 @@ export function ConventionPopup() {
             </AlertDialogHeader>
             <AlertDialogFooter className="mt-4 sm:justify-center">
                 <AlertDialogCancel>Fechar</AlertDialogCancel>
-                <AlertDialogAction asChild>
+                <AlertDialogAction asChild className="animate-pulse">
                     <Link href="https://b.link/confirmacao_convencao_shift" target="_blank">
                         Confirmar Presença
                     </Link>
