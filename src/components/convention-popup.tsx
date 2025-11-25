@@ -28,7 +28,7 @@ export function ConventionPopup() {
         <div className="relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/convite_convencao.jpg"
+            src="/SHIFT/convite_convencao.jpg"
             alt="Convite para convenção SHIFT"
             width={600}
             height={800}
