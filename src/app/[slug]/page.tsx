@@ -14,6 +14,7 @@ import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
+import { ConventionPopup } from '@/components/convention-popup';
 
 type ProjectPageProps = {
   params: {
@@ -55,6 +56,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
   const PageContent = () => (
     <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
+      {project.slug === 'shift' && <ConventionPopup />}
       <article className="flex-1">
         <section className="relative h-[60vh] w-full">
           {heroImage && project.slug !== 'shift' && (
