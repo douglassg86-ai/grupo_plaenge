@@ -29,7 +29,7 @@ export function ConventionPopup() {
       <AlertDialogContent className="p-0 border-0 max-w-md">
         <div className="relative">
           <Image
-            src="/convite_convencao.jpeg"
+            src="/convite_convencao.jpg"
             alt="Convite para convenção SHIFT"
             width={600}
             height={800}
