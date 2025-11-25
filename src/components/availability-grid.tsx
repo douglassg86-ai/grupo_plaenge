@@ -99,7 +99,15 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
                     <div className="text-base mb-4 text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
                     <p className='mb-2'>Escolha duas unidades para que o seu cliente não perca esta oportunidade. Algumas unidades já possuem fila de pastas. A assinatura acontecerá no dia 01/12/2025.</p>
-                    <p className='text-sm text-muted-foreground'>A pasta é composta por: ficha de cadastro e CNH ou RG.</p>
+                    <div className='text-sm text-muted-foreground'>
+                      <p className="font-medium text-foreground/90 mb-1">A pasta é composta por:</p>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>Ficha cadastro</li>
+                        <li>CNH/IDENTIDADE</li>
+                        <li>Comprovante de Residência</li>
+                        <li>Certidão de casamento / estado civil</li>
+                      </ul>
+                    </div>
                   </div>
                 </AlertDialogDescription>
               )}
