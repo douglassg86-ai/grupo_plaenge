@@ -441,7 +441,7 @@
     {
       "id": "trend-plan-1",
       "description": "Floor plan of a micro-apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1556156653-e5a7c69cc263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
@@ -465,13 +465,13 @@
     {
       "id": "shift-gal-3",
       "description": "Gourmet restaurant Roister nearby.",
-      "imageUrl": "https://images.unsplash.com/photo-1596189181426-7f63a1737f0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnb3VybWV0JTIwZm9vZHxlbnwwfHx8fDE3NjM3MzY3MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1596189181426-7f63a1737f0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnb3VybWV0JTIwZm9vZHxlbnwwfHx8fDE3NjM3MzY3MjN8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "gourmet food"
     },
     {
       "id": "shift-plan-1",
       "description": "Floor plan for a SHIFT studio unit.",
-      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzYzNzUzNTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzYzNzUzNTI2fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
@@ -503,6 +503,48 @@
       "description": "SHIFT Banner Image 5 - Architecture",
       "imageUrl": "/SHIFT/painelGRANDE_3,5x1,8m_05_arquitetura.jpg",
       "imageHint": "architectural detail"
+    },
+    {
+      "id": "shift-floor-plan-1",
+      "description": "Planta do SHIFT 1",
+      "imageUrl": "/SHIFT/plantas_shift.png",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-floor-plan-2",
+      "description": "Planta do SHIFT 2",
+      "imageUrl": "/SHIFT/plantas_shift2.png",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-floor-plan-3",
+      "description": "Planta do SHIFT 3",
+      "imageUrl": "/SHIFT/plantas_shift3.png",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-floor-plan-4",
+      "description": "Planta do SHIFT 4",
+      "imageUrl": "/SHIFT/plantas_shift4.png",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-floor-plan-5",
+      "description": "Planta do SHIFT 5",
+      "imageUrl": "/SHIFT/plantas_shift5.png",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-floor-plan-6",
+      "description": "Planta do SHIFT 6",
+      "imageUrl": "/SHIFT/plantas_shift6.png",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "shift-floor-plan-7",
+      "description": "Planta do SHIFT 7",
+      "imageUrl": "/SHIFT/plantas_shift7.png",
+      "imageHint": "floor plan"
     }
   ]
 }

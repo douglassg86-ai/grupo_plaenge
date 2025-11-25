@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble } from 'lucide-react';
+import { MapPin, Film, BedDouble, LayoutPanelLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
@@ -148,10 +148,23 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <Separator />
 
               {project.slug === 'shift' && (
-                <div>
-                  <h2 className="font-headline text-3xl font-bold text-primary text-center">LIFE ON DEMAND</h2>
-                  <p className="mt-4 text-muted-foreground leading-relaxed text-center">{project.description}</p>
-                </div>
+                <>
+                  <div>
+                    <h2 className="font-headline text-3xl font-bold text-primary text-center">LIFE ON DEMAND</h2>
+                    <p className="mt-4 text-muted-foreground leading-relaxed text-center">{project.description}</p>
+                  </div>
+                  
+                  <Separator />
+                  
+                  <div>
+                    <h2 className="font-headline text-3xl font-bold text-primary flex items-center justify-center gap-3 mb-6"><LayoutPanelLeft className="text-accent"/> Plantas</h2>
+                    <ProjectCarousel 
+                      images={floorPlanImages as any}
+                      itemClassName="md:basis-1/2 lg:basis-1/2"
+                      aspectRatioClassName="aspect-square"
+                    />
+                  </div>
+                </>
               )}
 
 
