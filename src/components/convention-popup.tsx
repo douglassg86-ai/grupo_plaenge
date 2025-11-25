@@ -2,7 +2,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   AlertDialog,
@@ -14,7 +13,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Button } from './ui/button';
 
 export function ConventionPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +26,8 @@ export function ConventionPopup() {
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent className="p-0 border-0 max-w-md">
         <div className="relative">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/convite_convencao.jpg"
             alt="Convite para convenção SHIFT"
             width={600}
