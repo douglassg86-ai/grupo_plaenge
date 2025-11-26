@@ -9,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail } from 'lucide-react';
+import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail, Download } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
@@ -236,7 +236,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                         </ul>
                       </div>
                     </Card>
-                    <div className="mt-6">
+                    <div className="mt-6 flex flex-col sm:flex-row gap-2 justify-center">
+                       <Button asChild size="lg" variant="outline">
+                        <Link href="/SHIFT/ficha_cadastro.pdf" target="_blank" download>
+                          <Download className="mr-2 h-4 w-4" />
+                          Baixar Ficha de Cadastro
+                        </Link>
+                      </Button>
                       <Button asChild size="lg">
                         <Link href="mailto:pastas_poa@vanguard.com.br,do.goncalves@vanguard.com.br">
                           <Mail className="mr-2 h-4 w-4" />

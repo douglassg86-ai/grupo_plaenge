@@ -23,6 +23,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import Link from 'next/link';
+import { Download, Mail } from 'lucide-react';
 
 type AvailabilityGridProps = {
   availability: Availability[];
@@ -117,11 +118,20 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
             <AlertDialogFooter>
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               {selectedUnit && (
-                <AlertDialogAction asChild>
-                  <Link href={mailtoLink} target="_blank">
-                    Enviar documentação
-                  </Link>
-                </AlertDialogAction>
+                <>
+                  <Button asChild variant="outline">
+                    <Link href="/SHIFT/ficha_cadastro.pdf" target="_blank" download>
+                      <Download className="mr-2 h-4 w-4" />
+                      Baixar Ficha
+                    </Link>
+                  </Button>
+                  <AlertDialogAction asChild>
+                    <Link href={mailtoLink} target="_blank">
+                      <Mail className="mr-2 h-4 w-4" />
+                      Enviar documentação
+                    </Link>
+                  </AlertDialogAction>
+                </>
               )}
             </AlertDialogFooter>
           </AlertDialogContent>
