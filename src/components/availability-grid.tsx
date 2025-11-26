@@ -42,13 +42,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   };
 
   const getFloorImage = (floor: number) => {
-    if (floor >= 2 && floor <= 9) return '/SHIFT/bpavimentos-01.png';
-    if (floor === 10) return '/SHIFT/bpavimentos-02.png';
-    if (floor === 11) return '/SHIFT/bpavimentos-03.png';
-    if (floor === 12) return '/SHIFT/bpavimentos-04.png';
-    if (floor === 13) return '/SHIFT/bpavimentos-05.png';
-    if (floor === 14) return '/SHIFT/bpavimentos-06.png';
-    if (floor === 15) return '/SHIFT/bpavimentos-07.png';
+    if (floor >= 2 && floor <= 9) return '/SHIFT/cpavimentos-01.png';
+    if (floor === 10) return '/SHIFT/cpavimentos-02.png';
+    if (floor === 11) return '/SHIFT/cpavimentos-03.png';
+    if (floor === 12) return '/SHIFT/cpavimentos-04.png';
+    if (floor === 13) return '/SHIFT/cpavimentos-05.png';
+    if (floor === 14) return '/SHIFT/cpavimentos-06.png';
+    if (floor === 15) return '/SHIFT/cpavimentos-07.png';
     return null;
   };
 
