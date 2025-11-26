@@ -17,6 +17,7 @@ import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { ConventionPopup } from '@/components/convention-popup';
 import { Button } from '@/components/ui/button';
+import { FloatingWhatsAppButton } from '@/components/floating-whatsapp-button';
 
 type ProjectPageProps = {
   params: {
@@ -59,6 +60,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const PageContent = () => (
     <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
       {project.slug === 'shift' && <ConventionPopup />}
+      {project.slug === 'shift' && <FloatingWhatsAppButton phoneNumber="5551980800821" />}
       <article className="flex-1">
         <section className="relative h-[60vh] w-full">
           {heroImage && project.slug !== 'shift' && (

@@ -54,10 +54,12 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     return Object.entries(grouped).sort(([a], [b]) => parseInt(b) - parseInt(a));
   }, [availability]);
   
-  const whatsappMessage = useMemo(() => {
+  const mailtoLink = useMemo(() => {
     if (!selectedUnit) return '';
-    const text = `Olá! Gostaria de alocar a pasta do meu cliente na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT.`;
-    return encodeURIComponent(text);
+    const to = "pastas_poa@vanguard.com.br,do.goncalves@vanguard.com.br";
+    const subject = `Alocação de Pasta - Empreendimento SHIFT - Unidade ${selectedUnit.unit}`;
+    const body = `Olá!\n\nGostaria de alocar a pasta do meu cliente na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT.\n\nSeguem os documentos em anexo.\n\nObrigado.`;
+    return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }, [selectedUnit]);
 
 
@@ -98,7 +100,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   <div>
                     <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
                     <div className="text-base mb-4 text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
-                    <p className='mb-2'>Escolha duas unidades para que o seu cliente não perca esta oportunidade. Algumas unidades já possuem fila de pastas. A assinatura acontecerá no dia 01/12/2025.</p>
+                    <p className='mb-2'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
                     <div className='text-sm text-muted-foreground'>
                       <p className="font-medium text-foreground/90 mb-1">A pasta é composta por:</p>
                       <ul className="list-disc list-inside space-y-1">
@@ -116,7 +118,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               {selectedUnit && (
                 <AlertDialogAction asChild>
-                  <Link href={`https://wa.me/5551980800821?text=${whatsappMessage}`} target="_blank">
+                  <Link href={mailtoLink} target="_blank">
                     Enviar documentação
                   </Link>
                 </AlertDialogAction>
