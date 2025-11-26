@@ -60,7 +60,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const PageContent = () => (
     <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
       {project.slug === 'shift' && <ConventionPopup />}
-      {project.slug === 'shift' && <FloatingWhatsAppButton phoneNumber="5551980800821" />}
+      {project.slug === 'shift' && <FloatingWhatsAppButton phoneNumber="5551980800821" message="Olá! Gostaria de mais informações sobre o empreendimento SHIFT." />}
       <article className="flex-1">
         <section className="relative h-[60vh] w-full">
           {heroImage && project.slug !== 'shift' && (
