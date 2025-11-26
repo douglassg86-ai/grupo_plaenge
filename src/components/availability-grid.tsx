@@ -157,7 +157,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               {selectedUnit && (
                 <>
                   <Button asChild variant="outline">
-                    <Link href="/SHIFT/ficha_cadastro.pdf" target="_blank" download>
+                    <Link href="https://b.link/ficha_cadastro" target="_blank">
                       <Download className="mr-2 h-4 w-4" />
                       Baixar Ficha
                     </Link>

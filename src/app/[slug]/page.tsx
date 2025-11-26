@@ -249,7 +249,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                     </Card>
                     <div className="mt-6 flex flex-col sm:flex-row gap-2 justify-center">
                        <Button asChild size="lg" variant="outline">
-                        <Link href="/SHIFT/ficha_cadastro.pdf" target="_blank" download>
+                        <Link href="https://b.link/ficha_cadastro" target="_blank">
                           <Download className="mr-2 h-4 w-4" />
                           Baixar Ficha de Cadastro
                         </Link>
