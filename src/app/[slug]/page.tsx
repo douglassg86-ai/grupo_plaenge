@@ -1,6 +1,7 @@
 
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { projects } from '@/lib/data';
 import { placeholderImages } from '@/lib/placeholder-images';
 import type { Metadata } from 'next';
@@ -8,13 +9,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble, LayoutPanelLeft } from 'lucide-react';
+import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { ConventionPopup } from '@/components/convention-popup';
+import { Button } from '@/components/ui/button';
 
 type ProjectPageProps = {
   params: {
@@ -214,6 +216,24 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                   </Card>
                 )}
               </div>
+
+              {project.slug === 'shift' && (
+                <>
+                  <Separator />
+                  <div>
+                    <h2 className="font-headline text-3xl font-bold text-primary text-center">Envio de Pastas</h2>
+                    <p className="mt-4 text-muted-foreground leading-relaxed text-center">Clique no botão abaixo para enviar a documentação do seu cliente e garantir a unidade.</p>
+                    <div className="mt-6 text-center">
+                      <Button asChild size="lg">
+                        <Link href="mailto:pastas_poa@vanguard.com.br,do.goncalves@vanguard.com.br">
+                          <Mail className="mr-2 h-4 w-4" />
+                          Envie suas pastas
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
 
             </CardContent>
           </Card>
