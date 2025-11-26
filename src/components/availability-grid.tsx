@@ -23,8 +23,9 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import Link from 'next/link';
-import { Download, Mail } from 'lucide-react';
+import { Download, Mail, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 
 type AvailabilityGridProps = {
   availability: Availability[];
@@ -123,10 +124,21 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               <AlertDialogTitle>Envie sua pasta!</AlertDialogTitle>
               {selectedUnit && (
                 <AlertDialogDescription asChild>
-                  <div>
-                    <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
-                    <div className="text-base mb-4 text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
-                    <p className='mb-2'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
+                      <div className="text-base text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
+                    </div>
+                    <p className='text-sm'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
+                    
+                    <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
+                      <AlertTriangle className="h-4 w-4" />
+                      <AlertTitle>Atenção!</AlertTitle>
+                      <AlertDescription>
+                        O espelho de vendas não é o reflexo da disponibilidade em tempo real. Muitas unidades já podem possuir pastas em análise. A prioridade será definida por ordem de envio. Não perca tempo!
+                      </AlertDescription>
+                    </Alert>
+
                     <div className='text-sm text-muted-foreground'>
                       <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
                         <ul className="list-disc list-inside space-y-1">

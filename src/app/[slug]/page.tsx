@@ -1,4 +1,5 @@
 
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail, Download } from 'lucide-react';
+import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail, Download, AlertTriangle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
@@ -18,6 +19,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { ConventionPopup } from '@/components/convention-popup';
 import { Button } from '@/components/ui/button';
 import { FloatingWhatsAppButton } from '@/components/floating-whatsapp-button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 type ProjectPageProps = {
   params: {
@@ -225,6 +227,15 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                   <div className="text-center">
                     <h2 className="font-headline text-3xl font-bold text-primary">Envio de Pastas</h2>
                     <p className="mt-4 text-muted-foreground leading-relaxed max-w-2xl mx-auto">Clique no botão abaixo para enviar a documentação do seu cliente e garantir a unidade.</p>
+
+                    <Alert variant="destructive" className="max-w-2xl mx-auto mt-6 text-left bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
+                      <AlertTriangle className="h-4 w-4" />
+                      <AlertTitle>Atenção!</AlertTitle>
+                      <AlertDescription>
+                        O espelho de vendas não é o reflexo da disponibilidade em tempo real. Muitas unidades já podem possuir pastas em análise. A prioridade será definida por ordem de envio. Não perca tempo!
+                      </AlertDescription>
+                    </Alert>
+
                     <Card className="max-w-md mx-auto mt-6 text-left p-4 bg-muted/50">
                       <div className='text-sm text-muted-foreground'>
                         <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
