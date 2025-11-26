@@ -222,10 +222,21 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               {project.slug === 'shift' && (
                 <>
                   <Separator />
-                  <div>
-                    <h2 className="font-headline text-3xl font-bold text-primary text-center">Envio de Pastas</h2>
-                    <p className="mt-4 text-muted-foreground leading-relaxed text-center">Clique no botão abaixo para enviar a documentação do seu cliente e garantir a unidade.</p>
-                    <div className="mt-6 text-center">
+                  <div className="text-center">
+                    <h2 className="font-headline text-3xl font-bold text-primary">Envio de Pastas</h2>
+                    <p className="mt-4 text-muted-foreground leading-relaxed max-w-2xl mx-auto">Clique no botão abaixo para enviar a documentação do seu cliente e garantir a unidade.</p>
+                    <Card className="max-w-md mx-auto mt-6 text-left p-4 bg-muted/50">
+                      <div className='text-sm text-muted-foreground'>
+                        <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
+                        <ul className="list-disc list-inside space-y-1">
+                          <li>Ficha cadastro</li>
+                          <li>CNH/IDENTIDADE</li>
+                          <li>Comprovante de Residência</li>
+                          <li>Certidão de casamento / estado civil</li>
+                        </ul>
+                      </div>
+                    </Card>
+                    <div className="mt-6">
                       <Button asChild size="lg">
                         <Link href="mailto:pastas_poa@vanguard.com.br,do.goncalves@vanguard.com.br">
                           <Mail className="mr-2 h-4 w-4" />
