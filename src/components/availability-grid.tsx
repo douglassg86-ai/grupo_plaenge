@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import Link from 'next/link';
 import { Download, Mail } from 'lucide-react';
+import Image from 'next/image';
 
 type AvailabilityGridProps = {
   availability: Availability[];
@@ -37,6 +38,17 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const handleUnitClick = (unit: Availability) => {
     setSelectedUnit(unit);
     setIsDialogOpen(true);
+  };
+
+  const getFloorImage = (floor: number) => {
+    if (floor >= 2 && floor <= 9) return '/SHIFT/pavirimentos-01.png';
+    if (floor === 10) return '/SHIFT/pavirimentos-02.png';
+    if (floor === 11) return '/SHIFT/pavirimentos-03.png';
+    if (floor === 12) return '/SHIFT/pavirimentos-04.png';
+    if (floor === 13) return '/SHIFT/pavirimentos-05.png';
+    if (floor === 14) return '/SHIFT/pavirimentos-06.png';
+    if (floor === 15) return '/SHIFT/pavirimentos-07.png';
+    return null;
   };
 
   const floors = useMemo(() => {
@@ -68,12 +80,25 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     <Card>
       <CardContent className="p-4">
         <Accordion type="single" collapsible className="w-full">
-            {floors.map(([floor, units]) => (
+            {floors.map(([floor, units]) => {
+              const floorImage = getFloorImage(parseInt(floor));
+              return (
               <AccordionItem value={`item-${floor}`} key={floor}>
                 <AccordionTrigger className="font-bold text-lg hover:no-underline">
                   {floor}º Andar
                 </AccordionTrigger>
                 <AccordionContent>
+                  {floorImage && (
+                      <div className="my-4">
+                        <Image
+                          src={floorImage}
+                          alt={`Planta do ${floor}º andar`}
+                          width={800}
+                          height={400}
+                          className="w-full h-auto rounded-md"
+                        />
+                      </div>
+                    )}
                   <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 pt-2">
                     {units.map((unit) => (
                       <Button
@@ -89,7 +114,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   </div>
                 </AccordionContent>
               </AccordionItem>
-            ))}
+            )})}
         </Accordion>
 
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -103,13 +128,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     <div className="text-base mb-4 text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
                     <p className='mb-2'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
                     <div className='text-sm text-muted-foreground'>
-                      <p className="font-medium text-foreground/90 mb-1">A pasta é composta por:</p>
-                      <ul className="list-disc list-inside space-y-1">
-                        <li>Ficha cadastro</li>
-                        <li>CNH/IDENTIDADE</li>
-                        <li>Comprovante de Residência</li>
-                        <li>Certidão de casamento / estado civil</li>
-                      </ul>
+                      <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
+                        <ul className="list-disc list-inside space-y-1">
+                          <li>Ficha cadastro</li>
+                          <li>CNH/IDENTIDADE</li>
+                          <li>Comprovante de Residência</li>
+                          <li>Certidão de casamento / estado civil</li>
+                        </ul>
                     </div>
                   </div>
                 </AlertDialogDescription>
