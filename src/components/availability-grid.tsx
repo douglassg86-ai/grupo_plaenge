@@ -104,10 +104,18 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     {units.map((unit) => (
                       <Button
                         key={unit.unit}
-                        variant="outline"
+                        variant={unit.status === 'Disponível' ? 'outline' : 'default'}
                         size="sm"
                         onClick={() => handleUnitClick(unit)}
-                        className={cn('font-mono h-10 w-full text-xs p-1')}
+                        className={cn(
+                          'font-mono h-10 w-full text-xs p-1',
+                          {
+                            'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
+                            'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200': unit.status === 'Pasta Alocada',
+                            'bg-red-100 border-red-300 text-red-800 hover:bg-red-200 cursor-not-allowed': unit.status === 'Vendido',
+                          }
+                        )}
+                        disabled={unit.status === 'Vendido'}
                       >
                         {unit.unit}
                       </Button>
@@ -117,6 +125,21 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               </AccordionItem>
             )})}
         </Accordion>
+        
+        <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-sm bg-green-100 border border-green-300"></div>
+            <span>Disponível</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-sm bg-amber-100 border border-amber-300"></div>
+            <span>Unidades com pastas alocadas</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-sm bg-red-100 border border-red-300"></div>
+            <span>Vendido</span>
+          </div>
+        </div>
 
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <AlertDialogContent>
@@ -128,6 +151,14 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     <div>
                       <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
                       <div className="text-base text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
+                       <div className={cn(
+                        'text-sm font-semibold',
+                        {
+                          'text-green-600': selectedUnit.status === 'Disponível',
+                          'text-amber-600': selectedUnit.status === 'Pasta Alocada',
+                          'text-red-600': selectedUnit.status === 'Vendido',
+                        }
+                      )}>Status: {selectedUnit.status}</div>
                     </div>
                     <p className='text-sm'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
                     

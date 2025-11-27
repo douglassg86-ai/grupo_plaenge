@@ -2,7 +2,7 @@ export type Availability = {
   unit: string;
   type: string;
   area: number;
-  status: 'Disponível' | 'Vendido';
+  status: 'Disponível' | 'Vendido' | 'Pasta Alocada';
 };
 
 export type Project = {
