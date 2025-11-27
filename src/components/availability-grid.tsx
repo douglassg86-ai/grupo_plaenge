@@ -83,7 +83,10 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         <Accordion type="single" collapsible className="w-full">
             {floors.map(([floor, units]) => {
               const floorImage = getFloorImage(parseInt(floor));
-              const hasSoldUnits = units.some(u => u.status === 'Vendido');
+              const hasAvailable = units.some(u => u.status === 'Disponível');
+              const hasAllocated = units.some(u => u.status === 'Pasta Alocada');
+              const hasSold = units.some(u => u.status === 'Vendido');
+
               return (
               <AccordionItem value={`item-${floor}`} key={floor}>
                 <AccordionTrigger className="font-bold text-lg hover:no-underline">
@@ -122,30 +125,32 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                       </Button>
                     ))}
                   </div>
-                  {hasSoldUnits && (
-                    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
+
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
+                      {hasAvailable && (
+                        <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-sm bg-green-100 border border-green-300"></div>
+                            <span>Disponível</span>
+                        </div>
+                      )}
+                      {hasAllocated && (
+                        <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-sm bg-amber-100 border border-amber-300"></div>
+                            <span>Pasta Alocada</span>
+                        </div>
+                      )}
+                      {hasSold && (
                         <div className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded-sm bg-red-100 border border-red-300"></div>
                             <span>Vendido</span>
                         </div>
-                    </div>
-                  )}
+                      )}
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             )})}
         </Accordion>
         
-        <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-sm bg-green-100 border border-green-300"></div>
-            <span>Disponível</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-sm bg-amber-100 border border-amber-300"></div>
-            <span>Unidades com pastas alocadas</span>
-          </div>
-        </div>
-
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <AlertDialogContent>
             <AlertDialogHeader>
