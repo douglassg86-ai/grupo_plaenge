@@ -169,8 +169,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         </Accordion>
         
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent className="max-w-md">
-            <AlertDialogHeader>
+          <AlertDialogContent className="max-w-md sm:max-w-lg">
+            <AlertDialogHeader className="text-center">
               {selectedUnit && (
                 <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-base font-semibold text-foreground mb-2">
                   <span>Unidade {selectedUnit.unit}</span>
@@ -213,7 +213,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   )}
                   
                   <div className="space-y-3">
-                     <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600 p-3">
+                     <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600 p-3 text-center">
                       <AlertTriangle className="h-4 w-4" />
                       <AlertTitle className="text-sm">Atenção!</AlertTitle>
                       <AlertDescription className="text-xs">
@@ -260,7 +260,3 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
-
-    
-
-    
