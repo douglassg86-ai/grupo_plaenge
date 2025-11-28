@@ -1,8 +1,16 @@
+
 export type Availability = {
   unit: string;
   type: string;
   area: number;
   status: 'Disponível' | 'Vendido' | 'Pasta Alocada';
+  paymentFlow?: {
+    total: string;
+    downPayment: string;
+    monthlyInstallment: string;
+    reinforcement: string;
+    financingBalance: string;
+  };
 };
 
 export type Project = {

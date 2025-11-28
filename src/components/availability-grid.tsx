@@ -26,6 +26,7 @@ import Link from 'next/link';
 import { Download, Mail, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Separator } from './ui/separator';
 
 type AvailabilityGridProps = {
   availability: Availability[];
@@ -178,6 +179,34 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         }
                       )}>Status: {selectedUnit.status}</div>
                     </div>
+
+                    {selectedUnit.paymentFlow && (
+                      <>
+                        <Separator />
+                        <div>
+                          <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
+                          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                            <span className="text-muted-foreground">Valor Total:</span>
+                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.total}</span>
+
+                            <span className="text-muted-foreground">Entrada (5x):</span>
+                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.downPayment}</span>
+                            
+                            <span className="text-muted-foreground">Mensais (36x):</span>
+                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.monthlyInstallment}</span>
+                            
+                            <span className="text-muted-foreground">Reforços (3x):</span>
+                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.reinforcement}</span>
+                            
+                            <span className="text-muted-foreground">Saldo Financiamento:</span>
+                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.financingBalance}</span>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    <Separator />
+
                     <p className='text-sm'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
                     
                     <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">

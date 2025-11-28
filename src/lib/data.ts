@@ -1,4 +1,5 @@
 import type { Project } from '@/lib/types';
+import { paymentData } from '@/lib/payment-data';
 
 const shiftAvailability = [
   { unit: '201', type: 'Studio', area: 24.38, status: 'Disponível' },
@@ -185,7 +186,11 @@ const shiftAvailability = [
   { unit: '1507', type: 'Studio', area: 23.75, status: 'Pasta Alocada' },
   { unit: '1508', type: 'Studio', area: 23.75, status: 'Pasta Alocada' },
   { unit: '1509', type: 'Studio', area: 24.5, status: 'Pasta Alocada' },
-].map(u => ({...u, type: u.area > 40 ? 'Apartamento' : 'Studio' })) as any[];
+].map(u => ({
+  ...u, 
+  type: u.area > 40 ? 'Apartamento' : 'Studio',
+  paymentFlow: paymentData[u.unit]
+})) as any[];
 
 
 export const projects: Project[] = [
