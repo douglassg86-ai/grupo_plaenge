@@ -27,6 +27,15 @@ import { Download, Mail, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Separator } from './ui/separator';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 type AvailabilityGridProps = {
   availability: Availability[];
@@ -166,10 +175,9 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               <AlertDialogTitle>Unidade {selectedUnit?.unit}</AlertDialogTitle>
               {selectedUnit && (
                 <AlertDialogDescription asChild>
-                  <div className="pt-4 text-sm">
+                  <div className="pt-4 text-sm space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                       
-                      {/* Coluna Esquerda: Detalhes e Fluxo */}
                       <div className="space-y-4">
                         <div>
                           <div className="font-bold text-foreground">Detalhes da Unidade</div>
@@ -182,34 +190,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                                 })}>Status: {selectedUnit.status}</p>
                           </div>
                         </div>
-
-                        {selectedUnit.paymentFlow && (
-                          <>
-                            <Separator />
-                            <div>
-                              <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
-                              <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                                <span className="text-muted-foreground">Valor Total:</span>
-                                <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.total}</span>
-
-                                <span className="text-muted-foreground">Entrada (5x):</span>
-                                <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.downPayment}</span>
-                                
-                                <span className="text-muted-foreground">Mensais (36x):</span>
-                                <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.monthlyInstallment}</span>
-                                
-                                <span className="text-muted-foreground">Reforços (3x):</span>
-                                <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.reinforcement}</span>
-                                
-                                <span className="text-muted-foreground">Financiamento:</span>
-                                <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.financingBalance}</span>
-                              </div>
-                            </div>
-                          </>
-                        )}
                       </div>
                       
-                      {/* Coluna Direita: Avisos e Documentos */}
                       <div className="space-y-4">
                          <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
                           <AlertTriangle className="h-4 w-4" />
@@ -232,6 +214,31 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                       </div>
 
                     </div>
+                    {selectedUnit.paymentFlow && (
+                      <div className="space-y-2">
+                        <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead className="text-center">Total</TableHead>
+                              <TableHead className="text-center">Entrada (5x)</TableHead>
+                              <TableHead className="text-center">Mensais (36x)</TableHead>
+                              <TableHead className="text-center">Reforços (3x)</TableHead>
+                              <TableHead className="text-center">Financiamento</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell className="font-medium text-center">{selectedUnit.paymentFlow.total}</TableCell>
+                              <TableCell className="text-center">{selectedUnit.paymentFlow.downPayment}</TableCell>
+                              <TableCell className="text-center">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
+                              <TableCell className="text-center">{selectedUnit.paymentFlow.reinforcement}</TableCell>
+                              <TableCell className="text-center">{selectedUnit.paymentFlow.financingBalance}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
                   </div>
                 </AlertDialogDescription>
               )}
