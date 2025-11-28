@@ -161,71 +161,77 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         </Accordion>
         
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent>
+          <AlertDialogContent className="max-w-4xl">
             <AlertDialogHeader>
-              <AlertDialogTitle>Envie sua pasta!</AlertDialogTitle>
+              <AlertDialogTitle>Informações da Unidade e Envio de Pasta</AlertDialogTitle>
               {selectedUnit && (
                 <AlertDialogDescription asChild>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
-                      <div className="text-base text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
-                       <div className={cn(
-                        'text-sm font-semibold',
-                        {
-                          'text-green-600': selectedUnit.status === 'Disponível',
-                          'text-amber-600': selectedUnit.status === 'Pasta Alocada',
-                          'text-red-600': selectedUnit.status === 'Vendido',
-                        }
-                      )}>Status: {selectedUnit.status}</div>
-                    </div>
-
-                    {selectedUnit.paymentFlow && (
-                      <>
-                        <Separator />
-                        <div>
-                          <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
-                          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                            <span className="text-muted-foreground">Valor Total:</span>
-                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.total}</span>
-
-                            <span className="text-muted-foreground">Entrada (5x):</span>
-                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.downPayment}</span>
-                            
-                            <span className="text-muted-foreground">Mensais (36x):</span>
-                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.monthlyInstallment}</span>
-                            
-                            <span className="text-muted-foreground">Reforços (3x):</span>
-                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.reinforcement}</span>
-                            
-                            <span className="text-muted-foreground">Saldo Financiamento:</span>
-                            <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.financingBalance}</span>
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    <Separator />
-
-                    <p className='text-sm'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
+                  <div className="pt-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                     
-                    <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
-                      <AlertTriangle className="h-4 w-4" />
-                      <AlertTitle>Atenção!</AlertTitle>
-                      <AlertDescription>
-                        O espelho de vendas não é o reflexo da disponibilidade em tempo real. Muitas unidades já podem possuir pastas em análise. A prioridade será definida por ordem de envio. Não perca tempo!
-                      </AlertDescription>
-                    </Alert>
+                    {/* Coluna Esquerda: Detalhes e Fluxo */}
+                    <div className="space-y-4">
+                      <div>
+                        <div className="font-bold text-lg text-foreground">Unidade: {selectedUnit.unit}</div>
+                        <div className="text-base text-foreground">Área: {selectedUnit.area.toFixed(2)} m²</div>
+                         <div className={cn(
+                          'text-sm font-semibold',
+                          {
+                            'text-green-600': selectedUnit.status === 'Disponível',
+                            'text-amber-600': selectedUnit.status === 'Pasta Alocada',
+                            'text-red-600': selectedUnit.status === 'Vendido',
+                          }
+                        )}>Status: {selectedUnit.status}</div>
+                      </div>
 
-                    <div className='text-sm text-muted-foreground'>
-                      <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
-                        <ul className="list-disc list-inside space-y-1">
-                          <li>Ficha cadastro</li>
-                          <li>CNH/IDENTIDADE</li>
-                          <li>Comprovante de Residência</li>
-                          <li>Certidão de casamento / estado civil</li>
-                        </ul>
+                      {selectedUnit.paymentFlow && (
+                        <>
+                          <Separator />
+                          <div>
+                            <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                              <span className="text-muted-foreground">Valor Total:</span>
+                              <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.total}</span>
+
+                              <span className="text-muted-foreground">Entrada (5x):</span>
+                              <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.downPayment}</span>
+                              
+                              <span className="text-muted-foreground">Mensais (36x):</span>
+                              <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.monthlyInstallment}</span>
+                              
+                              <span className="text-muted-foreground">Reforços (3x):</span>
+                              <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.reinforcement}</span>
+                              
+                              <span className="text-muted-foreground">Saldo Financiamento:</span>
+                              <span className="font-medium text-foreground text-right">{selectedUnit.paymentFlow.financingBalance}</span>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
+                    
+                    {/* Coluna Direita: Avisos e Documentos */}
+                    <div className="space-y-4">
+                      <p className='text-sm text-muted-foreground'>Para alocar a pasta do seu cliente nesta unidade, clique no botão abaixo e anexe os documentos necessários. A assinatura acontecerá no dia 01/12/2025.</p>
+                      
+                      <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
+                        <AlertTriangle className="h-4 w-4" />
+                        <AlertTitle>Atenção!</AlertTitle>
+                        <AlertDescription>
+                          O espelho de vendas não é o reflexo da disponibilidade em tempo real. Muitas unidades já podem possuir pastas em análise. A prioridade será definida por ordem de envio. Não perca tempo!
+                        </AlertDescription>
+                      </Alert>
+
+                      <div className='text-sm text-muted-foreground'>
+                        <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
+                          <ul className="list-disc list-inside space-y-1">
+                            <li>Ficha cadastro</li>
+                            <li>CNH/IDENTIDADE</li>
+                            <li>Comprovante de Residência</li>
+                            <li>Certidão de casamento / estado civil</li>
+                          </ul>
+                      </div>
+                    </div>
+
                   </div>
                 </AlertDialogDescription>
               )}
