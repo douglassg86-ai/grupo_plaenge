@@ -179,17 +179,39 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                       
                       <div className="space-y-4">
-                        <div>
-                          <div className="font-bold text-foreground">Detalhes da Unidade</div>
-                          <div className="text-muted-foreground">
-                              <p>Área: {selectedUnit.area.toFixed(2)} m²</p>
-                              <p className={cn({
-                                  'text-green-600': selectedUnit.status === 'Disponível',
-                                  'text-amber-600': selectedUnit.status === 'Pasta Alocada',
-                                  'text-red-600': selectedUnit.status === 'Vendido',
-                                })}>Status: {selectedUnit.status}</p>
-                          </div>
+                        <div className="text-muted-foreground">
+                            <span className='font-bold text-foreground'>{selectedUnit.area.toFixed(2)} m²</span>
+                             - <span className={cn('font-bold', {
+                                'text-green-600': selectedUnit.status === 'Disponível',
+                                'text-amber-600': selectedUnit.status === 'Pasta Alocada',
+                                'text-red-600': selectedUnit.status === 'Vendido',
+                            })}>{selectedUnit.status}</span>
                         </div>
+                        {selectedUnit.paymentFlow && (
+                          <div className="space-y-2">
+                            <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
+                            <Table>
+                              <TableHeader>
+                                <TableRow>
+                                  <TableHead className="text-center">Total</TableHead>
+                                  <TableHead className="text-center">Entrada (5x)</TableHead>
+                                  <TableHead className="text-center">Mensais (36x)</TableHead>
+                                  <TableHead className="text-center">Reforços (3x)</TableHead>
+                                  <TableHead className="text-center">Financiamento</TableHead>
+                                </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                <TableRow>
+                                  <TableCell className="font-medium text-center">{selectedUnit.paymentFlow.total}</TableCell>
+                                  <TableCell className="text-center">{selectedUnit.paymentFlow.downPayment}</TableCell>
+                                  <TableCell className="text-center">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
+                                  <TableCell className="text-center">{selectedUnit.paymentFlow.reinforcement}</TableCell>
+                                  <TableCell className="text-center">{selectedUnit.paymentFlow.financingBalance}</TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          </div>
+                        )}
                       </div>
                       
                       <div className="space-y-4">
@@ -210,35 +232,9 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                               <li>Certidão de casamento/estado civil</li>
                           </ul>
                         </div>
-                         <p className='text-xs text-muted-foreground'>Para alocar a pasta, clique em "Enviar documentação" e anexe os arquivos. A assinatura ocorrerá em 01/12/2025.</p>
                       </div>
 
                     </div>
-                    {selectedUnit.paymentFlow && (
-                      <div className="space-y-2">
-                        <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead className="text-center">Total</TableHead>
-                              <TableHead className="text-center">Entrada (5x)</TableHead>
-                              <TableHead className="text-center">Mensais (36x)</TableHead>
-                              <TableHead className="text-center">Reforços (3x)</TableHead>
-                              <TableHead className="text-center">Financiamento</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell className="font-medium text-center">{selectedUnit.paymentFlow.total}</TableCell>
-                              <TableCell className="text-center">{selectedUnit.paymentFlow.downPayment}</TableCell>
-                              <TableCell className="text-center">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
-                              <TableCell className="text-center">{selectedUnit.paymentFlow.reinforcement}</TableCell>
-                              <TableCell className="text-center">{selectedUnit.paymentFlow.financingBalance}</TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                      </div>
-                    )}
                   </div>
                 </AlertDialogDescription>
               )}
