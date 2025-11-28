@@ -172,7 +172,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
           <AlertDialogContent className="max-w-md">
             <AlertDialogHeader>
               {selectedUnit && (
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base font-semibold text-foreground mb-2">
+                <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-base font-semibold text-foreground mb-2">
                   <span>Unidade {selectedUnit.unit}</span>
                   <span className='text-muted-foreground font-normal'>&bull;</span>
                   <span>{selectedUnit.area.toFixed(2)} m²</span>
@@ -185,7 +185,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                 </div>
               )}
               <AlertDialogDescription asChild>
-                <div className="space-y-4 text-sm">
+                <div className="space-y-4 text-sm text-center">
                   {selectedUnit?.paymentFlow && (
                     <div className="space-y-2">
                       <h3 className="font-bold text-foreground">Fluxo de Pagamento</h3>
@@ -260,5 +260,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
+
+    
 
     
