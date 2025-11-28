@@ -126,25 +126,33 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     ))}
                   </div>
 
-                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
-                      {hasAvailable && (
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-sm bg-green-100 border border-green-300"></div>
-                            <span>Disponível</span>
-                        </div>
-                      )}
-                      {hasAllocated && (
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-sm bg-amber-100 border border-amber-300"></div>
-                            <span>Pasta Alocada</span>
-                        </div>
-                      )}
-                      {hasSold && (
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-sm bg-red-100 border border-red-300"></div>
-                            <span>Vendido</span>
-                        </div>
-                      )}
+                  <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
+                        {hasAvailable && (
+                          <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 rounded-sm bg-green-100 border border-green-300"></div>
+                              <span>Disponível</span>
+                          </div>
+                        )}
+                        {hasAllocated && (
+                          <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 rounded-sm bg-amber-100 border border-amber-300"></div>
+                              <span>Pasta Alocada</span>
+                          </div>
+                        )}
+                        {hasSold && (
+                          <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 rounded-sm bg-red-100 border border-red-300"></div>
+                              <span>Vendido</span>
+                          </div>
+                        )}
+                    </div>
+                    <Button asChild size="sm" variant="outline">
+                      <Link href="https://drive.google.com/drive/folders/11cd3uIwcpL9cLriCHuGNMPoHdT_5GbNL" target="_blank">
+                        <Download className="mr-2 h-4 w-4" />
+                        Baixar Tabela
+                      </Link>
+                    </Button>
                   </div>
                 </AccordionContent>
               </AccordionItem>
