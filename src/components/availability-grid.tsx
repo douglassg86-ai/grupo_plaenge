@@ -26,7 +26,6 @@ import Link from 'next/link';
 import { Download, Mail, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import { Separator } from './ui/separator';
 import {
   Table,
   TableBody,
@@ -170,71 +169,71 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         </Accordion>
         
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent className="max-w-md md:max-w-4xl">
+          <AlertDialogContent className="max-w-md">
             <AlertDialogHeader>
               <AlertDialogTitle>Unidade {selectedUnit?.unit}</AlertDialogTitle>
               {selectedUnit && (
                 <AlertDialogDescription asChild>
-                  <div className="pt-4 text-sm space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                      
-                      <div className="space-y-4">
-                        <div className="text-muted-foreground">
-                            <span className='font-bold text-foreground'>{selectedUnit.area.toFixed(2)} m²</span>
-                             - <span className={cn('font-bold', {
-                                'text-green-600': selectedUnit.status === 'Disponível',
-                                'text-amber-600': selectedUnit.status === 'Pasta Alocada',
-                                'text-red-600': selectedUnit.status === 'Vendido',
-                            })}>{selectedUnit.status}</span>
-                        </div>
-                        {selectedUnit.paymentFlow && (
-                          <div className="space-y-2">
-                            <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead className="text-center">Total</TableHead>
-                                  <TableHead className="text-center">Entrada (5x)</TableHead>
-                                  <TableHead className="text-center">Mensais (36x)</TableHead>
-                                  <TableHead className="text-center">Reforços (3x)</TableHead>
-                                  <TableHead className="text-center">Financiamento</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                <TableRow>
-                                  <TableCell className="font-medium text-center">{selectedUnit.paymentFlow.total}</TableCell>
-                                  <TableCell className="text-center">{selectedUnit.paymentFlow.downPayment}</TableCell>
-                                  <TableCell className="text-center">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
-                                  <TableCell className="text-center">{selectedUnit.paymentFlow.reinforcement}</TableCell>
-                                  <TableCell className="text-center">{selectedUnit.paymentFlow.financingBalance}</TableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="space-y-4">
-                         <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
-                          <AlertTriangle className="h-4 w-4" />
-                          <AlertTitle>Atenção!</AlertTitle>
-                          <AlertDescription>
-                            O espelho de vendas não reflete a disponibilidade em tempo real. A prioridade é por ordem de envio. Não perca tempo!
-                          </AlertDescription>
-                        </Alert>
-
-                        <div>
-                          <p className="font-bold text-foreground/90 mb-2">Documentos para a pasta:</p>
-                          <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                              <li>Ficha cadastro</li>
-                              <li>CNH/IDENTIDADE</li>
-                              <li>Comprovante de Residência</li>
-                              <li>Certidão de casamento/estado civil</li>
-                          </ul>
-                        </div>
-                      </div>
-
+                  <div className="pt-2 text-sm space-y-6">
+                    
+                    <div className="flex items-center gap-4 text-base">
+                        <span className='font-bold text-foreground'>{selectedUnit.area.toFixed(2)} m²</span>
+                        <span className='text-muted-foreground'>&bull;</span>
+                        <span className={cn('font-bold', {
+                            'text-green-600': selectedUnit.status === 'Disponível',
+                            'text-amber-600': selectedUnit.status === 'Pasta Alocada',
+                            'text-red-600': selectedUnit.status === 'Vendido',
+                        })}>{selectedUnit.status}</span>
                     </div>
+
+                    <div className="space-y-4">
+                      {selectedUnit.paymentFlow && (
+                        <div className="space-y-2">
+                          <h3 className="font-bold text-foreground mb-2">Fluxo de Pagamento</h3>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead className="text-center">Total</TableHead>
+                                <TableHead className="text-center">Entrada (5x)</TableHead>
+                                <TableHead className="text-center">Mensais (36x)</TableHead>
+                                <TableHead className="text-center">Reforços (3x)</TableHead>
+                                <TableHead className="text-center">Financiamento</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              <TableRow>
+                                <TableCell className="font-medium text-center">{selectedUnit.paymentFlow.total}</TableCell>
+                                <TableCell className="text-center">{selectedUnit.paymentFlow.downPayment}</TableCell>
+                                <TableCell className="text-center">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
+                                <TableCell className="text-center">{selectedUnit.paymentFlow.reinforcement}</TableCell>
+                                <TableCell className="text-center">{selectedUnit.paymentFlow.financingBalance}</TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-4">
+                       <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
+                        <AlertTriangle className="h-4 w-4" />
+                        <AlertTitle>Atenção!</AlertTitle>
+                        <AlertDescription>
+                          O espelho de vendas não reflete a disponibilidade em tempo real. A prioridade é por ordem de envio. Não perca tempo!
+                        </AlertDescription>
+                      </Alert>
+
+                      <div>
+                        <p className="font-bold text-foreground/90 mb-2">Documentos para a pasta:</p>
+                        <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                            <li>Ficha cadastro</li>
+                            <li>CNH/IDENTIDADE</li>
+                            <li>Comprovante de Residência</li>
+                            <li>Certidão de casamento/estado civil</li>
+                        </ul>
+                      </div>
+                    </div>
+
                   </div>
                 </AlertDialogDescription>
               )}
