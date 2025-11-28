@@ -1,3 +1,4 @@
+
 import type { Project } from '@/lib/types';
 import { paymentData } from '@/lib/payment-data';
 
@@ -6,9 +7,9 @@ const shiftAvailability = [
   { unit: '202', type: 'Studio', area: 23.66, status: 'Pasta Alocada' },
   { unit: '203', type: 'Studio', area: 23.66, status: 'Disponível' },
   { unit: '204', type: 'Studio', area: 24.38, status: 'Disponível' },
-  { unit: '205', type: 'Studio', area: 25.78, status: 'Pasta Alocada' },
-  { unit: '206', type: 'Studio', area: 25.42, status: 'Pasta Alocada' },
-  { unit: '207', type: 'Studio', area: 25.42, status: 'Pasta Alocada' },
+  { unit: '205', type: 'Studio', area: 25.78, status: 'Disponível' },
+  { unit: '206', type: 'Studio', area: 25.42, status: 'Disponível' },
+  { unit: '207', type: 'Studio', area: 25.42, status: 'Disponível' },
   { unit: '208', type: 'Studio', area: 25.48, status: 'Disponível' },
   { unit: '209', type: 'Studio', area: 25.48, status: 'Disponível' },
   { unit: '210', type: 'Studio', area: 25.48, status: 'Disponível' },
@@ -74,7 +75,7 @@ const shiftAvailability = [
   { unit: '610', type: 'Studio', area: 25.48, status: 'Disponível' },
   { unit: '611', type: 'Studio', area: 25.48, status: 'Disponível' },
   { unit: '612', type: 'Studio', area: 25.78, status: 'Pasta Alocada' },
-  { unit: '613', type: 'Studio', area: 24.28, status: 'Pasta Alocada' },
+  { unit: '613', type: 'Studio', area: 24.28, status: 'Disponível' },
   { unit: '614', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '615', type: 'Studio', area: 24.28, status: 'Disponível' },
   { unit: '701', type: 'Studio', area: 24.38, status: 'Disponível' },
@@ -88,7 +89,7 @@ const shiftAvailability = [
   { unit: '709', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '710', type: 'Studio', area: 25.48, status: 'Disponível' },
   { unit: '711', type: 'Studio', area: 25.48, status: 'Disponível' },
-  { unit: '712', type: 'Studio', area: 25.78, status: 'Disponível' },
+  { unit: '712', type: 'Studio', area: 25.78, status: 'Pasta Alocada' },
   { unit: '713', type: 'Studio', area: 24.28, status: 'Pasta Alocada' },
   { unit: '714', type: 'Studio', area: 23.75, status: 'Disponível' },
   { unit: '715', type: 'Studio', area: 24.28, status: 'Disponível' },
