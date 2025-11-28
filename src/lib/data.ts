@@ -362,7 +362,7 @@ export const projects: Project[] = [
     floorPlanImageIds: ['shift-floor-plan-1','shift-floor-plan-2','shift-floor-plan-3','shift-floor-plan-4','shift-floor-plan-5','shift-floor-plan-6','shift-floor-plan-7'],
     bannerImageIds: ['shift-banner-1', 'shift-banner-2', 'shift-banner-3', 'shift-banner-4', 'shift-banner-5'],
     location: {
-      address: 'Rua Silva Jardim, 21 (esquina com Rua 24 de Outubro), Moinhos de Vento, Porto Alegre, RS',
+      address: 'Silva Jardim, 21 (esquina com Rua 24 de Outubro), Moinhos de Vento, Porto Alegre, RS',
       mapImageId: 'map-placeholder',
     },
     videoUrl: 'https://www.youtube.com/embed/BV_BpuNq1BI',
