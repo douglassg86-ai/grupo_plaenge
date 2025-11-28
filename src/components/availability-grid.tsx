@@ -171,12 +171,14 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <AlertDialogContent className="max-w-md">
             <AlertDialogHeader>
-              <AlertDialogTitle>Unidade {selectedUnit?.unit}</AlertDialogTitle>
+              <AlertDialogTitle>Detalhes da Unidade</AlertDialogTitle>
               {selectedUnit && (
                 <AlertDialogDescription asChild>
                   <div className="pt-2 text-sm space-y-6">
                     
-                    <div className="flex items-center gap-4 text-base">
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base">
+                        <span className='font-bold text-foreground'>Unidade {selectedUnit.unit}</span>
+                        <span className='text-muted-foreground'>&bull;</span>
                         <span className='font-bold text-foreground'>{selectedUnit.area.toFixed(2)} m²</span>
                         <span className='text-muted-foreground'>&bull;</span>
                         <span className={cn('font-bold', {
