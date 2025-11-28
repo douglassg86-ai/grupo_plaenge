@@ -172,7 +172,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
           <AlertDialogContent className="max-w-md">
             <AlertDialogHeader>
               {selectedUnit && (
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base font-semibold text-foreground mb-4">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base font-semibold text-foreground mb-2">
                   <span>Unidade {selectedUnit.unit}</span>
                   <span className='text-muted-foreground font-normal'>&bull;</span>
                   <span>{selectedUnit.area.toFixed(2)} m²</span>
@@ -185,45 +185,45 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                 </div>
               )}
               <AlertDialogDescription asChild>
-                <div className="space-y-6 text-sm">
+                <div className="space-y-4 text-sm">
                   {selectedUnit?.paymentFlow && (
                     <div className="space-y-2">
                       <h3 className="font-bold text-foreground">Fluxo de Pagamento</h3>
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead className="text-center">Total</TableHead>
-                            <TableHead className="text-center">Entrada (5x)</TableHead>
-                            <TableHead className="text-center">Mensais (36x)</TableHead>
-                            <TableHead className="text-center">Reforços (3x)</TableHead>
-                            <TableHead className="text-center">Financiamento</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-xs">Total</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-xs">Entrada (5x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-xs">Mensais (36x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-xs">Reforços (3x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-xs">Financiamento</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           <TableRow>
-                            <TableCell className="font-medium text-center">{selectedUnit.paymentFlow.total}</TableCell>
-                            <TableCell className="text-center">{selectedUnit.paymentFlow.downPayment}</TableCell>
-                            <TableCell className="text-center">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
-                            <TableCell className="text-center">{selectedUnit.paymentFlow.reinforcement}</TableCell>
-                            <TableCell className="text-center">{selectedUnit.paymentFlow.financingBalance}</TableCell>
+                            <TableCell className="font-medium text-center p-1 text-xs">{selectedUnit.paymentFlow.total}</TableCell>
+                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.downPayment}</TableCell>
+                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
+                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.reinforcement}</TableCell>
+                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.financingBalance}</TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
                     </div>
                   )}
                   
-                  <div className="space-y-4">
-                     <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
+                  <div className="space-y-3">
+                     <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600 p-3">
                       <AlertTriangle className="h-4 w-4" />
-                      <AlertTitle>Atenção!</AlertTitle>
-                      <AlertDescription>
+                      <AlertTitle className="text-sm">Atenção!</AlertTitle>
+                      <AlertDescription className="text-xs">
                         O espelho de vendas não reflete a disponibilidade em tempo real. A prioridade é por ordem de envio. Não perca tempo!
                       </AlertDescription>
                     </Alert>
 
                     <div>
-                      <p className="font-bold text-foreground/90 mb-2">Documentos para a pasta:</p>
-                      <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                      <p className="font-bold text-foreground/90 mb-1 text-sm">Documentos para a pasta:</p>
+                      <ul className="list-disc list-inside space-y-0.5 text-xs text-muted-foreground">
                           <li>Ficha cadastro</li>
                           <li>CNH/IDENTIDADE</li>
                           <li>Comprovante de Residência</li>
@@ -260,3 +260,5 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
+
+    
