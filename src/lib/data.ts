@@ -156,7 +156,7 @@ const shiftAvailability = [
   { unit: '1208', type: 'Studio', area: 23.75, status: 'Pasta Alocada' },
   { unit: '1209', type: 'Studio', area: 74.7, status: 'Pasta Alocada' },
   { unit: '1210', type: 'Studio', area: 33.7, status: 'Pasta Alocada' },
-  { unit: '1211', type: 'Studio', area: 24.28, status: 'Disponível' },
+  { unit: '1211', type: 'Studio', area: 24.28, status: 'Pasta Alocada' },
   { unit: '1301', type: 'Studio', area: 24.38, status: 'Disponível' },
   { unit: '1302', type: 'Studio', area: 23.66, status: 'Disponível' },
   { unit: '1303', type: 'Studio', area: 23.66, status: 'Disponível' },
