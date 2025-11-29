@@ -25,7 +25,7 @@ import {
 import Link from 'next/link';
 import { Download, Mail, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Alert, AlertDescription, AlertTitle as AlertTitleComponent } from './ui/alert';
 import {
   Table,
   TableBody,
@@ -169,21 +169,22 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         </Accordion>
         
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent className="max-w-md sm:max-w-lg">
+          <AlertDialogContent className="max-w-md">
             <AlertDialogHeader className="text-center">
-              {selectedUnit && (
-                <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-base font-semibold text-foreground mb-2">
-                  <span>Unidade {selectedUnit.unit}</span>
-                  <span className='text-muted-foreground font-normal'>&bull;</span>
-                  <span>{selectedUnit.area.toFixed(2)} m²</span>
-                  <span className='text-muted-foreground font-normal'>&bull;</span>
-                  <span className={cn('font-bold', {
-                      'text-green-600': selectedUnit.status === 'Disponível',
-                      'text-amber-600': selectedUnit.status === 'Pasta Alocada',
-                      'text-red-600': selectedUnit.status === 'Vendido',
-                  })}>{selectedUnit.status}</span>
-                </div>
-              )}
+              {selectedUnit && <AlertDialogTitle className="sr-only">Detalhes da Unidade {selectedUnit.unit}</AlertDialogTitle>}
+                {selectedUnit && (
+                  <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-base font-semibold text-foreground mb-2">
+                    <span>Unidade {selectedUnit.unit}</span>
+                    <span className='text-muted-foreground font-normal'>&bull;</span>
+                    <span>{selectedUnit.area.toFixed(2)} m²</span>
+                    <span className='text-muted-foreground font-normal'>&bull;</span>
+                    <span className={cn('font-bold', {
+                        'text-green-600': selectedUnit.status === 'Disponível',
+                        'text-amber-600': selectedUnit.status === 'Pasta Alocada',
+                        'text-red-600': selectedUnit.status === 'Vendido',
+                    })}>{selectedUnit.status}</span>
+                  </div>
+                )}
               <AlertDialogDescription asChild>
                 <div className="space-y-4 text-sm text-center">
                   {selectedUnit?.paymentFlow && (
@@ -215,13 +216,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   <div className="space-y-3">
                      <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600 p-3 text-center">
                       <AlertTriangle className="h-4 w-4" />
-                      <AlertTitle className="text-sm">Atenção!</AlertTitle>
+                      <AlertTitleComponent className="text-xs">Atenção!</AlertTitleComponent>
                       <AlertDescription className="text-xs">
                         O espelho de vendas não reflete a disponibilidade em tempo real. A prioridade é por ordem de envio. Não perca tempo!
                       </AlertDescription>
                     </Alert>
 
-                    <div>
+                    <div className='text-center'>
                       <p className="font-bold text-foreground/90 mb-1 text-sm">Documentos para a pasta:</p>
                       <ul className="list-disc list-inside space-y-0.5 text-xs text-muted-foreground">
                           <li>Ficha cadastro</li>
@@ -260,3 +261,5 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
+
+    
