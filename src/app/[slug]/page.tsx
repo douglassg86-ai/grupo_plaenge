@@ -10,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail, Download, AlertTriangle } from 'lucide-react';
+import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail, FilePenLine, AlertTriangle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
@@ -247,9 +247,9 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                     </Card>
                     <div className="mt-6 flex flex-col sm:flex-row gap-2 justify-center">
                        <Button asChild size="lg" variant="outline">
-                        <Link href="https://b.link/ficha_cadastro" target="_blank">
-                          <Download className="mr-2 h-4 w-4" />
-                          Baixar Ficha de Cadastro
+                        <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
+                          <FilePenLine className="mr-2 h-4 w-4" />
+                          Preencher Ficha Cadastro
                         </Link>
                       </Button>
                       <Button asChild size="lg">

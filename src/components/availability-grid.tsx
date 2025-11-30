@@ -23,7 +23,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import Link from 'next/link';
-import { Download, Mail, AlertTriangle } from 'lucide-react';
+import { Download, Mail, AlertTriangle, FilePenLine } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle as AlertTitleComponent } from './ui/alert';
 import {
@@ -169,7 +169,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         </Accordion>
         
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent className="max-w-md">
+          <AlertDialogContent className="max-w-md md:max-w-xl">
             <AlertDialogHeader className="text-center">
               {selectedUnit && <AlertDialogTitle className="sr-only">Detalhes da Unidade {selectedUnit.unit}</AlertDialogTitle>}
                 {selectedUnit && (
@@ -193,20 +193,20 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead className="text-center h-auto p-1 text-xs">Total</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-xs">Entrada (5x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-xs">Mensais (36x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-xs">Reforços (3x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-xs">Financiamento</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Total</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Entrada (5x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Mensais (36x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Reforços (3x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Financiamento</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           <TableRow>
-                            <TableCell className="font-medium text-center p-1 text-xs">{selectedUnit.paymentFlow.total}</TableCell>
-                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.downPayment}</TableCell>
-                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
-                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.reinforcement}</TableCell>
-                            <TableCell className="text-center p-1 text-xs">{selectedUnit.paymentFlow.financingBalance}</TableCell>
+                            <TableCell className="font-medium text-center p-1 text-[10px] md:text-xs">{selectedUnit.paymentFlow.total}</TableCell>
+                            <TableCell className="text-center p-1 text-[10px] md:text-xs">{selectedUnit.paymentFlow.downPayment}</TableCell>
+                            <TableCell className="text-center p-1 text-[10px] md:text-xs">{selectedUnit.paymentFlow.monthlyInstallment}</TableCell>
+                            <TableCell className="text-center p-1 text-[10px] md:text-xs">{selectedUnit.paymentFlow.reinforcement}</TableCell>
+                            <TableCell className="text-center p-1 text-[10px] md:text-xs">{selectedUnit.paymentFlow.financingBalance}</TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
@@ -216,8 +216,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   <div className="space-y-3">
                      <Alert variant="destructive" className="bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600 p-3 text-center">
                       <AlertTriangle className="h-4 w-4" />
-                      <AlertTitleComponent className="text-xs">Atenção!</AlertTitleComponent>
-                      <AlertDescription className="text-xs">
+                      <AlertTitleComponent className="text-[11px] md:text-xs">Atenção!</AlertTitleComponent>
+                      <AlertDescription className="text-[11px] md:text-xs">
                         O espelho de vendas não reflete a disponibilidade em tempo real. A prioridade é por ordem de envio. Não perca tempo!
                       </AlertDescription>
                     </Alert>
@@ -240,9 +240,9 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               {selectedUnit && (
                 <>
                   <Button asChild variant="outline">
-                    <Link href="https://b.link/ficha_cadastro" target="_blank">
-                      <Download className="mr-2 h-4 w-4" />
-                      Baixar Ficha
+                    <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
+                      <FilePenLine className="mr-2 h-4 w-4" />
+                      Preencher Ficha
                     </Link>
                   </Button>
                   <AlertDialogAction asChild>
