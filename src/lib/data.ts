@@ -366,9 +366,10 @@ export const projects: Project[] = [
       address: 'Silva Jardim, 21 (esquina com Rua 24 de Outubro), Moinhos de Vento, Porto Alegre, RS',
       mapImageId: 'map-placeholder',
     },
-    videoUrl: 'https://www.youtube.com/embed/BV_BpuNq1BI',
+    videoUrl: 'https://www.youtube.com/embed/wSoKcCmErg8',
     availability: shiftAvailability,
   },
 ];
+
 
 
