@@ -194,7 +194,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                       <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><Film className="text-accent" /> Vídeo</h2>
                       <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
                         <iframe
-                          src={project.videoUrl}
+                          src={project.videoUrl.replace("youtu.be/", "youtube.com/embed/")}
                           title={`Vídeo ${project.name}`}
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -209,9 +209,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <Separator />
               
               <div>
-                <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center gap-3"><BedDouble className="text-accent"/> Espelho de Vendas</h2>
+                <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center justify-center gap-3"><BedDouble className="text-accent"/> Espelho de Vendas</h2>
                 {project.slug === 'shift' ? (
-                  <AvailabilityGrid availability={project.availability} />
+                   <Card>
+                    <CardContent className="p-4 text-center">
+                        <p className="text-muted-foreground">Consulte Disponibilidade</p>
+                    </CardContent>
+                  </Card>
                 ) : (
                   <Card>
                     <p className="p-4 text-muted-foreground">Tabela de disponibilidade não implementada para este projeto.</p>
