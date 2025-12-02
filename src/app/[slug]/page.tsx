@@ -211,11 +211,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <div>
                 <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center justify-center gap-3"><BedDouble className="text-accent"/> Espelho de Vendas</h2>
                 {project.slug === 'shift' ? (
-                   <Card>
-                    <CardContent className="p-4 text-center">
-                        <p className="text-muted-foreground">Consulte Disponibilidade</p>
-                    </CardContent>
-                  </Card>
+                  <AvailabilityGrid availability={project.availability} />
                 ) : (
                   <Card>
                     <p className="p-4 text-muted-foreground">Tabela de disponibilidade não implementada para este projeto.</p>
