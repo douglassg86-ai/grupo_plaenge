@@ -95,6 +95,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
               const hasAvailable = units.some(u => u.status === 'Disponível');
               const hasAllocated = units.some(u => u.status === 'Pasta Alocada');
               const hasSold = units.some(u => u.status === 'Vendido');
+              const hasConsult = units.some(u => u.status === 'Consulte Disponibilidade');
 
               return (
               <AccordionItem value={`item-${floor}`} key={floor}>
@@ -126,6 +127,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200': unit.status === 'Pasta Alocada',
                             'bg-red-100 border-red-300 text-red-800 hover:bg-red-200 cursor-not-allowed': unit.status === 'Vendido',
+                             'bg-gray-100 border-gray-300 text-gray-800 hover:bg-gray-200': unit.status === 'Consulte Disponibilidade',
                           }
                         )}
                         disabled={unit.status === 'Vendido'}
@@ -137,6 +139,12 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
                   <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
+                        {hasConsult && (
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-sm bg-gray-100 border border-gray-300"></div>
+                                <span>Consulte Disponibilidade</span>
+                            </div>
+                        )}
                         {hasAvailable && (
                           <div className="flex items-center gap-2">
                               <div className="w-3 h-3 rounded-sm bg-green-100 border border-green-300"></div>
@@ -169,7 +177,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
         </Accordion>
         
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent className="max-w-md md:max-w-xl">
+          <AlertDialogContent className="max-w-md md:max-w-2xl">
             <AlertDialogHeader className="text-center">
               {selectedUnit && <AlertDialogTitle className="sr-only">Detalhes da Unidade {selectedUnit.unit}</AlertDialogTitle>}
                 {selectedUnit && (
@@ -182,6 +190,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         'text-green-600': selectedUnit.status === 'Disponível',
                         'text-amber-600': selectedUnit.status === 'Pasta Alocada',
                         'text-red-600': selectedUnit.status === 'Vendido',
+                        'text-gray-600': selectedUnit.status === 'Consulte Disponibilidade',
                     })}>{selectedUnit.status}</span>
                   </div>
                 )}
@@ -242,7 +251,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   <Button asChild variant="outline">
                     <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
                       <FilePenLine className="mr-2 h-4 w-4" />
-                      Preencher Ficha
+                      Preencher Ficha Cadastro
                     </Link>
                   </Button>
                   <AlertDialogAction asChild>

@@ -3,7 +3,7 @@ export type Availability = {
   unit: string;
   type: string;
   area: number;
-  status: 'Disponível' | 'Vendido' | 'Pasta Alocada';
+  status: 'Disponível' | 'Vendido' | 'Pasta Alocada' | 'Consulte Disponibilidade';
   paymentFlow?: {
     total: string;
     downPayment: string;
