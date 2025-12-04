@@ -168,13 +168,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                       aspectRatioClassName="aspect-square"
                     />
                      <div className="text-center mt-6">
+                      <p className="text-sm text-muted-foreground mb-2">Clique aqui para conhecer o apartamento decorado</p>
                       <Button asChild size="lg">
                         <Link href="https://drive.google.com/open?id=19ty8sjzOZqh_A0TL8onILqtRlX1rcMr9&usp=drive_fs" target="_blank">
                           <Camera className="mr-2 h-4 w-4" />
                           Fotos Decorado
                         </Link>
                       </Button>
-                      <p className="text-sm text-muted-foreground mt-2">Clique aqui para conhecer o apartamento decorado</p>
                     </div>
                   </div>
                 </>
