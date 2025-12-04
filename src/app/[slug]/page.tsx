@@ -10,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail, FilePenLine, AlertTriangle } from 'lucide-react';
+import { MapPin, Film, BedDouble, LayoutPanelLeft, Mail, FilePenLine, AlertTriangle, Camera } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
@@ -167,6 +167,14 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                       itemClassName="md:basis-1/2 lg:basis-1/2"
                       aspectRatioClassName="aspect-square"
                     />
+                     <div className="text-center mt-6">
+                      <Button asChild size="lg">
+                        <Link href="https://drive.google.com/open?id=19ty8sjzOZqh_A0TL8onILqtRlX1rcMr9&usp=drive_fs" target="_blank">
+                          <Camera className="mr-2 h-4 w-4" />
+                          Fotos Decorado
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
                 </>
               )}
