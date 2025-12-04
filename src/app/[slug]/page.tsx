@@ -174,6 +174,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                           Fotos Decorado
                         </Link>
                       </Button>
+                      <p className="text-sm text-muted-foreground mt-2">Clique aqui para conhecer o apartamento decorado</p>
                     </div>
                   </div>
                 </>
