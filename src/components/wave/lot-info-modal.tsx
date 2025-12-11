@@ -8,12 +8,9 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { recommendSimilarLots, LotRecommendation } from '@/ai/flows/recommend-lots-flow';
 import { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Lot } from '@/lib/wave-data';
-import { Loader2 } from 'lucide-react';
 import { lots as allLots } from '@/lib/wave-data';
 
 interface LotInfoModalProps {
@@ -26,28 +23,6 @@ interface LotInfoModalProps {
 const EXECUTIVE_PHONE = '5551980800821';
 
 export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false }: LotInfoModalProps) {
-    const [recommendations, setRecommendations] = useState<LotRecommendation[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        if (isOpen && (lot.status === 'available' || lot.status === 'opportunity')) {
-            setIsLoading(true);
-            setRecommendations([]);
-            recommendSimilarLots({
-                type: lot.type,
-                area: lot.area,
-                price: lot.price,
-            }).then(response => {
-                if (response.output) {
-                    setRecommendations(response.output.recommendations);
-                }
-                setIsLoading(false);
-            }).catch(err => {
-                console.error("Error getting recommendations:", err);
-                setIsLoading(false);
-            })
-        }
-    }, [isOpen, lot]);
 
     if(lot.status === 'sold' || lot.status === 'negotiation'){
         return null;
@@ -60,33 +35,6 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
 
     const whatsappMessage = encodeURIComponent(`Olá, Douglas! Tenho interesse no lote ${lot.block} L${lot.number} (${lot.area} m², ${formattedPrice}) no Wave Home Resort.`);
     const whatsappUrl = `https://wa.me/${EXECUTIVE_PHONE}?text=${whatsappMessage}`;
-
-    const handleRecommendationClick = (rec: LotRecommendation) => {
-        const newLot = allLots.find(l => l.id === rec.lotId);
-        if (newLot) {
-            onClose();
-            // A small delay to allow the modal to close before the new one opens
-            setTimeout(() => {
-                const event = new CustomEvent('selectlot', { detail: newLot });
-                window.dispatchEvent(event);
-            }, 200);
-        }
-    };
-
-    useEffect(() => {
-        const handleSelectLot = (event: Event) => {
-            const customEvent = event as CustomEvent;
-            const newLot = customEvent.detail;
-            const eventLotSelect = new CustomEvent('lotselect', { detail: newLot });
-            window.dispatchEvent(eventLotSelect);
-        };
-    
-        window.addEventListener('selectlot', handleSelectLot);
-    
-        return () => {
-            window.removeEventListener('selectlot', handleSelectLot);
-        };
-    }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -106,31 +54,6 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
                  <div className="mt-2 text-center">
                     <Badge variant="destructive" className="text-sm animate-pulse-strong bg-accent text-accent-foreground">ATÉ 80% FINANCIADO PELA CAIXA</Badge>
                  </div>
-            </div>
-
-            <div>
-                <h4 className="font-bold text-lg mb-2 text-primary">Lotes similares que podem te interessar:</h4>
-                {isLoading ? (
-                    <div className="flex items-center justify-center h-24">
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                    {recommendations.map(rec => (
-                        <Card 
-                            key={rec.lotId} 
-                            className="p-3 text-center text-sm cursor-pointer hover:bg-muted"
-                            onClick={() => handleRecommendationClick(rec)}
-                        >
-                            <CardContent className="p-0 space-y-1">
-                                <p className="font-bold text-base">Lote {rec.lotNumber}</p>
-                                <p className="text-muted-foreground">Qd. {rec.block} ({rec.area}m²)</p>
-                                <p className="text-xs text-muted-foreground">{rec.justification}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                    </div>
-                )}
             </div>
         </div>
 
