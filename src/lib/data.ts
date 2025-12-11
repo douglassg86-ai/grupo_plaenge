@@ -292,57 +292,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 5,
-    name: 'WAVE HOME RESORT',
-    brand: 'Vanguard',
-    slug: 'wave-home-resort',
-    description: 'Seu refúgio particular à beira-mar.',
-    longDescription: 'O WAVE HOME RESORT foi projetado para quem busca um estilo de vida sofisticado e, ao mesmo tempo, descontraído. Com uma arquitetura moderna que se integra perfeitamente à paisagem litorânea, o empreendimento oferece apartamentos amplos, com varandas generosas e uma vista espetacular para o mar. Aqui, cada detalhe foi pensado para proporcionar o máximo de conforto e bem-estar aos seus moradores.',
-    heroImageId: 'aquavista-hero',
-    aboutImageId: 'aquavista-about',
-    galleryImageIds: ['aquavista-gal-1', 'aquavista-gal-2', 'aquavista-gal-3', 'aquavista-gal-4', 'aquavista-gal-5', 'aquavista-gal-6'],
-    floorPlanImageIds: ['aquavista-plan-1', 'aquavista-plan-2'],
-    highlights: [
-      {
-        icon: 'Waves',
-        title: 'VISTA PARA O MAR',
-        description: 'Todos os apartamentos com vista permanente para o oceano.',
-      },
-      {
-        icon: 'Palmtree',
-        title: 'LAZER COMPLETO',
-        description: 'Piscina com borda infinita, spa, academia e salão de festas.',
-      },
-      {
-        icon: 'Building2',
-        title: 'DESIGN MODERNO',
-        description: 'Arquitetura contemporânea que valoriza a luz e a ventilação natural.',
-      },
-      {
-        icon: 'MapPin',
-        title: 'LOCALIZAÇÃO PRIVILEGIADA',
-        description: 'A poucos passos da praia e próximo a restaurantes e lojas.',
-      },
-    ],
-    location: {
-      address: 'Av. Beira Mar, 202, Praia Bela, Litoral',
-      mapImageId: 'map-placeholder',
-    },
-    availability: [
-      { unit: 'T1-303', type: '2 Quartos Vista Mar', area: 88, status: 'Disponível' },
-      { unit: 'T1-304', type: '2 Quartos Vista Mar', area: 88, status: 'Vendido' },
-      { unit: 'T2-501', type: '3 Quartos Vista Mar', area: 115, status: 'Disponível' },
-    ],
-    theme: {
-      primary: '200 80% 30%',
-      primaryForeground: '210 40% 98%',
-      secondary: '210 40% 96.1%',
-      accent: '200 90% 50%',
-    },
-    contactButtonText: 'FALAR COM UM CONSULTOR',
-    contactButtonLink: '#',
-  },
-  {
     id: 6,
     name: 'YUNA JARDIM BOTÂNICO',
     brand: 'Vanguard',
@@ -400,4 +349,22 @@ export const projects: Project[] = [
     videoUrl: 'https://youtu.be/wSoKcCmErg8',
     availability: shiftAvailability,
   },
+  {
+    id: 5,
+    name: 'WAVE2',
+    brand: 'Vanguard',
+    slug: 'wave2',
+    description: 'Seu refúgio particular em Xangri-lá.',
+    heroImageId: 'wave-hero',
+    galleryImageIds: [],
+    floorPlanImageIds: [],
+    location: {
+      address: 'Av. José Bruno Klein, 879, Xangri-lá',
+      mapImageId: 'map-placeholder',
+    },
+    videoUrl: 'https://www.youtube.com/embed/uWSRtxyZ2i4',
+    availability: [], // A disponibilidade será gerenciada pela página
+  },
 ];
+
+    

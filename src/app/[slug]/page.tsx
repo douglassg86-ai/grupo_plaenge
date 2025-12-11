@@ -1,5 +1,6 @@
 
 
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,6 +20,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { Button } from '@/components/ui/button';
 import { FloatingWhatsAppButton } from '@/components/floating-whatsapp-button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import HomePageClient from '@/components/wave/home-page-client';
 
 type ProjectPageProps = {
   params: {
@@ -50,6 +52,10 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
   if (!project) {
     notFound();
+  }
+  
+  if (project.slug === 'wave2') {
+    return <HomePageClient />;
   }
 
   const heroImage = placeholderImages.find((img) => img.id === project.heroImageId);
@@ -283,5 +289,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     </div>
   );
 }
+
+    
 
     

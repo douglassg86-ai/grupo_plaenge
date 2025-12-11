@@ -429,19 +429,19 @@
     {
       "id": "shift-gal-2",
       "description": "Interior of a modern studio apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1648536474504-7bbf8a1ee3ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb2Rlcm4lMjBpbnRlcmlvcnxlbnwwfHx8fDE3NjM3Mjc2NjJ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1648536474504-7bbf8a1ee3ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb2Rlcm4lMjBpbnRlcmlvcnxlbnwwfHx8fDE3NjM3Mjc2NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "modern interior"
     },
     {
       "id": "shift-gal-3",
       "description": "Gourmet restaurant Roister nearby.",
-      "imageUrl": "https://images.unsplash.com/photo-1596189181426-7f63a1737f0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnb3VybWV0JTIwZm9vZHxlbnwwfHx8fDE3NjM3MzY3MjN8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1596189181426-7f63a1737f0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnb3VybWV0JTIwZm9vZHxlbnwwfHx8fDE3NjM3MzY3MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "gourmet food"
     },
     {
       "id": "shift-plan-1",
       "description": "Floor plan for a SHIFT studio unit.",
-      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzYzNzUzNTI2fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzYzNzUzNTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     },
     {
@@ -515,6 +515,12 @@
       "description": "Planta do SHIFT 7",
       "imageUrl": "/SHIFT/plantas_shift7.png",
       "imageHint": "floor plan"
+    },
+    {
+      "id": "wave-hero",
+      "description": "Vista do resort ao entardecer",
+      "imageUrl": "/header-background.jpg",
+      "imageHint": "resort sunset"
     }
   ]
 }
