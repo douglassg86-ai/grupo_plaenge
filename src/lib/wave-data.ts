@@ -29,50 +29,47 @@ export const blockTotals: Record<string, number> = {
 const parseCurrency = (value: string) => parseFloat(value.replace(/\./g, '').replace(',', '.'));
 
 let idCounter = 1;
-const allLots: Lot[] = [];
-
-// Populate all lots for each block, marking specified ones as available
-for (const [blockName, total] of Object.entries(blockTotals)) {
-  const shortBlock = blockName;
-  const availableLotsInBlock = lotData[`Quadra ${shortBlock}` as keyof typeof lotData] || {};
-  
-  for (let i = 1; i <= total; i++) {
-    const lotNumber = `${shortBlock} L${i}`;
-    const availableData = availableLotsInBlock[lotNumber as keyof typeof availableLotsInBlock];
+export const lots: Lot[] = Object.entries(blockTotals).flatMap(([blockName, total]) => {
+    const shortBlock = blockName;
+    const availableLotsInBlock = lotData[`Quadra ${shortBlock}` as keyof typeof lotData] || {};
     
-    if (availableData) {
-      allLots.push({
-        id: idCounter++,
-        block: shortBlock,
-        number: `${i}`,
-        price: parseCurrency(availableData.price),
-        area: parseCurrency(availableData.area),
-        type: availableData.type,
-        status: 'available'
-      });
-    } else {
-      allLots.push({
-        id: idCounter++,
-        block: shortBlock,
-        number: `${i}`,
-        price: 0, // Placeholder
-        area: 0, // Placeholder
-        type: 'SECO', // Placeholder
-        status: 'sold' 
-      });
-    }
-  }
-}
+    return Array.from({ length: total }, (_, i) => {
+        const lotNum = i + 1;
+        const lotKey = `${shortBlock} L${lotNum}`;
+        const availableData = availableLotsInBlock[lotKey as keyof typeof availableLotsInBlock];
+
+        if (availableData) {
+            return {
+                id: idCounter++,
+                block: shortBlock,
+                number: `${lotNum}`,
+                price: parseCurrency(availableData.price),
+                area: parseCurrency(availableData.area),
+                type: availableData.type,
+                status: 'available' as const
+            };
+        } else {
+            return {
+                id: idCounter++,
+                block: shortBlock,
+                number: `${lotNum}`,
+                price: 0,
+                area: 0,
+                type: 'SECO',
+                status: 'sold' as const
+            };
+        }
+    });
+});
+
 
 // Find the cheapest available lot and mark it as 'opportunity'
-const availableLots = allLots.filter(lot => lot.status === 'available');
+const availableLots = lots.filter(lot => lot.status === 'available');
 if (availableLots.length > 0) {
   availableLots.sort((a, b) => a.price - b.price);
   const cheapestLotId = availableLots[0].id;
-  const cheapestLotInAll = allLots.find(lot => lot.id === cheapestLotId);
+  const cheapestLotInAll = lots.find(lot => lot.id === cheapestLotId);
   if (cheapestLotInAll) {
     cheapestLotInAll.status = 'opportunity';
   }
 }
-
-export const lots = allLots;
