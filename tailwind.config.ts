@@ -19,8 +19,8 @@ export default {
       fontFamily: {
         body: ["'Montserrat'", 'sans-serif'],
         headline: ["'Playfair Display'", 'serif'],
-        sans: ['PT Sans', 'sans-serif'],
-        display: ['Playfair Display', 'serif'],
+        sans: ['var(--font-pt-sans)', 'sans-serif'],
+        display: ['var(--font-playfair-display)', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
