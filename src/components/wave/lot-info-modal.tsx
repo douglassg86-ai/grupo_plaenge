@@ -46,7 +46,7 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
         }
     }, [isOpen, lot]);
 
-    if(lot.status === 'sold'){
+    if(lot.status === 'sold' || lot.status === 'negotiation'){
         return null;
     }
 
@@ -55,7 +55,7 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
         currency: 'BRL',
     }).format(lot.price);
 
-    const whatsappMessage = encodeURIComponent(`Olá, Douglas! Tenho interesse no lote ${lot.block} L${lot.number} (${lot.area} m², R$ ${lot.price}) no Wave Home Resort.`);
+    const whatsappMessage = encodeURIComponent(`Olá, Douglas! Tenho interesse no lote ${lot.block} L${lot.number} (${lot.area} m², ${formattedPrice}) no Wave Home Resort.`);
     const whatsappUrl = `https://wa.me/${EXECUTIVE_PHONE}?text=${whatsappMessage}`;
 
   return (

@@ -82,6 +82,17 @@ const recommendSimilarLotsFlow = ai.defineFlow(
         availableLots,
     });
     
-    return response.output!;
+    // Map response to include lotId
+    const output: RecommendLotsOutput = {
+        recommendations: response.output!.recommendations.map(rec => {
+            const originalLot = lots.find(l => l.number === rec.lotNumber && l.block === rec.block);
+            return {
+                ...rec,
+                lotId: originalLot?.id || 0,
+            };
+        })
+    };
+
+    return output;
   }
 );
