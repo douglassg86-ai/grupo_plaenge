@@ -294,11 +294,11 @@ export const projects: Project[] = [
   },
   {
     id: 5,
-    name: 'AquaVista',
+    name: 'WAVE HOME RESORT',
     brand: 'Vanguard',
     slug: 'wave-home-resort',
     description: 'Seu refúgio particular à beira-mar.',
-    longDescription: 'O AquaVista foi projetado para quem busca um estilo de vida sofisticado e, ao mesmo tempo, descontraído. Com uma arquitetura moderna que se integra perfeitamente à paisagem litorânea, o empreendimento oferece apartamentos amplos, com varandas generosas e uma vista espetacular para o mar. Aqui, cada detalhe foi pensado para proporcionar o máximo de conforto e bem-estar aos seus moradores.',
+    longDescription: 'O WAVE HOME RESORT foi projetado para quem busca um estilo de vida sofisticado e, ao mesmo tempo, descontraído. Com uma arquitetura moderna que se integra perfeitamente à paisagem litorânea, o empreendimento oferece apartamentos amplos, com varandas generosas e uma vista espetacular para o mar. Aqui, cada detalhe foi pensado para proporcionar o máximo de conforto e bem-estar aos seus moradores.',
     heroImageId: 'aquavista-hero',
     aboutImageId: 'aquavista-about',
     galleryImageIds: ['aquavista-gal-1', 'aquavista-gal-2', 'aquavista-gal-3', 'aquavista-gal-4', 'aquavista-gal-5', 'aquavista-gal-6'],
@@ -402,3 +402,5 @@ export const projects: Project[] = [
     availability: shiftAvailability,
   },
 ];
+
+    

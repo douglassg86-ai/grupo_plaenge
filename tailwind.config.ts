@@ -18,9 +18,7 @@ export default {
     extend: {
       fontFamily: {
         body: ["'Montserrat'", 'sans-serif'],
-        headline: ["'Montserrat'", 'sans-serif'],
-        'sans-aquavista': ['Montserrat', 'sans-serif'],
-        'serif-aquavista': ['"Playfair Display"', 'serif'],
+        headline: ["'Playfair Display'", 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -106,3 +104,5 @@ export default {
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
+
+    

@@ -19,8 +19,6 @@ import { SiteFooter } from '@/components/site-footer';
 import { Button } from '@/components/ui/button';
 import { FloatingWhatsAppButton } from '@/components/floating-whatsapp-button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AquaVistaPage } from '@/components/aquavista-page';
-import type { Project } from '@/lib/types';
 
 type ProjectPageProps = {
   params: {
@@ -52,18 +50,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
   if (!project) {
     notFound();
-  }
-
-  if (project.slug === 'wave-home-resort') {
-    return (
-      <div className="relative flex min-h-screen flex-col">
-        <SiteHeader />
-        <div className="flex-1">
-          <AquaVistaPage project={project as Project} />
-        </div>
-        <SiteFooter />
-      </div>
-    );
   }
 
   const heroImage = placeholderImages.find((img) => img.id === project.heroImageId);
@@ -287,10 +273,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     </div>
   );
 
-  if (project.slug === 'shift') {
-    return <PageContent />;
-  }
-
   return (
     <div className="relative flex min-h-screen flex-col">
       <SiteHeader />
@@ -301,3 +283,5 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     </div>
   );
 }
+
+    
