@@ -33,7 +33,7 @@ export async function recommendSimilarLots(input: RecommendLotsInput): Promise<R
 const recommendLotsPrompt = ai.definePrompt({
     name: 'recommendLotsPrompt',
     input: { schema: z.object({
-        selectedLot: RecommendLotsInputSchema,
+        currentLot: RecommendLotsInputSchema,
         availableLots: z.array(z.object({
             id: z.number(),
             number: z.string(),
@@ -50,13 +50,13 @@ const recommendLotsPrompt = ai.definePrompt({
         Your goal is to recommend three alternative lots to a client based on their current selection.
 
         The client has selected this lot:
-        - Type: {{{selectedLot.type}}}
-        - Area: {{{selectedLot.area}}}m²
-        - Price: R${{ {selectedLot.price} }}
+        - Type: {{{currentLot.type}}}
+        - Area: {{{currentLot.area}}}m²
+        - Price: R$ {{{currentLot.price}}}
 
         Here is the list of all available lots:
         {{#each availableLots}}
-        - ID: {{id}}, Lote: {{number}}, Quadra: {{block}}, Tipo: {{type}}, Área: {{area}}m², Preço: R${{ {price} }}, Status: {{status}}
+        - ID: {{id}}, Lote: {{number}}, Quadra: {{block}}, Tipo: {{type}}, Área: {{area}}m², Preço: R$ {{price}}, Status: {{status}}
         {{/each}}
 
         Please recommend exactly 3 OTHER available lots that are good alternatives.
@@ -73,18 +73,23 @@ const recommendSimilarLotsFlow = ai.defineFlow(
     inputSchema: RecommendLotsInputSchema,
     outputSchema: RecommendLotsOutputSchema,
   },
-  async (selectedLot) => {
+  async (currentLot) => {
     // Filter only available lots and exclude the one already selected
-    const availableLots = lots.filter(lot => (lot.status === 'available' || lot.status === 'opportunity') && lot.price !== selectedLot.price);
+    const availableLots = lots.filter(lot => (lot.status === 'available' || lot.status === 'opportunity') && lot.price !== currentLot.price);
     
     const response = await recommendLotsPrompt({
-        selectedLot,
+        currentLot,
         availableLots,
     });
     
+    const output = response.output();
+    if (!output) {
+      throw new Error("AI did not return recommendations.");
+    }
+    
     // Map response to include lotId
-    const output: RecommendLotsOutput = {
-        recommendations: response.output!.recommendations.map(rec => {
+    const outputWithId: RecommendLotsOutput = {
+        recommendations: output.recommendations.map(rec => {
             const originalLot = lots.find(l => l.number === rec.lotNumber && l.block === rec.block);
             return {
                 ...rec,
@@ -93,6 +98,6 @@ const recommendSimilarLotsFlow = ai.defineFlow(
         })
     };
 
-    return output;
+    return outputWithId;
   }
 );
