@@ -355,36 +355,6 @@
       "imageHint": "floor plan"
     },
     {
-      "id": "wave-hero",
-      "description": "Resort-style building with a massive, wave-shaped swimming pool.",
-      "imageUrl": "https://images.unsplash.com/photo-1623718649591-311775a30c43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZXNvcnQlMjBwb29sfGVufDB8fHx8MTc1OTY1NDg4Mnww&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "resort pool"
-    },
-    {
-      "id": "wave-gal-1",
-      "description": "View from a balcony overlooking the resort pool and ocean.",
-      "imageUrl": "https://images.unsplash.com/photo-1445546857131-5fc39d1c51f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxvY2VhbiUyMHZpZXd8ZW58MHx8fHwxNzU5NjA4ODk4fDA&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "ocean view"
-    },
-    {
-      "id": "wave-gal-2",
-      "description": "A swim-up bar in the main pool.",
-      "imageUrl": "https://images.unsplash.com/photo-1629466928463-7c93bcb15f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb29sJTIwYmFyfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "pool bar"
-    },
-    {
-      "id": "wave-gal-3",
-      "description": "An open-concept living area with beach-themed decor.",
-      "imageUrl": "https://images.unsplash.com/photo-1680897981136-345e22a01d16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxiZWFjaCUyMGRlY29yfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "beach decor"
-    },
-    {
-      "id": "wave-plan-1",
-      "description": "Floor plan of a one-bedroom seaside apartment.",
-      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzU5NjYyMjIxfDA&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "floor plan"
-    },
-    {
       "id": "yuna-hero",
       "description": "A tranquil residential building nestled beside a lush botanical garden.",
       "imageUrl": "https://images.unsplash.com/photo-1662404600864-9fa5b0d9174c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjBidWlsZGluZ3xlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
@@ -544,6 +514,66 @@
       "id": "shift-floor-plan-7",
       "description": "Planta do SHIFT 7",
       "imageUrl": "/SHIFT/plantas_shift7.png",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "aquavista-hero",
+      "description": "Beautiful beach with turquoise water and a modern building in the background.",
+      "imageUrl": "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "beach resort"
+    },
+    {
+      "id": "aquavista-about",
+      "description": "Modern living room with a view of the ocean.",
+      "imageUrl": "https://images.unsplash.com/photo-1600607687939-ce8a67769e03?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "living room ocean"
+    },
+    {
+      "id": "aquavista-gal-1",
+      "description": "Infinity pool overlooking the ocean at sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "infinity pool"
+    },
+    {
+      "id": "aquavista-gal-2",
+      "description": "Spacious bedroom with a balcony and sea view.",
+      "imageUrl": "https://images.unsplash.com/photo-1618221195710-dd6b41fa2247?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "bedroom interior"
+    },
+    {
+      "id": "aquavista-gal-3",
+      "description": "Modern kitchen with marble countertops.",
+      "imageUrl": "https://images.unsplash.com/photo-1600607686527-6fb886290705?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "modern kitchen"
+    },
+    {
+      "id": "aquavista-gal-4",
+      "description": "Luxurious bathroom with a standalone bathtub.",
+      "imageUrl": "https://images.unsplash.com/photo-1593185593229-c814add57013?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "luxury bathroom"
+    },
+    {
+      "id": "aquavista-gal-5",
+      "description": "Fitness center with modern equipment.",
+      "imageUrl": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fitness center"
+    },
+    {
+      "id": "aquavista-gal-6",
+      "description": "Lounge area with comfortable seating.",
+      "imageUrl": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "lounge area"
+    },
+    {
+      "id": "aquavista-plan-1",
+      "description": "Floor plan for a 2-bedroom apartment.",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653580-79577d2822a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzY1MzczMzIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "aquavista-plan-2",
+      "description": "Floor plan for a 3-bedroom penthouse.",
+      "imageUrl": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzY1MzczMzIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "floor plan"
     }
   ]
