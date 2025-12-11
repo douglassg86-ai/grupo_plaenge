@@ -37,7 +37,7 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
                 area: lot.area,
                 price: lot.price,
             }).then(response => {
-                setRecommendations(response.recommendations);
+                setRecommendations(response.output!.recommendations);
                 setIsLoading(false);
             }).catch(err => {
                 console.error("Error getting recommendations:", err);
