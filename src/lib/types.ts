@@ -1,10 +1,12 @@
 
 
+export type AvailabilityStatus = 'Disponível' | 'Vendido' | 'Pasta Alocada' | 'Consulte Disponibilidade' | 'Em negociação' | 'Oportunidade';
+
 export type Availability = {
   unit: string;
   type: string;
   area: number;
-  status: 'Disponível' | 'Vendido' | 'Pasta Alocada' | 'Consulte Disponibilidade';
+  status: AvailabilityStatus;
   paymentFlow?: {
     total: string;
     downPayment: string;
@@ -48,5 +50,3 @@ export type Project = {
   contactButtonText?: string;
   contactButtonLink?: string;
 };
-
-    

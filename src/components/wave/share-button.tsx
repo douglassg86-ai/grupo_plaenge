@@ -27,7 +27,7 @@ export default function ShareButton() {
   return (
     <Button variant="outline" onClick={handleShare}>
       <Share2 className="mr-2 h-4 w-4" />
-      Compartilhar
+      Compartilhar com seu cliente
     </Button>
   );
 }

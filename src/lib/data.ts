@@ -1,5 +1,4 @@
 
-
 import type { Project } from '@/lib/types';
 import { paymentData } from '@/lib/payment-data';
 
@@ -402,5 +401,3 @@ export const projects: Project[] = [
     availability: shiftAvailability,
   },
 ];
-
-    

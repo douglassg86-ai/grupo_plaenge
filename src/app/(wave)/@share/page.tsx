@@ -1,7 +1,5 @@
-// This is a parallel route for sharing, it can be customized later.
-// For now, it will render the main page.
-import HomePage from '../page';
+import HomePageClient from '@/components/wave/home-page-client';
 
 export default function SharePage() {
-  return <HomePage />;
+  return <HomePageClient isSharePage={true} />;
 }

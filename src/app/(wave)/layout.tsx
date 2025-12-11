@@ -1,6 +1,6 @@
 import { Playfair_Display, PT_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import { Toaster }s "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster";
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
