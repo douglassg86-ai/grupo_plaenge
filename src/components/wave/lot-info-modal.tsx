@@ -14,6 +14,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Lot } from '@/lib/wave-data';
 import { Loader2 } from 'lucide-react';
+import { lots as allLots } from '@/lib/wave-data';
 
 interface LotInfoModalProps {
   lot: Lot;
@@ -29,7 +30,7 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (isOpen && lot.status !== 'sold') {
+        if (isOpen && (lot.status === 'available' || lot.status === 'opportunity')) {
             setIsLoading(true);
             setRecommendations([]);
             recommendSimilarLots({
@@ -37,7 +38,9 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
                 area: lot.area,
                 price: lot.price,
             }).then(response => {
-                setRecommendations(response.output!.recommendations);
+                if (response.output) {
+                    setRecommendations(response.output.recommendations);
+                }
                 setIsLoading(false);
             }).catch(err => {
                 console.error("Error getting recommendations:", err);
@@ -57,6 +60,33 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
 
     const whatsappMessage = encodeURIComponent(`Olá, Douglas! Tenho interesse no lote ${lot.block} L${lot.number} (${lot.area} m², ${formattedPrice}) no Wave Home Resort.`);
     const whatsappUrl = `https://wa.me/${EXECUTIVE_PHONE}?text=${whatsappMessage}`;
+
+    const handleRecommendationClick = (rec: LotRecommendation) => {
+        const newLot = allLots.find(l => l.id === rec.lotId);
+        if (newLot) {
+            onClose();
+            // A small delay to allow the modal to close before the new one opens
+            setTimeout(() => {
+                const event = new CustomEvent('selectlot', { detail: newLot });
+                window.dispatchEvent(event);
+            }, 200);
+        }
+    };
+
+    useEffect(() => {
+        const handleSelectLot = (event: Event) => {
+            const customEvent = event as CustomEvent;
+            const newLot = customEvent.detail;
+            const eventLotSelect = new CustomEvent('lotselect', { detail: newLot });
+            window.dispatchEvent(eventLotSelect);
+        };
+    
+        window.addEventListener('selectlot', handleSelectLot);
+    
+        return () => {
+            window.removeEventListener('selectlot', handleSelectLot);
+        };
+    }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -87,7 +117,11 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                     {recommendations.map(rec => (
-                        <Card key={rec.lotId} className="p-3 text-center text-sm">
+                        <Card 
+                            key={rec.lotId} 
+                            className="p-3 text-center text-sm cursor-pointer hover:bg-muted"
+                            onClick={() => handleRecommendationClick(rec)}
+                        >
                             <CardContent className="p-0 space-y-1">
                                 <p className="font-bold text-base">Lote {rec.lotNumber}</p>
                                 <p className="text-muted-foreground">Qd. {rec.block} ({rec.area}m²)</p>
@@ -104,7 +138,7 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
             <Button variant="secondary" onClick={onClose}>Fechar</Button>
             {!isSharePage && (
               <Button asChild>
-                  <a href={whatsappUrl} target="_blank">Faça uma simulação</a>
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Faça uma simulação</a>
               </Button>
             )}
         </DialogFooter>
