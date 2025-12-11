@@ -85,4 +85,26 @@
   }
 }
 
+.wave-theme {
+    --background: 255 27% 95%;
+    --foreground: 220 10% 10%;
+    --card: 255 20% 100%;
+    --card-foreground: 220 10% 10%;
+    --popover: 255 20% 100%;
+    --popover-foreground: 220 10% 10%;
+    --primary: 261 52% 34%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 90%;
+    --secondary-foreground: 220 10% 20%;
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 310 70% 64%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 85%;
+    --input: 220 15% 85%;
+    --ring: 261 52% 34%;
+    --radius: 0.5rem;
+}
     
