@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -41,7 +42,7 @@ export default function CommunityPopup() {
              </DialogHeader>
              <DialogFooter className="flex-col space-y-2 sm:flex-col sm:space-y-2">
                  <Button onClick={handleJoin} className="w-full">
-                    <Image src="/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="mr-2" data-ai-hint="whatsapp logo" />
+                    <Image src="/WAVE/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="mr-2" data-ai-hint="whatsapp logo" />
                     Entrar na Comunidade
                 </Button>
                 <Button variant="outline" onClick={handleDismiss} className="w-full">Continue para o app</Button>
