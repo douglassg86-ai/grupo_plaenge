@@ -12,32 +12,31 @@ const LINKEDIN_URL = "https://www.linkedin.com/in/douglas-gon%C3%A7alves-804b502
 
 export default function ExecutiveContact() {
   return (
-    <div className="bg-card border rounded-lg p-6 flex flex-col sm:flex-row items-center gap-6">
-      <div className="relative h-24 w-24 rounded-full overflow-hidden shrink-0">
+    <div className="bg-card border rounded-lg p-6 flex flex-col items-center gap-4">
+      <div className="relative h-32 w-32 rounded-full overflow-hidden">
         <Image src="/WAVE/fotodouglas.jpg" alt="Douglas Gonçalves" fill className="object-cover" data-ai-hint="person face" />
       </div>
-      <div className="text-center sm:text-left">
-        <p className="text-sm text-muted-foreground">Fale com nosso especialista</p>
-        <h3 className="text-xl font-bold text-primary">Douglas Gonçalves</h3>
-        <p className="text-sm text-muted-foreground">Executivo de Vendas</p>
-         <div className="flex items-center justify-center sm:justify-start gap-2 mt-2">
-            <Button asChild variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                <Link href={WHATSAPP_URL} target="_blank"><Phone className="h-5 w-5"/></Link>
-            </Button>
-            <Button asChild variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                <Link href={INSTAGRAM_URL} target="_blank"><Instagram className="h-5 w-5" /></Link>
-            </Button>
-            <Button asChild variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                <Link href={LINKEDIN_URL} target="_blank"><Linkedin className="h-5 w-5" /></Link>
-            </Button>
-        </div>
+      <div className="text-center">
+        <h3 className="text-2xl font-bold text-primary">Douglas Gonçalves</h3>
+        <p className="text-md text-muted-foreground">Executivo Comercial WAVE</p>
       </div>
-      <Button asChild className="sm:ml-auto w-full sm:w-auto">
-        <a href={WHATSAPP_URL} target="_blank">
-          <Phone className="mr-2" />
-          Chamar no WhatsApp
-        </a>
-      </Button>
+      <div className="flex items-center justify-center gap-4 mt-2">
+        <Button asChild variant="outline" size="icon" className="rounded-full h-14 w-14 border-border">
+            <Link href={WHATSAPP_URL} target="_blank" aria-label="WhatsApp">
+                <Phone className="h-6 w-6 text-muted-foreground"/>
+            </Link>
+        </Button>
+        <Button asChild variant="outline" size="icon" className="rounded-full h-14 w-14 border-border">
+            <Link href={INSTAGRAM_URL} target="_blank" aria-label="Instagram">
+                <Instagram className="h-6 w-6 text-muted-foreground" />
+            </Link>
+        </Button>
+        <Button asChild variant="outline" size="icon" className="rounded-full h-14 w-14 border-border">
+            <Link href={LINKEDIN_URL} target="_blank" aria-label="LinkedIn">
+                <Linkedin className="h-6 w-6 text-muted-foreground" />
+            </Link>
+        </Button>
+      </div>
     </div>
   );
 }
