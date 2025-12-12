@@ -35,10 +35,10 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
         <section className="relative h-[40vh] md:h-[50vh] text-white flex items-center justify-center text-center">
           <div className="absolute inset-0">
             <Image
-              src="/WAVE/header-background.jpg"
+              src="/WAVE/wave_pordosol.jpg"
               alt="Vista do resort ao entardecer"
-              layout="fill"
-              objectFit="cover"
+              fill
+              className="object-cover"
               priority
               data-ai-hint="resort sunset"
             />
@@ -92,7 +92,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
                         Mapa de Implantação
                     </h2>
                       <div className="relative w-full max-w-6xl mx-auto aspect-[16/9] rounded-lg overflow-hidden border">
-                        <Image src="/WAVE/implantacao_2_01.jpg" alt="Mapa de implantação do resort" layout="fill" objectFit="contain" data-ai-hint="resort map" />
+                        <Image src="/WAVE/implantacao_2_01.jpg" alt="Mapa de implantação do resort" fill objectFit="contain" data-ai-hint="resort map" />
                     </div>
                 </div>
 

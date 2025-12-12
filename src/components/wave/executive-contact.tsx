@@ -14,7 +14,7 @@ export default function ExecutiveContact() {
   return (
     <div className="bg-card border rounded-lg p-6 flex flex-col sm:flex-row items-center gap-6">
       <div className="relative h-24 w-24 rounded-full overflow-hidden shrink-0">
-        <Image src="/WAVE/fotodouglas.jpg" alt="Douglas Gonçalves" layout="fill" objectFit="cover" data-ai-hint="person face" />
+        <Image src="/WAVE/fotodouglas.jpg" alt="Douglas Gonçalves" fill className="object-cover" data-ai-hint="person face" />
       </div>
       <div className="text-center sm:text-left">
         <p className="text-sm text-muted-foreground">Fale com nosso especialista</p>
