@@ -6,9 +6,6 @@ export default function Footer() {
     <footer className="bg-muted border-t">
       <div className="container py-8 space-y-6">
         <ExecutiveContact />
-        <div className="text-center">
-          <ShareButton />
-        </div>
       </div>
     </footer>
   );

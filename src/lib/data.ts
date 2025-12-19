@@ -351,7 +351,7 @@ export const projects: Project[] = [
   },
   {
     id: 5,
-    name: 'WAVE2',
+    name: 'WAVE HOME RESORT',
     brand: 'Vanguard',
     slug: 'wave2',
     description: 'Seu refúgio particular em Xangri-lá.',
@@ -366,5 +366,3 @@ export const projects: Project[] = [
     availability: [], // A disponibilidade será gerenciada pela página
   },
 ];
-
-    

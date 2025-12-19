@@ -84,25 +84,25 @@
     @apply bg-background text-foreground;
   }
   .wave-theme {
-    --background: 255 27% 95%;
-    --foreground: 220 10% 10%;
-    --card: 255 20% 100%;
-    --card-foreground: 220 10% 10%;
-    --popover: 255 20% 100%;
-    --popover-foreground: 220 10% 10%;
-    --primary: 261 52% 34%;
+    --background: 210 20% 98%;
+    --foreground: 215 15% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 15% 15%;
+    --primary: 210 40% 30%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 15% 90%;
-    --secondary-foreground: 220 10% 20%;
-    --muted: 220 15% 95%;
-    --muted-foreground: 220 10% 45%;
-    --accent: 310 70% 64%;
+    --secondary: 210 20% 94%;
+    --secondary-foreground: 215 15% 25%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 10% 45%;
+    --accent: 200 80% 55%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 15% 85%;
-    --input: 220 15% 85%;
-    --ring: 261 52% 34%;
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 210 40% 30%;
     --radius: 0.5rem;
   }
 }
