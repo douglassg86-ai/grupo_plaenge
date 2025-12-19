@@ -31,7 +31,7 @@ export default function Home() {
           )}
           <div className="absolute inset-0 bg-primary/70" />
           <div className="relative z-10 p-4">
-            <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
+            <h1 className="font-body text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
               Plaenge &amp; Vanguard
             </h1>
             <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90">
