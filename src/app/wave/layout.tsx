@@ -16,10 +16,8 @@ const ptSans = PT_Sans({
 
 export default function WaveLayout({
   children,
-  share,
 }: {
   children: React.ReactNode;
-  share: React.ReactNode;
 }) {
   return (
     <div
@@ -30,7 +28,6 @@ export default function WaveLayout({
       )}
     >
       {children}
-      {share}
       <Toaster />
     </div>
   );

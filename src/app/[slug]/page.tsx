@@ -1,6 +1,3 @@
-
-
-
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,7 +17,6 @@ import { SiteFooter } from '@/components/site-footer';
 import { Button } from '@/components/ui/button';
 import { FloatingWhatsAppButton } from '@/components/floating-whatsapp-button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import HomePageClient from '@/components/wave/home-page-client';
 
 type ProjectPageProps = {
   params: {
@@ -54,8 +50,11 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
   
-  if (project.slug === 'wave2') {
-    return <HomePageClient />;
+  if (project.slug === 'wave') {
+    // This case should ideally not be hit if navigation is correct,
+    // but as a fallback, we can redirect or show an error.
+    // For now, let's just say it's not found to avoid rendering issues.
+    notFound();
   }
 
   const heroImage = placeholderImages.find((img) => img.id === project.heroImageId);
@@ -289,7 +288,3 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     </div>
   );
 }
-
-    
-
-    

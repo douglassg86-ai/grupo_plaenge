@@ -1,4 +1,3 @@
-
 import type { Project } from '@/lib/types';
 import { paymentData } from '@/lib/payment-data';
 
@@ -353,7 +352,7 @@ export const projects: Project[] = [
     id: 5,
     name: 'WAVE HOME RESORT',
     brand: 'Vanguard',
-    slug: 'wave2',
+    slug: 'wave',
     description: 'Seu refúgio particular em Xangri-lá.',
     heroImageId: 'wave-hero',
     galleryImageIds: [],
@@ -363,6 +362,6 @@ export const projects: Project[] = [
       mapImageId: 'map-placeholder',
     },
     videoUrl: 'https://www.youtube.com/embed/uWSRtxyZ2i4',
-    availability: [], // A disponibilidade será gerenciada pela página
+    availability: [], // A disponibilidade é gerenciada pela página Wave
   },
 ];
