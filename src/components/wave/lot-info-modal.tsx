@@ -24,7 +24,7 @@ const EXECUTIVE_PHONE = '5551980800821';
 
 export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false }: LotInfoModalProps) {
 
-    if(lot.status === 'sold' || lot.status === 'negotiation'){
+    if(lot.status === 'sold'){
         return null;
     }
 

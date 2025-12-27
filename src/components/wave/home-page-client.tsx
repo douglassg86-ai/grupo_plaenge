@@ -21,7 +21,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLotSelect = (lot: Lot) => {
-    if (lot.status === 'available' || lot.status === 'opportunity') {
+    if (lot.status === 'available' || lot.status === 'opportunity' || lot.status === 'negotiation') {
       setSelectedLot(lot);
       setIsModalOpen(true);
     }
