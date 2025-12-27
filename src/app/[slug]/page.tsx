@@ -49,13 +49,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   if (!project) {
     notFound();
   }
-  
-  if (project.slug === 'wave') {
-    // This case should ideally not be hit if navigation is correct,
-    // but as a fallback, we can redirect or show an error.
-    // For now, let's just say it's not found to avoid rendering issues.
-    notFound();
-  }
 
   const heroImage = placeholderImages.find((img) => img.id === project.heroImageId);
   const galleryImages = project.galleryImageIds.map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
