@@ -92,7 +92,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
                         Mapa de Implantação
                     </h2>
                       <div className="relative w-full max-w-6xl mx-auto aspect-[16/9] rounded-lg overflow-hidden border">
-                        <Image src="/WAVE/implantacao_2_01.jpg" alt="Mapa de implantação do resort" fill objectFit="contain" data-ai-hint="resort map" />
+                        <Image src="/WAVE/implantacao_2_01.jpg" alt="Mapa de implantação do resort" fill className="object-contain" data-ai-hint="resort map" />
                     </div>
                 </div>
 
