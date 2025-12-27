@@ -25,9 +25,12 @@ type ProjectPageProps = {
 };
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  // We don't want to generate a static page for /wave, since it has its own dedicated page
+  return projects
+    .filter((project) => project.slug !== 'wave')
+    .map((project) => ({
+      slug: project.slug,
+    }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
