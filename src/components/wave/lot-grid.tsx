@@ -85,13 +85,13 @@ export default function LotGrid({ lots, blockTotals, onLotSelect }: LotGridProps
                         <Button
                             key={lot.id}
                             onClick={() => onLotSelect(lot)}
-                            disabled={lot.status === 'sold' || lot.status === 'negotiation'}
+                            disabled={lot.status === 'sold'}
                             className={cn(
                             'h-10 text-xs font-bold relative p-0',
                             {
                                 'bg-green-100 text-green-800 hover:bg-green-200 border border-green-300': lot.status === 'available',
                                 'bg-red-100 text-red-800 cursor-not-allowed border border-red-300': lot.status === 'sold',
-                                'bg-yellow-100 text-yellow-800 cursor-not-allowed border border-yellow-300': lot.status === 'negotiation',
+                                'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border border-yellow-300': lot.status === 'negotiation',
                                 'bg-orange-100 text-orange-800 hover:bg-orange-200 border border-orange-300': lot.status === 'opportunity'
                             }
                             )}
