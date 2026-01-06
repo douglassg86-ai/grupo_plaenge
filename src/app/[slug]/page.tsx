@@ -15,7 +15,6 @@ import { AvailabilityGrid } from '@/components/availability-grid';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { Button } from '@/components/ui/button';
-import { FloatingWhatsAppButton } from '@/components/floating-whatsapp-button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 type ProjectPageProps = {
@@ -276,7 +275,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="relative flex min-h-screen flex-col">
-      <SiteHeader />
+      {project.slug !== 'shift' && <SiteHeader />}
       <div className="flex-1">
         <PageContent />
       </div>
