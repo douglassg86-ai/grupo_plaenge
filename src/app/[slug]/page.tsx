@@ -80,7 +80,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
             {project.slug === 'shift' ? (
               <>
-                  <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
                   <Image
                       src="/SHIFT/logo_shift.png"
                       alt="SHIFT Logo"
