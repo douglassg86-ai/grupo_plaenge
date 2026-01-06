@@ -79,7 +79,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   
   const mailtoLink = useMemo(() => {
     if (!selectedUnit) return '';
-    const to = "pastas_poa@vanguard.com.br,do.goncalves@vanguard.com.br";
+    const to = "pastas_poa@vanguard.com.br";
     const subject = `Alocação de Pasta - Empreendimento SHIFT - Unidade ${selectedUnit.unit}`;
     const body = `Olá!\n\nGostaria de alocar a pasta do meu cliente na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT.\n\nSeguem os documentos em anexo.\n\nObrigado.`;
     return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -270,5 +270,3 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
-
-    
