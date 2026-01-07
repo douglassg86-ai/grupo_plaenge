@@ -6,7 +6,6 @@ import Link from 'next/link';
 const materials = [
   { icon: Book, title: "E-book", href: "https://drive.google.com/drive/folders/1npd5w-pWCDPZvaxTA7lsj7sVhsEwOyW3" },
   { icon: Video, title: "Vídeo", href: "https://drive.google.com/drive/folders/1YXSzq2fPxCAtvr6DF3AWVaNj5ZzpCskz" },
-  { icon: Map, title: "Mapa Disponibilidade", href: "https://drive.google.com/drive/folders/1BwSY2teDTUwhsCEFsPcQjqp-26sAEKTY" },
   { icon: Images, title: "Fotos", href: "https://drive.google.com/drive/folders/1eSqcVsMhR_JkP9KV9FsDhegpWoSlC0r2" },
   { icon: Table, title: "Tabela", href: "https://drive.google.com/drive/folders/1nd2otVKNq2jOPfO9i-JlOHSPXc64b6rT" },
   { icon: Megaphone, title: "Materiais Promocionais", href: "https://drive.google.com/drive/folders/1IRHdPxpfZMnccssVzboPFiFtblHOcXIr" },
