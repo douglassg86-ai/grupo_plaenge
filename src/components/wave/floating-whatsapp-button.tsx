@@ -1,11 +1,12 @@
+
 'use client';
 
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { Phone } from 'lucide-react';
 
-const EXECUTIVE_PHONE = '5551980800821';
-const WHATSAPP_MESSAGE = encodeURIComponent('Olá, Douglas! Tenho interesse no Wave Home Resort.');
+const EXECUTIVE_PHONE = '5551994013918'; // Paulo Peano's number
+const WHATSAPP_MESSAGE = encodeURIComponent('Olá, Paulo! Tenho interesse no Wave Home Resort.');
 const WHATSAPP_URL = `https://wa.me/${EXECUTIVE_PHONE}?text=${WHATSAPP_MESSAGE}`;
 
 
