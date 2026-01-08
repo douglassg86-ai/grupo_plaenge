@@ -9,7 +9,6 @@ import CommunityPopup from '@/components/wave/community-popup';
 import Header from '@/components/wave/header';
 import Footer from '@/components/wave/footer';
 import Materials from '@/components/wave/materials';
-import FloatingWhatsAppButton from '@/components/wave/floating-whatsapp-button';
 import type { Lot } from '@/lib/wave-data';
 
 interface HomePageClientProps {
@@ -112,7 +111,6 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
       </main>
       {!isSharePage && <Footer />}
       {!isSharePage && <CommunityPopup />}
-      {!isSharePage && <FloatingWhatsAppButton />}
       {selectedLot && (
         <LotInfoModal
           lot={selectedLot}
