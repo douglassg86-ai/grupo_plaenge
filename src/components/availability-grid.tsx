@@ -124,16 +124,14 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     if (unitToEdit && newStatus && firestore) {
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
       try {
-        // Firestore will be updated, and the useCollection hook will update the UI.
         await setDoc(unitRef, { status: newStatus }, { merge: true });
       } catch (e) {
         console.error("Error updating status: ", e);
         setError('Falha ao atualizar o status.');
-        return; // Don't close the dialog on error
+        return; 
       }
     }
     
-    // Close dialog and reset state on success
     setIsEditDialogOpen(false);
     setUnitToEdit(null);
     setNewStatus('');
@@ -185,9 +183,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
             {floors.map(([floor, units]) => {
               const floorImage = getFloorImage(parseInt(floor));
               const hasAvailable = units.some(u => u.status === 'Disponível');
-              const hasAllocated = units.some(u => u.status === 'Pasta Alocada');
               const hasSold = units.some(u => u.status === 'Vendido');
-              const hasConsult = units.some(u => u.status === 'Consulte Disponibilidade');
 
               return (
               <AccordionItem value={`item-${floor}`} key={floor}>
@@ -218,11 +214,9 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                           'font-mono h-10 w-full text-xs p-1 relative group',
                            {
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
-                            'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200': unit.status === 'Pasta Alocada',
                             'bg-red-100 border-red-300 text-red-800 hover:bg-red-200': unit.status === 'Vendido',
-                             'bg-gray-100 border-gray-300 text-gray-800 hover:bg-gray-200': unit.status === 'Consulte Disponibilidade',
                           },
-                           unit.status !== 'Vendido' && 'cursor-pointer'
+                           'cursor-pointer' // Enable pointer on all to allow editing
                         )}
                       >
                         {unit.unit}
@@ -239,22 +233,10 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
                   <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
-                        {hasConsult && (
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-sm bg-gray-100 border border-gray-300"></div>
-                                <span>Consulte Disponibilidade</span>
-                            </div>
-                        )}
                         {hasAvailable && (
                           <div className="flex items-center gap-2">
                               <div className="w-3 h-3 rounded-sm bg-green-100 border border-green-300"></div>
                               <span>Disponível</span>
-                          </div>
-                        )}
-                        {hasAllocated && (
-                          <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 rounded-sm bg-amber-100 border border-amber-300"></div>
-                              <span>Pasta Alocada</span>
                           </div>
                         )}
                         {hasSold && (
@@ -288,9 +270,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     <span className='text-muted-foreground font-normal'>&bull;</span>
                     <span className={cn('font-bold', {
                         'text-green-600': selectedUnit.status === 'Disponível',
-                        'text-amber-600': selectedUnit.status === 'Pasta Alocada',
                         'text-red-600': selectedUnit.status === 'Vendido',
-                        'text-gray-600': selectedUnit.status === 'Consulte Disponibilidade',
                     })}>{selectedUnit.status}</span>
                   </div>
                 )}
