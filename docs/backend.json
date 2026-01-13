@@ -1,0 +1,32 @@
+{
+  "entities": {
+    "unit": {
+      "title": "Unit",
+      "description": "Represents a single unit in a project.",
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "The unit number."
+        },
+        "status": {
+          "type": "string",
+          "description": "The availability status of the unit.",
+          "enum": ["Disponível", "Vendido"]
+        }
+      },
+      "required": ["unit", "status"]
+    }
+  },
+  "auth": {
+    "providers": []
+  },
+  "firestore": {
+    "/availability/{unitId}": {
+      "schema": {
+        "$ref": "#/entities/unit"
+      },
+      "description": "Stores the availability status for each unit."
+    }
+  }
+}

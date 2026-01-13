@@ -1,8 +1,8 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
-import type { Availability, AvailabilityStatus } from '@/lib/types';
+import { useState, useMemo, useEffect } from 'react';
+import type { Availability as AvailabilityType, AvailabilityStatus } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -44,25 +44,57 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-
+import { useCollection, useFirestore } from '@/firebase';
+import { collection, doc, setDoc } from 'firebase/firestore';
 
 type AvailabilityGridProps = {
-  availability: Availability[];
+  availability: AvailabilityType[];
 };
 
 export function AvailabilityGrid({ availability: initialAvailability }: AvailabilityGridProps) {
-  const [availability, setAvailability] = useState(initialAvailability);
-  const [selectedUnit, setSelectedUnit] = useState<Availability | null>(null);
+  const firestore = useFirestore();
+  const availabilityCollection = useMemo(() => {
+    if (!firestore) return null;
+    return collection(firestore, 'availability');
+  }, [firestore]);
+  
+  const { data: availabilityData, loading } = useCollection(availabilityCollection);
+
+  const [availability, setAvailability] = useState<AvailabilityType[]>(initialAvailability);
+  const [selectedUnit, setSelectedUnit] = useState<AvailabilityType | null>(null);
   const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
   
-  // State for the new edit dialog
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [unitToEdit, setUnitToEdit] = useState<Availability | null>(null);
+  const [unitToEdit, setUnitToEdit] = useState<AvailabilityType | null>(null);
   const [newStatus, setNewStatus] = useState<AvailabilityStatus | ''>('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const openEditDialog = (unit: Availability) => {
+  useEffect(() => {
+    if (!loading && availabilityData && firestore) {
+       // If firestore is empty, seed it with initial data.
+      if (availabilityData.length === 0) {
+        console.log('Seeding database...');
+        const batch = initialAvailability.map(unit => {
+          const unitRef = doc(firestore, 'availability', unit.unit);
+          return setDoc(unitRef, { unit: unit.unit, status: unit.status });
+        });
+        Promise.all(batch)
+          .then(() => console.log('Database seeded'))
+          .catch(console.error);
+        setAvailability(initialAvailability);
+      } else {
+        const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
+        const updatedAvailability = initialAvailability.map(unit => ({
+          ...unit,
+          status: availabilityMap.get(unit.unit) || unit.status,
+        }));
+        setAvailability(updatedAvailability);
+      }
+    }
+  }, [availabilityData, loading, initialAvailability, firestore]);
+
+  const openEditDialog = (unit: AvailabilityType) => {
     setUnitToEdit(unit);
     setNewStatus(unit.status);
     setIsEditDialogOpen(true);
@@ -70,29 +102,33 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     setPassword('');
   };
 
-  const handleUnitClick = (unit: Availability) => {
-    if (unit.status === 'Vendido') return;
+  const handleUnitClick = (unit: AvailabilityType) => {
     setSelectedUnit(unit);
     setIsInfoDialogOpen(true);
   };
   
-  const handleEditClick = (unit: Availability, e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent the info dialog from opening
+  const handleEditClick = (unit: AvailabilityType, e: React.MouseEvent) => {
+    e.stopPropagation(); 
     openEditDialog(unit);
   };
 
-  const handleStatusChange = () => {
+  const handleStatusChange = async () => {
     if (password !== 'pau.junior') {
       setError('Senha incorreta!');
       return;
     }
 
-    if (unitToEdit && newStatus) {
-      setAvailability(prev => 
-        prev.map(u => 
-          u.unit === unitToEdit.unit ? { ...u, status: newStatus as AvailabilityStatus } : u
-        )
-      );
+    if (unitToEdit && newStatus && firestore) {
+      const unitRef = doc(firestore, 'availability', unitToEdit.unit);
+      try {
+        await setDoc(unitRef, { status: newStatus }, { merge: true });
+        // Optimistic update
+        setAvailability(prev => prev.map(u => u.unit === unitToEdit.unit ? {...u, status: newStatus as AvailabilityStatus} : u));
+      } catch (e) {
+        console.error("Error updating status: ", e);
+        setError('Falha ao atualizar o status.');
+        return;
+      }
     }
     
     setIsEditDialogOpen(false);
@@ -115,7 +151,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   };
 
   const floors = useMemo(() => {
-    const grouped: Record<number, Availability[]> = {};
+    const grouped: Record<number, AvailabilityType[]> = {};
     availability.forEach((item) => {
       const floorNumber = Math.floor(parseInt(item.unit) / 100);
       if (!grouped[floorNumber]) {
@@ -176,13 +212,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         onClick={() => handleUnitClick(unit)}
                         className={cn(
                           'font-mono h-10 w-full text-xs p-1 relative group',
-                          {
+                           {
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200': unit.status === 'Pasta Alocada',
                             'bg-red-100 border-red-300 text-red-800 hover:bg-red-200': unit.status === 'Vendido',
                              'bg-gray-100 border-gray-300 text-gray-800 hover:bg-gray-200': unit.status === 'Consulte Disponibilidade',
                           },
-                          unit.status !== 'Vendido' && 'cursor-pointer'
+                          'cursor-pointer'
                         )}
                       >
                         {unit.unit}
