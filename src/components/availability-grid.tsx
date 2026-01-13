@@ -71,31 +71,43 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (loading) return; // Wait until data is loaded
-    
+    if (loading) return;
+
     if (firestore && availabilityData) {
       if (availabilityData.length > 0) {
         // Data is present in Firestore, use it as the source of truth
-        setAvailability(availabilityData as AvailabilityType[]);
+        // Create a map for quick lookups
+        const firestoreMap = new Map(availabilityData.map(item => [item.unit, item]));
+        
+        // Merge with initial data to ensure all units are present, but prioritize Firestore data
+        const mergedAvailability = initialAvailability.map(initialUnit => {
+          const firestoreUnit = firestoreMap.get(initialUnit.unit);
+          return firestoreUnit ? { ...initialUnit, ...firestoreUnit } : initialUnit;
+        });
+        
+        setAvailability(mergedAvailability);
       } else {
         // Firestore is empty, seed it with the initial data
         console.log('Seeding database with initial availability...');
         const seedDatabase = async () => {
+          const writeBatch = [];
           for (const unit of initialAvailability) {
             const unitRef = doc(firestore, 'availability', unit.unit);
-            // Seed the document with all relevant data
-            await setDoc(unitRef, {
+            // setDoc is non-blocking here, but we batch them
+            writeBatch.push(setDoc(unitRef, {
               unit: unit.unit,
               status: unit.status,
               area: unit.area,
               type: unit.type,
               paymentFlow: unit.paymentFlow || null,
-            });
+            }));
           }
+          await Promise.all(writeBatch);
           console.log('Database seeded.');
-          // After seeding, the useCollection hook will pick up the new data
         };
         seedDatabase().catch(console.error);
+        // Keep the initial state until the hook re-fetches after seeding
+        setAvailability(initialAvailability);
       }
     }
   }, [availabilityData, loading, firestore, initialAvailability]);
@@ -109,10 +121,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   };
 
   const handleUnitClick = (unit: AvailabilityType) => {
-    if (unit.status !== 'Vendido') {
-      setSelectedUnit(unit);
-      setIsInfoDialogOpen(true);
-    }
+    setSelectedUnit(unit);
+    setIsInfoDialogOpen(true);
   };
   
   const handleEditClick = (unit: AvailabilityType, e: React.MouseEvent) => {
@@ -128,11 +138,9 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
     if (unitToEdit && newStatus && firestore) {
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
-      // Only update the status field.
       setDoc(unitRef, { status: newStatus }, { merge: true });
     }
     
-    // Close the dialog. The UI will update automatically via the useCollection listener.
     setIsEditDialogOpen(false);
     setUnitToEdit(null);
     setNewStatus('');
@@ -215,10 +223,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                            {
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-red-100 border-red-300 text-red-800': unit.status === 'Vendido',
-                          },
-                           unit.status === 'Vendido' ? 'cursor-default' : 'cursor-pointer'
+                           },
                         )}
-                         disabled={unit.status === 'Vendido'}
                       >
                         {unit.unit}
                          <div 
@@ -327,7 +333,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
             </AlertDialogHeader>
             <AlertDialogFooter className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
               <AlertDialogCancel className="lg:col-span-4 w-full">Voltar</AlertDialogCancel>
-              {selectedUnit && (
+              {selectedUnit && selectedUnit.status !== 'Vendido' && (
                 <>
                   <Button asChild variant="outline" className="w-full">
                     <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
@@ -341,21 +347,21 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                       Documentação
                     </Link>
                   </AlertDialogAction>
-                   <Button 
-                    variant="secondary"
-                    className="lg:col-span-2 w-full"
-                    onClick={() => {
-                        if (selectedUnit) {
-                          setIsInfoDialogOpen(false);
-                          openEditDialog(selectedUnit);
-                        }
-                    }}
-                    >
-                    <Pencil className="mr-2 h-4 w-4" />
-                    Alterar Status
-                   </Button>
                 </>
               )}
+               <Button 
+                variant="secondary"
+                className="w-full lg:col-span-2"
+                onClick={() => {
+                    if (selectedUnit) {
+                      setIsInfoDialogOpen(false);
+                      openEditDialog(selectedUnit);
+                    }
+                }}
+                >
+                <Pencil className="mr-2 h-4 w-4" />
+                Alterar Status
+               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -408,5 +414,3 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
-
-    
