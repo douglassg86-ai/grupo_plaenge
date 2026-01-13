@@ -16,6 +16,7 @@ import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import ShiftEventPopup from '@/components/shift-event-popup';
 
 type ProjectPageProps = {
   params: {
@@ -268,6 +269,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             </CardContent>
           </Card>
         </section>
+        {project.slug === 'shift' && <ShiftEventPopup />}
       </article>
     </div>
   );

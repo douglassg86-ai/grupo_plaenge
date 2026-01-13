@@ -1,0 +1,65 @@
+
+'use client';
+
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+
+const POPUP_DISMISSED_KEY = 'shiftEventPopupDismissed_2026_01';
+
+export default function ShiftEventPopup() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const targetDate = new Date('2026-01-14T23:59:59');
+    const now = new Date();
+
+    if (now > targetDate) {
+      return; 
+    }
+
+    const isDismissed = localStorage.getItem(POPUP_DISMISSED_KEY);
+    if (!isDismissed) {
+      setIsOpen(true);
+    }
+  }, []);
+
+  const handleDismiss = () => {
+    localStorage.setItem(POPUP_DISMISSED_KEY, 'true');
+    setIsOpen(false);
+  };
+  
+  const handleConfirm = () => {
+    const phoneNumber = '5551994013918';
+    const message = encodeURIComponent('Olá, confirmo minha presença no evento do SHIFT!');
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+    handleDismiss();
+  };
+
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={handleDismiss}>
+        <DialogContent className="p-0 border-0 max-w-lg overflow-hidden">
+            <div className="relative aspect-[9/16] w-full">
+                <Image 
+                    src="/SHIFT/convite_14_01_2026.jpg" 
+                    alt="Convite para evento SHIFT" 
+                    fill
+                    className="object-contain"
+                    data-ai-hint="event invitation"
+                />
+            </div>
+             <DialogFooter className="p-4 bg-background sm:justify-center gap-2">
+                 <Button onClick={handleConfirm} size="lg" className="w-full sm:w-auto">
+                    Confirmar Presença
+                </Button>
+                <Button variant="outline" onClick={handleDismiss} size="lg" className="w-full sm:w-auto">Fechar</Button>
+             </DialogFooter>
+        </DialogContent>
+    </Dialog>
+  );
+}
