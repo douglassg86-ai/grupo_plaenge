@@ -44,22 +44,12 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useCollection, useFirestore } from '@/firebase';
-import { collection, doc, setDoc } from 'firebase/firestore';
 
 type AvailabilityGridProps = {
   availability: AvailabilityType[];
 };
 
 export function AvailabilityGrid({ availability: initialAvailability }: AvailabilityGridProps) {
-  const firestore = useFirestore();
-  const availabilityCollection = useMemo(() => {
-    if (!firestore) return null;
-    return collection(firestore, 'availability');
-  }, [firestore]);
-  
-  const { data: availabilityData, loading } = useCollection(availabilityCollection);
-
   const [availability, setAvailability] = useState<AvailabilityType[]>(initialAvailability);
   const [selectedUnit, setSelectedUnit] = useState<AvailabilityType | null>(null);
   const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
@@ -69,21 +59,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const [newStatus, setNewStatus] = useState<AvailabilityStatus | ''>('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (availabilityData) {
-      const firestoreMap = new Map(availabilityData.map(item => [item.unit, item]));
-      
-      const mergedAvailability = initialAvailability.map(initialUnit => {
-        const firestoreUnit = firestoreMap.get(initialUnit.unit);
-        return firestoreUnit ? { ...initialUnit, ...firestoreUnit } : initialUnit;
-      });
-      
-      setAvailability(mergedAvailability);
-    } else {
-      setAvailability(initialAvailability);
-    }
-  }, [availabilityData, initialAvailability]);
 
   const openEditDialog = (unit: AvailabilityType) => {
     setUnitToEdit(unit);
@@ -109,15 +84,12 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
       return;
     }
 
-    if (unitToEdit && newStatus && firestore) {
-      const unitRef = doc(firestore, 'availability', unitToEdit.unit);
-      try {
-        await setDoc(unitRef, { unit: unitToEdit.unit, status: newStatus }, { merge: true });
-        
-      } catch (e) {
-        console.error("Error updating document: ", e);
-        setError('Falha ao salvar. Tente novamente.');
-      }
+    if (unitToEdit && newStatus) {
+      setAvailability(prev => 
+        prev.map(unit => 
+          unit.unit === unitToEdit.unit ? { ...unit, status: newStatus as AvailabilityStatus } : unit
+        )
+      );
     }
     
     setIsEditDialogOpen(false);
@@ -126,7 +98,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     setPassword('');
     setError('');
   };
-
 
   const getFloorImage = (floor: number) => {
     if (floor >= 2 && floor <= 9) return '/SHIFT/cpavimentos-01.png';
@@ -161,18 +132,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     const body = `Olá!\n\nGostaria de alocar a pasta do meu cliente na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT.\n\nSeguem os documentos em anexo.\n\nObrigado.`;
     return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }, [selectedUnit]);
-
-  if (loading) {
-    return (
-        <Card>
-            <CardContent className="p-4">
-                <div className="flex justify-center items-center h-40">
-                    <p className="text-muted-foreground">Carregando espelho de vendas...</p>
-                </div>
-            </CardContent>
-        </Card>
-    );
-  }
 
   return (
     <Card>
