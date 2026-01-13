@@ -73,27 +73,32 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   useEffect(() => {
     if (loading || !firestore) return;
 
-    if (availabilityData) {
-      if (availabilityData.length === 0) {
-        // If firestore is empty, seed it with initial data.
-        console.log('Seeding database...');
-        const seedDatabase = async () => {
-          for (const unit of initialAvailability) {
-            const unitRef = doc(firestore, 'availability', unit.unit);
-            await setDoc(unitRef, { unit: unit.unit, status: unit.status });
-          }
-          console.log('Database seeded');
-        };
-        seedDatabase().catch(console.error);
-        setAvailability(initialAvailability);
-      } else {
-        const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
-        const updatedAvailability = initialAvailability.map(unit => ({
-          ...unit,
-          status: availabilityMap.get(unit.unit) || unit.status,
-        }));
-        setAvailability(updatedAvailability);
-      }
+    if (availabilityData && availabilityData.length > 0) {
+      // Data loaded from Firestore, use it as the source of truth
+      const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
+      const updatedAvailability = initialAvailability.map(unit => ({
+        ...unit,
+        status: availabilityMap.get(unit.unit) || 'Disponível', // Default to available if not found
+      }));
+      setAvailability(updatedAvailability);
+    } else if (availabilityData && availabilityData.length === 0) {
+      // Firestore is empty, seed it with initial data.
+      console.log('Seeding database...');
+      const seedDatabase = async () => {
+        for (const unit of initialAvailability) {
+          const unitRef = doc(firestore, 'availability', unit.unit);
+          // Ensure all fields from initialAvailability are seeded
+          await setDoc(unitRef, { 
+            unit: unit.unit, 
+            status: unit.status,
+            area: unit.area,
+            type: unit.type
+          });
+        }
+        console.log('Database seeded');
+        setAvailability(initialAvailability); // Set initial state for UI
+      };
+      seedDatabase().catch(console.error);
     }
   }, [availabilityData, loading, initialAvailability, firestore]);
 
@@ -125,9 +130,12 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
     if (unitToEdit && newStatus && firestore) {
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
+      // setDoc with merge will create or update the document.
       setDoc(unitRef, { status: newStatus }, { merge: true });
     }
     
+    // Close the dialog and reset state. The UI will update automatically
+    // via the useCollection listener.
     setIsEditDialogOpen(false);
     setUnitToEdit(null);
     setNewStatus('');
@@ -205,16 +213,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         variant={unit.status === 'Disponível' ? 'outline' : 'default'}
                         size="sm"
                         onClick={() => handleUnitClick(unit)}
-                        disabled={unit.status === 'Vendido'}
                         className={cn(
                           'font-mono h-10 w-full text-xs p-1 relative group',
                            {
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
-                            'bg-red-100 border-red-300 text-red-800 hover:bg-red-200': unit.status === 'Vendido',
+                            'bg-red-100 border-red-300 text-red-800': unit.status === 'Vendido',
                           },
-                           'cursor-pointer',
-                           unit.status === 'Disponível' && 'cursor-pointer',
-                           unit.status === 'Vendido' && 'cursor-default'
+                           unit.status === 'Disponível' ? 'cursor-pointer' : 'cursor-default'
                         )}
                       >
                         {unit.unit}
@@ -405,5 +410,3 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
-
-    
