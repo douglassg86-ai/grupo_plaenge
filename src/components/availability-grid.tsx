@@ -73,25 +73,27 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   useEffect(() => {
     if (loading || !firestore) return;
 
-    if (availabilityData && availabilityData.length > 0) {
-      const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
-      const updatedAvailability = initialAvailability.map(unit => ({
-        ...unit,
-        status: availabilityMap.get(unit.unit) || unit.status,
-      }));
-      setAvailability(updatedAvailability);
-    } else if (availabilityData && availabilityData.length === 0) {
-      // If firestore is empty, seed it with initial data.
-      console.log('Seeding database...');
-      const seedDatabase = async () => {
-        for (const unit of initialAvailability) {
-          const unitRef = doc(firestore, 'availability', unit.unit);
-          await setDoc(unitRef, { unit: unit.unit, status: unit.status });
-        }
-        console.log('Database seeded');
-      };
-      seedDatabase().catch(console.error);
-      setAvailability(initialAvailability);
+    if (availabilityData) {
+      if (availabilityData.length === 0) {
+        // If firestore is empty, seed it with initial data.
+        console.log('Seeding database...');
+        const seedDatabase = async () => {
+          for (const unit of initialAvailability) {
+            const unitRef = doc(firestore, 'availability', unit.unit);
+            await setDoc(unitRef, { unit: unit.unit, status: unit.status });
+          }
+          console.log('Database seeded');
+        };
+        seedDatabase().catch(console.error);
+        setAvailability(initialAvailability);
+      } else {
+        const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
+        const updatedAvailability = initialAvailability.map(unit => ({
+          ...unit,
+          status: availabilityMap.get(unit.unit) || unit.status,
+        }));
+        setAvailability(updatedAvailability);
+      }
     }
   }, [availabilityData, loading, initialAvailability, firestore]);
 
@@ -115,7 +117,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     openEditDialog(unit);
   };
 
-  const handleStatusChange = async () => {
+  const handleStatusChange = () => {
     if (password !== 'pau.junior') {
       setError('Senha incorreta!');
       return;
@@ -123,13 +125,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
     if (unitToEdit && newStatus && firestore) {
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
-      try {
-        await setDoc(unitRef, { status: newStatus }, { merge: true });
-      } catch (e) {
-        console.error("Error updating status: ", e);
-        setError('Falha ao atualizar o status.');
-        return; 
-      }
+      setDoc(unitRef, { status: newStatus }, { merge: true });
     }
     
     setIsEditDialogOpen(false);
@@ -216,7 +212,9 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-red-100 border-red-300 text-red-800 hover:bg-red-200': unit.status === 'Vendido',
                           },
-                           'cursor-pointer' // Enable pointer on all to allow editing
+                           'cursor-pointer',
+                           unit.status === 'Disponível' && 'cursor-pointer',
+                           unit.status === 'Vendido' && 'cursor-default'
                         )}
                       >
                         {unit.unit}
