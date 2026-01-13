@@ -71,36 +71,34 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (loading || !firestore) return;
-
-    if (availabilityData && availabilityData.length > 0) {
-      // Data loaded from Firestore, use it as the source of truth
-      const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
-      const updatedAvailability = initialAvailability.map(unit => ({
-        ...unit,
-        status: availabilityMap.get(unit.unit) || 'Disponível', // Default to available if not found
-      }));
-      setAvailability(updatedAvailability);
-    } else if (availabilityData && availabilityData.length === 0) {
-      // Firestore is empty, seed it with initial data.
-      console.log('Seeding database...');
-      const seedDatabase = async () => {
-        for (const unit of initialAvailability) {
-          const unitRef = doc(firestore, 'availability', unit.unit);
-          // Ensure all fields from initialAvailability are seeded
-          await setDoc(unitRef, { 
-            unit: unit.unit, 
-            status: unit.status,
-            area: unit.area,
-            type: unit.type
-          });
-        }
-        console.log('Database seeded');
-        setAvailability(initialAvailability); // Set initial state for UI
-      };
-      seedDatabase().catch(console.error);
+    if (loading) return; // Wait until data is loaded
+    
+    if (firestore && availabilityData) {
+      if (availabilityData.length > 0) {
+        // Data is present in Firestore, use it as the source of truth
+        setAvailability(availabilityData as AvailabilityType[]);
+      } else {
+        // Firestore is empty, seed it with the initial data
+        console.log('Seeding database with initial availability...');
+        const seedDatabase = async () => {
+          for (const unit of initialAvailability) {
+            const unitRef = doc(firestore, 'availability', unit.unit);
+            // Seed the document with all relevant data
+            await setDoc(unitRef, {
+              unit: unit.unit,
+              status: unit.status,
+              area: unit.area,
+              type: unit.type,
+              paymentFlow: unit.paymentFlow || null,
+            });
+          }
+          console.log('Database seeded.');
+          // After seeding, the useCollection hook will pick up the new data
+        };
+        seedDatabase().catch(console.error);
+      }
     }
-  }, [availabilityData, loading, initialAvailability, firestore]);
+  }, [availabilityData, loading, firestore, initialAvailability]);
 
   const openEditDialog = (unit: AvailabilityType) => {
     setUnitToEdit(unit);
@@ -130,12 +128,11 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
     if (unitToEdit && newStatus && firestore) {
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
-      // setDoc with merge will create or update the document.
+      // Only update the status field.
       setDoc(unitRef, { status: newStatus }, { merge: true });
     }
     
-    // Close the dialog and reset state. The UI will update automatically
-    // via the useCollection listener.
+    // Close the dialog. The UI will update automatically via the useCollection listener.
     setIsEditDialogOpen(false);
     setUnitToEdit(null);
     setNewStatus('');
