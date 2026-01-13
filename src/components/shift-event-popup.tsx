@@ -16,7 +16,13 @@ export default function ShiftEventPopup() {
     if (now > targetDate) {
       return; 
     }
-    setIsOpen(true);
+    // For development, you might want to uncomment the next line to always show it
+    // setIsOpen(true);
+    const hasSeenPopup = sessionStorage.getItem('hasSeenShiftPopup');
+    if (!hasSeenPopup) {
+        setIsOpen(true);
+        sessionStorage.setItem('hasSeenShiftPopup', 'true');
+    }
   }, []);
 
   const handleDismiss = () => {
@@ -46,11 +52,11 @@ export default function ShiftEventPopup() {
                     data-ai-hint="event invitation"
                 />
             </div>
-             <DialogFooter className="p-4 bg-background sm:justify-center gap-2">
-                 <Button onClick={handleConfirm} size="lg" className="w-full sm:w-auto">
+             <DialogFooter className="p-4 bg-background sm:justify-center gap-2 flex-col sm:flex-col sm:space-y-2">
+                 <Button onClick={handleConfirm} size="lg" className="w-full">
                     Confirmar Presença
                 </Button>
-                <Button variant="outline" onClick={handleDismiss} size="lg" className="w-full sm:w-auto">Fechar</Button>
+                <Button variant="outline" onClick={handleDismiss} size="lg" className="w-full">Fechar</Button>
              </DialogFooter>
         </DialogContent>
     </Dialog>
