@@ -63,6 +63,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const [error, setError] = useState('');
 
   const handleUnitClick = (unit: Availability) => {
+    if (unit.status === 'Vendido') return;
     setSelectedUnit(unit);
     setIsInfoDialogOpen(true);
   };
@@ -174,11 +175,11 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                           {
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200': unit.status === 'Pasta Alocada',
-                            'bg-red-100 border-red-300 text-red-800 hover:bg-red-200 cursor-not-allowed': unit.status === 'Vendido',
+                            'bg-red-100 border-red-300 text-red-800 hover:bg-red-200': unit.status === 'Vendido',
                              'bg-gray-100 border-gray-300 text-gray-800 hover:bg-gray-200': unit.status === 'Consulte Disponibilidade',
-                          }
+                          },
+                          unit.status === 'Vendido' && 'cursor-pointer'
                         )}
-                        disabled={unit.status === 'Vendido'}
                       >
                         {unit.unit}
                          <div 
@@ -340,9 +341,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Disponível">Disponível</SelectItem>
-                    <SelectItem value="Pasta Alocada">Pasta Alocada</SelectItem>
                     <SelectItem value="Vendido">Vendido</SelectItem>
-                    <SelectItem value="Consulte Disponibilidade">Consulte Disponibilidade</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -371,4 +370,3 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
-
