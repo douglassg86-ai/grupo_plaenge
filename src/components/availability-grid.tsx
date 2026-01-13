@@ -62,6 +62,14 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const openEditDialog = (unit: Availability) => {
+    setUnitToEdit(unit);
+    setNewStatus(unit.status);
+    setIsEditDialogOpen(true);
+    setError('');
+    setPassword('');
+  };
+
   const handleUnitClick = (unit: Availability) => {
     if (unit.status === 'Vendido') return;
     setSelectedUnit(unit);
@@ -70,11 +78,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   
   const handleEditClick = (unit: Availability, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent the info dialog from opening
-    setUnitToEdit(unit);
-    setNewStatus(unit.status);
-    setIsEditDialogOpen(true);
-    setError('');
-    setPassword('');
+    openEditDialog(unit);
   };
 
   const handleStatusChange = () => {
@@ -178,12 +182,12 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                             'bg-red-100 border-red-300 text-red-800 hover:bg-red-200': unit.status === 'Vendido',
                              'bg-gray-100 border-gray-300 text-gray-800 hover:bg-gray-200': unit.status === 'Consulte Disponibilidade',
                           },
-                          unit.status === 'Vendido' && 'cursor-pointer'
+                          unit.status !== 'Vendido' && 'cursor-pointer'
                         )}
                       >
                         {unit.unit}
                          <div 
-                           className="absolute top-0 right-0 p-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded-bl-md"
+                           className="absolute top-0 right-0 p-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded-bl-md cursor-pointer"
                            onClick={(e) => handleEditClick(unit, e)}
                            title="Alterar status da unidade"
                          >
@@ -300,22 +304,33 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                 </div>
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="mt-4 flex-col-reverse sm:flex-row gap-2">
-              <AlertDialogCancel>Voltar</AlertDialogCancel>
+            <AlertDialogFooter className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+              <AlertDialogCancel className="lg:col-span-4 w-full">Voltar</AlertDialogCancel>
               {selectedUnit && (
                 <>
-                  <Button asChild variant="outline">
+                  <Button asChild variant="outline" className="w-full">
                     <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
                       <FilePenLine className="mr-2 h-4 w-4" />
-                      Preencher Ficha Cadastro
+                      Ficha Cadastro
                     </Link>
                   </Button>
-                  <AlertDialogAction asChild>
+                  <AlertDialogAction asChild className="w-full">
                     <Link href={mailtoLink} target="_blank">
                       <Mail className="mr-2 h-4 w-4" />
-                      Enviar documentação
+                      Documentação
                     </Link>
                   </AlertDialogAction>
+                   <Button 
+                    variant="secondary"
+                    className="lg:col-span-2 w-full"
+                    onClick={() => {
+                        setIsInfoDialogOpen(false);
+                        openEditDialog(selectedUnit);
+                    }}
+                    >
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Alterar Status
+                   </Button>
                 </>
               )}
             </AlertDialogFooter>
