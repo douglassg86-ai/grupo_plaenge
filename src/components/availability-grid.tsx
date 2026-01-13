@@ -71,46 +71,22 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (loading) return;
-
-    if (firestore && availabilityData) {
-      if (availabilityData.length > 0) {
-        // Data is present in Firestore, use it as the source of truth
-        // Create a map for quick lookups
-        const firestoreMap = new Map(availabilityData.map(item => [item.unit, item]));
-        
-        // Merge with initial data to ensure all units are present, but prioritize Firestore data
-        const mergedAvailability = initialAvailability.map(initialUnit => {
-          const firestoreUnit = firestoreMap.get(initialUnit.unit);
-          return firestoreUnit ? { ...initialUnit, ...firestoreUnit } : initialUnit;
-        });
-        
-        setAvailability(mergedAvailability);
-      } else {
-        // Firestore is empty, seed it with the initial data
-        console.log('Seeding database with initial availability...');
-        const seedDatabase = async () => {
-          const writeBatch = [];
-          for (const unit of initialAvailability) {
-            const unitRef = doc(firestore, 'availability', unit.unit);
-            // setDoc is non-blocking here, but we batch them
-            writeBatch.push(setDoc(unitRef, {
-              unit: unit.unit,
-              status: unit.status,
-              area: unit.area,
-              type: unit.type,
-              paymentFlow: unit.paymentFlow || null,
-            }));
-          }
-          await Promise.all(writeBatch);
-          console.log('Database seeded.');
-        };
-        seedDatabase().catch(console.error);
-        // Keep the initial state until the hook re-fetches after seeding
-        setAvailability(initialAvailability);
-      }
+    if (availabilityData) {
+      // Create a map for quick lookups from Firestore data
+      const firestoreMap = new Map(availabilityData.map(item => [item.unit, item]));
+      
+      // Merge with initial data to ensure all units are present, but prioritize Firestore data for status
+      const mergedAvailability = initialAvailability.map(initialUnit => {
+        const firestoreUnit = firestoreMap.get(initialUnit.unit);
+        return firestoreUnit ? { ...initialUnit, ...firestoreUnit } : initialUnit;
+      });
+      
+      setAvailability(mergedAvailability);
+    } else {
+      // While data is loading or if it's null, use the initial static data
+      setAvailability(initialAvailability);
     }
-  }, [availabilityData, loading, firestore, initialAvailability]);
+  }, [availabilityData, initialAvailability]);
 
   const openEditDialog = (unit: AvailabilityType) => {
     setUnitToEdit(unit);
@@ -130,7 +106,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     openEditDialog(unit);
   };
 
-  const handleStatusChange = () => {
+  const handleStatusChange = async () => {
     if (password !== 'pau.junior') {
       setError('Senha incorreta!');
       return;
@@ -138,7 +114,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
     if (unitToEdit && newStatus && firestore) {
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
-      setDoc(unitRef, { status: newStatus }, { merge: true });
+      try {
+        await setDoc(unitRef, { unit: unitToEdit.unit, status: newStatus }, { merge: true });
+        // The useCollection hook will automatically update the UI
+      } catch (e) {
+        console.error("Error updating document: ", e);
+        setError('Falha ao salvar. Tente novamente.');
+      }
     }
     
     setIsEditDialogOpen(false);
@@ -161,6 +143,10 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   };
 
   const floors = useMemo(() => {
+    if (loading && availability.length === initialAvailability.length) {
+        // To prevent flicker while loading from firestore
+        return [];
+    }
     const grouped: Record<number, AvailabilityType[]> = {};
     availability.forEach((item) => {
       const floorNumber = Math.floor(parseInt(item.unit) / 100);
@@ -174,7 +160,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
       grouped[parseInt(floor)].sort((a, b) => parseInt(a.unit) - parseInt(b.unit));
     });
     return Object.entries(grouped).sort(([a], [b]) => parseInt(b) - parseInt(a));
-  }, [availability]);
+  }, [availability, loading, initialAvailability.length]);
   
   const mailtoLink = useMemo(() => {
     if (!selectedUnit) return '';
