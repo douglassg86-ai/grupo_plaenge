@@ -16,13 +16,7 @@ export default function ShiftEventPopup() {
     if (now > targetDate) {
       return; 
     }
-    // For development, you might want to uncomment the next line to always show it
-    // setIsOpen(true);
-    const hasSeenPopup = sessionStorage.getItem('hasSeenShiftPopup');
-    if (!hasSeenPopup) {
-        setIsOpen(true);
-        sessionStorage.setItem('hasSeenShiftPopup', 'true');
-    }
+    setIsOpen(true);
   }, []);
 
   const handleDismiss = () => {
@@ -43,12 +37,13 @@ export default function ShiftEventPopup() {
   return (
     <Dialog open={isOpen} onOpenChange={handleDismiss}>
         <DialogContent className="p-0 border-0 max-w-lg overflow-hidden">
-            <div className="relative aspect-[9/16] w-full">
+            <div className="relative w-full">
                 <Image 
                     src="/SHIFT/convite_14_01_2026 copiar.jpg" 
                     alt="Convite para evento SHIFT" 
-                    fill
-                    className="object-contain"
+                    width={1080}
+                    height={1920}
+                    className="w-full h-auto object-contain"
                     data-ai-hint="event invitation"
                 />
             </div>
