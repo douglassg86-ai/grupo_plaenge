@@ -219,8 +219,9 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-red-100 border-red-300 text-red-800': unit.status === 'Vendido',
                           },
-                           unit.status === 'Disponível' ? 'cursor-pointer' : 'cursor-default'
+                           unit.status === 'Vendido' ? 'cursor-default' : 'cursor-pointer'
                         )}
+                         disabled={unit.status === 'Vendido'}
                       >
                         {unit.unit}
                          <div 
@@ -410,3 +411,5 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
+
+    
