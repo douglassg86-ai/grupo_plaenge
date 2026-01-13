@@ -71,26 +71,27 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!loading && availabilityData && firestore) {
-       // If firestore is empty, seed it with initial data.
-      if (availabilityData.length === 0) {
-        console.log('Seeding database...');
-        const batch = initialAvailability.map(unit => {
+    if (loading || !firestore) return;
+
+    if (availabilityData && availabilityData.length > 0) {
+      const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
+      const updatedAvailability = initialAvailability.map(unit => ({
+        ...unit,
+        status: availabilityMap.get(unit.unit) || unit.status,
+      }));
+      setAvailability(updatedAvailability);
+    } else if (availabilityData && availabilityData.length === 0) {
+      // If firestore is empty, seed it with initial data.
+      console.log('Seeding database...');
+      const seedDatabase = async () => {
+        for (const unit of initialAvailability) {
           const unitRef = doc(firestore, 'availability', unit.unit);
-          return setDoc(unitRef, { unit: unit.unit, status: unit.status });
-        });
-        Promise.all(batch)
-          .then(() => console.log('Database seeded'))
-          .catch(console.error);
-        setAvailability(initialAvailability);
-      } else {
-        const availabilityMap = new Map(availabilityData.map((item: any) => [item.unit, item.status]));
-        const updatedAvailability = initialAvailability.map(unit => ({
-          ...unit,
-          status: availabilityMap.get(unit.unit) || unit.status,
-        }));
-        setAvailability(updatedAvailability);
-      }
+          await setDoc(unitRef, { unit: unit.unit, status: unit.status });
+        }
+        console.log('Database seeded');
+      };
+      seedDatabase().catch(console.error);
+      setAvailability(initialAvailability);
     }
   }, [availabilityData, loading, initialAvailability, firestore]);
 
@@ -103,8 +104,10 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   };
 
   const handleUnitClick = (unit: AvailabilityType) => {
-    setSelectedUnit(unit);
-    setIsInfoDialogOpen(true);
+    if (unit.status !== 'Vendido') {
+      setSelectedUnit(unit);
+      setIsInfoDialogOpen(true);
+    }
   };
   
   const handleEditClick = (unit: AvailabilityType, e: React.MouseEvent) => {
@@ -121,16 +124,16 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     if (unitToEdit && newStatus && firestore) {
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
       try {
+        // Firestore will be updated, and the useCollection hook will update the UI.
         await setDoc(unitRef, { status: newStatus }, { merge: true });
-        // Optimistic update
-        setAvailability(prev => prev.map(u => u.unit === unitToEdit.unit ? {...u, status: newStatus as AvailabilityStatus} : u));
       } catch (e) {
         console.error("Error updating status: ", e);
         setError('Falha ao atualizar o status.');
-        return;
+        return; // Don't close the dialog on error
       }
     }
     
+    // Close dialog and reset state on success
     setIsEditDialogOpen(false);
     setUnitToEdit(null);
     setNewStatus('');
@@ -210,6 +213,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         variant={unit.status === 'Disponível' ? 'outline' : 'default'}
                         size="sm"
                         onClick={() => handleUnitClick(unit)}
+                        disabled={unit.status === 'Vendido'}
                         className={cn(
                           'font-mono h-10 w-full text-xs p-1 relative group',
                            {
@@ -218,7 +222,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                             'bg-red-100 border-red-300 text-red-800 hover:bg-red-200': unit.status === 'Vendido',
                              'bg-gray-100 border-gray-300 text-gray-800 hover:bg-gray-200': unit.status === 'Consulte Disponibilidade',
                           },
-                          'cursor-pointer'
+                           unit.status !== 'Vendido' && 'cursor-pointer'
                         )}
                       >
                         {unit.unit}
@@ -360,8 +364,10 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                     variant="secondary"
                     className="lg:col-span-2 w-full"
                     onClick={() => {
-                        setIsInfoDialogOpen(false);
-                        openEditDialog(selectedUnit);
+                        if (selectedUnit) {
+                          setIsInfoDialogOpen(false);
+                          openEditDialog(selectedUnit);
+                        }
                     }}
                     >
                     <Pencil className="mr-2 h-4 w-4" />
@@ -421,3 +427,5 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
+
+    
