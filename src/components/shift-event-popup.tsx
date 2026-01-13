@@ -6,8 +6,6 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
-const POPUP_DISMISSED_KEY = 'shiftEventPopupDismissed_2026_01';
-
 export default function ShiftEventPopup() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,15 +16,10 @@ export default function ShiftEventPopup() {
     if (now > targetDate) {
       return; 
     }
-
-    const isDismissed = localStorage.getItem(POPUP_DISMISSED_KEY);
-    if (!isDismissed) {
-      setIsOpen(true);
-    }
+    setIsOpen(true);
   }, []);
 
   const handleDismiss = () => {
-    localStorage.setItem(POPUP_DISMISSED_KEY, 'true');
     setIsOpen(false);
   };
   
@@ -46,7 +39,7 @@ export default function ShiftEventPopup() {
         <DialogContent className="p-0 border-0 max-w-lg overflow-hidden">
             <div className="relative aspect-[9/16] w-full">
                 <Image 
-                    src="/SHIFT/convite_14_01_2026.jpg" 
+                    src="/SHIFT/convite_14_01_2026 copiar.jpg" 
                     alt="Convite para evento SHIFT" 
                     fill
                     className="object-contain"
