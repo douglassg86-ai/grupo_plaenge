@@ -72,10 +72,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
 
   useEffect(() => {
     if (availabilityData) {
-      // Create a map for quick lookups from Firestore data
       const firestoreMap = new Map(availabilityData.map(item => [item.unit, item]));
       
-      // Merge with initial data to ensure all units are present, but prioritize Firestore data for status
       const mergedAvailability = initialAvailability.map(initialUnit => {
         const firestoreUnit = firestoreMap.get(initialUnit.unit);
         return firestoreUnit ? { ...initialUnit, ...firestoreUnit } : initialUnit;
@@ -83,7 +81,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
       
       setAvailability(mergedAvailability);
     } else {
-      // While data is loading or if it's null, use the initial static data
       setAvailability(initialAvailability);
     }
   }, [availabilityData, initialAvailability]);
@@ -116,7 +113,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
       const unitRef = doc(firestore, 'availability', unitToEdit.unit);
       try {
         await setDoc(unitRef, { unit: unitToEdit.unit, status: newStatus }, { merge: true });
-        // The useCollection hook will automatically update the UI
+        
       } catch (e) {
         console.error("Error updating document: ", e);
         setError('Falha ao salvar. Tente novamente.');
@@ -143,10 +140,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
   };
 
   const floors = useMemo(() => {
-    if (loading && availability.length === initialAvailability.length) {
-        // To prevent flicker while loading from firestore
-        return [];
-    }
     const grouped: Record<number, AvailabilityType[]> = {};
     availability.forEach((item) => {
       const floorNumber = Math.floor(parseInt(item.unit) / 100);
@@ -155,12 +148,11 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
       }
       grouped[floorNumber].push(item);
     });
-    // Sort units within each floor by unit number
     Object.keys(grouped).forEach((floor) => {
       grouped[parseInt(floor)].sort((a, b) => parseInt(a.unit) - parseInt(b.unit));
     });
     return Object.entries(grouped).sort(([a], [b]) => parseInt(b) - parseInt(a));
-  }, [availability, loading, initialAvailability.length]);
+  }, [availability]);
   
   const mailtoLink = useMemo(() => {
     if (!selectedUnit) return '';
@@ -170,6 +162,17 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }, [selectedUnit]);
 
+  if (loading) {
+    return (
+        <Card>
+            <CardContent className="p-4">
+                <div className="flex justify-center items-center h-40">
+                    <p className="text-muted-foreground">Carregando espelho de vendas...</p>
+                </div>
+            </CardContent>
+        </Card>
+    );
+  }
 
   return (
     <Card>
@@ -400,3 +403,5 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
     </Card>
   );
 }
+
+    
