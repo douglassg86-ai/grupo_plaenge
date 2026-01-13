@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import type { Availability } from '@/lib/types';
+import type { Availability, AvailabilityStatus } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -22,8 +22,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import Link from 'next/link';
-import { Download, Mail, AlertTriangle, FilePenLine } from 'lucide-react';
+import { Download, Mail, AlertTriangle, FilePenLine, Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle as AlertTitleComponent } from './ui/alert';
 import {
@@ -34,6 +41,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 type AvailabilityGridProps = {
@@ -43,12 +53,50 @@ type AvailabilityGridProps = {
 export function AvailabilityGrid({ availability: initialAvailability }: AvailabilityGridProps) {
   const [availability, setAvailability] = useState(initialAvailability);
   const [selectedUnit, setSelectedUnit] = useState<Availability | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
+  
+  // State for the new edit dialog
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [unitToEdit, setUnitToEdit] = useState<Availability | null>(null);
+  const [newStatus, setNewStatus] = useState<AvailabilityStatus | ''>('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleUnitClick = (unit: Availability) => {
     setSelectedUnit(unit);
-    setIsDialogOpen(true);
+    setIsInfoDialogOpen(true);
   };
+  
+  const handleEditClick = (unit: Availability, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the info dialog from opening
+    setUnitToEdit(unit);
+    setNewStatus(unit.status);
+    setIsEditDialogOpen(true);
+    setError('');
+    setPassword('');
+  };
+
+  const handleStatusChange = () => {
+    if (password !== 'pau.junior') {
+      setError('Senha incorreta!');
+      return;
+    }
+
+    if (unitToEdit && newStatus) {
+      setAvailability(prev => 
+        prev.map(u => 
+          u.unit === unitToEdit.unit ? { ...u, status: newStatus as AvailabilityStatus } : u
+        )
+      );
+    }
+    
+    setIsEditDialogOpen(false);
+    setUnitToEdit(null);
+    setNewStatus('');
+    setPassword('');
+    setError('');
+  };
+
 
   const getFloorImage = (floor: number) => {
     if (floor >= 2 && floor <= 9) return '/SHIFT/cpavimentos-01.png';
@@ -122,7 +170,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         size="sm"
                         onClick={() => handleUnitClick(unit)}
                         className={cn(
-                          'font-mono h-10 w-full text-xs p-1',
+                          'font-mono h-10 w-full text-xs p-1 relative group',
                           {
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200': unit.status === 'Pasta Alocada',
@@ -133,6 +181,13 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         disabled={unit.status === 'Vendido'}
                       >
                         {unit.unit}
+                         <div 
+                           className="absolute top-0 right-0 p-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded-bl-md"
+                           onClick={(e) => handleEditClick(unit, e)}
+                           title="Alterar status da unidade"
+                         >
+                           <Pencil className="h-3 w-3 text-white" />
+                         </div>
                       </Button>
                     ))}
                   </div>
@@ -176,7 +231,7 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
             )})}
         </Accordion>
         
-        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialog open={isInfoDialogOpen} onOpenChange={setIsInfoDialogOpen}>
           <AlertDialogContent className="max-w-md md:max-w-2xl">
             <AlertDialogHeader className="text-center">
               {selectedUnit && <AlertDialogTitle className="sr-only">Detalhes da Unidade {selectedUnit.unit}</AlertDialogTitle>}
@@ -266,7 +321,54 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
           </AlertDialogContent>
         </AlertDialog>
 
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Alterar status da Unidade {unitToEdit?.unit}</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="status" className="text-right">
+                  Status
+                </Label>
+                <Select
+                  value={newStatus || ''}
+                  onValueChange={(value) => setNewStatus(value as AvailabilityStatus)}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Selecione o status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Disponível">Disponível</SelectItem>
+                    <SelectItem value="Pasta Alocada">Pasta Alocada</SelectItem>
+                    <SelectItem value="Vendido">Vendido</SelectItem>
+                    <SelectItem value="Consulte Disponibilidade">Consulte Disponibilidade</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="password" className="text-right">
+                  Senha
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  className="col-span-3"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              {error && <p className="col-span-4 text-center text-sm text-red-500">{error}</p>}
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancelar</Button>
+              <Button onClick={handleStatusChange}>Salvar Alteração</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
       </CardContent>
     </Card>
   );
 }
+
