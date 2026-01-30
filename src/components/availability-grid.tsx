@@ -1,8 +1,7 @@
-
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import type { Availability as AvailabilityType, AvailabilityStatus } from '@/lib/types';
+import { useState, useMemo } from 'react';
+import type { Availability as AvailabilityType } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -22,15 +21,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
 import Link from 'next/link';
-import { Download, Mail, AlertTriangle, FilePenLine, Pencil } from 'lucide-react';
+import { Download, Mail, AlertTriangle, FilePenLine } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle as AlertTitleComponent } from './ui/alert';
 import {
@@ -41,62 +33,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type AvailabilityGridProps = {
   availability: AvailabilityType[];
 };
 
-export function AvailabilityGrid({ availability: initialAvailability }: AvailabilityGridProps) {
-  const [availability, setAvailability] = useState<AvailabilityType[]>(initialAvailability);
+export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
   const [selectedUnit, setSelectedUnit] = useState<AvailabilityType | null>(null);
   const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
-  
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [unitToEdit, setUnitToEdit] = useState<AvailabilityType | null>(null);
-  const [newStatus, setNewStatus] = useState<AvailabilityStatus | ''>('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-
-  const openEditDialog = (unit: AvailabilityType) => {
-    setUnitToEdit(unit);
-    setNewStatus(unit.status);
-    setIsEditDialogOpen(true);
-    setError('');
-    setPassword('');
-  };
 
   const handleUnitClick = (unit: AvailabilityType) => {
     setSelectedUnit(unit);
     setIsInfoDialogOpen(true);
-  };
-  
-  const handleEditClick = (unit: AvailabilityType, e: React.MouseEvent) => {
-    e.stopPropagation(); 
-    openEditDialog(unit);
-  };
-
-  const handleStatusChange = async () => {
-    if (password !== 'pau.junior') {
-      setError('Senha incorreta!');
-      return;
-    }
-
-    if (unitToEdit && newStatus) {
-      setAvailability(prev => 
-        prev.map(unit => 
-          unit.unit === unitToEdit.unit ? { ...unit, status: newStatus as AvailabilityStatus } : unit
-        )
-      );
-    }
-    
-    setIsEditDialogOpen(false);
-    setUnitToEdit(null);
-    setNewStatus('');
-    setPassword('');
-    setError('');
   };
 
   const getFloorImage = (floor: number) => {
@@ -175,13 +123,6 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                         )}
                       >
                         {unit.unit}
-                         <div 
-                           className="absolute top-0 right-0 p-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded-bl-md cursor-pointer"
-                           onClick={(e) => handleEditClick(unit, e)}
-                           title="Alterar status da unidade"
-                         >
-                           <Pencil className="h-3 w-3 text-white" />
-                         </div>
                       </Button>
                     ))}
                   </div>
@@ -279,8 +220,8 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                 </div>
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-              <AlertDialogCancel className="lg:col-span-4 w-full">Voltar</AlertDialogCancel>
+            <AlertDialogFooter className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <AlertDialogCancel className="sm:col-span-2 w-full">Voltar</AlertDialogCancel>
               {selectedUnit && selectedUnit.status !== 'Vendido' && (
                 <>
                   <Button asChild variant="outline" className="w-full">
@@ -297,70 +238,10 @@ export function AvailabilityGrid({ availability: initialAvailability }: Availabi
                   </AlertDialogAction>
                 </>
               )}
-               <Button 
-                variant="secondary"
-                className="w-full lg:col-span-2"
-                onClick={() => {
-                    if (selectedUnit) {
-                      setIsInfoDialogOpen(false);
-                      openEditDialog(selectedUnit);
-                    }
-                }}
-                >
-                <Pencil className="mr-2 h-4 w-4" />
-                Alterar Status
-               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Alterar status da Unidade {unitToEdit?.unit}</DialogTitle>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="status" className="text-right">
-                  Status
-                </Label>
-                <Select
-                  value={newStatus || ''}
-                  onValueChange={(value) => setNewStatus(value as AvailabilityStatus)}
-                >
-                  <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Selecione o status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Disponível">Disponível</SelectItem>
-                    <SelectItem value="Vendido">Vendido</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="password" className="text-right">
-                  Senha
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  className="col-span-3"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="col-span-4 text-center text-sm text-red-500">{error}</p>}
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancelar</Button>
-              <Button onClick={handleStatusChange}>Salvar Alteração</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-
       </CardContent>
     </Card>
   );
 }
-
-    
