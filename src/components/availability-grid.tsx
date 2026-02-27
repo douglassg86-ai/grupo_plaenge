@@ -89,6 +89,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
               const floorImage = getFloorImage(parseInt(floor));
               const hasAvailable = units.some(u => u.status === 'Disponível');
               const hasSold = units.some(u => u.status === 'Vendido');
+              const hasNegotiation = units.some(u => u.status === 'Em negociação');
 
               return (
               <AccordionItem value={`item-${floor}`} key={floor}>
@@ -111,7 +112,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                     {units.map((unit) => (
                       <Button
                         key={unit.unit}
-                        variant={unit.status === 'Disponível' ? 'outline' : 'default'}
+                        variant="outline"
                         size="sm"
                         onClick={() => handleUnitClick(unit)}
                         className={cn(
@@ -119,6 +120,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                            {
                             'bg-green-100 border-green-300 text-green-800 hover:bg-green-200': unit.status === 'Disponível',
                             'bg-red-100 border-red-300 text-red-800': unit.status === 'Vendido',
+                            'bg-yellow-100 border-yellow-300 text-yellow-800 hover:bg-yellow-200': unit.status === 'Em negociação',
                            },
                         )}
                       >
@@ -133,6 +135,12 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                           <div className="flex items-center gap-2">
                               <div className="w-3 h-3 rounded-sm bg-green-100 border border-green-300"></div>
                               <span>Disponível</span>
+                          </div>
+                        )}
+                        {hasNegotiation && (
+                          <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 rounded-sm bg-yellow-100 border border-yellow-300"></div>
+                              <span>Reserva / Em negociação</span>
                           </div>
                         )}
                         {hasSold && (
@@ -167,6 +175,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                     <span className={cn('font-bold', {
                         'text-green-600': selectedUnit.status === 'Disponível',
                         'text-red-600': selectedUnit.status === 'Vendido',
+                        'text-yellow-600': selectedUnit.status === 'Em negociação',
                     })}>{selectedUnit.status}</span>
                   </div>
                 )}
