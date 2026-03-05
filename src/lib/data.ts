@@ -1,3 +1,4 @@
+
 import type { Project } from '@/lib/types';
 import { paymentData } from '@/lib/payment-data';
 
@@ -35,7 +36,7 @@ const soldUnits = [
   "202", "204", "213", "214", "215"
 ];
 
-const reservedUnits = ["1004", "508"];
+const reservedUnits = [];
 
 const shiftAvailability = fullUnitList.map(u => ({
   ...u,
