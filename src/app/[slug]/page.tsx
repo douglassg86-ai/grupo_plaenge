@@ -25,7 +25,6 @@ type ProjectPageProps = {
 };
 
 export async function generateStaticParams() {
-  // We don't want to generate a static page for /wave, since it has its own dedicated page
   return projects
     .filter((project) => project.slug !== 'wave')
     .map((project) => ({
@@ -58,228 +57,221 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const floorPlanImages = project.floorPlanImageIds.map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
   const bannerImages = (project.bannerImageIds || []).map(id => placeholderImages.find(img => img.id === id)).filter(Boolean);
 
-
-  const PageContent = () => (
-    <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
-      
-      <article className="flex-1">
-        <section className="relative h-[60vh] w-full">
-          {heroImage && project.slug !== 'shift' && (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover"
-              priority
-              data-ai-hint={heroImage.imageHint}
-            />
-          )}
-          <div className={cn(
-              "absolute inset-0",
-              project.slug === 'shift' ? "bg-shift-brand" : "bg-gradient-to-t from-black/70 to-transparent"
-          )} />
-          <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
-            {project.slug === 'shift' ? (
-              <>
-                  <Image
-                      src="/SHIFT/logo_shift.png"
-                      alt="SHIFT Logo"
-                      width={300}
-                      height={100}
-                      className="h-auto"
-                  />
-              </>
-            ) : (
-              <>
-                  <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
-                  <h1 className="font-headline text-5xl md:text-7xl font-bold">{project.name}</h1>
-              </>
-            )}
-          </div>
-        </section>
-
-        <section className={cn(
-            "container relative z-20 pb-16",
-            project.slug === 'shift' ? 'pt-16' : '-mt-20 md:-mt-32'
-          )}>
-          <Card className="overflow-hidden shadow-2xl">
-            <CardContent className="p-4 md:p-8 space-y-12">
-              
-              {project.slug === 'shift' ? (
-                <div>
-                  <ProjectCarousel 
-                    images={bannerImages as any} 
-                    itemClassName="lg:basis-1/1" 
-                    aspectRatioClassName="aspect-[2/1]"
-                    autoplay
-                  />
-                </div>
-              ) : (
-                <>
-                  <div>
-                    <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2>
-                    <p className="mt-4 text-muted-foreground leading-relaxed">{project.description}</p>
-                  </div>
-
-                  <Separator />
-
-                  <Tabs defaultValue="gallery">
-                    <div className="text-center">
-                      <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
-                      <TabsList>
-                        <TabsTrigger value="gallery">Galeria</TabsTrigger>
-                        <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
-                      </TabsList>
-                    </div>
-                    <TabsContent value="gallery">
-                      <ProjectCarousel 
-                        images={galleryImages as any} 
-                        itemClassName="md:basis-1/2 lg:basis-1/3" 
-                        aspectRatioClassName="aspect-video"
-                        />
-                    </TabsContent>
-                    <TabsContent value="floor-plans">
-                      <ProjectCarousel 
-                        images={floorPlanImages as any}
-                        itemClassName="md:basis-1/2 lg:basis-1/3"
-                        aspectRatioClassName="aspect-square"
-                      />
-                    </TabsContent>
-                  </Tabs>
-                </>
-              )}
-              
-              <Separator />
-
-              {project.slug === 'shift' && (
-                <>
-                  <div>
-                    <h2 className="font-headline text-3xl font-bold text-primary text-center">LIFE ON DEMAND</h2>
-                    <p className="mt-4 text-muted-foreground leading-relaxed text-center">{project.description}</p>
-                  </div>
-                  
-                  <Separator />
-                  
-                  <div>
-                    <h2 className="font-headline text-3xl font-bold text-primary flex items-center justify-center gap-3 mb-6"><LayoutPanelLeft className="text-accent"/> Plantas</h2>
-                    <ProjectCarousel 
-                      images={floorPlanImages as any}
-                      itemClassName="md:basis-1/2 lg:basis-1/2"
-                      aspectRatioClassName="aspect-square"
-                    />
-                     <div className="text-center mt-6">
-                      <p className="text-sm text-muted-foreground mb-2">Clique aqui para conhecer o apartamento decorado</p>
-                      <Button asChild size="lg">
-                        <Link href="https://drive.google.com/open?id=19ty8sjzOZqh_A0TL8onILqtRlX1rcMr9&usp=drive_fs" target="_blank">
-                          <Camera className="mr-2 h-4 w-4" />
-                          Fotos Decorado
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </>
-              )}
-
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-                <div>
-                  <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><MapPin className="text-accent" /> Localização</h2>
-                  <p className="mt-4 text-muted-foreground">{project.location.address}</p>
-                   <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
-                      <iframe
-                          src={`https://maps.google.com/maps?q=${encodeURIComponent(project.location.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                          width="100%"
-                          height="100%"
-                          style={{ border: 0 }}
-                          allowFullScreen={false}
-                          loading="lazy"
-                          referrerPolicy="no-referrer-when-downgrade"
-                          title={`Mapa de ${project.name}`}
-                      ></iframe>
-                  </div>
-                </div>
-                 {project.videoUrl && (
-                    <div>
-                      <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><Film className="text-accent" /> Vídeo</h2>
-                      <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
-                        <iframe
-                          src={project.videoUrl.replace("youtu.be/", "youtube.com/embed/")}
-                          title={`Vídeo ${project.name}`}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          className="w-full h-full"
-                        ></iframe>
-                      </div>
-                    </div>
-                  )}
-              </div>
-
-              <Separator />
-              
-              <div>
-                <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center justify-center gap-3"><BedDouble className="text-accent"/> Espelho de Vendas</h2>
-                  <AvailabilityGrid availability={project.availability} />
-              </div>
-
-              {project.slug === 'shift' && (
-                <>
-                  <Separator />
-                  <div className="text-center">
-                    <h2 className="font-headline text-3xl font-bold text-primary">Envio de Pastas</h2>
-                    <p className="mt-4 text-muted-foreground leading-relaxed max-w-2xl mx-auto">Clique no botão abaixo para enviar a documentação do seu cliente e garantir a unidade.</p>
-
-                    <Alert variant="destructive" className="max-w-2xl mx-auto mt-6 text-left bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
-                      <AlertTriangle className="h-4 w-4" />
-                      <AlertTitle>Atenção!</AlertTitle>
-                      <AlertDescription>
-                        O espelho de vendas não é o reflexo da disponibilidade em tempo real. Muitas unidades já podem possuir pastas em análise. A prioridade será definida por ordem de envio. Não perca tempo!
-                      </AlertDescription>
-                    </Alert>
-
-                    <Card className="max-w-md mx-auto mt-6 text-left p-4 bg-muted/50">
-                      <div className='text-sm text-muted-foreground'>
-                        <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
-                        <ul className="list-disc list-inside space-y-1">
-                          <li>Ficha cadastro</li>
-                          <li>CNH/IDENTIDADE</li>
-                          <li>Comprovante de Residência</li>
-                          <li>Certidão de casamento / estado civil</li>
-                        </ul>
-                      </div>
-                    </Card>
-                    <div className="mt-6 flex flex-col sm:flex-row gap-2 justify-center">
-                       <Button asChild size="lg" variant="outline">
-                        <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
-                          <FilePenLine className="mr-2 h-4 w-4" />
-                          Preencher Ficha Cadastro
-                        </Link>
-                      </Button>
-                      <Button asChild size="lg">
-                        <Link href="mailto:pastas_poa@vanguard.com.br">
-                          <Mail className="mr-2 h-4 w-4" />
-                          Enviar documentos
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </>
-              )}
-
-            </CardContent>
-          </Card>
-        </section>
-        {project.slug === 'shift' && <ShiftEventPopup />}
-      </article>
-    </div>
-  );
-
   return (
     <div className="relative flex min-h-screen flex-col">
       {project.slug !== 'shift' && <SiteHeader />}
-      <div className="flex-1">
-        <PageContent />
-      </div>
+      
+      <main className="flex-1">
+        <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
+          <article className="flex-1">
+            <section className="relative h-[60vh] w-full">
+              {heroImage && project.slug !== 'shift' && (
+                <Image
+                  src={heroImage.imageUrl}
+                  alt={heroImage.description}
+                  fill
+                  className="object-cover"
+                  priority
+                  data-ai-hint={heroImage.imageHint}
+                />
+              )}
+              <div className={cn(
+                  "absolute inset-0",
+                  project.slug === 'shift' ? "bg-shift-brand" : "bg-gradient-to-t from-black/70 to-transparent"
+              )} />
+              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
+                {project.slug === 'shift' ? (
+                  <Image
+                    src="/SHIFT/logo_shift.png"
+                    alt="SHIFT Logo"
+                    width={300}
+                    height={100}
+                    className="h-auto"
+                  />
+                ) : (
+                  <>
+                    <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold">{project.name}</h1>
+                  </>
+                )}
+              </div>
+            </section>
+
+            <section className={cn(
+                "container relative z-20 pb-16",
+                project.slug === 'shift' ? 'pt-16' : '-mt-20 md:-mt-32'
+              )}>
+              <Card className="overflow-hidden shadow-2xl">
+                <CardContent className="p-4 md:p-8 space-y-12">
+                  
+                  {project.slug === 'shift' ? (
+                    <div>
+                      <ProjectCarousel 
+                        images={bannerImages as any} 
+                        itemClassName="lg:basis-1/1" 
+                        aspectRatioClassName="aspect-[2/1]"
+                        autoplay
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <h2 className="font-headline text-3xl font-bold text-primary">Sobre o Empreendimento</h2>
+                        <p className="mt-4 text-muted-foreground leading-relaxed">{project.description}</p>
+                      </div>
+
+                      <Separator />
+
+                      <Tabs defaultValue="gallery">
+                        <div className="text-center">
+                          <h2 className="font-headline text-3xl font-bold text-primary mb-2">Conheça os detalhes</h2>
+                          <TabsList>
+                            <TabsTrigger value="gallery">Galeria</TabsTrigger>
+                            <TabsTrigger value="floor-plans">Plantas</TabsTrigger>
+                          </TabsList>
+                        </div>
+                        <TabsContent value="gallery">
+                          <ProjectCarousel 
+                            images={galleryImages as any} 
+                            itemClassName="md:basis-1/2 lg:basis-1/3" 
+                            aspectRatioClassName="aspect-video"
+                            />
+                        </TabsContent>
+                        <TabsContent value="floor-plans">
+                          <ProjectCarousel 
+                            images={floorPlanImages as any}
+                            itemClassName="md:basis-1/2 lg:basis-1/3"
+                            aspectRatioClassName="aspect-square"
+                          />
+                        </TabsContent>
+                      </Tabs>
+                    </>
+                  )}
+                  
+                  <Separator />
+
+                  {project.slug === 'shift' && (
+                    <>
+                      <div>
+                        <h2 className="font-headline text-3xl font-bold text-primary text-center">LIFE ON DEMAND</h2>
+                        <p className="mt-4 text-muted-foreground leading-relaxed text-center">{project.description}</p>
+                      </div>
+                      
+                      <Separator />
+                      
+                      <div>
+                        <h2 className="font-headline text-3xl font-bold text-primary flex items-center justify-center gap-3 mb-6"><LayoutPanelLeft className="text-accent"/> Plantas</h2>
+                        <ProjectCarousel 
+                          images={floorPlanImages as any}
+                          itemClassName="md:basis-1/2 lg:basis-1/2"
+                          aspectRatioClassName="aspect-square"
+                        />
+                         <div className="text-center mt-6">
+                          <p className="text-sm text-muted-foreground mb-2">Clique aqui para conhecer o apartamento decorado</p>
+                          <Button asChild size="lg">
+                            <Link href="https://drive.google.com/open?id=19ty8sjzOZqh_A0TL8onILqtRlX1rcMr9&usp=drive_fs" target="_blank">
+                              <Camera className="mr-2 h-4 w-4" />
+                              Fotos Decorado
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                    <div>
+                      <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><MapPin className="text-accent" /> Localização</h2>
+                      <p className="mt-4 text-muted-foreground">{project.location.address}</p>
+                       <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
+                          <iframe
+                              src={`https://maps.google.com/maps?q=${encodeURIComponent(project.location.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                              width="100%"
+                              height="100%"
+                              style={{ border: 0 }}
+                              allowFullScreen={false}
+                              loading="lazy"
+                              referrerPolicy="no-referrer-when-downgrade"
+                              title={`Mapa de ${project.name}`}
+                          ></iframe>
+                      </div>
+                    </div>
+                     {project.videoUrl && (
+                        <div>
+                          <h2 className="font-headline text-3xl font-bold text-primary flex items-center gap-3"><Film className="text-accent" /> Vídeo</h2>
+                          <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border">
+                            <iframe
+                              src={project.videoUrl.replace("youtu.be/", "youtube.com/embed/")}
+                              title={`Vídeo ${project.name}`}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              className="w-full h-full"
+                            ></iframe>
+                          </div>
+                        </div>
+                      )}
+                  </div>
+
+                  <Separator />
+                  
+                  <div>
+                    <h2 className="font-headline text-3xl font-bold text-primary mb-6 flex items-center justify-center gap-3"><BedDouble className="text-accent"/> Espelho de Vendas</h2>
+                      <AvailabilityGrid availability={project.availability} />
+                  </div>
+
+                  {project.slug === 'shift' && (
+                    <>
+                      <Separator />
+                      <div className="text-center">
+                        <h2 className="font-headline text-3xl font-bold text-primary">Envio de Pastas</h2>
+                        <p className="mt-4 text-muted-foreground leading-relaxed max-w-2xl mx-auto">Clique no botão abaixo para enviar a documentação do seu cliente e garantir a unidade.</p>
+
+                        <Alert variant="destructive" className="max-w-2xl mx-auto mt-6 text-left bg-amber-50 border-amber-200 text-amber-800 [&>svg]:text-amber-600">
+                          <AlertTriangle className="h-4 w-4" />
+                          <AlertTitle>Atenção!</AlertTitle>
+                          <AlertDescription>
+                            O espelho de vendas não é o reflexo da disponibilidade em tempo real. Muitas unidades já podem possuir pastas em análise. A prioridade será definida por ordem de envio. Não perca tempo!
+                          </AlertDescription>
+                        </Alert>
+
+                        <Card className="max-w-md mx-auto mt-6 text-left p-4 bg-muted/50">
+                          <div className='text-sm text-muted-foreground'>
+                            <p className="font-bold text-foreground/90 mb-2">A pasta é composta por:</p>
+                            <ul className="list-disc list-inside space-y-1">
+                              <li>Ficha cadastro</li>
+                              <li>CNH/IDENTIDADE</li>
+                              <li>Comprovante de Residência</li>
+                              <li>Certidão de casamento / estado civil</li>
+                            </ul>
+                          </div>
+                        </Card>
+                        <div className="mt-6 flex flex-col sm:flex-row gap-2 justify-center">
+                           <Button asChild size="lg" variant="outline">
+                            <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
+                              <FilePenLine className="mr-2 h-4 w-4" />
+                              Preencher Ficha Cadastro
+                            </Link>
+                          </Button>
+                          <Button asChild size="lg">
+                            <Link href="mailto:pastas_poa@vanguard.com.br">
+                              <Mail className="mr-2 h-4 w-4" />
+                              Enviar documentos
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                </CardContent>
+              </Card>
+            </section>
+            {project.slug === 'shift' && <ShiftEventPopup />}
+          </article>
+        </div>
+      </main>
+
       <SiteFooter />
     </div>
   );

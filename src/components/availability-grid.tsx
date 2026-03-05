@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState, useMemo } from 'react';
+import * as React from 'react';
 import type { Availability as AvailabilityType } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -39,8 +40,8 @@ type AvailabilityGridProps = {
 };
 
 export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
-  const [selectedUnit, setSelectedUnit] = useState<AvailabilityType | null>(null);
-  const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
+  const [selectedUnit, setSelectedUnit] = React.useState<AvailabilityType | null>(null);
+  const [isInfoDialogOpen, setIsInfoDialogOpen] = React.useState(false);
 
   const handleUnitClick = (unit: AvailabilityType) => {
     setSelectedUnit(unit);
@@ -58,7 +59,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
     return null;
   };
 
-  const floors = useMemo(() => {
+  const floors = React.useMemo(() => {
     const grouped: Record<number, AvailabilityType[]> = {};
     availability.forEach((item) => {
       const floorNumber = Math.floor(parseInt(item.unit) / 100);
@@ -73,7 +74,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
     return Object.entries(grouped).sort(([a], [b]) => parseInt(b) - parseInt(a));
   }, [availability]);
   
-  const mailtoLink = useMemo(() => {
+  const mailtoLink = React.useMemo(() => {
     if (!selectedUnit) return '';
     const to = "pastas_poa@vanguard.com.br";
     const subject = `Alocação de Pasta - Empreendimento SHIFT - Unidade ${selectedUnit.unit}`;
@@ -183,15 +184,15 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                 <div className="space-y-4 text-sm text-center">
                   {selectedUnit?.paymentFlow && (
                     <div className="space-y-2">
-                      <h3 className="font-bold text-foreground">Fluxo de Pagamento</h3>
+                      <h3 className="font-bold text-foreground">Fluxo de Pagamento (Entrega Abr/29)</h3>
                       <Table>
                         <TableHeader>
                           <TableRow>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Total</TableHead>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Entrada (5x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Mensais (36x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Mensais (33x)</TableHead>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Reforços (3x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Financiamento</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Financiamento (65%)</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -204,6 +205,9 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                           </TableRow>
                         </TableBody>
                       </Table>
+                      <p className="text-[10px] text-muted-foreground mt-1">
+                        *As parcelas de entrada não são concomitantes com as mensais. Reforços são anuais e concomitantes com as mensais.
+                      </p>
                     </div>
                   )}
                   
