@@ -182,7 +182,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                 )}
               <AlertDialogDescription asChild>
                 <div className="space-y-4 text-sm text-center">
-                  {selectedUnit?.paymentFlow && (
+                  {selectedUnit?.paymentFlow && selectedUnit.status !== 'Vendido' && (
                     <div className="space-y-2">
                       <h3 className="font-bold text-foreground">Fluxo de Pagamento (Entrega Abr/29)</h3>
                       <Table>
