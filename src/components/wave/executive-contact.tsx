@@ -6,18 +6,11 @@ import Link from 'next/link';
 
 const executives = [
   {
-    name: 'Paulo Peano',
-    title: 'Executivo Comercial WAVE',
-    phone: '5551994013918',
-    image: '/WAVE/paulo_peano.png',
-    whatsappMessage: 'Olá, Paulo! Tenho interesse no Wave Home Resort.',
-  },
-  {
-    name: 'Rodrigo Bernhardt',
-    title: 'Executivo Comercial WAVE',
-    phone: '5551992533412',
-    image: '/WAVE/rodrigo_bernhardt.png',
-    whatsappMessage: 'Olá, Rodrigo! Tenho interesse no Wave Home Resort.',
+    name: 'Rinaldo Jardim',
+    title: 'Gerente de Parcerias Imobiliárias',
+    phone: '5551999630731',
+    image: '/WAVE/rinaldo_jardim.png',
+    whatsappMessage: 'Olá, Rinaldo! Tenho interesse no Wave Home Resort.',
   },
 ];
 
@@ -46,7 +39,7 @@ const ExecutiveCard = ({ executive }: { executive: typeof executives[0] }) => {
 
 export default function ExecutiveContact() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="flex justify-center">
       {executives.map((exec) => (
         <ExecutiveCard key={exec.name} executive={exec} />
       ))}
