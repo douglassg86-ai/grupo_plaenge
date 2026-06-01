@@ -78,7 +78,7 @@ export const projects: Project[] = [
     id: 2,
     name: 'EDITION MOINHOS',
     brand: 'Plaenge',
-    slug: 'edition-moinhos',
+    slug: 'edition',
     description:
       'O charme do clássico encontra a funcionalidade do moderno. Localizado no coração do bairro Moinhos, o EDITION oferece exclusividade e elegância em cada detalhe, próximo a tudo que você precisa.',
     heroImageId: 'em-hero',
