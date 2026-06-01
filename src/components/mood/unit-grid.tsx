@@ -51,6 +51,7 @@ export default function UnitGrid() {
       </div>
 
       {/* Summary */}
+      <p className="text-xs text-muted-foreground">Total: {units.length} unidades</p>
       <div className="grid grid-cols-3 gap-3 text-center text-sm">
         {[
           { label: 'Disponíveis', count: units.filter(u => u.status === 'available').length, color: 'text-emerald-600' },
@@ -89,7 +90,7 @@ export default function UnitGrid() {
                         onClick={() => unit.status !== 'sold' && setSelected(unit)}
                         className={cn('w-full rounded px-1 py-1 font-medium border transition-colors text-xs', statusCell[unit.status])}
                       >
-                        {unit.area.toFixed(0)}m²
+                        {unit.code}
                       </button>
                     </td>
                   );
