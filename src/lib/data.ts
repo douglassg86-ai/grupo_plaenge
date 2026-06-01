@@ -151,7 +151,7 @@ export const projects: Project[] = [
     id: 6,
     name: 'YUNA JARDIM BOTÂNICO',
     brand: 'Vanguard',
-    slug: 'yuna-jardim-botanico',
+    slug: 'yuna',
     description:
       'Equilíbrio e tranquilidade ao lado do Jardim Botânico. O YUNA foi pensado para quem valoriza a paz e a natureza, oferecendo um ambiente sereno e acolhedor para recarregar as energias.',
     heroImageId: 'yuna-hero',
@@ -171,7 +171,7 @@ export const projects: Project[] = [
     id: 7,
     name: 'TREND DOWNTOWN',
     brand: 'Vanguard',
-    slug: 'trend-downtown',
+    slug: 'trend',
     description:
       'O pulso da cidade ao seu alcance. Com design arrojado e localização estratégica no centro, o TREND é perfeito para quem tem uma vida urbana agitada e não abre mão de praticidade e estilo.',
     heroImageId: 'trend-hero',

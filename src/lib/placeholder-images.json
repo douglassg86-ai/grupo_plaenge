@@ -362,9 +362,9 @@
     },
     {
       "id": "yuna-hero",
-      "description": "A tranquil residential building nestled beside a lush botanical garden.",
-      "imageUrl": "https://images.unsplash.com/photo-1662404600864-9fa5b0d9174c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjBidWlsZGluZ3xlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "garden building"
+      "description": "YUNA Jardim Botânico",
+      "imageUrl": "/YUNA/IMG-20240704-WA0031.webp",
+      "imageHint": "yuna jardim botanico"
     },
     {
       "id": "yuna-gal-1",
@@ -392,9 +392,9 @@
     },
     {
       "id": "trend-hero",
-      "description": "A sleek, modern high-rise in the heart of downtown.",
-      "imageUrl": "https://images.unsplash.com/photo-1683027640176-b4ae8d559d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb3dudG93biUyMGhpZ2hyaXNlfGVufDB8fHx8MTc1OTY3OTQxNXww&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "downtown highrise"
+      "description": "Trend Downtown — Complexo multiuso Porto Alegre",
+      "imageUrl": "/TREND/PNB_01_Fotomontagem_EF.webp",
+      "imageHint": "trend downtown complexo"
     },
     {
       "id": "trend-gal-1",
