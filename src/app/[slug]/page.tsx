@@ -26,7 +26,7 @@ type ProjectPageProps = {
 
 export async function generateStaticParams() {
   return projects
-    .filter((project) => !['wave', 'edition', 'mood', 'orbitale'].includes(project.slug))
+    .filter((project) => !['wave', 'edition', 'mood', 'orbitale', 'verdant'].includes(project.slug))
     .map((project) => ({
       slug: project.slug,
     }));
