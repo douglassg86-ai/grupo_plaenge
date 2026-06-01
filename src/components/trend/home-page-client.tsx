@@ -36,8 +36,6 @@ const galleryCategories = [
       { src: `${P}/PNB_23_Residencial_Coworking_EF_v2.webp`, alt: 'Coworking — Vista 2' },
       { src: `${P}/PNB_24_Residencial_Hall_EF.webp`, alt: 'Hall Residencial' },
       { src: `${P}/PNB_35_Residencial_Living_T1_Tipo_A_EF2.webp`, alt: 'Living — Torre 1 Tipo A' },
-      { src: `${P}/PNB_36_Residencial_Living_T2_3o_Pav_EF.webp`, alt: 'Living — Torre 2' },
-      { src: `${P}/PNB_37_Residencial_Suite_Master_T2_Tipo_B_EF.webp`, alt: 'Suíte Master — Torre 2 Tipo B' },
     ],
   },
   {
@@ -98,25 +96,6 @@ const plantCategories = [
     ],
   },
   {
-    label: 'Home — Torre 2',
-    images: [
-      { src: `${P}/plantas/PNB_PB_22_Planta_Residencial_T2_Apto_02B_EF.webp`, alt: 'T2 — Apto 02B — 88,84 m²' },
-      { src: `${P}/plantas/PNB_PB_22_Planta_Residencial_T2_Apto_02B_EF_2.webp`, alt: 'T2 — Apto 02B — opção 2' },
-      { src: `${P}/plantas/PNB_PB_23_Planta_Residencial_T2_Apto_05_EF.webp`, alt: 'T2 — Apto 05 — 77,86 m²' },
-      { src: `${P}/plantas/PNB_PB_23_Planta_Residencial_T2_Apto_05_EF_2.webp`, alt: 'T2 — Apto 05 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_24_Planta_Residencial_T2A_Apto_01_EF.webp`, alt: 'T2A — Apto 01 — 109,40 m²' },
-      { src: `${P}/plantas/PNB_PB_24_Planta_Residencial_T2A_Apto_01_EF_2.webp`, alt: 'T2A — Apto 01 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_25_Planta_Residencial_T2A_Apto_02_EF.webp`, alt: 'T2A — Apto 02 — 85,00 m²' },
-      { src: `${P}/plantas/PNB_PB_25_Planta_Residencial_T2A_Apto_02_EF_2.webp`, alt: 'T2A — Apto 02 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_26_Planta_Residencial_T2A_Apto_04_EF.webp`, alt: 'T2A — Apto 04 — 76,35 m²' },
-      { src: `${P}/plantas/PNB_PB_26_Planta_Residencial_T2A_Apto_04_EF_2.webp`, alt: 'T2A — Apto 04 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_27_Planta_Residencial_T2A_Apto_05A_EF.webp`, alt: 'T2A — Apto 05A — 106,19 m²' },
-      { src: `${P}/plantas/PNB_PB_27_Planta_Residencial_T2A_Apto_05A_EF_2.webp`, alt: 'T2A — Apto 05A — opção 2' },
-      { src: `${P}/plantas/PNB_PB_31_Planta_Residencial_T2B_Apto_05A_EF.webp`, alt: 'T2B — Apto 05A' },
-      { src: `${P}/plantas/PNB_PB_31_Planta_Residencial_T2B_Apto_05A_EF_2.webp`, alt: 'T2B — Apto 05A — opção 2' },
-    ],
-  },
-  {
     label: 'Nano — Studios',
     images: [
       { src: `${P}/plantas/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp`, alt: 'Nano — Studio 01A — 32,70 m²' },
@@ -141,7 +120,7 @@ const plantCategories = [
 ];
 
 const homeDiferenciais = [
-  'Duas torres residenciais com infraestrutura independente',
+  'Torre 1 lançada — Torre 2: futuro lançamento',
   'Apartamentos de 3 dormitórios com suíte',
   'Piscina descoberta',
   'Beach Tennis',
@@ -320,8 +299,8 @@ export default function TrendHomePageClient() {
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
                   O Trend Downtown nasce com propósito de transformar. Onde a rotina é mais fluida e o tempo livre
-                  ganha um novo significado. São duas torres residenciais, uma torre office e um mall, compondo
-                  um verdadeiro complexo de facilidades. Aqui, a noção de praticidade é redefinida.
+                  ganha um novo significado. Com torre residencial, office e mall já lançados, além de
+                  uma segunda torre residencial em futuro lançamento, é um verdadeiro complexo de facilidades.
                 </p>
               </div>
               <div className="pt-2 border-t space-y-3">
@@ -351,7 +330,7 @@ export default function TrendHomePageClient() {
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Componentes do Complexo</p>
           <div className="grid md:grid-cols-4 gap-4">
             {[
-              { title: 'Downtown Home', desc: '2 torres residenciais · 100 unid. · 3 dormitórios · 75–109 m²', img: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`, logo: `${P}/logo_home.png` },
+              { title: 'Downtown Home', desc: 'Torre 1 lançada · 100 unid. · 3 dormitórios · 75–109 m² · Torre 2: futuro lançamento', img: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`, logo: `${P}/logo_home.png` },
               { title: 'Downtown Nano', desc: '259 studios · 23–53 m² · Rooftop com piscina · Gestão Cityhome', img: `${P}/PNB_06_Fachada_Nano_EF.webp`, logo: `${P}/logo_nano.png` },
               { title: 'Downtown Office', desc: '82 salas comerciais · 31–498 m² · 5º e 6º pavimentos', img: `${P}/PNB_07_Fachada_Office_EF.webp`, logo: null },
               { title: 'Mall', desc: '22 lojas · Av. João Pessoa e Rua Gen. Lima e Silva · Acesso direto', img: `${P}/PNB_08_Mall_Acesso_EF.webp`, logo: null },
@@ -405,7 +384,7 @@ export default function TrendHomePageClient() {
                     <p className="text-muted-foreground leading-relaxed mb-5">
                       As plantas do Trend Downtown Home foram projetadas para unir conforto e funcionalidade.
                       Com arquitetura inteligente, cada detalhe maximiza o aproveitamento do espaço e da vida.
-                      Duas torres com infraestrutura própria, ideal para quem busca qualidade de vida no centro de Porto Alegre.
+                      Torre 1 disponível para venda. Torre 2 é futuro lançamento — sem informações disponíveis no momento.
                     </p>
                     <ul className="space-y-2">
                       {homeDiferenciais.map((d, i) => (
