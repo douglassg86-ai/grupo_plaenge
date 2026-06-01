@@ -130,10 +130,10 @@ export const projects: Project[] = [
     id: 4,
     name: 'MOOD CENTRAL PARQUE',
     brand: 'Vanguard',
-    slug: 'mood-central-parque',
+    slug: 'mood',
     description:
       'Vibrante, conectado e cheio de vida. O MOOD está localizado ao lado do Central Parque, ideal para quem busca um estilo de vida dinâmico, com espaços criativos e apartamentos inteligentes.',
-    heroImageId: 'mood-hero',
+    heroImageId: 'mood-hero-real',
     galleryImageIds: ['mood-gal-1', 'mood-gal-2', 'mood-gal-3', 'mood-gal-4'],
     floorPlanImageIds: ['mood-plan-1'],
     location: {
