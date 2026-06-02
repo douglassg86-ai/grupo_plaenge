@@ -30,11 +30,16 @@ export default function Home() {
             />
           )}
           <div className="absolute inset-0 bg-primary/70" />
-          <div className="relative z-10 p-4">
-            <h1 className="font-body text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-              Plaenge &amp; Vanguard
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90">
+          <div className="relative z-10 p-4 flex flex-col items-center">
+            <Image
+              src="/INSTITUCIONAL/logo_plaenge_vanguard_escuro.webp"
+              alt="Plaenge | Vanguard"
+              width={600}
+              height={46}
+              priority
+              className="w-72 md:w-[480px] lg:w-[600px] h-auto"
+            />
+            <p className="mt-6 max-w-2xl text-lg md:text-xl text-primary-foreground/90">
               Descubra um novo padrão de vida com nossos empreendimentos de luxo e inovação.
             </p>
           </div>
@@ -56,11 +61,19 @@ export default function Home() {
             </div>
 
             {[
-              { brand: 'Plaenge', projects: plaengeProjects }, 
-              { brand: 'Vanguard', projects: vanguardProjects }
-            ].map(({ brand, projects }) => (
+              { brand: 'Plaenge', projects: plaengeProjects, logo: '/INSTITUCIONAL/logo_plaenge_claro.webp', logoW: 220, logoH: 52 },
+              { brand: 'Vanguard', projects: vanguardProjects, logo: '/INSTITUCIONAL/logo_vanguard_claro.webp', logoW: 280, logoH: 52 },
+            ].map(({ brand, projects, logo, logoW, logoH }) => (
               <div key={brand} className="mb-16">
-                <h3 className="font-headline text-3xl md:text-4xl font-bold mb-8 text-center text-primary">{brand}</h3>
+                <div className="flex justify-center mb-8">
+                  <Image
+                    src={logo}
+                    alt={brand}
+                    width={logoW}
+                    height={logoH}
+                    className="h-10 md:h-12 w-auto"
+                  />
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {projects.map((project) => {
                     const projectHero = placeholderImages.find(img => img.id === project.heroImageId);

@@ -7,12 +7,12 @@ export function SiteHeader() {
       <div className="container flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/INSTITUCIONAL/logo_grupo_plaenge.png"
-            alt="Grupo Plaenge Logo"
-            width={150}
-            height={40}
+            src="/INSTITUCIONAL/logo_grupo_plaenge_claro.webp"
+            alt="Grupo Plaenge"
+            width={200}
+            height={30}
             priority
-            className="h-auto"
+            className="h-8 w-auto"
           />
         </Link>
         <nav>
