@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
 import { SiteHeader } from '@/components/site-header';
+import { ProductHeader } from '@/components/shared/product-header';
 import { SiteFooter } from '@/components/site-footer';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -59,7 +60,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="relative flex min-h-screen flex-col">
-      {project.slug !== 'shift' && <SiteHeader />}
+      {project.slug !== 'shift' ? <SiteHeader /> : <ProductHeader />}
       
       <main className="flex-1">
         <div className={cn(project.slug === 'shift' ? 'bg-shift-brand' : 'bg-background')}>
