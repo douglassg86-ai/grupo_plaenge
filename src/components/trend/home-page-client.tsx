@@ -81,18 +81,9 @@ const plantCategories = [
   {
     label: 'Home — Torre 1',
     images: [
-      { src: `${P}/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp`, alt: 'T1A — Apto 01 — 106,19 m²' },
-      { src: `${P}/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF_2.webp`, alt: 'T1A — Apto 01 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_17_Planta_Residencial_T1A_Apto_02_EF.webp`, alt: 'T1A — Apto 02 — 88,84 m²' },
-      { src: `${P}/plantas/PNB_PB_17_Planta_Residencial_T1A_Apto_02_EF_2.webp`, alt: 'T1A — Apto 02 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF.webp`, alt: 'T1A — Apto 04 — 77,86 m²' },
-      { src: `${P}/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp`, alt: 'T1A — Apto 04 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_19_Planta_Residencial_T1B_Apto_01_EF.webp`, alt: 'T1B — Apto 01 — 109,40 m²' },
-      { src: `${P}/plantas/PNB_PB_19_Planta_Residencial_T1B_Apto_01_EF_2.webp`, alt: 'T1B — Apto 01 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF.webp`, alt: 'T1B — Apto 02 — 85,00 m²' },
-      { src: `${P}/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF_2.webp`, alt: 'T1B — Apto 02 — opção 2' },
-      { src: `${P}/plantas/PNB_PB_21_Planta_Residencial_T1B_Apto_04_EF.webp`, alt: 'T1B — Apto 04 — 76,35 m²' },
-      { src: `${P}/plantas/PNB_PB_21_Planta_Residencial_T1B_Apto_04_EF_2.webp`, alt: 'T1B — Apto 04 — opção 2' },
+      { src: `${P}/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp`, alt: '109,40 m²' },
+      { src: `${P}/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF.webp`, alt: '88,84 m²' },
+      { src: `${P}/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp`, alt: '77,86 m²' },
     ],
   },
   {
