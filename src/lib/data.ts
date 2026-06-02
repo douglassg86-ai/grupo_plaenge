@@ -207,6 +207,22 @@ export const projects: Project[] = [
     availability: shiftAvailability,
   },
   {
+    id: 9,
+    name: 'SYNTHÈ',
+    brand: 'Plaenge',
+    slug: 'synthe',
+    description: 'A síntese do equilíbrio. 32 unidades exclusivas de 172 m² a 298 m² em Petrópolis, Porto Alegre. Pré-lançamento.',
+    heroImageId: 'synthe-hero',
+    galleryImageIds: [],
+    floorPlanImageIds: [],
+    location: {
+      address: 'Rua Pedro Ivo, 590 — Petrópolis, Porto Alegre',
+      mapImageId: 'map-placeholder',
+    },
+    videoUrl: '',
+    availability: [],
+  },
+  {
     id: 5,
     name: 'WAVE HOME RESORT',
     brand: 'Vanguard',

@@ -397,6 +397,12 @@
       "imageHint": "trend downtown complexo"
     },
     {
+      "id": "synthe-hero",
+      "description": "SYNTHÈ — Pré-lançamento Petrópolis Porto Alegre",
+      "imageUrl": "/SYNTHE/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp",
+      "imageHint": "synthè fachada"
+    },
+    {
       "id": "trend-gal-1",
       "description": "A compact, efficient urban living space with smart furniture.",
       "imageUrl": "https://images.unsplash.com/photo-1610734589344-5334a885aacd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx1cmJhbiUyMGxpdmluZ3xlbnwwfHx8fDE3NTk2Nzk0MTV8MA&ixlibrb-4.1.0&q=80&w=1080",
