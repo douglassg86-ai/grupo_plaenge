@@ -179,6 +179,7 @@ export default function MoodHomePageClient() {
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-white/70 mb-3">
             Central Parque · Porto Alegre
           </p>
+          <span className="inline-block mb-3 px-3 py-1 rounded-full bg-green-500/90 text-white text-xs font-semibold tracking-wide">✓ Pronto para morar</span>
           <Image src="/MOOD/logo_mood.png" alt="MOOD Central Parque" width={220} height={80}
             className="brightness-0 invert mb-4" />
           <p className="text-white/80 text-base max-w-md leading-relaxed">

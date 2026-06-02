@@ -143,6 +143,7 @@ export default function OrbitaleHomePageClient() {
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-white/70 mb-3">
             Petrópolis · Porto Alegre
           </p>
+          <span className="inline-block mb-3 px-3 py-1 rounded-full bg-green-500/90 text-white text-xs font-semibold tracking-wide">✓ Pronto para morar</span>
           <Image src="/ORBITALE/logo_orbitale.png" alt="ORBITALE" width={240} height={80}
             className="brightness-0 invert mb-4" />
           <p className="text-white/80 text-base max-w-md leading-relaxed">

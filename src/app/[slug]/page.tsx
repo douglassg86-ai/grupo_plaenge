@@ -81,13 +81,16 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               )} />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
                 {project.slug === 'shift' ? (
-                  <Image
-                    src="/SHIFT/logo_shift.png"
-                    alt="SHIFT Logo"
-                    width={300}
-                    height={100}
-                    className="h-auto"
-                  />
+                  <>
+                    <Image
+                      src="/SHIFT/logo_shift.png"
+                      alt="SHIFT Logo"
+                      width={300}
+                      height={100}
+                      className="h-auto"
+                    />
+                    <span className="mt-4 inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold tracking-wide backdrop-blur-sm">Previsão de entrega: Abril 2029</span>
+                  </>
                 ) : (
                   <>
                     <Badge className="mb-4 bg-white/20 text-white backdrop-blur-sm border-0 text-lg">{project.brand}</Badge>

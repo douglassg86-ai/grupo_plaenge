@@ -223,6 +223,7 @@ export default function VerdantHomePageClient() {
         </div>
         <div className="relative z-10 container">
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-white/70 mb-3">Eça de Queiroz · Porto Alegre</p>
+          <span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold tracking-wide backdrop-blur-sm">Previsão de entrega: Abril 2027</span>
           <Image src={`${P}/logo_verdant.png`} alt="VERDANT" width={220} height={80} className="brightness-0 invert mb-4" />
           <p className="text-white/80 text-base max-w-md leading-relaxed">
             Descubra um pouco mais da nossa natureza. Casas, duplex e apartamentos com natureza integrada ao cotidiano.

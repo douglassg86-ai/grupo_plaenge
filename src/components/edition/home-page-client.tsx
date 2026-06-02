@@ -267,6 +267,7 @@ export default function EditionHomePageClient() {
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-white/70 mb-3">
             Moinhos de Vento · Porto Alegre
           </p>
+          <span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold tracking-wide backdrop-blur-sm">Previsão de entrega: Julho 2028</span>
           <Image
             src="/EDITION/logo_edition.png"
             alt="EDITION Moinhos"
