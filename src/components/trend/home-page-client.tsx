@@ -75,12 +75,12 @@ const plantCategories = [
       { src: `${P}/plantas/PNB_PB_01_Implantacao_Terreo_EF_com tracejado.webp`, alt: 'Implantação — Térreo c/ tracejado' },
       { src: `${P}/plantas/PNB_PB_02_Implantacao_2o_Pavimento_EF.webp`, alt: 'Implantação — 2º Pavimento' },
       { src: `${P}/plantas/PNB_PB_02_Implantacao_2o_Pavimento_EF_com tracejado.webp`, alt: 'Implantação — 2º Pav. c/ tracejado' },
-      { src: `${P}/plantas/PNB_PB_03_Implantacao_3o_Pavimento_EF.webp`, alt: 'Implantação — 3º Pavimento' },
     ],
   },
   {
     label: 'Home — Torre 1',
     images: [
+      { src: `${P}/plantas/PNB_PB_03_Implantacao_3o_Pavimento_EF.webp`, alt: 'Implantação — 3º Pavimento' },
       { src: `${P}/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp`, alt: '109,40 m²' },
       { src: `${P}/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF.webp`, alt: '88,84 m²' },
       { src: `${P}/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp`, alt: '77,86 m²' },
