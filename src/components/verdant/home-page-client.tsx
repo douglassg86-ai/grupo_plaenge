@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/verdant/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
+import { GalleryViewer } from '@/components/shared/gallery-viewer';
+import { PlantsViewer } from '@/components/shared/plants-viewer';
 
 const P = '/VERDANT'; // base path
 
@@ -302,14 +304,14 @@ export default function VerdantHomePageClient() {
         <div className="bg-card rounded-2xl p-8 md:p-10">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Galeria</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Imagens do Empreendimento</h2>
-          <Gallery categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} />
         </div>
 
         {/* PLANTAS */}
         <div className="bg-card rounded-2xl p-8 md:p-10">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Plantas</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Tipologias & Implantação</h2>
-          <Plants categories={plantCategories} />
+          <PlantsViewer categories={plantCategories} />
         </div>
 
         {/* DIFERENCIAIS + LOCALIZAÇÃO */}

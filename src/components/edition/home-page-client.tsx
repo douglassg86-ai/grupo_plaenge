@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/edition/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
+import { GalleryViewer } from '@/components/shared/gallery-viewer';
+import { PlantsViewer } from '@/components/shared/plants-viewer';
 
 // ─── GALLERY DATA ─────────────────────────────────────────────────────────────
 const galleryCategories = [

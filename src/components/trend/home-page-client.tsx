@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/trend/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
+import { GalleryViewer } from '@/components/shared/gallery-viewer';
+import { PlantsViewer } from '@/components/shared/plants-viewer';
 
 const P = '/TREND';
 
@@ -149,90 +151,6 @@ const tipologiasNano = [
   { tipo: 'Studio Médio', area: '38,35 – 42,05 m²', detalhe: 'Studio integrado' },
   { tipo: 'Studio Terraço', area: '46,15 – 53,69 m²', detalhe: 'Studio com terraço privativo' },
 ];
-
-// ─── REUSABLE COMPONENTS ──────────────────────────────────────────────────────
-function Gallery({ categories }: { categories: typeof galleryCategories }) {
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeImg, setActiveImg] = useState(0);
-  const images = categories[activeCategory].images;
-
-  return (
-    <div className="space-y-4">
-      <div className="flex gap-2 flex-wrap">
-        {categories.map((cat, i) => (
-          <button key={cat.label} onClick={() => { setActiveCategory(i); setActiveImg(0); }}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-              activeCategory === i ? 'bg-primary text-primary-foreground border-primary'
-                : 'bg-transparent text-muted-foreground border-border hover:bg-muted'}`}>
-            {cat.label} <span className="ml-1 text-xs opacity-60">({cat.images.length})</span>
-          </button>
-        ))}
-      </div>
-      <div className="relative w-full h-[500px] rounded-xl overflow-hidden bg-muted">
-        <Image src={images[activeImg].src} alt={images[activeImg].alt} fill
-          className="object-cover transition-opacity duration-300" sizes="(max-width: 768px) 100vw, 1200px" />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-6 py-4">
-          <p className="text-white text-sm font-medium">{images[activeImg].alt}</p>
-          <p className="text-white/60 text-xs">{activeImg + 1} / {images.length}</p>
-        </div>
-        {images.length > 1 && (<>
-          <button onClick={() => setActiveImg(p => (p - 1 + images.length) % images.length)}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xl">‹</button>
-          <button onClick={() => setActiveImg(p => (p + 1) % images.length)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xl">›</button>
-        </>)}
-      </div>
-      <div className="flex gap-2 overflow-x-auto pb-1">
-        {images.map((img, i) => (
-          <button key={i} onClick={() => setActiveImg(i)}
-            className={`relative flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-              activeImg === i ? 'border-primary opacity-100' : 'border-transparent opacity-60 hover:opacity-90'}`}>
-            <Image src={img.src} alt={img.alt} fill className="object-cover" sizes="80px" />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Plants({ categories }: { categories: typeof plantCategories }) {
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeImg, setActiveImg] = useState(0);
-  const images = categories[activeCategory].images;
-
-  return (
-    <div className="space-y-4">
-      <div className="flex gap-2 flex-wrap">
-        {categories.map((cat, i) => (
-          <button key={cat.label} onClick={() => { setActiveCategory(i); setActiveImg(0); }}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-              activeCategory === i ? 'bg-primary text-primary-foreground border-primary'
-                : 'bg-transparent text-muted-foreground border-border hover:bg-muted'}`}>
-            {cat.label}
-          </button>
-        ))}
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-        {images.map((img, i) => (
-          <button key={i} onClick={() => setActiveImg(i)}
-            className={`relative rounded-lg overflow-hidden border-2 transition-all bg-muted ${
-              activeImg === i ? 'border-primary' : 'border-transparent hover:border-border'}`}
-            style={{ paddingBottom: '75%', height: 0, position: 'relative' }}>
-            <Image src={img.src} alt={img.alt} fill className="object-contain p-1" sizes="300px" />
-            <div className="absolute bottom-0 left-0 right-0 bg-black/50 px-2 py-1">
-              <p className="text-white text-xs text-center leading-tight line-clamp-2">{img.alt}</p>
-            </div>
-          </button>
-        ))}
-      </div>
-      <div className="relative w-full bg-white rounded-xl border overflow-hidden" style={{ height: '520px' }}>
-        <Image src={images[activeImg].src} alt={images[activeImg].alt} fill
-          className="object-contain p-4" sizes="(max-width: 768px) 100vw, 1200px" />
-      </div>
-      <p className="text-center text-sm text-muted-foreground font-medium">{images[activeImg].alt}</p>
-    </div>
-  );
-}
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function TrendHomePageClient() {
@@ -457,13 +375,13 @@ export default function TrendHomePageClient() {
         {/* GALERIA */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Galeria</p>
-          <Gallery categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} />
         </div>
 
         {/* PLANTAS */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Plantas</p>
-          <Plants categories={plantCategories} />
+          <PlantsViewer categories={plantCategories} />
         </div>
 
         {/* LOCALIZAÇÃO */}
