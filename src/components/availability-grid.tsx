@@ -189,10 +189,10 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                         <TableHeader>
                           <TableRow>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Total</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Entrada (5x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Mensais (33x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Reforços (3x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Financiamento (65%)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Entrada 12,5% (5x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Mensais 9% (30x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Reforços 13% (3x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Financiamento (65,5%)</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
