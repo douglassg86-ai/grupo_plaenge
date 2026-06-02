@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { units, type Unit } from '@/lib/synthe-data';
-import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
@@ -56,12 +55,7 @@ export default function UnitGrid() {
                     <td key={p} className="px-1 py-0.5">
                       <button
                         onClick={() => setSelected(unit)}
-                        className={cn(
-                          'w-full rounded px-1 py-1.5 font-medium border transition-colors text-xs',
-                          floor >= 15
-                            ? 'bg-amber-100 hover:bg-amber-200 text-amber-800 border-amber-300 cursor-pointer'
-                            : 'bg-stone-100 hover:bg-stone-200 text-stone-600 border-stone-300 cursor-pointer'
-                        )}
+                        className="w-full rounded px-1 py-1.5 font-medium border transition-colors text-xs bg-stone-100 hover:bg-stone-200 text-stone-600 border-stone-300 cursor-pointer"
                       >
                         {unit.code}
                       </button>
