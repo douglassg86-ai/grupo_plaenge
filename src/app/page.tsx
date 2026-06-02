@@ -61,9 +61,9 @@ export default function Home() {
             </div>
 
             {[
-              { brand: 'Plaenge', projects: plaengeProjects, logo: '/INSTITUCIONAL/logo_plaenge_claro.webp', logoW: 220, logoH: 52 },
-              { brand: 'Vanguard', projects: vanguardProjects, logo: '/INSTITUCIONAL/logo_vanguard_claro.webp', logoW: 220, logoH: 52 },
-            ].map(({ brand, projects, logo, logoW, logoH }) => (
+              { brand: 'Plaenge', projects: plaengeProjects, logo: '/INSTITUCIONAL/logo_plaenge_claro.webp', logoW: 220, logoH: 52, logoClass: 'h-10 md:h-12 w-auto' },
+              { brand: 'Vanguard', projects: vanguardProjects, logo: '/INSTITUCIONAL/logo_vanguard_claro.webp', logoW: 220, logoH: 52, logoClass: 'h-7 md:h-8 w-auto' },
+            ].map(({ brand, projects, logo, logoW, logoH, logoClass }) => (
               <div key={brand} className="mb-16">
                 <div className="flex justify-center mb-8">
                   <Image
@@ -71,7 +71,7 @@ export default function Home() {
                     alt={brand}
                     width={logoW}
                     height={logoH}
-                    className="h-10 md:h-12 w-auto"
+                    className={logoClass}
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

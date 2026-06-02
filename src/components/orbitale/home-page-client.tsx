@@ -136,7 +136,7 @@ export default function OrbitaleHomePageClient() {
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
         <div className="absolute inset-0">
-          <Image src="/ORBITALE/01_FACHADA-01.webp" alt="ORBITALE Petrópolis" fill className="object-cover object-[center_30%]" priority />
+          <Image src="/ORBITALE/01_FACHADA-01.webp" alt="ORBITALE Petrópolis" fill className="object-cover" style={{ objectPosition: 'center 75%' }} priority />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
         </div>
         <div className="relative z-10 container">
