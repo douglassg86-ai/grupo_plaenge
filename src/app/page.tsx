@@ -62,7 +62,7 @@ export default function Home() {
 
             {[
               { brand: 'Plaenge', projects: plaengeProjects, logo: '/INSTITUCIONAL/logo_plaenge_claro.webp', logoW: 220, logoH: 52 },
-              { brand: 'Vanguard', projects: vanguardProjects, logo: '/INSTITUCIONAL/logo_vanguard_claro.webp', logoW: 280, logoH: 52 },
+              { brand: 'Vanguard', projects: vanguardProjects, logo: '/INSTITUCIONAL/logo_vanguard_claro.webp', logoW: 220, logoH: 52 },
             ].map(({ brand, projects, logo, logoW, logoH }) => (
               <div key={brand} className="mb-16">
                 <div className="flex justify-center mb-8">

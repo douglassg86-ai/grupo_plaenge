@@ -37,6 +37,8 @@ const diferenciais = [
   'Apartamentos de 172 m² a 298 m²',
   '3 suítes em todas as unidades',
   '3 vagas de garagem',
+  'Gerador pleno',
+  'Espera para carregador elétrico',
   'Piscina',
   'Salão de Festas',
   'Fitness',

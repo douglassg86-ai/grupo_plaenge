@@ -87,6 +87,9 @@ const plantCategories = [
 
 const diferenciais = [
   'Elevador privativo por unidade',
+  'Elevador Panorâmico',
+  'Unidades com lareira na suíte',
+  'Unidades com elevador privativo para área íntima',
   'Piscina interna e externa',
   'Wine Garden',
   'Salão de Festas',
@@ -94,7 +97,7 @@ const diferenciais = [
   'Beauty Space',
   'Espaço Kids & Playground',
   'Sala de Massagem e Sauna',
-  'Passarela panorâmica',
+  'Gerador pleno',
 ];
 
 // ─── GALLERY COMPONENT ────────────────────────────────────────────────────────
@@ -341,10 +344,10 @@ export default function EditionHomePageClient() {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { label: 'Torres', value: '2' },
-              { label: 'Pavimentos', value: 'até 17' },
               { label: 'Área privativa', value: '146 – 545 m²' },
-              { label: 'Construtora', value: 'Plaenge' },
+              { label: 'Vagas', value: '2 a 4' },
+              { label: 'Unidades', value: '48' },
+              { label: 'Torres', value: '2' },
             ].map(({ label, value }) => (
               <div key={label} className="space-y-1">
                 <p className="text-3xl font-display text-primary">{value}</p>

@@ -73,15 +73,15 @@ const plantCategories = [
       { src: '/ORBITALE/plantas/PLARE_23_Apto_A_-_Layout_Padrao_P4_HIGH.webp', alt: 'Tipo A — Layout Padrão — 230,94 m²' },
       { src: '/ORBITALE/plantas/PLARE_21_Apto_A_-_Layout_com_3_Su-tes_-_Dorm._Servi-o_P4_HIGH.webp', alt: 'Tipo A — 3 Suítes + Dorm. Serviço — 230,94 m²' },
       { src: '/ORBITALE/plantas/PLARE_22_Apto_A_-_Layout_com_Su-te_Master_Estendida_-_Adega_P4_HIGH.webp', alt: 'Tipo A — Suíte Master Estendida + Adega — 230,94 m²' },
-      { src: '/ORBITALE/plantas/PLARE_25_Apto_A_Cobertura_Inferior_P4_HIGH.webp', alt: 'Rooftop A — Pavimento Inferior — 366,69 m²' },
-      { src: '/ORBITALE/plantas/PLARE_26_Cobertura_Rooftop_P4_HIGH_-1-.webp', alt: 'Rooftop A — Terraço — 133,56 m²' },
     ],
   },
   {
-    label: 'Apartamento Tipo B / Garden',
+    label: 'Garden / Rooftop / Terraços',
     images: [
       { src: '/ORBITALE/plantas/PLARE_24_Apto_B_Garden_Pav02_P4_HIGH.webp', alt: 'Garden B — 397,10 m² (165,57 m² de garden)' },
       { src: '/ORBITALE/plantas/PLARE_29_Garden_2_P4_HIGH.webp', alt: 'Garden A — 502,86 m² (270,80 m² de garden)' },
+      { src: '/ORBITALE/plantas/PLARE_25_Apto_A_Cobertura_Inferior_P4_HIGH.webp', alt: 'Rooftop A — Pavimento Inferior — 366,69 m²' },
+      { src: '/ORBITALE/plantas/PLARE_26_Cobertura_Rooftop_P4_HIGH_-1-.webp', alt: 'Rooftop A — Terraço — 133,56 m²' },
       { src: '/ORBITALE/plantas/PLARE_31_Cobertura_Inferior_2_P4_HIGH.webp', alt: 'Rooftop B — Pavimento Inferior — 394,53 m²' },
       { src: '/ORBITALE/plantas/PLARE_30_Cobertura_Rooftop_2_P4_HIGH_-1-.webp', alt: 'Rooftop B — Terraço — 169,06 m²' },
     ],
@@ -139,7 +139,7 @@ export default function OrbitaleHomePageClient() {
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
         <div className="absolute inset-0">
-          <Image src="/ORBITALE/01_FACHADA-01.webp" alt="ORBITALE Petrópolis" fill className="object-cover" priority />
+          <Image src="/ORBITALE/01_FACHADA-01.webp" alt="ORBITALE Petrópolis" fill className="object-cover object-[center_30%]" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
         </div>
         <div className="relative z-10 container">

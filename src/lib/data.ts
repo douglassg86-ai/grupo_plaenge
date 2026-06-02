@@ -198,7 +198,7 @@ export const projects: Project[] = [
     heroImageId: 'shift-hero',
     galleryImageIds: [],
     floorPlanImageIds: ['shift-floor-plan-1','shift-floor-plan-2','shift-floor-plan-3','shift-floor-plan-4','shift-floor-plan-5','shift-floor-plan-6','shift-floor-plan-7'],
-    bannerImageIds: ['shift-banner-1', 'shift-banner-2', 'shift-banner-3', 'shift-banner-4', 'shift-banner-5'],
+    bannerImageIds: ['shift-banner-6', 'shift-banner-7', 'shift-banner-8', 'shift-banner-9', 'shift-banner-10', 'shift-banner-11', 'shift-banner-12', 'shift-banner-13', 'shift-banner-14', 'shift-banner-15', 'shift-banner-16', 'shift-banner-17', 'shift-banner-18', 'shift-banner-19', 'shift-banner-1', 'shift-banner-2', 'shift-banner-3', 'shift-banner-4', 'shift-banner-5'],
     location: {
       address: 'Silva Jardim, 21 (esquina com Rua 24 de Outubro), Moinhos de Vento, Porto Alegre, RS',
       mapImageId: 'map-placeholder',

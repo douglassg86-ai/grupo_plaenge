@@ -108,7 +108,7 @@ export default function YunaHomePageClient() {
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
         <div className="absolute inset-0">
-          <Image src={`${P}/IMG-20240704-WA0031.webp`} alt="YUNA Jardim Botânico" fill className="object-cover" priority />
+          <Image src={`${P}/IMG-20240704-WA0031.webp`} alt="YUNA Jardim Botânico" fill className="object-cover object-[center_40%]" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
         </div>
         <div className="relative z-10 container">

@@ -487,6 +487,90 @@
       "imageHint": "architectural detail"
     },
     {
+      "id": "shift-banner-6",
+      "description": "SHIFT Fachada",
+      "imageUrl": "/SHIFT/kota_tgd_sil_fachada_4k.webp",
+      "imageHint": "building facade"
+    },
+    {
+      "id": "shift-banner-7",
+      "description": "SHIFT Fachada Detalhe",
+      "imageUrl": "/SHIFT/kota_tgd_sil_fachada_detalhe_4k.webp",
+      "imageHint": "facade detail"
+    },
+    {
+      "id": "shift-banner-8",
+      "description": "SHIFT Fachada Embasamento",
+      "imageUrl": "/SHIFT/kota_tgd_sil_fachada_embasamento_4k.webp",
+      "imageHint": "building base"
+    },
+    {
+      "id": "shift-banner-9",
+      "description": "SHIFT Piscina",
+      "imageUrl": "/SHIFT/kota_tgd_sil_piscina_4k.webp",
+      "imageHint": "pool area"
+    },
+    {
+      "id": "shift-banner-10",
+      "description": "SHIFT Fitness",
+      "imageUrl": "/SHIFT/kota_tgd_sil_fitness_4k.webp",
+      "imageHint": "fitness gym"
+    },
+    {
+      "id": "shift-banner-11",
+      "description": "SHIFT Salão de Festas 1",
+      "imageUrl": "/SHIFT/kota_tgd_sil_salao_de_festas_01_4k_copy.webp",
+      "imageHint": "party hall"
+    },
+    {
+      "id": "shift-banner-12",
+      "description": "SHIFT Salão de Festas 2",
+      "imageUrl": "/SHIFT/kota_tgd_sil_salao_de_festas_02_4k.webp",
+      "imageHint": "party hall"
+    },
+    {
+      "id": "shift-banner-13",
+      "description": "SHIFT Coworking",
+      "imageUrl": "/SHIFT/kota_tgd_sil_coworking_4k.webp",
+      "imageHint": "coworking space"
+    },
+    {
+      "id": "shift-banner-14",
+      "description": "SHIFT Gourmet Externo",
+      "imageUrl": "/SHIFT/kota_tgd_sil_gourmet_externo_4k.webp",
+      "imageHint": "outdoor gourmet"
+    },
+    {
+      "id": "shift-banner-15",
+      "description": "SHIFT Lavanderia",
+      "imageUrl": "/SHIFT/kota_tgd_sil_lavanderia_4k.webp",
+      "imageHint": "laundry"
+    },
+    {
+      "id": "shift-banner-16",
+      "description": "SHIFT Pulmão",
+      "imageUrl": "/SHIFT/kota_tgd_sil_pulm_o_4k.webp",
+      "imageHint": "garden area"
+    },
+    {
+      "id": "shift-banner-17",
+      "description": "SHIFT Apartamento Decorado 1",
+      "imageUrl": "/SHIFT/kota_tgd_sil_apto_decorado_01_4k.webp",
+      "imageHint": "decorated apartment"
+    },
+    {
+      "id": "shift-banner-18",
+      "description": "SHIFT Apartamento Decorado 2",
+      "imageUrl": "/SHIFT/kota_tgd_sil_apto_decorado_02_4k.webp",
+      "imageHint": "decorated apartment"
+    },
+    {
+      "id": "shift-banner-19",
+      "description": "SHIFT Apartamento Studio",
+      "imageUrl": "/SHIFT/kota_tgd_sil_apto_studio_4k.webp",
+      "imageHint": "studio apartment"
+    },
+    {
       "id": "shift-floor-plan-1",
       "description": "Planta do SHIFT 1",
       "imageUrl": "/SHIFT/plantas_shift.png",
