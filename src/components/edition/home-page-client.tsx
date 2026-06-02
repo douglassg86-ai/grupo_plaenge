@@ -6,6 +6,7 @@ import UnitGrid from '@/components/edition/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
+import { ProductHeader } from '@/components/shared/product-header';
 
 // ─── GALLERY DATA ─────────────────────────────────────────────────────────────
 const galleryCategories = [
@@ -248,11 +249,7 @@ export default function EditionHomePageClient() {
       <CommunityPopup />
 
       {/* ── HEADER ── */}
-      <header className="absolute top-0 left-0 w-full z-20 py-5">
-        <div className="container flex justify-center">
-          <Image src="/INSTITUCIONAL/logo_grupo_plaenge.png" alt="Grupo Plaenge" width={140} height={36} />
-        </div>
-      </header>
+      <ProductHeader />
 
       {/* ── HERO ── */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">

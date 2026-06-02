@@ -6,6 +6,7 @@ import UnitGrid from '@/components/synthe/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
+import { ProductHeader } from '@/components/shared/product-header';
 
 const P = '/SYNTHE';
 
@@ -60,11 +61,7 @@ export default function SyntheHomePageClient() {
       <CommunityPopup />
 
       {/* HEADER */}
-      <header className="absolute top-0 left-0 w-full z-20 py-5">
-        <div className="container flex justify-center">
-          <Image src="/INSTITUCIONAL/logo_grupo_plaenge.png" alt="Grupo Plaenge" width={140} height={36} />
-        </div>
-      </header>
+      <ProductHeader />
 
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
@@ -89,9 +86,10 @@ export default function SyntheHomePageClient() {
       <div className="container relative z-10 -mt-8 pb-16 space-y-2">
 
         {/* BADGE PRÉ-LANÇAMENTO */}
-        <div className="bg-stone-700 text-stone-100 rounded-2xl px-8 py-4 text-center">
-          <p className="text-xs font-semibold tracking-[0.3em] uppercase text-stone-300 mb-1">Pré-lançamento</p>
-          <p className="text-base font-medium">Cadastre seu interesse e seja o primeiro a receber informações</p>
+        <div className="bg-primary text-primary-foreground rounded-2xl px-8 py-5 text-center">
+          <p className="text-xs font-semibold tracking-[0.3em] uppercase text-primary-foreground/60 mb-2">Pré-lançamento</p>
+          <p className="text-lg font-semibold">Consulte valores e disponibilidade</p>
+          <p className="text-primary-foreground/80 text-sm mt-1">com o seu Corretor / GP</p>
         </div>
 
         {/* CHAMADA */}
