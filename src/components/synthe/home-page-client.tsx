@@ -166,7 +166,7 @@ export default function SyntheHomePageClient() {
         <div className="bg-primary text-primary-foreground rounded-2xl px-8 py-6 text-center">
           <p className="text-lg font-semibold tracking-wide">A Síntese do Equilíbrio</p>
           <p className="text-primary-foreground/80 text-sm mt-1">
-            Plaenge · TGD · Rua Pedro Ivo, 590 · Petrópolis · Porto Alegre
+            Plaenge · TGD · Rua Pedro Ivo, 550 · Petrópolis · Porto Alegre
           </p>
         </div>
 
@@ -192,7 +192,7 @@ export default function SyntheHomePageClient() {
               <div className="pt-2 border-t space-y-3">
                 {[
                   { label: 'Incorporação', value: 'Plaenge · TGD' },
-                  { label: 'Endereço', value: 'Rua Pedro Ivo, 590' },
+                  { label: 'Endereço', value: 'Rua Pedro Ivo, 550' },
                   { label: 'Bairro', value: 'Petrópolis' },
                   { label: 'Cidade', value: 'Porto Alegre — RS' },
                   { label: 'Unidades', value: '32 · 2 por andar' },
@@ -267,7 +267,7 @@ export default function SyntheHomePageClient() {
             <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6">Localização</p>
             <div className="space-y-4">
               <div className="text-sm space-y-1">
-                <p className="font-medium text-foreground">Rua Pedro Ivo, 590 · Petrópolis · Porto Alegre — RS</p>
+                <p className="font-medium text-foreground">Rua Pedro Ivo, 550 · Petrópolis · Porto Alegre — RS</p>
                 <p className="text-muted-foreground">Uma localização que oferece conveniência sem ruído e conexão sem excesso. Próximo a William & Sons Coffee, Jean Pierre Patisserie, Zaffari Anita, Academia Body Tech e Paddock & Co Padaria Artesanal.</p>
               </div>
               <div className="rounded-xl overflow-hidden border" style={{ height: '280px' }}>

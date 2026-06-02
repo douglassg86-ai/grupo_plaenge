@@ -216,7 +216,7 @@ export const projects: Project[] = [
     galleryImageIds: [],
     floorPlanImageIds: [],
     location: {
-      address: 'Rua Pedro Ivo, 590 — Petrópolis, Porto Alegre',
+      address: 'Rua Pedro Ivo, 550 — Petrópolis, Porto Alegre',
       mapImageId: 'map-placeholder',
     },
     videoUrl: '',

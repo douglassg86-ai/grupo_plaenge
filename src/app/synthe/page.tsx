@@ -3,7 +3,7 @@ import SyntheHomePageClient from '@/components/synthe/home-page-client';
 
 export const metadata: Metadata = {
   title: 'SYNTHÈ Petrópolis | Grupo Plaenge',
-  description: 'Pré-lançamento. 32 unidades de 172 m² a 298 m², 3 suítes, hall privativo. A síntese do equilíbrio. Plaenge · TGD · Rua Pedro Ivo, 590 · Petrópolis · Porto Alegre.',
+  description: 'Pré-lançamento. 32 unidades de 172 m² a 298 m², 3 suítes, hall privativo. A síntese do equilíbrio. Plaenge · TGD · Rua Pedro Ivo, 550 · Petrópolis · Porto Alegre.',
 };
 
 export default function SynthePage() {
