@@ -1,10 +1,18 @@
+import rawOverrides from '@/data/availability-overrides.json'
+type StatusType = 'available' | 'sold' | 'negotiation'
+const _ov = rawOverrides as Record<string, Record<string, StatusType>>
+function applyOv(units: Unit[], key: string): Unit[] {
+  const m = _ov[key] || {}
+  return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
+}
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number; price: number;
   status: 'available' | 'sold' | 'negotiation';
 }
 
-export const units: Unit[] = [
+const _rawUnits: Unit[] = [
   { id: 103388, code: '0201', type: 'UNIDADE II — 88,68 m²', floor: 1, prumada: '1', area: 88.68, price: 1259400, status: 'available' },
   { id: 103389, code: '0202', type: 'UNIDADE II — 88,68 m²', floor: 1, prumada: '2', area: 88.68, price: 1327090, status: 'available' },
   { id: 103390, code: '0203', type: 'UNIDADE III — 72,58 m²', floor: 1, prumada: '3', area: 72.58, price: 964260, status: 'sold' },
@@ -89,3 +97,5 @@ export const units: Unit[] = [
   { id: 103469, code: '1505', type: 'UNIDADE II — 88,68 m²', floor: 14, prumada: '5', area: 88.68, price: 1543710, status: 'available' },
   { id: 103470, code: '1506', type: 'UNIDADE III — 72,58 m²', floor: 14, prumada: '6', area: 72.58, price: 1196960, status: 'available' },
 ];
+
+export const units = applyOv(_rawUnits, 'yuna')

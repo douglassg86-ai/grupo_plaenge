@@ -1,3 +1,11 @@
+import rawOverrides from '@/data/availability-overrides.json'
+type StatusType = 'available' | 'sold' | 'negotiation'
+const _ov = rawOverrides as Record<string, Record<string, StatusType>>
+function applyOv(units: Unit[], key: string): Unit[] {
+  const m = _ov[key] || {}
+  return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
+}
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number; price: number;
@@ -5,7 +13,7 @@ export interface Unit {
   tower: string;
 }
 
-export const units: Unit[] = [
+const _rawUnits: Unit[] = [
   { id: 106507, code: '0501', type: 'UNIDADE II — 172,37 m²', floor: 5, prumada: '1', area: 172.37, price: 4131800, status: 'available', tower: 'Torre Jardim Cristofel' },
   { id: 106508, code: '0502', type: 'UNIDADE I — 146,46 m²', floor: 5, prumada: '2', area: 146.46, price: 3410930, status: 'available', tower: 'Torre Jardim Cristofel' },
   { id: 106509, code: '0601', type: 'UNIDADE II — 172,37 m²', floor: 6, prumada: '1', area: 172.37, price: 4216150, status: 'available', tower: 'Torre Jardim Cristofel' },
@@ -56,4 +64,5 @@ export const units: Unit[] = [
   { id: 106505, code: '1702', type: 'UNIDADE III — 278,74 m²', floor: 17, prumada: '2', area: 278.74, price: 5954220, status: 'available', tower: 'Torre Doutor Vale' },
 ];
 
+export const units = applyOv(_rawUnits, 'edition')
 export const towers = ['Torre Jardim Cristofel', 'Torre Doutor Vale'] as const;

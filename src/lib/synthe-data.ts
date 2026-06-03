@@ -1,10 +1,18 @@
+import rawOverrides from '@/data/availability-overrides.json'
+type StatusType = 'available' | 'sold' | 'negotiation'
+const _ov = rawOverrides as Record<string, Record<string, StatusType>>
+function applyOv(units: Unit[], key: string): Unit[] {
+  const m = _ov[key] || {}
+  return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
+}
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number;
-  status: 'available';
+  status: 'available' | 'sold' | 'negotiation';
 }
 
-export const units: Unit[] = [
+const _rawUnits: Unit[] = [
   { id: 200001, code: '0301', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 3, prumada: '1', area: 176.89, status: 'available' },
   { id: 200002, code: '0302', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 3, prumada: '2', area: 176.89, status: 'available' },
   { id: 200003, code: '0401', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 4, prumada: '1', area: 176.89, status: 'available' },
@@ -38,3 +46,5 @@ export const units: Unit[] = [
   { id: 200031, code: '1801', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 18, prumada: '1', area: 298.0, status: 'available' },
   { id: 200032, code: '1802', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 18, prumada: '2', area: 298.0, status: 'available' },
 ];
+
+export const units = applyOv(_rawUnits, 'synthe')

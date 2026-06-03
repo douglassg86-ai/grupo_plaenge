@@ -1,3 +1,11 @@
+import rawOverrides from '@/data/availability-overrides.json'
+type StatusType = 'available' | 'sold' | 'negotiation'
+const _ov = rawOverrides as Record<string, Record<string, StatusType>>
+function applyOv(units: Unit[], key: string): Unit[] {
+  const m = _ov[key] || {}
+  return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
+}
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number; price: number;
@@ -5,7 +13,7 @@ export interface Unit {
   setor: string;
 }
 
-export const units: Unit[] = [
+const _rawUnits: Unit[] = [
   { id: 101460, code: '0201', type: 'UNIDADE I — 197,73 m²', floor: 2, prumada: '1', area: 197.73, price: 2920420, status: 'available', setor: 'Torre' },
   { id: 101461, code: '0202', type: 'UNIDADE II — 177,47 m²', floor: 2, prumada: '2', area: 177.47, price: 2753810, status: 'sold', setor: 'Torre' },
   { id: 101462, code: '0203', type: 'UNIDADE III — 167,35 m²', floor: 2, prumada: '3', area: 167.35, price: 2699230, status: 'available', setor: 'Torre' },
@@ -62,4 +70,5 @@ export const units: Unit[] = [
   { id: 101459, code: '0104', type: 'UNIDADE GARDEN - CASA — 366,35 m²', floor: 0, prumada: '4', area: 366.35, price: 5671390, status: 'sold', setor: 'Casas' },
 ];
 
+export const units = applyOv(_rawUnits, 'verdant')
 export const setores = ['Torre', 'Casas'] as const;

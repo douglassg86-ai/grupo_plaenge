@@ -1,10 +1,18 @@
+import rawOverrides from '@/data/availability-overrides.json'
+type StatusType = 'available' | 'sold' | 'negotiation'
+const _ov = rawOverrides as Record<string, Record<string, StatusType>>
+function applyOv(units: Unit[], key: string): Unit[] {
+  const m = _ov[key] || {}
+  return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
+}
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number; price: number;
   status: 'available' | 'sold' | 'negotiation';
 }
 
-export const homeUnits: Unit[] = [
+const _rawHomeUnits: Unit[] = [
   { id: 108598, code: '0301', type: 'UNIDADE — 88,84 m²', floor: 3, prumada: '1', area: 88.84, price: 1294870, status: 'available' },
   { id: 108599, code: '0302', type: 'UNIDADE — 75,92 m²', floor: 3, prumada: '2', area: 75.92, price: 1073700, status: 'available' },
   { id: 108600, code: '0303', type: 'UNIDADE — 77,18 m²', floor: 3, prumada: '3', area: 77.18, price: 1091520, status: 'sold' },
@@ -107,7 +115,9 @@ export const homeUnits: Unit[] = [
   { id: 108697, code: '1508', type: 'UNIDADE — 88,84 m²', floor: 15, prumada: '8', area: 88.84, price: 1505080, status: 'available' },
 ];
 
-export const nanoUnits: Unit[] = [
+export const homeUnits = applyOv(_rawHomeUnits, 'trend_home')
+
+const _rawNanoUnits: Unit[] = [
   { id: 89822, code: '0301', type: 'UNIDADE I — 32,70 m²', floor: 3, prumada: '01', area: 32.7, price: 571050, status: 'available' },
   { id: 89823, code: '0302', type: 'UNIDADE II — 32,06 m²', floor: 3, prumada: '02', area: 32.06, price: 559840, status: 'sold' },
   { id: 89824, code: '0303', type: 'UNIDADE II — 32,06 m²', floor: 3, prumada: '03', area: 32.06, price: 559840, status: 'sold' },
@@ -368,3 +378,5 @@ export const nanoUnits: Unit[] = [
   { id: 90079, code: '1518', type: 'UNIDADE XIII — 53,69 m²', floor: 15, prumada: '18', area: 53.69, price: 714310, status: 'sold' },
   { id: 90080, code: '1523', type: 'UNIDADE XIV — 49,85 m²', floor: 15, prumada: '23', area: 49.85, price: 765160, status: 'sold' },
 ];
+
+export const nanoUnits = applyOv(_rawNanoUnits, 'trend_nano')
