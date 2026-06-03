@@ -30,10 +30,15 @@ function shuffle<T>(arr: T[]): T[] {
 const INTERVAL = 5000
 
 export function HomeHeroSlideshow() {
-  const [slides] = useState(() => shuffle(SLIDES))
+  const [slides, setSlides] = useState(SLIDES)
   const [current, setCurrent] = useState(0)
   const [prev, setPrev] = useState<number | null>(null)
   const [fading, setFading] = useState(false)
+
+  // Shuffle only on client to avoid SSR hydration mismatch
+  useEffect(() => {
+    setSlides(shuffle(SLIDES))
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
