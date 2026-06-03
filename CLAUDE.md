@@ -35,6 +35,7 @@ src/components/shared/gallery-viewer.tsx   ← GalleryViewer com lightbox integr
 src/components/shared/plants-viewer.tsx    ← PlantsViewer com lightbox integrado
 src/components/shared/product-header.tsx  ← ProductHeader (logo + dropdown navegação)
 src/components/ui/lightbox.tsx             ← Lightbox (zoom scroll/pinch/drag, ESC, ←→)
+src/components/home-hero-slideshow.tsx     ← Slideshow do hero da home (Ken Burns + fade)
 ```
 **Nunca criar funções Gallery/Plants inline** — importar sempre os componentes shared.
 **Sempre usar ProductHeader** nos `home-page-client.tsx` de cada produto.
@@ -74,7 +75,7 @@ grafismo.webp                    ← padrão listrado decorativo
 8. **Atualizar `src/lib/data.ts`** — slug do produto para apontar para nova rota
 9. **Atualizar `src/lib/placeholder-images.json`** — heroImageId do card para usar imagem real WebP
 10. **object-position em imagens hero** — usar `style={{ objectPosition: 'center X%' }}` via style inline (NÃO usar classes Tailwind arbitrárias como `object-[center_30%]` — não geram CSS em produção)
-11. **Prumada no Trend Nano** — usar 2 últimos dígitos do código (`'0323'` → `'23'`), NÃO o campo Prumada do xlsx que é 0-9
+11. **Prumada no Trend Nano e MOOD** — usar 2 últimos dígitos do código (`'0323'` → `'23'`, `'0210'` → `'10'`), NÃO o campo Prumada do xlsx (que é 0-9 e se repete)
 
 ### Estrutura da página (padrão visual)
 ```
@@ -134,9 +135,52 @@ wb = openpyxl.load_workbook("arquivo.xlsx")
 ws = wb.active
 for row in ws.iter_rows(min_row=2, values_only=True):
     id_, st, code, tipo, floor, prumada, area, vlr, *_ = row
-    # Para Trend Nano: prumada = str(code)[-2:]  ← últimos 2 dígitos do código
+    # Prumada correta: sempre últimos 2 dígitos do código
+    p = str(code)[-2:]
 ```
 Colunas do xlsx: `Id Produto | Status Mega | Codigo | Tipologia | Andar | Prumada | Area Privativa | Vlr Tabela | Vlr Minimo`
+
+**ATENÇÃO:** o campo `Prumada` do xlsx é 0-9 e se repete quando há mais de 10 unidades por andar. Sempre derivar a prumada dos últimos 2 dígitos do `Codigo`.
+
+## Sistema de Admin de Disponibilidade
+
+### Arquitetura (Option B — GitHub API commit)
+- **Página admin:** `grupo-plaenge.vercel.app/admin` — protegida por senha
+- **Senha:** `plaenge.peano2026`
+- **Arquivo de overrides:** `src/data/availability-overrides.json`
+  - Estrutura: `{ "edition": { "106507": "sold" }, "mood": {}, ... }`
+  - Chaves: `edition`, `mood`, `orbitale`, `synthe`, `trend_home`, `trend_nano`, `verdant`, `yuna`, `wave`
+  - Cada `*-data.ts` aplica os overrides via função `applyOv()` no build
+- **API route:** `POST /api/admin/commit` — autentica, busca SHA no GitHub, commita JSON
+- **Fluxo:** admin altera status → salva → API commita JSON no GitHub → Vercel redeploya (~2 min)
+- **Variáveis de ambiente no Vercel:**
+  - `ADMIN_PASSWORD=plaenge.peano2026`
+  - `GITHUB_TOKEN=<token já configurado no Vercel — ver Settings → Environment Variables>`
+- **WAVE** tem 4 status: `available | negotiation | sold | opportunity`
+
+### Como funciona o applyOv em cada data file
+```ts
+import rawOverrides from '@/data/availability-overrides.json'
+type StatusType = 'available' | 'sold' | 'negotiation'
+const _ov = rawOverrides as Record<string, Record<string, StatusType>>
+function applyOv(units: Unit[], key: string): Unit[] {
+  const m = _ov[key] || {}
+  return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
+}
+// No final do arquivo:
+export const units = applyOv(_rawUnits, 'produto')
+```
+
+## Hero da Home — Slideshow
+
+- **Componente:** `src/components/home-hero-slideshow.tsx`
+- **Altura:** `h-[65vh]` (~2/3 da altura original)
+- **Imagens:** 12 fotos/renders de empreendimentos reais (fachadas, fotomontagens)
+- **Efeito:** Ken Burns (zoom+pan, 4 variações) + cross-fade de 900ms
+- **Intervalo:** 5 segundos por slide
+- **Ordem:** aleatória a cada carregamento (shuffle no cliente, não no servidor — evita hydration mismatch)
+- **objectPosition por slide** — ORBITALE usa `center 75%`, demais `center 30-40%`
+- **Overlay:** `bg-black/55`
 
 ## Produtos — Status
 
@@ -146,12 +190,23 @@ Colunas do xlsx: `Id Produto | Status Mega | Codigo | Tipologia | Andar | Prumad
 | WAVE Home Resort | `/wave` | lotes | Xangri-lá | Pronto para construir | original do projeto |
 | SHIFT | `/shift` | 184 | Porto Alegre | Abr/2029 | [slug]/page.tsx, simulação de pagamento |
 | EDITION Moinhos | `/edition` | 48 (2 torres) | Porto Alegre | Jul/2028 | 31 img, 9 plantas |
-| MOOD Central Parque | `/mood` | 192 (principal+permuta) | Porto Alegre | Pronto para morar | 20 img, 4 plantas |
+| MOOD Central Parque | `/mood` | 192 (principal junho + permuta maio) | Porto Alegre | Pronto para morar | 20 img, 4 plantas, 16 prumadas/andar |
 | ORBITALE | `/orbitale` | 26 | Porto Alegre | Pronto para morar | 55 img, 12 plantas, decorado |
 | VERDANT | `/verdant` | 54 (Torre+Casas) | Porto Alegre | Abr/2027 | 64 img, 15 plantas, decorado |
 | YUNA Jardim Botânico | `/yuna` | 83 | Porto Alegre | Nov/2027 | Vanguard, R. Felizardo Furtado 348, 22 img, 12 plantas |
 | TREND DOWNTOWN | `/trend` | 100 Home + 259 Nano | Porto Alegre | — | Página única, tabs Home/Nano, Torre 2 = futuro lançamento, sem data (fases diferentes) |
 | SYNTHÈ | `/synthe` | 32 pré-lançamento | Porto Alegre | Pré-lançamento | Plaenge+TGD, R. Pedro Ivo 550, Petrópolis, 3 img, 1 planta |
+
+### Contagem de unidades por produto (junho/2026)
+| Produto | xlsx | data file | Observação |
+|---------|------|-----------|------------|
+| MOOD | 144 (jun) + 48 (mai permuta) = **192** | 192 ✅ | permuta em maio, principal em junho |
+| EDITION | 22 T1 + 26 T2 = **48** | 48 ✅ | |
+| ORBITALE | **26** | 26 ✅ | |
+| VERDANT | 50 Torre + 4 Casas = **54** | 54 ✅ | |
+| YUNA | **83** | 83 ✅ | |
+| TREND HOME | **100** | 100 ✅ | |
+| TREND NANO | **259** | 259 ✅ | prumada = últimos 2 dígitos do código (01-23) |
 
 ### Slugs excluídos do `[slug]/page.tsx` generateStaticParams
 ```ts
@@ -162,10 +217,11 @@ Colunas do xlsx: `Id Produto | Status Mega | Codigo | Tipologia | Andar | Prumad
 - **SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds` + `placeholder-images.json`. Simulação de pagamento em `src/lib/payment-data.ts` — fórmula: entrada 12,5% (5x), mensais 9% (30x), reforços 13% (3x), financiamento 65,5%. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`
 - **YUNA:** Vanguard · 14 andares · 6 prumadas · sem book PDF → book estava em pasta separada
 - **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`; Nano usa prumada = últimos 2 dígitos do código (finais 01–23); Torre 2 não lançada; Office e Mall = informativos sem xlsx
-- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, penthouse andares 17–18; badge "Consulte valores e disponibilidade com o seu Corretor / GP"
+- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, penthouse andares 17–18; badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente
 - **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"
 - **VERDANT:** `setor` field — "Torre" e "Casas"
-- **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`
+- **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`; interface `Lot` (não `Unit`) com campos `block`, `number`; 4 status incluindo `opportunity`
+- **MOOD:** 16 unidades por andar (prumadas 01-16); principal em junho, permuta (andares 3,7,10) em maio
 
 ## Ferramentas instaladas
 - `inkscape` — exportar logos .ai → PNG
@@ -185,3 +241,5 @@ Colunas do xlsx: `Id Produto | Status Mega | Codigo | Tipologia | Andar | Prumad
 - **CSS arbitrário Tailwind com %** (ex: `object-[center_30%]`) não gera CSS em produção — usar sempre `style={{ objectPosition: '...' }}` inline
 - **Header da home** (`SiteHeader`): altura fixada via `style={{ height: '44px' }}` inline para garantir renderização
 - **Logos na home:** Plaenge `h-10 md:h-12 w-auto`, Vanguard `h-7 md:h-8 w-auto` (Vanguard tem mais caracteres e ficaria desproporcional no mesmo tamanho)
+- **Hydration mismatch:** nunca usar `Math.random()` / `shuffle` no `useState` initializer de componentes com SSR — mover para `useEffect`
+- **Admin push rejected:** o admin commita o `availability-overrides.json` diretamente no GitHub; antes de qualquer push fazer `git pull --rebase` para incorporar esses commits
