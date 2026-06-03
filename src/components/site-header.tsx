@@ -3,16 +3,16 @@ import Image from "next/image";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" style={{ height: '56px' }}>
-      <div className="container flex h-full items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" style={{ height: '44px' }}>
+      <div className="container flex items-center justify-between" style={{ height: '44px' }}>
+        <Link href="/" className="flex items-center">
           <Image
             src="/INSTITUCIONAL/logo_grupo_plaenge_claro.webp"
             alt="Grupo Plaenge"
-            width={200}
-            height={30}
+            width={160}
+            height={22}
             priority
-            className="h-8 w-auto"
+            style={{ height: '22px', width: 'auto' }}
           />
         </Link>
         <nav>
