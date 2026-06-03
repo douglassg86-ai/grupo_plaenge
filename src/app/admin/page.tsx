@@ -193,6 +193,21 @@ export default function AdminPage() {
   }
   const blocks = Object.keys(byBlock).sort()
 
+  // Summary counts for active product
+  const summaryItems = isWaveActive
+    ? WAVE_STATUS_CYCLE.map(s => ({
+        status: s,
+        label: WAVE_STATUS_LABEL[s],
+        color: WAVE_STATUS_COLORS[s],
+        count: waveLots.filter(l => ((productOv[String(l.id)] as WaveStatus) ?? l.status) === s).length,
+      }))
+    : STATUS_CYCLE.map(s => ({
+        status: s,
+        label: STATUS_LABEL[s],
+        color: STATUS_COLORS[s],
+        count: currentProduct.units.filter(u => ((productOv[String(u.id)] as Status) ?? u.status) === s).length,
+      }))
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       {/* Header */}
@@ -245,6 +260,22 @@ export default function AdminPage() {
             </button>
           )
         })}
+      </div>
+
+      {/* Summary */}
+      <div className="px-6 pt-4 flex gap-3 flex-wrap">
+        {summaryItems.map(item => (
+          <div key={item.status} className="bg-gray-800 rounded-lg px-4 py-2 flex flex-col items-center min-w-[80px]">
+            <span className="text-2xl font-bold">{item.count}</span>
+            <span className={`text-xs mt-0.5 px-2 py-0.5 rounded ${item.color}`}>{item.label}</span>
+          </div>
+        ))}
+        <div className="bg-gray-800 rounded-lg px-4 py-2 flex flex-col items-center min-w-[80px]">
+          <span className="text-2xl font-bold text-gray-400">
+            {isWaveActive ? waveLots.length : currentProduct.units.length}
+          </span>
+          <span className="text-xs mt-0.5 text-gray-400">Total</span>
+        </div>
       </div>
 
       {/* Grid — standard products */}
