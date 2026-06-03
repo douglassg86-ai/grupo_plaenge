@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { placeholderImages } from '@/lib/placeholder-images';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
+import { HomeHeroSlideshow } from '@/components/home-hero-slideshow';
 
 export default function Home() {
   const plaengeProjects = projects.filter((p) => p.brand === 'Plaenge');
@@ -18,18 +19,8 @@ export default function Home() {
     <div className="relative flex min-h-screen flex-col bg-background">
       <SiteHeader />
       <main className="flex-1">
-        <section className="relative h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center text-white">
-          {heroImage && (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover"
-              priority
-              data-ai-hint={heroImage.imageHint}
-            />
-          )}
-          <div className="absolute inset-0 bg-primary/70" />
+        <section className="relative h-[65vh] flex flex-col items-center justify-center text-center text-white">
+          <HomeHeroSlideshow />
           <div className="relative z-10 p-4 flex flex-col items-center">
             <Image
               src="/INSTITUCIONAL/logo_plaenge_vanguard_escuro.webp"
