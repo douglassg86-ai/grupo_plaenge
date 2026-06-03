@@ -1,3 +1,6 @@
+import rawOverrides from '@/data/availability-overrides.json'
+type WaveStatus = 'available' | 'sold' | 'negotiation' | 'opportunity'
+const _wov = (rawOverrides as Record<string, Record<string, WaveStatus>>)['wave'] || {}
 
 export interface Lot {
     id: number;
@@ -119,3 +122,9 @@ if (availableLots.length > 0) {
     cheapestLotInAll.status = 'opportunity';
   }
 }
+
+// Apply admin overrides
+Object.entries(_wov).forEach(([id, status]) => {
+  const lot = lots.find(l => String(l.id) === id)
+  if (lot) lot.status = status
+})

@@ -8,15 +8,23 @@ import { units as syntheUnits } from '@/lib/synthe-data'
 import { homeUnits, nanoUnits } from '@/lib/trend-data'
 import { units as verdantUnits } from '@/lib/verdant-data'
 import { units as yunaUnits } from '@/lib/yuna-data'
+import { lots as waveLots } from '@/lib/wave-data'
 import rawOverrides from '@/data/availability-overrides.json'
 
 type Status = 'available' | 'sold' | 'negotiation'
-type OverridesMap = Record<string, Record<string, Status>>
+type WaveStatus = 'available' | 'sold' | 'negotiation' | 'opportunity'
+type OverridesMap = Record<string, Record<string, string>>
 
 const STATUS_LABEL: Record<Status, string> = {
   available: 'Disponível',
   negotiation: 'Reservada',
   sold: 'Vendida',
+}
+const WAVE_STATUS_LABEL: Record<WaveStatus, string> = {
+  available: 'Disponível',
+  negotiation: 'Reservada',
+  sold: 'Vendido',
+  opportunity: 'Oportunidade',
 }
 
 const STATUS_COLORS: Record<Status, string> = {
@@ -24,18 +32,26 @@ const STATUS_COLORS: Record<Status, string> = {
   negotiation: 'bg-yellow-500 hover:bg-yellow-400 text-white',
   sold: 'bg-red-500 hover:bg-red-400 text-white',
 }
+const WAVE_STATUS_COLORS: Record<WaveStatus, string> = {
+  available: 'bg-green-500 hover:bg-green-400 text-white',
+  negotiation: 'bg-yellow-500 hover:bg-yellow-400 text-white',
+  sold: 'bg-red-500 hover:bg-red-400 text-white',
+  opportunity: 'bg-blue-500 hover:bg-blue-400 text-white',
+}
 
 const STATUS_CYCLE: Status[] = ['available', 'negotiation', 'sold']
+const WAVE_STATUS_CYCLE: WaveStatus[] = ['available', 'negotiation', 'sold', 'opportunity']
 
 const PRODUCTS = [
-  { key: 'edition', label: 'EDITION', units: editionUnits },
-  { key: 'mood', label: 'MOOD', units: moodUnits },
-  { key: 'orbitale', label: 'ORBITALE', units: orbitaleUnits },
-  { key: 'synthe', label: 'SYNTHÈ', units: syntheUnits as { id: number; code: string; floor: number; status: Status }[] },
-  { key: 'trend_home', label: 'TREND Home', units: homeUnits },
-  { key: 'trend_nano', label: 'TREND Nano', units: nanoUnits },
-  { key: 'verdant', label: 'VERDANT', units: verdantUnits },
-  { key: 'yuna', label: 'YUNA', units: yunaUnits },
+  { key: 'edition', label: 'EDITION', units: editionUnits, isWave: false },
+  { key: 'mood', label: 'MOOD', units: moodUnits, isWave: false },
+  { key: 'orbitale', label: 'ORBITALE', units: orbitaleUnits, isWave: false },
+  { key: 'synthe', label: 'SYNTHÈ', units: syntheUnits as { id: number; code: string; floor: number; status: Status }[], isWave: false },
+  { key: 'trend_home', label: 'TREND Home', units: homeUnits, isWave: false },
+  { key: 'trend_nano', label: 'TREND Nano', units: nanoUnits, isWave: false },
+  { key: 'verdant', label: 'VERDANT', units: verdantUnits, isWave: false },
+  { key: 'yuna', label: 'YUNA', units: yunaUnits, isWave: false },
+  { key: 'wave', label: 'WAVE', units: [], isWave: true },
 ]
 
 export default function AdminPage() {
@@ -47,14 +63,12 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
 
-  // Restore session
   useEffect(() => {
     if (sessionStorage.getItem('admin_authed') === '1') setAuthed(true)
   }, [])
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault()
-    // Client-side pre-check via API
     fetch('/api/admin/commit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -70,15 +84,14 @@ export default function AdminPage() {
     })
   }
 
-  function cycleStatus(productKey: string, unitId: number, currentStatus: Status) {
-    const idx = STATUS_CYCLE.indexOf(currentStatus)
-    const nextStatus = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length]
+  function cycleStatus(productKey: string, unitId: number, currentStatus: string) {
+    const isWave = productKey === 'wave'
+    const cycle = isWave ? WAVE_STATUS_CYCLE : STATUS_CYCLE
+    const idx = cycle.indexOf(currentStatus as never)
+    const nextStatus = cycle[(idx + 1) % cycle.length]
     setOverrides(prev => ({
       ...prev,
-      [productKey]: {
-        ...prev[productKey],
-        [String(unitId)]: nextStatus,
-      },
+      [productKey]: { ...prev[productKey], [String(unitId)]: nextStatus },
     }))
     setSaveMsg('')
   }
@@ -87,13 +100,15 @@ export default function AdminPage() {
     setSaving(true)
     setSaveMsg('')
     const pw = sessionStorage.getItem('admin_password') || ''
-    // Clean up overrides — remove entries that match the original status
+
     const cleaned: OverridesMap = {}
-    for (const product of PRODUCTS) {
+
+    // Standard products
+    for (const product of PRODUCTS.filter(p => !p.isWave)) {
       const productOv = overrides[product.key] || {}
-      const cleanedProduct: Record<string, Status> = {}
+      const cleanedProduct: Record<string, string> = {}
       for (const unit of product.units) {
-        const originalStatus = unit.status as Status
+        const originalStatus = unit.status as string
         const overrideStatus = productOv[String(unit.id)]
         if (overrideStatus && overrideStatus !== originalStatus) {
           cleanedProduct[String(unit.id)] = overrideStatus
@@ -101,6 +116,18 @@ export default function AdminPage() {
       }
       cleaned[product.key] = cleanedProduct
     }
+
+    // WAVE lots
+    const waveOv = overrides['wave'] || {}
+    const cleanedWave: Record<string, string> = {}
+    for (const lot of waveLots) {
+      const originalStatus = lot.status as string
+      const overrideStatus = waveOv[String(lot.id)]
+      if (overrideStatus && overrideStatus !== originalStatus) {
+        cleanedWave[String(lot.id)] = overrideStatus
+      }
+    }
+    cleaned['wave'] = cleanedWave
 
     const res = await fetch('/api/admin/commit', {
       method: 'POST',
@@ -141,21 +168,30 @@ export default function AdminPage() {
     )
   }
 
-  const currentProduct = PRODUCTS.find(p => p.key === activeProduct)!
+  const isWaveActive = activeProduct === 'wave'
   const productOv = overrides[activeProduct] || {}
+  const changedCount = Object.values(overrides).reduce((acc, m) => acc + Object.keys(m).length, 0)
 
-  // Group units by floor
+  // Standard product grouping by floor
+  const currentProduct = PRODUCTS.find(p => p.key === activeProduct)!
   const byFloor: Record<number, typeof currentProduct.units> = {}
-  for (const unit of currentProduct.units) {
-    if (!byFloor[unit.floor]) byFloor[unit.floor] = []
-    byFloor[unit.floor].push(unit)
+  if (!isWaveActive) {
+    for (const unit of currentProduct.units) {
+      if (!byFloor[unit.floor]) byFloor[unit.floor] = []
+      byFloor[unit.floor].push(unit)
+    }
   }
   const floors = Object.keys(byFloor).map(Number).sort((a, b) => b - a)
 
-  // Count changes
-  const changedCount = Object.values(overrides).reduce(
-    (acc, m) => acc + Object.keys(m).length, 0
-  )
+  // WAVE grouping by block
+  const byBlock: Record<string, typeof waveLots> = {}
+  if (isWaveActive) {
+    for (const lot of waveLots) {
+      if (!byBlock[lot.block]) byBlock[lot.block] = []
+      byBlock[lot.block].push(lot)
+    }
+  }
+  const blocks = Object.keys(byBlock).sort()
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -179,13 +215,13 @@ export default function AdminPage() {
       </div>
 
       {/* Legend */}
-      <div className="px-6 pt-4 flex gap-4 text-xs">
-        {STATUS_CYCLE.map(s => (
-          <span key={s} className={`px-2 py-0.5 rounded ${STATUS_COLORS[s]}`}>
-            {STATUS_LABEL[s]}
+      <div className="px-6 pt-4 flex gap-3 text-xs flex-wrap">
+        {(isWaveActive ? WAVE_STATUS_CYCLE : STATUS_CYCLE).map(s => (
+          <span key={s} className={`px-2 py-0.5 rounded ${isWaveActive ? WAVE_STATUS_COLORS[s as WaveStatus] : STATUS_COLORS[s as Status]}`}>
+            {isWaveActive ? WAVE_STATUS_LABEL[s as WaveStatus] : STATUS_LABEL[s as Status]}
           </span>
         ))}
-        <span className="text-gray-400 ml-2">— clique numa unidade para alternar o status</span>
+        <span className="text-gray-400 ml-2">— clique para alternar o status</span>
       </div>
 
       {/* Product tabs */}
@@ -197,9 +233,7 @@ export default function AdminPage() {
               key={p.key}
               onClick={() => setActiveProduct(p.key)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                activeProduct === p.key
-                  ? 'bg-white text-gray-900'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                activeProduct === p.key ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
               }`}
             >
               {p.label}
@@ -213,33 +247,65 @@ export default function AdminPage() {
         })}
       </div>
 
-      {/* Unit grid */}
-      <div className="px-6 py-4 space-y-3">
-        {floors.map(floor => (
-          <div key={floor} className="flex items-center gap-2">
-            <span className="text-gray-500 text-xs w-12 text-right shrink-0">
-              {floor === 0 ? 'Térreo' : `${floor}º`}
-            </span>
-            <div className="flex gap-1.5 flex-wrap">
-              {byFloor[floor].map(unit => {
-                const base = unit.status as Status
-                const current: Status = productOv[String(unit.id)] ?? base
-                const changed = productOv[String(unit.id)] !== undefined && productOv[String(unit.id)] !== base
-                return (
-                  <button
-                    key={unit.id}
-                    onClick={() => cycleStatus(activeProduct, unit.id, current)}
-                    title={`${unit.code} — ${STATUS_LABEL[current]}`}
-                    className={`text-xs font-mono px-2 py-1 rounded transition-colors ${STATUS_COLORS[current]} ${changed ? 'ring-2 ring-orange-400' : ''}`}
-                  >
-                    {unit.code}
-                  </button>
-                )
-              })}
+      {/* Grid — standard products */}
+      {!isWaveActive && (
+        <div className="px-6 py-4 space-y-3">
+          {floors.map(floor => (
+            <div key={floor} className="flex items-center gap-2">
+              <span className="text-gray-500 text-xs w-12 text-right shrink-0">
+                {floor === 0 ? 'Térreo' : `${floor}º`}
+              </span>
+              <div className="flex gap-1.5 flex-wrap">
+                {byFloor[floor].map(unit => {
+                  const base = unit.status as Status
+                  const current: Status = (productOv[String(unit.id)] as Status) ?? base
+                  const changed = productOv[String(unit.id)] !== undefined && productOv[String(unit.id)] !== base
+                  return (
+                    <button
+                      key={unit.id}
+                      onClick={() => cycleStatus(activeProduct, unit.id, current)}
+                      title={`${unit.code} — ${STATUS_LABEL[current]}`}
+                      className={`text-xs font-mono px-2 py-1 rounded transition-colors ${STATUS_COLORS[current]} ${changed ? 'ring-2 ring-orange-400' : ''}`}
+                    >
+                      {unit.code}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {/* Grid — WAVE lotes por quadra */}
+      {isWaveActive && (
+        <div className="px-6 py-4 space-y-4">
+          {blocks.map(block => (
+            <div key={block} className="flex items-start gap-3">
+              <span className="text-gray-500 text-xs w-14 text-right shrink-0 pt-1">
+                Quadra {block}
+              </span>
+              <div className="flex gap-1.5 flex-wrap">
+                {byBlock[block].map(lot => {
+                  const base = lot.status as WaveStatus
+                  const current: WaveStatus = (productOv[String(lot.id)] as WaveStatus) ?? base
+                  const changed = productOv[String(lot.id)] !== undefined && productOv[String(lot.id)] !== base
+                  return (
+                    <button
+                      key={lot.id}
+                      onClick={() => cycleStatus('wave', lot.id, current)}
+                      title={`Lote ${lot.number} — ${WAVE_STATUS_LABEL[current]}`}
+                      className={`text-xs font-mono px-2 py-1 rounded transition-colors ${WAVE_STATUS_COLORS[current]} ${changed ? 'ring-2 ring-orange-400' : ''}`}
+                    >
+                      L{lot.number}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
