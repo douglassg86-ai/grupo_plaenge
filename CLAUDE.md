@@ -6,10 +6,16 @@
 - **Local:** `/Users/douglas/Desktop/grupo_plaenge`
 - **Assets fonte:** `/Users/douglas/Desktop/SITE PRODUTOS/Produtos/`
 - **Disponibilidade (xlsx):** `/Users/douglas/Desktop/SITE PRODUTOS/DISPONIBILIDADE/`
+- **Última atualização de disponibilidade:** pasta `junho` (jun/2026)
 - **Books PDF:** `/Users/douglas/Desktop/SITE PRODUTOS/BOOKS/` (alguns ficam dentro da pasta do produto)
+- **Logos institucionais WebP:** `/Users/douglas/Desktop/SITE PRODUTOS/pngs logos plaenge vanguard/`
 
 ## Stack
 Next.js 14 (App Router, Turbo), TypeScript, Tailwind CSS, shadcn/ui
+
+## Analytics
+- **Google Analytics 4:** `G-235EYLPY74` (propriedade "Grupo Plaenge POA")
+- Implementado via `next/script` strategy `afterInteractive` em `src/app/layout.tsx`
 
 ## Padrões estabelecidos
 
@@ -27,9 +33,11 @@ public/[PRODUTO]/plantas/                          ← plantas WebP
 ```
 src/components/shared/gallery-viewer.tsx   ← GalleryViewer com lightbox integrado
 src/components/shared/plants-viewer.tsx    ← PlantsViewer com lightbox integrado
+src/components/shared/product-header.tsx  ← ProductHeader (logo + dropdown navegação)
 src/components/ui/lightbox.tsx             ← Lightbox (zoom scroll/pinch/drag, ESC, ←→)
 ```
 **Nunca criar funções Gallery/Plants inline** — importar sempre os componentes shared.
+**Sempre usar ProductHeader** nos `home-page-client.tsx` de cada produto.
 
 ### Interfaces dos componentes shared
 ```tsx
@@ -37,6 +45,22 @@ src/components/ui/lightbox.tsx             ← Lightbox (zoom scroll/pinch/drag,
 interface Category { label: string; images: { src: string; alt: string }[] }
 <GalleryViewer categories={galleryCategories} />
 <PlantsViewer categories={plantCategories} />
+
+// ProductHeader — sem props, já contém logo + dropdown com todos os produtos
+<ProductHeader />
+```
+
+### Logos institucionais em `/public/INSTITUCIONAL/`
+```
+logo_grupo_plaenge_claro.webp    ← header da home (fundo claro)
+logo_grupo_plaenge_escuro.webp   ← fundo escuro
+logo_plaenge_claro.webp          ← seção Plaenge na home
+logo_plaenge_escuro.webp
+logo_vanguard_claro.webp         ← seção Vanguard na home
+logo_vanguard_escuro.webp
+logo_plaenge_vanguard_claro.webp
+logo_plaenge_vanguard_escuro.webp ← hero da home (fundo escuro/vermelho)
+grafismo.webp                    ← padrão listrado decorativo
 ```
 
 ### Regras críticas
@@ -49,11 +73,13 @@ interface Category { label: string; images: { src: string; alt: string }[] }
 7. **Excluir slug do `[slug]/page.tsx` `generateStaticParams`** — evitar conflito com rota dedicada
 8. **Atualizar `src/lib/data.ts`** — slug do produto para apontar para nova rota
 9. **Atualizar `src/lib/placeholder-images.json`** — heroImageId do card para usar imagem real WebP
+10. **object-position em imagens hero** — usar `style={{ objectPosition: 'center X%' }}` via style inline (NÃO usar classes Tailwind arbitrárias como `object-[center_30%]` — não geram CSS em produção)
+11. **Prumada no Trend Nano** — usar 2 últimos dígitos do código (`'0323'` → `'23'`), NÃO o campo Prumada do xlsx que é 0-9
 
 ### Estrutura da página (padrão visual)
 ```
-Header (logo Plaenge centralizado, absoluto)
-Hero (h-[70vh], imagem fill, gradiente bottom, logo produto + cidade embaixo)
+<ProductHeader />   ← absoluto, z-20, logo + dropdown navegação
+Hero (h-[70vh], imagem fill, gradiente bottom, logo produto + badge entrega + cidade embaixo)
 Container -mt-8, space-y-2:
   ├── Card chamada (bg-primary, texto central)
   ├── Card sobre (grid 2 cols: texto + imagem, créditos em lista)
@@ -65,6 +91,16 @@ Container -mt-8, space-y-2:
   │   └── Card localização (texto + iframe Google Maps 280px)
   └── Card disponibilidade (UnitGrid com summary + tabela por andar)
 Footer (texto centralizado, pequeno)
+```
+
+### Badge de entrega no hero
+Inserir após a linha de bairro/cidade no hero:
+```tsx
+// Pronto para morar (ORBITALE, MOOD):
+<span className="inline-block mb-3 px-3 py-1 rounded-full bg-green-500/90 text-white text-xs font-semibold tracking-wide">✓ Pronto para morar</span>
+
+// Previsão de entrega:
+<span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold tracking-wide backdrop-blur-sm">Previsão de entrega: Mês Ano</span>
 ```
 
 ### UnitGrid padrão
@@ -85,20 +121,37 @@ export interface Unit {
 }
 ```
 
+### Geração de dados a partir do xlsx
+```python
+import openpyxl
+def status(s):
+    s = str(s) if s else ''
+    if 'Disponivel' in s: return 'available'
+    if 'Reservada' in s: return 'negotiation'
+    return 'sold'
+
+wb = openpyxl.load_workbook("arquivo.xlsx")
+ws = wb.active
+for row in ws.iter_rows(min_row=2, values_only=True):
+    id_, st, code, tipo, floor, prumada, area, vlr, *_ = row
+    # Para Trend Nano: prumada = str(code)[-2:]  ← últimos 2 dígitos do código
+```
+Colunas do xlsx: `Id Produto | Status Mega | Codigo | Tipologia | Andar | Prumada | Area Privativa | Vlr Tabela | Vlr Minimo`
+
 ## Produtos — Status
 
 ### ✅ Concluídos
-| Produto | Rota | Unidades | Cidade | Obs |
-|---------|------|----------|--------|-----|
-| WAVE Home Resort | `/wave` | lotes | Xangri-lá | original do projeto |
-| SHIFT | `/shift` | 184 | Porto Alegre | original do projeto |
-| EDITION Moinhos | `/edition` | 48 (2 torres) | Porto Alegre | 31 img, 9 plantas |
-| MOOD Central Parque | `/mood` | 192 (principal+permuta) | Porto Alegre | 20 img, 4 plantas |
-| ORBITALE | `/orbitale` | 26 | Porto Alegre | 55 img, 12 plantas, decorado |
-| VERDANT | `/verdant` | 54 (Torre+Casas) | Porto Alegre | 64 img, 15 plantas, decorado |
-| YUNA Jardim Botânico | `/yuna` | 83 | Porto Alegre | Vanguard, R. Felizardo Furtado 348, 22 img, 12 plantas |
-| TREND DOWNTOWN | `/trend` | 100 Home + 259 Nano | Porto Alegre | Página única, tabs Home/Nano, Torre 2 = futuro lançamento |
-| SYNTHÈ | `/synthe` | 32 pré-lançamento | Porto Alegre | Plaenge+TGD, R. Pedro Ivo 550, Petrópolis, 3 img, 1 planta |
+| Produto | Rota | Unidades | Cidade | Entrega | Obs |
+|---------|------|----------|--------|---------|-----|
+| WAVE Home Resort | `/wave` | lotes | Xangri-lá | Pronto para construir | original do projeto |
+| SHIFT | `/shift` | 184 | Porto Alegre | Abr/2029 | [slug]/page.tsx, simulação de pagamento |
+| EDITION Moinhos | `/edition` | 48 (2 torres) | Porto Alegre | Jul/2028 | 31 img, 9 plantas |
+| MOOD Central Parque | `/mood` | 192 (principal+permuta) | Porto Alegre | Pronto para morar | 20 img, 4 plantas |
+| ORBITALE | `/orbitale` | 26 | Porto Alegre | Pronto para morar | 55 img, 12 plantas, decorado |
+| VERDANT | `/verdant` | 54 (Torre+Casas) | Porto Alegre | Abr/2027 | 64 img, 15 plantas, decorado |
+| YUNA Jardim Botânico | `/yuna` | 83 | Porto Alegre | Nov/2027 | Vanguard, R. Felizardo Furtado 348, 22 img, 12 plantas |
+| TREND DOWNTOWN | `/trend` | 100 Home + 259 Nano | Porto Alegre | — | Página única, tabs Home/Nano, Torre 2 = futuro lançamento, sem data (fases diferentes) |
+| SYNTHÈ | `/synthe` | 32 pré-lançamento | Porto Alegre | Pré-lançamento | Plaenge+TGD, R. Pedro Ivo 550, Petrópolis, 3 img, 1 planta |
 
 ### Slugs excluídos do `[slug]/page.tsx` generateStaticParams
 ```ts
@@ -106,9 +159,13 @@ export interface Unit {
 ```
 
 ### Notas por produto
+- **SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds` + `placeholder-images.json`. Simulação de pagamento em `src/lib/payment-data.ts` — fórmula: entrada 12,5% (5x), mensais 9% (30x), reforços 13% (3x), financiamento 65,5%. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`
 - **YUNA:** Vanguard · 14 andares · 6 prumadas · sem book PDF → book estava em pasta separada
-- **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`; Torre 2 não lançada (ref. "futuro lançamento"); Office e Mall = informativos sem xlsx
-- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, penthouse andares 17–18; `synthe-data.ts` gerado manualmente
+- **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`; Nano usa prumada = últimos 2 dígitos do código (finais 01–23); Torre 2 não lançada; Office e Mall = informativos sem xlsx
+- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, penthouse andares 17–18; badge "Consulte valores e disponibilidade com o seu Corretor / GP"
+- **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"
+- **VERDANT:** `setor` field — "Torre" e "Casas"
+- **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`
 
 ## Ferramentas instaladas
 - `inkscape` — exportar logos .ai → PNG
@@ -124,5 +181,7 @@ export interface Unit {
 - SYNTHÈ: `synthe-data.ts` gerado manualmente (sem xlsx) — 32 unidades, todos `status: 'available'`, sem campo `price`
 - Books PDF em imagem → pdftotext retorna vazio → usar `Read` tool visual
 - ImageMagick v7 instalado: usar `magick` (não `convert`)
-- O servidor de preview roda em porta 9002 (launch.json configurado na porta 3456 mas preview tool usa 9002)
 - Ao fazer push, Vercel faz deploy automático em ~2 min
+- **CSS arbitrário Tailwind com %** (ex: `object-[center_30%]`) não gera CSS em produção — usar sempre `style={{ objectPosition: '...' }}` inline
+- **Header da home** (`SiteHeader`): altura fixada via `style={{ height: '44px' }}` inline para garantir renderização
+- **Logos na home:** Plaenge `h-10 md:h-12 w-auto`, Vanguard `h-7 md:h-8 w-auto` (Vanguard tem mais caracteres e ficaria desproporcional no mesmo tamanho)
