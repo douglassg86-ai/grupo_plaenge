@@ -18,6 +18,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import ShiftEventPopup from '@/components/shift-event-popup';
+import { WhatsappButton } from '@/components/whatsapp-button';
 
 type ProjectPageProps = {
   params: {
@@ -276,6 +277,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         </div>
       </main>
 
+      <WhatsappButton product="SHIFT" />
       <SiteFooter />
     </div>
   );

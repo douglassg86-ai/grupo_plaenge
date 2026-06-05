@@ -6,6 +6,7 @@ import type { Availability as AvailabilityType } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { useManager, trackClick } from '@/lib/use-manager';
 import {
   Accordion,
   AccordionContent,
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/accordion"
 import {
   AlertDialog,
-  AlertDialogAction,
+
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -23,7 +24,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import Link from 'next/link';
-import { Download, Mail, AlertTriangle, FilePenLine } from 'lucide-react';
+import { Download, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle as AlertTitleComponent } from './ui/alert';
 import {
@@ -42,6 +43,7 @@ type AvailabilityGridProps = {
 export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
   const [selectedUnit, setSelectedUnit] = React.useState<AvailabilityType | null>(null);
   const [isInfoDialogOpen, setIsInfoDialogOpen] = React.useState(false);
+  const manager = useManager();
 
   const handleUnitClick = (unit: AvailabilityType) => {
     setSelectedUnit(unit);
@@ -74,14 +76,6 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
     return Object.entries(grouped).sort(([a], [b]) => parseInt(b) - parseInt(a));
   }, [availability]);
   
-  const mailtoLink = React.useMemo(() => {
-    if (!selectedUnit) return '';
-    const to = "pastas_poa@vanguard.com.br";
-    const subject = `Alocação de Pasta - Empreendimento SHIFT - Unidade ${selectedUnit.unit}`;
-    const body = `Olá!\n\nGostaria de alocar a pasta do meu cliente na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do empreendimento SHIFT.\n\nSeguem os documentos em anexo.\n\nObrigado.`;
-    return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }, [selectedUnit]);
-
   return (
     <Card>
       <CardContent className="p-4">
@@ -219,38 +213,22 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                         O espelho de vendas não reflete a disponibilidade em tempo real. A prioridade é por ordem de envio. Não perca tempo!
                       </AlertDescription>
                     </Alert>
-
-                    <div className='text-center'>
-                      <p className="font-bold text-foreground/90 mb-1 text-sm">Documentos para a pasta:</p>
-                      <ul className="list-disc list-inside space-y-0.5 text-xs text-muted-foreground">
-                          <li>Ficha cadastro</li>
-                          <li>CNH/IDENTIDADE</li>
-                          <li>Comprovante de Residência</li>
-                          <li>Certidão de casamento/estado civil</li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <AlertDialogCancel className="sm:col-span-2 w-full">Voltar</AlertDialogCancel>
-              {selectedUnit && selectedUnit.status !== 'Vendido' && (
-                <>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="https://forms.gle/Z3vWTepDfpVfMSFE9" target="_blank">
-                      <FilePenLine className="mr-2 h-4 w-4" />
-                      Ficha Cadastro
-                    </Link>
-                  </Button>
-                  <AlertDialogAction asChild className="w-full">
-                    <Link href={mailtoLink} target="_blank">
-                      <Mail className="mr-2 h-4 w-4" />
-                      Documentação
-                    </Link>
-                  </AlertDialogAction>
-                </>
+            <AlertDialogFooter className="mt-4 flex flex-col gap-2">
+              {selectedUnit && selectedUnit.status !== 'Vendido' && manager && (
+                <Button className="w-full bg-green-500 hover:bg-green-600 text-white" onClick={() => {
+                  trackClick(manager.slug, 'SHIFT')
+                  const msg = `Olá ${manager.name}! Tenho interesse na unidade ${selectedUnit.unit} (${selectedUnit.area.toFixed(2)} m²) do SHIFT.`
+                  window.open(`https://wa.me/${manager.phone}?text=${encodeURIComponent(msg)}`, '_blank')
+                  setIsInfoDialogOpen(false)
+                }}>
+                  Consultar via WhatsApp
+                </Button>
               )}
+              <AlertDialogCancel className="w-full">Voltar</AlertDialogCancel>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
