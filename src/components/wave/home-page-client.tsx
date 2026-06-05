@@ -64,7 +64,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border">
                    <iframe
-                      src="https://www.youtube.com/embed/uWSRtxyZ2i4"
+                      src="https://www.youtube.com/embed/14n694lSc5k"
                       title="Vídeo Wave Home Resort"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
