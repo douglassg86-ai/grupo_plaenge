@@ -9,6 +9,7 @@
 - **Última atualização de disponibilidade:** pasta `junho` (jun/2026)
 - **Books PDF:** `/Users/douglas/Desktop/SITE PRODUTOS/BOOKS/` (alguns ficam dentro da pasta do produto)
 - **Logos institucionais WebP:** `/Users/douglas/Desktop/SITE PRODUTOS/pngs logos plaenge vanguard/`
+- **Fotos dos gestores (fonte):** `/Users/douglas/Desktop/contatos gestores/`
 
 ## Stack
 Next.js 14 (App Router, Turbo), TypeScript, Tailwind CSS, shadcn/ui
@@ -36,9 +37,11 @@ src/components/shared/plants-viewer.tsx    ← PlantsViewer com lightbox integra
 src/components/shared/product-header.tsx  ← ProductHeader (logo + dropdown navegação)
 src/components/ui/lightbox.tsx             ← Lightbox (zoom scroll/pinch/drag, ESC, ←→)
 src/components/home-hero-slideshow.tsx     ← Slideshow do hero da home (Ken Burns + fade)
+src/components/whatsapp-button.tsx         ← Botão flutuante WhatsApp (condicional ao cookie de gestor)
 ```
 **Nunca criar funções Gallery/Plants inline** — importar sempre os componentes shared.
 **Sempre usar ProductHeader** nos `home-page-client.tsx` de cada produto.
+**Sempre incluir `<WhatsappButton product="NOME DO PRODUTO" />`** em todo `home-page-client.tsx`.
 
 ### Interfaces dos componentes shared
 ```tsx
@@ -49,6 +52,9 @@ interface Category { label: string; images: { src: string; alt: string }[] }
 
 // ProductHeader — sem props, já contém logo + dropdown com todos os produtos
 <ProductHeader />
+
+// WhatsappButton — aparece apenas se cookie 'manager' estiver presente
+<WhatsappButton product="NOME DO PRODUTO" />
 ```
 
 ### Logos institucionais em `/public/INSTITUCIONAL/`
@@ -91,6 +97,7 @@ Container -mt-8, space-y-2:
   │   ├── Card diferenciais (lista com ✓)
   │   └── Card localização (texto + iframe Google Maps 280px)
   └── Card disponibilidade (UnitGrid com summary + tabela por andar)
+<WhatsappButton product="NOME" />   ← antes do </footer>
 Footer (texto centralizado, pequeno)
 ```
 
@@ -155,8 +162,9 @@ Colunas do xlsx: `Id Produto | Status Mega | Codigo | Tipologia | Andar | Prumad
 - **Fluxo:** admin altera status → salva → API commita JSON no GitHub → Vercel redeploya (~2 min)
 - **Variáveis de ambiente no Vercel:**
   - `ADMIN_PASSWORD=plaenge.peano2026`
-  - `GITHUB_TOKEN=<token já configurado no Vercel — ver Settings → Environment Variables>`
+  - `GITHUB_TOKEN=<token configurado no Vercel — ver Settings → Environment Variables>`
 - **WAVE** tem 4 status: `available | negotiation | sold | opportunity`
+- **Admin tem 2 abas:** "📋 Disponibilidade" e "📊 Gestores"
 
 ### Como funciona o applyOv em cada data file
 ```ts
@@ -170,6 +178,44 @@ function applyOv(units: Unit[], key: string): Unit[] {
 // No final do arquivo:
 export const units = applyOv(_rawUnits, 'produto')
 ```
+
+## Sistema de Links Personalizados por Gestor
+
+### Arquitetura
+- **Rota de entrada:** `GET /g/[slug]` → seta cookie `manager=slug` (1 ano) + registra visita no Redis + redireciona para `/`
+- **Cookie:** `manager` — lido client-side pelo `WhatsappButton`
+- **Botão flutuante:** aparece em todos os produtos **apenas** quando cookie presente; abre WhatsApp do gestor com mensagem personalizada pelo produto
+- **Site genérico** (sem /g/slug): zero botão de contato
+- **Tracking de cliques:** `POST /api/track` — registrado no Redis ao clicar no botão
+- **IMPORTANTE:** em Route Handlers serverless, sempre usar `await trackEvent()` antes de retornar — função é terminada após o return
+
+### Gestores cadastrados (`src/lib/managers.ts`)
+| Slug | Nome | Telefone | Foto |
+|------|------|----------|------|
+| `jardim` | Jardim | 5551999630731 | `/GESTORES/jardim.webp` |
+| `raffael` | Raffael | 5551993777440 | `/GESTORES/raffael.webp` |
+| `renato` | Renato | 5551997196469 | `/GESTORES/renato.webp` |
+| `charles` | Charles | 5551992427285 | `/GESTORES/charles.webp` |
+| `nishi` | Nishi | 5551991214230 | `/GESTORES/nishi.webp` |
+
+### Links para compartilhar
+```
+grupo-plaenge.vercel.app/g/jardim
+grupo-plaenge.vercel.app/g/raffael
+grupo-plaenge.vercel.app/g/renato
+grupo-plaenge.vercel.app/g/charles
+grupo-plaenge.vercel.app/g/nishi
+```
+
+### Dashboard de analytics (`/admin` → aba Gestores)
+- Visitas, Cliques WA, Taxa de conversão por gestor
+- Gráfico de barras diário (azul = visitas, verde = cliques)
+- Filtro 7 / 30 / 90 dias
+- **API:** `POST /api/analytics` — autenticada por senha, lê do Redis
+- **Redis:** Upstash for Redis (Vercel Integration)
+  - Variáveis: `UPSTASH_REDIS_KV_REST_API_URL` e `UPSTASH_REDIS_KV_REST_API_TOKEN`
+  - Cliente em `src/lib/redis.ts`
+  - Chaves: `manager:{slug}:visit:{YYYY-MM-DD}`, `manager:{slug}:click:{YYYY-MM-DD}`, `manager:{slug}:visit:total`, `manager:{slug}:click:total`
 
 ## Hero da Home — Slideshow
 
@@ -194,7 +240,7 @@ export const units = applyOv(_rawUnits, 'produto')
 | ORBITALE | `/orbitale` | 26 | Porto Alegre | Pronto para morar | 55 img, 12 plantas, decorado |
 | VERDANT | `/verdant` | 54 (Torre+Casas) | Porto Alegre | Abr/2027 | 64 img, 15 plantas, decorado |
 | YUNA Jardim Botânico | `/yuna` | 83 | Porto Alegre | Nov/2027 | Vanguard, R. Felizardo Furtado 348, 22 img, 12 plantas |
-| TREND DOWNTOWN | `/trend` | 100 Home + 259 Nano | Porto Alegre | — | Página única, tabs Home/Nano, Torre 2 = futuro lançamento, sem data (fases diferentes) |
+| TREND DOWNTOWN | `/trend` | 100 Home + 259 Nano | Porto Alegre | — | Página única, tabs Home/Nano, Torre 2 = futuro lançamento, sem data |
 | SYNTHÈ | `/synthe` | 32 pré-lançamento | Porto Alegre | Pré-lançamento | Plaenge+TGD, R. Pedro Ivo 550, Petrópolis, 3 img, 1 planta |
 
 ### Contagem de unidades por produto (junho/2026)
@@ -220,7 +266,7 @@ export const units = applyOv(_rawUnits, 'produto')
 - **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, penthouse andares 17–18; badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente
 - **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"
 - **VERDANT:** `setor` field — "Torre" e "Casas"
-- **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`; interface `Lot` (não `Unit`) com campos `block`, `number`; 4 status incluindo `opportunity`
+- **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`; interface `Lot` (não `Unit`) com campos `block`, `number`; 4 status incluindo `opportunity`; modal do lote usa gestor do cookie para WhatsApp
 - **MOOD:** 16 unidades por andar (prumadas 01-16); principal em junho, permuta (andares 3,7,10) em maio
 
 ## Ferramentas instaladas
@@ -240,6 +286,8 @@ export const units = applyOv(_rawUnits, 'produto')
 - Ao fazer push, Vercel faz deploy automático em ~2 min
 - **CSS arbitrário Tailwind com %** (ex: `object-[center_30%]`) não gera CSS em produção — usar sempre `style={{ objectPosition: '...' }}` inline
 - **Header da home** (`SiteHeader`): altura fixada via `style={{ height: '44px' }}` inline para garantir renderização
-- **Logos na home:** Plaenge `h-10 md:h-12 w-auto`, Vanguard `h-7 md:h-8 w-auto` (Vanguard tem mais caracteres e ficaria desproporcional no mesmo tamanho)
+- **Logos na home:** Plaenge `h-10 md:h-12 w-auto`, Vanguard `h-7 md:h-8 w-auto`
 - **Hydration mismatch:** nunca usar `Math.random()` / `shuffle` no `useState` initializer de componentes com SSR — mover para `useEffect`
 - **Admin push rejected:** o admin commita o `availability-overrides.json` diretamente no GitHub; antes de qualquer push fazer `git pull --rebase` para incorporar esses commits
+- **Route Handlers serverless:** sempre `await` operações async antes do `return response` — o Vercel encerra a função após o retorno
+- **'use client' deve ser sempre a primeira linha** dos arquivos — nunca inserir imports antes dele
