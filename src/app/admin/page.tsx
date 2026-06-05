@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import { units as editionUnits } from '@/lib/edition-data'
 import { units as moodUnits } from '@/lib/mood-data'
 import { units as orbitaleUnits } from '@/lib/orbitale-data'
@@ -58,10 +59,39 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false)
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState('')
+  const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores'>('disponibilidade')
   const [activeProduct, setActiveProduct] = useState(PRODUCTS[0].key)
   const [overrides, setOverrides] = useState<OverridesMap>(rawOverrides as OverridesMap)
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
+
+  // Analytics state
+  const [analyticsData, setAnalyticsData] = useState<{
+    slug: string; name: string; photo: string;
+    visits: number; clicks: number;
+    daily: { date: string; visits: number; clicks: number }[]
+  }[]>([])
+  const [analyticsDays, setAnalyticsDays] = useState(30)
+  const [analyticsLoading, setAnalyticsLoading] = useState(false)
+
+  const loadAnalytics = useCallback(async (days: number) => {
+    const pw = sessionStorage.getItem('admin_password') || ''
+    setAnalyticsLoading(true)
+    const res = await fetch('/api/analytics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw, days }),
+    })
+    if (res.ok) {
+      const { data } = await res.json()
+      setAnalyticsData(data)
+    }
+    setAnalyticsLoading(false)
+  }, [])
+
+  useEffect(() => {
+    if (authed && adminView === 'gestores') loadAnalytics(analyticsDays)
+  }, [authed, adminView, analyticsDays, loadAnalytics])
 
   useEffect(() => {
     if (sessionStorage.getItem('admin_authed') === '1') setAuthed(true)
@@ -229,6 +259,111 @@ export default function AdminPage() {
         </div>
       </div>
 
+      {/* View switcher */}
+      <div className="px-6 pt-4 flex gap-2 border-b border-gray-800 pb-3">
+        {(['disponibilidade', 'gestores'] as const).map(v => (
+          <button key={v} onClick={() => setAdminView(v)}
+            className={`px-4 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors ${adminView === v ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
+            {v === 'disponibilidade' ? '📋 Disponibilidade' : '📊 Gestores'}
+          </button>
+        ))}
+      </div>
+
+      {/* Analytics dashboard */}
+      {adminView === 'gestores' && (
+        <div className="px-6 py-4">
+          <div className="flex items-center gap-3 mb-5">
+            <span className="text-sm text-gray-400">Período:</span>
+            {[7, 30, 90].map(d => (
+              <button key={d} onClick={() => setAnalyticsDays(d)}
+                className={`px-3 py-1 rounded-lg text-sm transition-colors ${analyticsDays === d ? 'bg-white text-gray-900 font-semibold' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
+                {d} dias
+              </button>
+            ))}
+            <button onClick={() => loadAnalytics(analyticsDays)}
+              className="ml-2 px-3 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-lg text-sm transition-colors">
+              ↻ Atualizar
+            </button>
+          </div>
+
+          {analyticsLoading ? (
+            <div className="text-gray-500 text-sm py-8 text-center">Carregando...</div>
+          ) : (
+            <div className="space-y-4">
+              {analyticsData.map(m => {
+                const conversion = m.visits > 0 ? ((m.clicks / m.visits) * 100).toFixed(1) : '0'
+                const maxVisits = Math.max(...m.daily.map(d => d.visits), 1)
+                return (
+                  <div key={m.slug} className="bg-gray-900 rounded-xl p-4 border border-gray-800">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-gray-700">
+                        <Image src={m.photo} alt={m.name} fill className="object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold">{m.name}</p>
+                        <p className="text-xs text-gray-500 font-mono">grupo-plaenge.vercel.app/g/{m.slug}</p>
+                      </div>
+                      <div className="flex gap-4 text-center">
+                        <div>
+                          <p className="text-2xl font-bold text-blue-400">{m.visits}</p>
+                          <p className="text-xs text-gray-500">Visitas</p>
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-green-400">{m.clicks}</p>
+                          <p className="text-xs text-gray-500">Cliques WA</p>
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-yellow-400">{conversion}%</p>
+                          <p className="text-xs text-gray-500">Conversão</p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Mini bar chart */}
+                    <div className="flex items-end gap-0.5 h-12">
+                      {m.daily.slice(-30).map(d => (
+                        <div key={d.date} className="flex-1 flex flex-col justify-end gap-0.5" title={`${d.date}: ${d.visits} visitas, ${d.clicks} cliques`}>
+                          <div className="bg-green-600 rounded-sm" style={{ height: `${d.clicks > 0 ? Math.max((d.clicks / maxVisits) * 48, 3) : 0}px` }} />
+                          <div className="bg-blue-600 rounded-sm" style={{ height: `${d.visits > 0 ? Math.max((d.visits / maxVisits) * 48, 3) : 0}px` }} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex gap-4 mt-1 text-xs text-gray-600">
+                      <span className="flex items-center gap-1"><span className="w-2 h-2 bg-blue-600 rounded-sm inline-block"/>Visitas</span>
+                      <span className="flex items-center gap-1"><span className="w-2 h-2 bg-green-600 rounded-sm inline-block"/>Cliques WA</span>
+                    </div>
+                  </div>
+                )
+              })}
+              {analyticsData.length === 0 && (
+                <p className="text-gray-500 text-sm text-center py-8">Nenhum dado ainda. Compartilhe os links para começar a rastrear.</p>
+              )}
+            </div>
+          )}
+
+          {/* Links dos gestores */}
+          <div className="mt-6 bg-gray-900 rounded-xl p-4 border border-gray-800">
+            <p className="font-semibold mb-3 text-sm text-gray-300">Links para compartilhar</p>
+            <div className="space-y-2">
+              {[
+                { slug: 'jardim',  name: 'Jardim' },
+                { slug: 'raffael', name: 'Raffael' },
+                { slug: 'renato',  name: 'Renato' },
+                { slug: 'charles', name: 'Charles' },
+                { slug: 'nishi',   name: 'Nishi' },
+              ].map(m => (
+                <div key={m.slug} className="flex items-center justify-between py-1">
+                  <span className="text-sm text-gray-400">{m.name}</span>
+                  <code className="text-xs bg-gray-800 px-2 py-1 rounded text-blue-300 select-all">
+                    grupo-plaenge.vercel.app/g/{m.slug}
+                  </code>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {adminView === 'disponibilidade' && <>
       {/* Legend */}
       <div className="px-6 pt-4 flex gap-3 text-xs flex-wrap">
         {(isWaveActive ? WAVE_STATUS_CYCLE : STATUS_CYCLE).map(s => (
@@ -337,6 +472,7 @@ export default function AdminPage() {
           ))}
         </div>
       )}
+    </>}
     </div>
   )
 }

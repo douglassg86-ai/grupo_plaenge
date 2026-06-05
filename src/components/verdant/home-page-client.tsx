@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/verdant/unit-grid';
@@ -352,6 +353,7 @@ export default function VerdantHomePageClient() {
         <p className="font-medium">VERDANT · Plaenge</p>
         <p>Rua Eça de Queiroz, 215 — Porto Alegre, RS</p>
       </footer>
+
     </div>
   );
 }

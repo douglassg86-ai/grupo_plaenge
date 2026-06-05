@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/orbitale/unit-grid';
@@ -281,6 +282,7 @@ export default function OrbitaleHomePageClient() {
         <p className="font-medium">ORBITALE · Plaenge</p>
         <p>Rua Regente, 152 — Petrópolis, Porto Alegre, RS</p>
       </footer>
+
     </div>
   );
 }

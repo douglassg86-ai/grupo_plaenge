@@ -1,5 +1,6 @@
-
 'use client';
+
+import { WhatsappButton } from '@/components/whatsapp-button'
 import { useState } from 'react';
 import Image from 'next/image';
 import { lots, blockTotals } from '@/lib/wave-data';
@@ -119,6 +120,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
           isSharePage={isSharePage}
         />
       )}
+
     </div>
   );
 }

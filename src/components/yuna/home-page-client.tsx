@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/yuna/unit-grid';
@@ -250,6 +251,7 @@ export default function YunaHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Vanguard · Grupo Plaenge · YUNA Jardim Botânico · Porto Alegre</p>
       </footer>
+
     </div>
   );
 }

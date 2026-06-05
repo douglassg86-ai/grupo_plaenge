@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import UnitGrid from '@/components/edition/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
@@ -277,6 +278,7 @@ export default function EditionHomePageClient() {
         <p className="font-medium">EDITION Moinhos · Grupo Plaenge</p>
         <p>Plaenge Empreendimentos Ltda. · Incorporação registrada conforme R-1/218.732 da 1ª Zona de Porto Alegre.</p>
       </footer>
+
     </div>
   );
 }

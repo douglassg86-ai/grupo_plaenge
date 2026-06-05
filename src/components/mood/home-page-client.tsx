@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import UnitGrid from '@/components/mood/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
@@ -241,6 +242,7 @@ export default function MoodHomePageClient() {
         <p className="font-medium">MOOD Central Parque · Vanguard + TGD</p>
         <p>Rua São Josemaría Escrivá, 585 — Central Parque, Porto Alegre, RS</p>
       </footer>
+
     </div>
   );
 }

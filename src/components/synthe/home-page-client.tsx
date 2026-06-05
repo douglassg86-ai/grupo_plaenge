@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/synthe/unit-grid';
@@ -226,6 +227,7 @@ export default function SyntheHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Plaenge · TGD · SYNTHÈ Petrópolis · Porto Alegre</p>
       </footer>
+
     </div>
   );
 }

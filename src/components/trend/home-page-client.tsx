@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/trend/unit-grid';
@@ -426,6 +427,7 @@ export default function TrendHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Maiojama · Vanguard · Fundo Phorbis · Trend Downtown · Porto Alegre</p>
       </footer>
+
     </div>
   );
 }
