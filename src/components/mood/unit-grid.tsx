@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useManager, trackClick } from '@/lib/use-manager';
 import { units, type Unit } from '@/lib/mood-data';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -32,6 +33,7 @@ function buildGrid() {
 
 export default function UnitGrid() {
   const [selected, setSelected] = useState<Unit | null>(null);
+  const manager = useManager();
   const { floors, prumadas } = buildGrid();
 
   // Only show prumadas that exist (some floors have fewer units)
@@ -125,11 +127,14 @@ export default function UnitGrid() {
                   </div>
                 ))}
               </div>
-              <Button className="w-full mt-2" onClick={() =>
-                window.open(`https://wa.me/5551?text=Olá! Tenho interesse no Apto ${selected.code} do MOOD Central Parque.`, '_blank')
-              }>
-                Consultar via WhatsApp
-              </Button>
+              {manager && (
+                <Button className="w-full mt-2" onClick={() => {
+                  trackClick(manager.slug, 'MOOD')
+                  window.open(`https://wa.me/${manager.phone}?text=${encodeURIComponent(`Olá ${manager.name}! Tenho interesse no Apto ${selected.code} do MOOD Central Parque.`)}`, '_blank')
+                }}>
+                  Consultar via WhatsApp
+                </Button>
+              )}
             </div>
           </DialogContent>
         )}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useManager, trackClick } from '@/lib/use-manager';
 import { units, setores, type Unit } from '@/lib/verdant-data';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -26,6 +27,7 @@ function formatCurrency(v: number) {
 export default function UnitGrid() {
   const [activeSetor, setActiveSetor] = useState<string>(setores[0]);
   const [selected, setSelected] = useState<Unit | null>(null);
+  const manager = useManager();
 
   const filtered = units.filter(u => u.setor === activeSetor);
   const floors = [...new Set(filtered.map(u => u.floor))].sort((a, b) => b - a);
@@ -133,11 +135,14 @@ export default function UnitGrid() {
                   </div>
                 ))}
               </div>
-              <Button className="w-full mt-2" onClick={() =>
-                window.open(`https://wa.me/5551?text=Olá! Tenho interesse na unidade ${selected.code} do VERDANT.`, '_blank')
-              }>
-                Consultar via WhatsApp
-              </Button>
+              {manager && (
+                <Button className="w-full mt-2" onClick={() => {
+                  trackClick(manager.slug, 'VERDANT')
+                  window.open(`https://wa.me/${manager.phone}?text=${encodeURIComponent(`Olá ${manager.name}! Tenho interesse na unidade ${selected.code} do VERDANT.`)}`, '_blank')
+                }}>
+                  Consultar via WhatsApp
+                </Button>
+              )}
             </div>
           </DialogContent>
         )}

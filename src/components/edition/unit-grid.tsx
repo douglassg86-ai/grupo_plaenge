@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useManager, trackClick } from '@/lib/use-manager';
 
 const statusLabel: Record<string, string> = {
   available: 'Disponível',
@@ -32,6 +33,7 @@ function formatCurrency(value: number) {
 export default function UnitGrid() {
   const [activeTower, setActiveTower] = useState(towers[0]);
   const [selected, setSelected] = useState<Unit | null>(null);
+  const manager = useManager();
 
   const towerUnits = units.filter((u) => u.tower === activeTower);
   const floors = [...new Set(towerUnits.map((u) => u.floor))].sort((a, b) => b - a);
@@ -142,17 +144,18 @@ export default function UnitGrid() {
                   <p className="font-medium text-primary">{formatCurrency(selected.price)}</p>
                 </div>
               </div>
-              <Button
-                className="w-full mt-2"
-                onClick={() =>
-                  window.open(
-                    `https://wa.me/5551?text=Olá! Tenho interesse no Apto ${selected.code} (${selected.floor}º andar) do EDITION Moinhos.`,
-                    '_blank'
-                  )
-                }
-              >
-                Consultar via WhatsApp
-              </Button>
+              {manager && (
+                <Button
+                  className="w-full mt-2"
+                  onClick={() => {
+                    trackClick(manager.slug, 'EDITION')
+                    const msg = `Olá ${manager.name}! Tenho interesse no Apto ${selected.code} (${selected.floor}º andar) do EDITION Moinhos.`
+                    window.open(`https://wa.me/${manager.phone}?text=${encodeURIComponent(msg)}`, '_blank')
+                  }}
+                >
+                  Consultar via WhatsApp
+                </Button>
+              )}
             </div>
           </DialogContent>
         )}

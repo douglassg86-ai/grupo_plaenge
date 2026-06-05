@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useManager, trackClick } from '@/lib/use-manager';
 import { units, type Unit } from '@/lib/synthe-data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 export default function UnitGrid() {
   const [selected, setSelected] = useState<Unit | null>(null);
+  const manager = useManager();
   const floors = [...new Set(units.map(u => u.floor))].sort((a, b) => b - a);
   const prumadas = [...new Set(units.map(u => u.prumada))].sort((a, b) => Number(a) - Number(b));
   const getUnit = (floor: number, prumada: string) => units.find(u => u.floor === floor && u.prumada === prumada);
@@ -101,11 +103,14 @@ export default function UnitGrid() {
                   </div>
                 ))}
               </div>
-              <Button className="w-full" onClick={() =>
-                window.open(`https://wa.me/5551999999999?text=Olá! Tenho interesse no Apto ${selected.code} do SYNTHÈ (pré-lançamento).`, '_blank')
-              }>
-                Cadastrar Interesse via WhatsApp
-              </Button>
+              {manager && (
+                <Button className="w-full" onClick={() => {
+                  trackClick(manager.slug, 'SYNTHÈ')
+                  window.open(`https://wa.me/${manager.phone}?text=${encodeURIComponent(`Olá ${manager.name}! Tenho interesse no Apto ${selected.code} do SYNTHÈ (pré-lançamento).`)}`, '_blank')
+                }}>
+                  Cadastrar Interesse via WhatsApp
+                </Button>
+              )}
             </div>
           </DialogContent>
         )}

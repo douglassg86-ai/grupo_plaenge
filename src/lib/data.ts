@@ -1,53 +1,14 @@
 
 import type { Project } from '@/lib/types';
 import { paymentData } from '@/lib/payment-data';
+import { shiftUnits } from '@/lib/shift-data';
 
-const fullUnitList = [
-  { unit: '1501', area: 24.38 }, { unit: '1502', area: 23.66 }, { unit: '1503', area: 23.66 }, { unit: '1504', area: 24.38 }, { unit: '1505', area: 24.28 }, { unit: '1506', area: 23.75 }, { unit: '1507', area: 23.75 }, { unit: '1508', area: 23.75 }, { unit: '1509', area: 24.5 },
-  { unit: '1401', area: 24.38 }, { unit: '1402', area: 23.66 }, { unit: '1403', area: 23.66 }, { unit: '1404', area: 24.38 }, { unit: '1405', area: 24.28 }, { unit: '1406', area: 23.75 }, { unit: '1407', area: 23.75 }, { unit: '1408', area: 108 }, { unit: '1409', area: 34.18 },
-  { unit: '1301', area: 24.38 }, { unit: '1302', area: 23.66 }, { unit: '1303', area: 23.66 }, { unit: '1304', area: 24.38 }, { unit: '1305', area: 24.28 }, { unit: '1306', area: 23.75 }, { unit: '1307', area: 23.75 }, { unit: '1308', area: 23.75 }, { unit: '1309', area: 23.75 }, { unit: '1310', area: 91.63 },
-  { unit: '1201', area: 24.38 }, { unit: '1202', area: 23.66 }, { unit: '1203', area: 23.66 }, { unit: '1204', area: 24.38 }, { unit: '1205', area: 24.28 }, { unit: '1206', area: 23.75 }, { unit: '1207', area: 23.75 }, { unit: '1208', area: 23.75 }, { unit: '1209', area: 74.7 }, { unit: '1210', area: 33.7 }, { unit: '1211', area: 24.28 },
-  { unit: '1101', area: 24.38 }, { unit: '1102', area: 23.66 }, { unit: '1103', area: 23.66 }, { unit: '1104', area: 24.38 }, { unit: '1105', area: 24.28 }, { unit: '1106', area: 23.75 }, { unit: '1107', area: 23.75 }, { unit: '1108', area: 23.75 }, { unit: '1109', area: 23.75 }, { unit: '1110', area: 25.48 }, { unit: '1111', area: 30.13 }, { unit: '1112', area: 81.22 },
-  { unit: '1001', area: 24.38 }, { unit: '1002', area: 23.66 }, { unit: '1003', area: 23.66 }, { unit: '1004', area: 24.38 }, { unit: '1005', area: 24.28 }, { unit: '1006', area: 23.75 }, { unit: '1007', area: 23.75 }, { unit: '1008', area: 23.75 }, { unit: '1009', area: 23.75 }, { unit: '1010', area: 76.37 }, { unit: '1011', area: 33.53 }, { unit: '1012', area: 23.75 }, { unit: '1013', area: 24.28 },
-  { unit: '901', area: 24.38 }, { unit: '902', area: 23.66 }, { unit: '903', area: 23.66 }, { unit: '904', area: 24.38 }, { unit: '905', area: 24.28 }, { unit: '906', area: 23.75 }, { unit: '907', area: 23.75 }, { unit: '908', area: 23.75 }, { unit: '909', area: 23.75 }, { unit: '910', area: 25.48 }, { unit: '911', area: 25.48 }, { unit: '912', area: 25.78 }, { unit: '913', area: 24.28 }, { unit: '914', area: 23.75 }, { unit: '915', area: 24.28 },
-  { unit: '801', area: 24.38 }, { unit: '802', area: 23.66 }, { unit: '803', area: 23.66 }, { unit: '804', area: 24.38 }, { unit: '805', area: 24.28 }, { unit: '806', area: 23.75 }, { unit: '807', area: 23.75 }, { unit: '808', area: 23.75 }, { unit: '809', area: 23.75 }, { unit: '810', area: 25.48 }, { unit: '811', area: 25.48 }, { unit: '812', area: 25.78 }, { unit: '813', area: 24.28 }, { unit: '814', area: 23.75 }, { unit: '815', area: 24.28 },
-  { unit: '701', area: 24.38 }, { unit: '702', area: 23.66 }, { unit: '703', area: 23.66 }, { unit: '704', area: 24.38 }, { unit: '705', area: 24.28 }, { unit: '706', area: 23.75 }, { unit: '707', area: 23.75 }, { unit: '708', area: 23.75 }, { unit: '709', area: 23.75 }, { unit: '710', area: 25.48 }, { unit: '711', area: 25.48 }, { unit: '712', area: 25.78 }, { unit: '713', area: 24.28 }, { unit: '714', area: 23.75 }, { unit: '715', area: 24.28 },
-  { unit: '601', area: 24.38 }, { unit: '602', area: 23.66 }, { unit: '603', area: 23.66 }, { unit: '604', area: 24.38 }, { unit: '605', area: 24.28 }, { unit: '606', area: 23.75 }, { unit: '607', area: 23.75 }, { unit: '608', area: 23.75 }, { unit: '609', area: 23.75 }, { unit: '610', area: 25.48 }, { unit: '611', area: 25.48 }, { unit: '612', area: 25.78 }, { unit: '613', area: 24.28 }, { unit: '614', area: 23.75 }, { unit: '615', area: 24.28 },
-  { unit: '501', area: 24.38 }, { unit: '502', area: 23.66 }, { unit: '503', area: 23.66 }, { unit: '504', area: 24.38 }, { unit: '505', area: 24.28 }, { unit: '506', area: 23.75 }, { unit: '507', area: 23.75 }, { unit: '508', area: 23.75 }, { unit: '509', area: 23.75 }, { unit: '510', area: 25.48 }, { unit: '511', area: 25.48 }, { unit: '512', area: 25.78 }, { unit: '513', area: 24.28 }, { unit: '514', area: 23.75 }, { unit: '515', area: 24.28 },
-  { unit: '401', area: 24.38 }, { unit: '402', area: 23.66 }, { unit: '403', area: 23.66 }, { unit: '404', area: 24.38 }, { unit: '405', area: 24.28 }, { unit: '406', area: 23.75 }, { unit: '407', area: 23.75 }, { unit: '408', area: 23.75 }, { unit: '409', area: 23.75 }, { unit: '410', area: 25.48 }, { unit: '411', area: 25.48 }, { unit: '412', area: 25.78 }, { unit: '413', area: 24.28 }, { unit: '414', area: 23.75 }, { unit: '415', area: 24.28 },
-  { unit: '301', area: 24.38 }, { unit: '302', area: 23.66 }, { unit: '303', area: 23.66 }, { unit: '304', area: 24.38 }, { unit: '305', area: 24.28 }, { unit: '306', area: 23.75 }, { unit: '307', area: 23.75 }, { unit: '308', area: 23.75 }, { unit: '309', area: 23.75 }, { unit: '310', area: 25.48 }, { unit: '311', area: 25.48 }, { unit: '312', area: 25.78 }, { unit: '313', area: 24.28 }, { unit: '314', area: 23.75 }, { unit: '315', area: 24.28 },
-  { unit: '201', area: 24.38 }, { unit: '202', area: 23.66 }, { unit: '203', area: 23.66 }, { unit: '204', area: 24.38 }, { unit: '205', area: 25.78 }, { unit: '206', area: 25.42 }, { unit: '207', area: 25.42 }, { unit: '208', area: 25.48 }, { unit: '209', area: 25.48 }, { unit: '210', area: 25.48 }, { unit: '211', area: 25.48 }, { unit: '212', area: 25.78 }, { unit: '213', area: 47.52 }, { unit: '214', area: 46.48 }, { unit: '215', area: 47.34 },
-];
-
-const soldUnits = [
-  "202", "204", "205", "213", "214", "215", "305", "306", "307", "308",
-  "309", "310", "311", "312", "405", "406", "407", "408", "409", "410",
-  "411", "412", "413", "414", "505", "506", "507", "508", "509", "510",
-  "511", "512", "513", "514", "515", "605", "606", "607", "608", "609",
-  "610", "611", "612", "613", "614", "615", "705", "706", "707", "708",
-  "709", "710", "711", "712", "713", "714", "715", "802", "805", "806",
-  "807", "808", "809", "810", "811", "812", "813", "814", "815", "902",
-  "903", "904", "905", "906", "907", "908", "909", "910", "911", "912",
-  "913", "914", "915", "1002", "1003", "1004", "1005", "1006", "1007", "1008",
-  "1009", "1010", "1011", "1012", "1013", "1101", "1102", "1103", "1104", "1105",
-  "1106", "1107", "1108", "1109", "1110", "1111", "1112", "1201", "1202", "1203",
-  "1204", "1205", "1206", "1207", "1208", "1209", "1210", "1211", "1301", "1302",
-  "1303", "1304", "1305", "1306", "1307", "1308", "1309", "1310", "1401", "1402",
-  "1403", "1404", "1405", "1406", "1407", "1408", "1409", "1501", "1502", "1503",
-  "1504", "1505", "1506", "1507", "1508", "1509",
-];
-
-const reservedUnits = ["314", "315", "415", "1001"];
-
-const shiftAvailability = fullUnitList.map(u => ({
-  ...u,
+const shiftAvailability = shiftUnits.map(u => ({
+  unit: u.code,
+  area: u.area,
   type: u.area > 40 ? 'Apartamento' : 'Studio',
-  status: soldUnits.includes(u.unit) 
-    ? 'Vendido' 
-    : reservedUnits.includes(u.unit) 
-      ? 'Em negociação' 
-      : 'Disponível',
-  paymentFlow: paymentData[u.unit]
+  status: u.status === 'available' ? 'Disponível' : u.status === 'sold' ? 'Vendido' : 'Em negociação',
+  paymentFlow: paymentData[u.code],
 })) as any[];
 
 

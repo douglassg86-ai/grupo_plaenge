@@ -34,7 +34,7 @@ export function WhatsappButton({ product }: Props) {
     fetch('/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug: manager.slug, event: 'click' }),
+      body: JSON.stringify({ slug: manager.slug, event: 'click', product }),
     }).catch(() => {})
 
     const msg = product

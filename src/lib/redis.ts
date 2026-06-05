@@ -21,14 +21,19 @@ export function todayKey(): string {
   return new Date().toISOString().slice(0, 10) // YYYY-MM-DD
 }
 
-export async function trackEvent(slug: string, event: 'visit' | 'click') {
+export async function trackEvent(slug: string, event: 'visit' | 'click', product?: string) {
   const r = getRedis()
   if (!r) return
   const day = todayKey()
-  await Promise.all([
+  const ops: Promise<unknown>[] = [
     r.incr(`manager:${slug}:${event}:${day}`),
     r.incr(`manager:${slug}:${event}:total`),
-  ])
+  ]
+  if (event === 'click' && product) {
+    ops.push(r.incr(`manager:${slug}:click:product:${product}:${day}`))
+    ops.push(r.incr(`manager:${slug}:click:product:${product}:total`))
+  }
+  await Promise.all(ops)
 }
 
 export async function getAnalytics(slug: string, days = 30) {
@@ -58,9 +63,20 @@ export async function getAnalytics(slug: string, days = 30) {
     `manager:${slug}:click:total`
   )
 
+  // Product click breakdown
+  const PRODUCTS = ['EDITION','MOOD','ORBITALE','VERDANT','YUNA','TREND HOME','TREND NANO','SYNTHÈ','WAVE','SHIFT']
+  const productKeys = PRODUCTS.map(p => `manager:${slug}:click:product:${p}:total`)
+  const productValues = await r.mget<number[]>(...productKeys)
+  const byProduct: Record<string, number> = {}
+  PRODUCTS.forEach((p, i) => {
+    const v = productValues[i] ?? 0
+    if (v > 0) byProduct[p] = v
+  })
+
   return {
     visits: totals[0] ?? 0,
     clicks: totals[1] ?? 0,
     daily: dailyData,
+    byProduct,
   }
 }

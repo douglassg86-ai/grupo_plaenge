@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
-import { units as editionUnits } from '@/lib/edition-data'
+import { units as editionUnits, towers as editionTowers } from '@/lib/edition-data'
 import { units as moodUnits } from '@/lib/mood-data'
 import { units as orbitaleUnits } from '@/lib/orbitale-data'
 import { units as syntheUnits } from '@/lib/synthe-data'
@@ -10,6 +10,7 @@ import { homeUnits, nanoUnits } from '@/lib/trend-data'
 import { units as verdantUnits } from '@/lib/verdant-data'
 import { units as yunaUnits } from '@/lib/yuna-data'
 import { lots as waveLots } from '@/lib/wave-data'
+import { shiftUnits } from '@/lib/shift-data'
 import rawOverrides from '@/data/availability-overrides.json'
 
 type Status = 'available' | 'sold' | 'negotiation'
@@ -44,15 +45,16 @@ const STATUS_CYCLE: Status[] = ['available', 'negotiation', 'sold']
 const WAVE_STATUS_CYCLE: WaveStatus[] = ['available', 'negotiation', 'sold', 'opportunity']
 
 const PRODUCTS = [
-  { key: 'edition', label: 'EDITION', units: editionUnits, isWave: false },
-  { key: 'mood', label: 'MOOD', units: moodUnits, isWave: false },
-  { key: 'orbitale', label: 'ORBITALE', units: orbitaleUnits, isWave: false },
-  { key: 'synthe', label: 'SYNTHÈ', units: syntheUnits as { id: number; code: string; floor: number; status: Status }[], isWave: false },
-  { key: 'trend_home', label: 'TREND Home', units: homeUnits, isWave: false },
-  { key: 'trend_nano', label: 'TREND Nano', units: nanoUnits, isWave: false },
-  { key: 'verdant', label: 'VERDANT', units: verdantUnits, isWave: false },
-  { key: 'yuna', label: 'YUNA', units: yunaUnits, isWave: false },
-  { key: 'wave', label: 'WAVE', units: [], isWave: true },
+  { key: 'edition', label: 'EDITION', units: editionUnits, isWave: false, hasTowers: true },
+  { key: 'mood', label: 'MOOD', units: moodUnits, isWave: false, hasTowers: false },
+  { key: 'orbitale', label: 'ORBITALE', units: orbitaleUnits, isWave: false, hasTowers: false },
+  { key: 'shift', label: 'SHIFT', units: shiftUnits, isWave: false, hasTowers: false },
+  { key: 'synthe', label: 'SYNTHÈ', units: syntheUnits as { id: number; code: string; floor: number; status: Status }[], isWave: false, hasTowers: false },
+  { key: 'trend_home', label: 'TREND Home', units: homeUnits, isWave: false, hasTowers: false },
+  { key: 'trend_nano', label: 'TREND Nano', units: nanoUnits, isWave: false, hasTowers: false },
+  { key: 'verdant', label: 'VERDANT', units: verdantUnits, isWave: false, hasTowers: false },
+  { key: 'yuna', label: 'YUNA', units: yunaUnits, isWave: false, hasTowers: false },
+  { key: 'wave', label: 'WAVE', units: [], isWave: true, hasTowers: false },
 ]
 
 export default function AdminPage() {
@@ -61,6 +63,7 @@ export default function AdminPage() {
   const [authError, setAuthError] = useState('')
   const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores'>('disponibilidade')
   const [activeProduct, setActiveProduct] = useState(PRODUCTS[0].key)
+  const [activeTower, setActiveTower] = useState(editionTowers[0])
   const [overrides, setOverrides] = useState<OverridesMap>(rawOverrides as OverridesMap)
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
@@ -70,6 +73,7 @@ export default function AdminPage() {
     slug: string; name: string; photo: string;
     visits: number; clicks: number;
     daily: { date: string; visits: number; clicks: number }[]
+    byProduct: Record<string, number>
   }[]>([])
   const [analyticsDays, setAnalyticsDays] = useState(30)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
@@ -206,7 +210,10 @@ export default function AdminPage() {
   const currentProduct = PRODUCTS.find(p => p.key === activeProduct)!
   const byFloor: Record<number, typeof currentProduct.units> = {}
   if (!isWaveActive) {
-    for (const unit of currentProduct.units) {
+    const unitsToShow = activeProduct === 'edition'
+      ? (currentProduct.units as typeof editionUnits).filter(u => u.tower === activeTower)
+      : currentProduct.units
+    for (const unit of unitsToShow) {
       if (!byFloor[unit.floor]) byFloor[unit.floor] = []
       byFloor[unit.floor].push(unit)
     }
@@ -331,6 +338,18 @@ export default function AdminPage() {
                       <span className="flex items-center gap-1"><span className="w-2 h-2 bg-blue-600 rounded-sm inline-block"/>Visitas</span>
                       <span className="flex items-center gap-1"><span className="w-2 h-2 bg-green-600 rounded-sm inline-block"/>Cliques WA</span>
                     </div>
+                    {m.byProduct && Object.keys(m.byProduct).length > 0 && (
+                      <div className="mt-3 pt-3 border-t border-gray-800">
+                        <p className="text-xs text-gray-500 mb-2">Cliques por produto</p>
+                        <div className="flex flex-wrap gap-2">
+                          {Object.entries(m.byProduct).sort((a, b) => b[1] - a[1]).map(([prod, count]) => (
+                            <span key={prod} className="text-xs bg-gray-800 px-2 py-0.5 rounded text-gray-300">
+                              {prod} <span className="text-green-400 font-semibold">{count}</span>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )
               })}
@@ -412,6 +431,18 @@ export default function AdminPage() {
           <span className="text-xs mt-0.5 text-gray-400">Total</span>
         </div>
       </div>
+
+      {/* Torre selector for EDITION */}
+      {activeProduct === 'edition' && (
+        <div className="px-6 pt-2 flex gap-2">
+          {editionTowers.map(t => (
+            <button key={t} onClick={() => setActiveTower(t)}
+              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${activeTower === t ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
+              {t}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Grid — standard products */}
       {!isWaveActive && (

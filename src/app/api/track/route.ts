@@ -4,11 +4,11 @@ import { getManager } from '@/lib/managers'
 
 export async function POST(req: NextRequest) {
   try {
-    const { slug, event } = await req.json()
+    const { slug, event, product } = await req.json()
     if (!slug || !event) return NextResponse.json({ ok: false })
     if (!getManager(slug)) return NextResponse.json({ ok: false })
     if (event !== 'visit' && event !== 'click') return NextResponse.json({ ok: false })
-    await trackEvent(slug, event)
+    await trackEvent(slug, event, typeof product === 'string' ? product : undefined)
     return NextResponse.json({ ok: true })
   } catch {
     return NextResponse.json({ ok: false })
