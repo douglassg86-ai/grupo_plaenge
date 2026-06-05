@@ -95,6 +95,10 @@
     "103463": "sold",
     "103470": "sold"
   },
-  "wave": {},
-  "shift": {}
+  "wave": {
+    "23": "available",
+    "37": "available",
+    "67": "available",
+    "222": "available"
+  }
 }
