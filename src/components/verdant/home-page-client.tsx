@@ -352,6 +352,8 @@ export default function VerdantHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground space-y-1">
         <p className="font-medium">VERDANT · Plaenge</p>
         <p>Rua Eça de Queiroz, 215 — Porto Alegre, RS</p>
+
+      <WhatsappButton product="VERDANT" />
       </footer>
 
     </div>

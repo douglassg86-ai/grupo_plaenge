@@ -110,6 +110,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
             </div>
         </div>
       </main>
+      <WhatsappButton product="WAVE Home Resort" />
       {!isSharePage && <Footer />}
       {!isSharePage && <CommunityPopup />}
       {selectedLot && (

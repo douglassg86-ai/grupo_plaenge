@@ -426,6 +426,8 @@ export default function TrendHomePageClient() {
       {/* FOOTER */}
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Maiojama · Vanguard · Fundo Phorbis · Trend Downtown · Porto Alegre</p>
+
+      <WhatsappButton product="TREND DOWNTOWN" />
       </footer>
 
     </div>

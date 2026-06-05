@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import type { Lot } from '@/lib/wave-data';
 import { lots as allLots } from '@/lib/wave-data';
+import { managers } from '@/lib/managers';
 
 interface LotInfoModalProps {
   lot: Lot;
@@ -21,7 +22,11 @@ interface LotInfoModalProps {
   isSharePage?: boolean;
 }
 
-const EXECUTIVE_PHONE = '5551994013918'; // Paulo Peano's number
+function getCookie(name: string): string | undefined {
+  if (typeof document === 'undefined') return undefined
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
+  return match ? match[2] : undefined
+}
 
 export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false }: LotInfoModalProps) {
 
@@ -34,8 +39,12 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
         currency: 'BRL',
     }).format(lot.price);
 
-    const whatsappMessage = encodeURIComponent(`Olá, Paulo! Tenho interesse no lote ${lot.block} L${lot.number} (${lot.area} m², ${formattedPrice}) no Wave Home Resort.`);
-    const whatsappUrl = `https://wa.me/${EXECUTIVE_PHONE}?text=${whatsappMessage}`;
+    const managerSlug = getCookie('manager');
+    const manager = managers.find(m => m.slug === managerSlug);
+    const whatsappMessage = encodeURIComponent(
+      `Olá${manager ? ', ' + manager.name : ''}! Tenho interesse no lote ${lot.block} L${lot.number} (${lot.area} m², ${formattedPrice}) no Wave Home Resort.`
+    );
+    const whatsappUrl = manager ? `https://wa.me/${manager.phone}?text=${whatsappMessage}` : null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -60,9 +69,9 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
 
         <DialogFooter>
             <Button variant="secondary" onClick={onClose}>Fechar</Button>
-            {!isSharePage && (
+            {whatsappUrl && (
               <Button asChild>
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Faça uma simulação</a>
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
               </Button>
             )}
         </DialogFooter>

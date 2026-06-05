@@ -281,6 +281,8 @@ export default function OrbitaleHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground space-y-1">
         <p className="font-medium">ORBITALE · Plaenge</p>
         <p>Rua Regente, 152 — Petrópolis, Porto Alegre, RS</p>
+
+      <WhatsappButton product="ORBITALE" />
       </footer>
 
     </div>

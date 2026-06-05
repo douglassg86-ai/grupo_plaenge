@@ -277,6 +277,8 @@ export default function EditionHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground space-y-1">
         <p className="font-medium">EDITION Moinhos · Grupo Plaenge</p>
         <p>Plaenge Empreendimentos Ltda. · Incorporação registrada conforme R-1/218.732 da 1ª Zona de Porto Alegre.</p>
+
+      <WhatsappButton product="EDITION Moinhos" />
       </footer>
 
     </div>

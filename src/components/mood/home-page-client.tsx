@@ -241,6 +241,8 @@ export default function MoodHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground space-y-1">
         <p className="font-medium">MOOD Central Parque · Vanguard + TGD</p>
         <p>Rua São Josemaría Escrivá, 585 — Central Parque, Porto Alegre, RS</p>
+
+      <WhatsappButton product="MOOD Central Parque" />
       </footer>
 
     </div>

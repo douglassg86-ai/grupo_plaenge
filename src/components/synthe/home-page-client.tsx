@@ -226,6 +226,8 @@ export default function SyntheHomePageClient() {
       {/* FOOTER */}
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Plaenge · TGD · SYNTHÈ Petrópolis · Porto Alegre</p>
+
+      <WhatsappButton product="SYNTHÈ" />
       </footer>
 
     </div>

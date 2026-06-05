@@ -250,6 +250,8 @@ export default function YunaHomePageClient() {
       {/* FOOTER */}
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Vanguard · Grupo Plaenge · YUNA Jardim Botânico · Porto Alegre</p>
+
+      <WhatsappButton product="YUNA Jardim Botânico" />
       </footer>
 
     </div>
