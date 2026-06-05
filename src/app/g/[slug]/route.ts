@@ -14,11 +14,11 @@ export async function GET(
     return NextResponse.redirect(new URL('/', req.url))
   }
 
-  // Track visit (non-blocking)
-  trackEvent(manager.slug, 'visit').catch(() => {})
-
-  // Redirect to home setting the cookie via response header
+  // Build redirect response first
   const response = NextResponse.redirect(new URL('/', req.url))
+
+  // Track visit — must await before returning (serverless terminates after response)
+  await trackEvent(manager.slug, 'visit').catch(() => {})
   response.cookies.set('manager', manager.slug, {
     maxAge: 60 * 60 * 24 * 365,
     path: '/',
