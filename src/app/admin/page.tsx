@@ -135,33 +135,16 @@ export default function AdminPage() {
     setSaveMsg('')
     const pw = sessionStorage.getItem('admin_password') || ''
 
+    // Save the full overrides state as-is — do NOT compare against unit.status
+    // (unit.status is already post-override, so the comparison would incorrectly drop saved overrides)
     const cleaned: OverridesMap = {}
-
-    // Standard products
-    for (const product of PRODUCTS.filter(p => !p.isWave)) {
-      const productOv = overrides[product.key] || {}
-      const cleanedProduct: Record<string, string> = {}
-      for (const unit of product.units) {
-        const originalStatus = unit.status as string
-        const overrideStatus = productOv[String(unit.id)]
-        if (overrideStatus && overrideStatus !== originalStatus) {
-          cleanedProduct[String(unit.id)] = overrideStatus
-        }
-      }
-      cleaned[product.key] = cleanedProduct
+    for (const key of Object.keys(overrides)) {
+      cleaned[key] = { ...overrides[key] }
     }
-
-    // WAVE lots
-    const waveOv = overrides['wave'] || {}
-    const cleanedWave: Record<string, string> = {}
-    for (const lot of waveLots) {
-      const originalStatus = lot.status as string
-      const overrideStatus = waveOv[String(lot.id)]
-      if (overrideStatus && overrideStatus !== originalStatus) {
-        cleanedWave[String(lot.id)] = overrideStatus
-      }
+    // Ensure all known product keys exist
+    for (const product of PRODUCTS) {
+      if (!cleaned[product.key]) cleaned[product.key] = {}
     }
-    cleaned['wave'] = cleanedWave
 
     const res = await fetch('/api/admin/commit', {
       method: 'POST',
