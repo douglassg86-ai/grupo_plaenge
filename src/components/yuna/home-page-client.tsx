@@ -56,19 +56,19 @@ const plantCategories = [
   {
     label: 'Unidade II — 88,68 m²',
     images: [
-      { src: `${P}/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp`, alt: 'Unidade II — 2 Dormitórios — 88,68 m²' },
-      { src: `${P}/plantas/03_VAN_PARECI_APTO_2_DORM_Ef_COTAS.webp`, alt: 'Unidade II — Cotas — 88,68 m²' },
+      { src: `${P}/plantas/04_VAN_PARECI_APTO_3_DORM_EF.webp`, alt: 'Unidade II — 88,68 m²' },
+      { src: `${P}/plantas/04_VAN_PARECI_APTO_3_DORM_EF_COTAS.webp`, alt: 'Unidade II — Cotas — 88,68 m²' },
+      { src: `${P}/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp`, alt: 'Unidade II — Opção — 88,68 m²' },
+      { src: `${P}/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF_COTAS.webp`, alt: 'Unidade II — Opção Cotas — 88,68 m²' },
+      { src: `${P}/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF.webp`, alt: 'Unidade II — Living Estendido' },
+      { src: `${P}/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp`, alt: 'Unidade II — Living Estendido Cotas' },
     ],
   },
   {
     label: 'Unidade III — 72,58 m²',
     images: [
-      { src: `${P}/plantas/04_VAN_PARECI_APTO_3_DORM_EF.webp`, alt: 'Unidade III — 3 Dormitórios — 72,58 m²' },
-      { src: `${P}/plantas/04_VAN_PARECI_APTO_3_DORM_EF_COTAS.webp`, alt: 'Unidade III — Cotas — 72,58 m²' },
-      { src: `${P}/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp`, alt: 'Unidade III — Opção — 72,58 m²' },
-      { src: `${P}/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF_COTAS.webp`, alt: 'Unidade III — Opção Cotas — 72,58 m²' },
-      { src: `${P}/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF.webp`, alt: 'Unidade III — Living Estendido' },
-      { src: `${P}/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp`, alt: 'Unidade III — Living Estendido Cotas' },
+      { src: `${P}/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp`, alt: 'Unidade III — 72,58 m²' },
+      { src: `${P}/plantas/03_VAN_PARECI_APTO_2_DORM_Ef_COTAS.webp`, alt: 'Unidade III — Cotas — 72,58 m²' },
     ],
   },
 ];
