@@ -382,6 +382,28 @@ export default function TrendHomePageClient() {
           <PlantsViewer categories={plantCategories} />
         </div>
 
+        {/* VÍDEOS — TREND NANO */}
+        <div className="bg-card rounded-2xl p-8 space-y-6">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Vídeos</p>
+            <h2 className="font-display text-3xl text-foreground">Conheça o TREND Nano</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <div className="aspect-video w-full overflow-hidden rounded-xl border">
+                <iframe src="https://www.youtube.com/embed/KBCXAtAESWM" title="TREND Downtown Nano" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+              </div>
+              <p className="text-xs text-muted-foreground text-center">Vídeo do empreendimento</p>
+            </div>
+            <div className="space-y-2">
+              <div className="aspect-video w-full overflow-hidden rounded-xl border">
+                <iframe src="https://www.youtube.com/embed/a5lCfqU8UWY" title="TREND Downtown Nano — Decorado" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+              </div>
+              <p className="text-xs text-muted-foreground text-center">Apartamento decorado</p>
+            </div>
+          </div>
+        </div>
+
         {/* LOCALIZAÇÃO */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Localização</p>

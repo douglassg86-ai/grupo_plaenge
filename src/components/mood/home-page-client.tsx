@@ -198,6 +198,28 @@ export default function MoodHomePageClient() {
           <PlantsViewer categories={plantCategories} />
         </div>
 
+        {/* VÍDEOS */}
+        <div className="bg-card rounded-2xl p-8 md:p-10 space-y-6">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Vídeos</p>
+            <h2 className="font-display text-3xl text-foreground">Conheça o MOOD</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <div className="aspect-video w-full overflow-hidden rounded-xl border">
+                <iframe src="https://www.youtube.com/embed/4HXz8s6_eUA" title="MOOD Central Parque" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+              </div>
+              <p className="text-xs text-muted-foreground text-center">Vídeo do empreendimento</p>
+            </div>
+            <div className="space-y-2">
+              <div className="aspect-video w-full overflow-hidden rounded-xl border">
+                <iframe src="https://www.youtube.com/embed/e-ytZ5FR6ok" title="MOOD Central Parque — Decorado" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+              </div>
+              <p className="text-xs text-muted-foreground text-center">Apartamento decorado</p>
+            </div>
+          </div>
+        </div>
+
         {/* DIFERENCIAIS + LOCALIZAÇÃO */}
         <div className="grid md:grid-cols-2 gap-2">
           <div className="bg-card rounded-2xl p-8 space-y-4">

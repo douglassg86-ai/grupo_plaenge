@@ -288,6 +288,21 @@ grupo-plaenge.vercel.app/g/nishi
 ['wave', 'edition', 'mood', 'orbitale', 'verdant', 'yuna', 'trend', 'synthe']
 ```
 
+### Vídeos por produto (YouTube — inseridos entre PLANTAS e DIFERENCIAIS)
+| Produto | Vídeo | URL embed |
+|---------|-------|-----------|
+| MOOD | Empreendimento | `youtube.com/embed/4HXz8s6_eUA` |
+| MOOD | Decorado | `youtube.com/embed/e-ytZ5FR6ok` |
+| YUNA | Empreendimento | `youtube.com/embed/joyIU3Bn1G4` |
+| EDITION | Empreendimento | `youtube.com/embed/BVe_pgH-32o?start=14` |
+| ORBITALE | Empreendimento | `youtube.com/embed/Fhh3DMluoqU` |
+| ORBITALE | Entrega | `youtube.com/embed/g4u-Rbwg_CA` |
+| VERDANT | Empreendimento | `youtube.com/embed/O59Ha1QWyJA` |
+| TREND Nano | Empreendimento | `youtube.com/embed/KBCXAtAESWM` |
+| TREND Nano | Decorado | `youtube.com/embed/a5lCfqU8UWY` |
+
+Produtos com 1 vídeo: card full-width. Produtos com 2 vídeos: `grid md:grid-cols-2`.
+
 ### Notas por produto
 - **SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds` + `placeholder-images.json`. Condições de pagamento em `src/lib/payment-data.ts` (valores pré-calculados por unidade) + exibidas via tabela no `src/components/availability-grid.tsx` — fórmula: entrada 12,5% (5x), mensais 9% (30x), reforços 13% (3x), financiamento 65,5%. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`
 - **YUNA:** Vanguard · 14 andares · 6 prumadas · sem book PDF → book estava em pasta separada. **Atenção:** plantas das Unidades II (88,68 m²) e III (72,58 m²) estavam trocadas — corrigido em jun/2026. Os arquivos `04/06/07_VAN_PARECI_APTO_3_DORM` pertencem à Unidade II (88,68 m²) e `03_VAN_PARECI_APTO_2_DORM` à Unidade III (72,58 m²).

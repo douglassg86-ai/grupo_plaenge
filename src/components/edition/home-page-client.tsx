@@ -230,6 +230,15 @@ export default function EditionHomePageClient() {
           <PlantsViewer categories={plantCategories} />
         </div>
 
+        {/* ── VÍDEO ── */}
+        <div className="bg-card rounded-2xl p-8 md:p-10 space-y-4">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Vídeo</p>
+          <h2 className="font-display text-3xl text-foreground">Conheça o EDITION</h2>
+          <div className="aspect-video w-full overflow-hidden rounded-xl border">
+            <iframe src="https://www.youtube.com/embed/BVe_pgH-32o?start=14" title="EDITION Moinhos" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+          </div>
+        </div>
+
         {/* ── DIFERENCIAIS + LOCALIZAÇÃO ── */}
         <div className="grid md:grid-cols-2 gap-2">
           <div className="bg-card rounded-2xl p-8 space-y-4">
