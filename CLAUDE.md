@@ -7,6 +7,7 @@
 - **Assets fonte:** `/Users/douglas/Desktop/SITE PRODUTOS/Produtos/`
 - **Disponibilidade (xlsx):** `/Users/douglas/Desktop/SITE PRODUTOS/DISPONIBILIDADE/`
 - **Última atualização de disponibilidade:** pasta `junho` (jun/2026)
+- **Tabelas de vendas (condições de pagamento):** `/Users/douglas/Library/CloudStorage/GoogleDrive-douglassg86@gmail.com/Meu Drive/Douglas - Executivo de Vendas/TRANSFERÊNCIA/tabelas/`
 - **Books PDF:** `/Users/douglas/Desktop/SITE PRODUTOS/BOOKS/` (alguns ficam dentro da pasta do produto)
 - **Logos institucionais WebP:** `/Users/douglas/Desktop/SITE PRODUTOS/pngs logos plaenge vanguard/`
 - **Fotos dos gestores (fonte):** `/Users/douglas/Desktop/contatos gestores/`
@@ -32,12 +33,13 @@ public/[PRODUTO]/plantas/                          ← plantas WebP
 
 ### Componentes compartilhados (SEMPRE usar)
 ```
-src/components/shared/gallery-viewer.tsx   ← GalleryViewer com lightbox integrado
-src/components/shared/plants-viewer.tsx    ← PlantsViewer com lightbox integrado
-src/components/shared/product-header.tsx  ← ProductHeader (logo + dropdown navegação)
-src/components/ui/lightbox.tsx             ← Lightbox (zoom scroll/pinch/drag, ESC, ←→)
-src/components/home-hero-slideshow.tsx     ← Slideshow do hero da home (Ken Burns + fade)
-src/components/whatsapp-button.tsx         ← Botão flutuante WhatsApp (condicional ao cookie de gestor)
+src/components/shared/gallery-viewer.tsx      ← GalleryViewer com lightbox integrado
+src/components/shared/plants-viewer.tsx       ← PlantsViewer com lightbox integrado
+src/components/shared/product-header.tsx      ← ProductHeader (logo + dropdown navegação)
+src/components/shared/payment-breakdown.tsx   ← PaymentBreakdown (condições de pagamento no modal)
+src/components/ui/lightbox.tsx                ← Lightbox (zoom scroll/pinch/drag, ESC, ←→)
+src/components/home-hero-slideshow.tsx         ← Slideshow do hero da home (Ken Burns + fade)
+src/components/whatsapp-button.tsx             ← Botão flutuante WhatsApp (condicional ao cookie de gestor)
 ```
 **Nunca criar funções Gallery/Plants inline** — importar sempre os componentes shared.
 **Sempre usar ProductHeader** nos `home-page-client.tsx` de cada produto.
@@ -55,6 +57,13 @@ interface Category { label: string; images: { src: string; alt: string }[] }
 
 // WhatsappButton — aparece apenas se cookie 'manager' estiver presente
 <WhatsappButton product="NOME DO PRODUTO" />
+
+// PaymentBreakdown — exibe condições de pagamento calculadas a partir do preço
+// Sempre importar e usar dentro do modal de cada unit-grid
+type PaymentStep = { label: string; pct: number; count: number }
+<PaymentBreakdown price={selected.price} plan={PAYMENT_PLAN} />
+// count > 1 → exibe "Nx de R$ X" | count = 1 → exibe "R$ X"
+// Os valores são calculados: price * pct / count (sempre somam 100% do preço)
 ```
 
 ### Logos institucionais em `/public/INSTITUCIONAL/`
@@ -115,9 +124,29 @@ Inserir após a linha de bairro/cidade no hero:
 - Summary com contagem Disponíveis / Reservadas / Vendidas
 - Tabela por andar (linhas) x prumada (colunas)
 - Botão mostra **código** (ex: `0501`)
-- Modal ao clicar: tipologia, área, andar, valor, botão WhatsApp
+- Modal ao clicar: tipologia, área, andar, valor, **condições de pagamento**, botão WhatsApp
 - Se produto tem setores/torres: tabs para alternar
 - **Pré-lançamento:** status 'available' para todos, sem preço, modal mostra "Cadastrar Interesse via WhatsApp"
+- **`<PaymentBreakdown>`** deve ser incluído em todo unit-grid após o bloco de dados da unidade
+
+### Condições de pagamento por produto (tabela junho/2026)
+Fontes: `/Users/douglas/Library/CloudStorage/GoogleDrive-douglassg86@gmail.com/Meu Drive/Douglas - Executivo de Vendas/TRANSFERÊNCIA/tabelas/`
+
+| Produto | Plano (pós-finan já incorporado ao Financiamento) |
+|---------|---------------------------------------------------|
+| YUNA | Entrada 15%(5x) · Mensais 10%(13x) · Reforços 15%(1x) · Financiamento 60% |
+| EDITION | Entrada 20%(4x) · Mensais 15%(22x) · Reforços 15%(3x) · Financiamento 50% |
+| MOOD | Entrada 20%(1x) · Financiamento 80% |
+| ORBITALE | Entrada 40%(1x) · Financiamento 60% |
+| VERDANT | Entrada 15%(5x) · Mensais 10%(6x) · Reforços 10%(2x) · Financiamento 65% |
+| TREND Home | Entrada 15%(5x) · Mensais 10%(23x) · Reforços 15%(3x) · Financiamento 60% |
+| TREND Nano | Entrada 11%(4x) · Mensais 8%(1x) · Reforços 6%(1x) · Financiamento 75% |
+| WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
+| SHIFT | Entrada 12,5%(5x) · Mensais 9%(30x) · Reforços 13%(3x) · Financiamento 65,5% |
+| SYNTHÈ | Pré-lançamento — sem condições (sem preço definido) |
+
+**Regra pós-financiamento:** sempre que a tabela trouxer coluna "Pós Finan" ou "Pós Saldo", somar ao Financiamento — nunca exibir coluna separada. Os percentuais acima já estão com os pós-finans incorporados.
+**Verificação:** os valores calculados devem sempre somar 100% do preço da unidade.
 
 ### Interface Unit (padrão)
 ```ts
@@ -260,8 +289,8 @@ grupo-plaenge.vercel.app/g/nishi
 ```
 
 ### Notas por produto
-- **SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds` + `placeholder-images.json`. Simulação de pagamento em `src/lib/payment-data.ts` — fórmula: entrada 12,5% (5x), mensais 9% (30x), reforços 13% (3x), financiamento 65,5%. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`
-- **YUNA:** Vanguard · 14 andares · 6 prumadas · sem book PDF → book estava em pasta separada
+- **SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds` + `placeholder-images.json`. Condições de pagamento em `src/lib/payment-data.ts` (valores pré-calculados por unidade) + exibidas via tabela no `src/components/availability-grid.tsx` — fórmula: entrada 12,5% (5x), mensais 9% (30x), reforços 13% (3x), financiamento 65,5%. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`
+- **YUNA:** Vanguard · 14 andares · 6 prumadas · sem book PDF → book estava em pasta separada. **Atenção:** plantas das Unidades II (88,68 m²) e III (72,58 m²) estavam trocadas — corrigido em jun/2026. Os arquivos `04/06/07_VAN_PARECI_APTO_3_DORM` pertencem à Unidade II (88,68 m²) e `03_VAN_PARECI_APTO_2_DORM` à Unidade III (72,58 m²).
 - **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`; Nano usa prumada = últimos 2 dígitos do código (finais 01–23); Torre 2 não lançada; Office e Mall = informativos sem xlsx
 - **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, penthouse andares 17–18; badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente
 - **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"
