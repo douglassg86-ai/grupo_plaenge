@@ -1,5 +1,6 @@
 
 'use client';
+import { PaymentBreakdown, type PaymentStep } from '@/components/shared/payment-breakdown';
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,12 @@ function getCookie(name: string): string | undefined {
   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
   return match ? match[2] : undefined
 }
+
+const PAYMENT_PLAN: PaymentStep[] = [
+  { label: 'Entrada',       pct: 0.10, count: 1 },
+  { label: '30 Dias',       pct: 0.10, count: 1 },
+  { label: 'Financiamento', pct: 0.80, count: 1 },
+];
 
 export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false }: LotInfoModalProps) {
 
@@ -64,6 +71,7 @@ export default function LotInfoModal({ lot, isOpen, onClose, isSharePage = false
                  <div className="mt-2 text-center">
                     <Badge variant="destructive" className="text-sm animate-pulse-strong bg-accent text-accent-foreground">ATÉ 80% FINANCIADO PELA CAIXA</Badge>
                  </div>
+                 <PaymentBreakdown price={lot.price} plan={PAYMENT_PLAN} />
             </div>
         </div>
 

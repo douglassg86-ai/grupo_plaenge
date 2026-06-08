@@ -7,6 +7,21 @@ import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { PaymentBreakdown, type PaymentStep } from '@/components/shared/payment-breakdown';
+
+const PLAN_HOME: PaymentStep[] = [
+  { label: 'Entrada',       pct: 0.15, count: 5  },
+  { label: 'Mensais',       pct: 0.10, count: 23 },
+  { label: 'Reforços',      pct: 0.15, count: 3  },
+  { label: 'Financiamento', pct: 0.60, count: 1  },
+];
+
+const PLAN_NANO: PaymentStep[] = [
+  { label: 'Entrada',       pct: 0.11, count: 4 },
+  { label: 'Mensais',       pct: 0.08, count: 1 },
+  { label: 'Reforços',      pct: 0.06, count: 1 },
+  { label: 'Financiamento', pct: 0.75, count: 1 },
+];
 
 const statusLabel: Record<string, string> = { available: 'Disponível', sold: 'Vendido', negotiation: 'Reservado' };
 const statusCell: Record<string, string> = {
@@ -26,7 +41,7 @@ function formatCurrency(v: number) {
     : 'Consulte';
 }
 
-function Grid({ units, towerName }: { units: Unit[]; towerName: string }) {
+function Grid({ units, towerName, plan }: { units: Unit[]; towerName: string; plan: PaymentStep[] }) {
   const [selected, setSelected] = useState<Unit | null>(null);
   const manager = useManager();
   const floors = [...new Set(units.map(u => u.floor))].sort((a, b) => b - a);
@@ -116,6 +131,7 @@ function Grid({ units, towerName }: { units: Unit[]; towerName: string }) {
                   </div>
                 ))}
               </div>
+              {selected.price > 0 && <PaymentBreakdown price={selected.price} plan={plan} />}
               {manager && (
                 <Button className="w-full mt-2" onClick={() => {
                   trackClick(manager.slug, `TREND ${towerName}`)
@@ -151,8 +167,8 @@ export default function UnitGrid() {
         ))}
       </div>
       {tab === 'home'
-        ? <Grid units={homeUnits} towerName="Home" />
-        : <Grid units={nanoUnits} towerName="Nano" />
+        ? <Grid units={homeUnits} towerName="Home" plan={PLAN_HOME} />
+        : <Grid units={nanoUnits} towerName="Nano" plan={PLAN_NANO} />
       }
     </div>
   );

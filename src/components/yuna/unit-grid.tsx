@@ -7,6 +7,14 @@ import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { PaymentBreakdown, type PaymentStep } from '@/components/shared/payment-breakdown';
+
+const PAYMENT_PLAN: PaymentStep[] = [
+  { label: 'Entrada',       pct: 0.15, count: 5  },
+  { label: 'Mensais',       pct: 0.10, count: 13 },
+  { label: 'Reforços',      pct: 0.15, count: 1  },
+  { label: 'Financiamento', pct: 0.60, count: 1  },
+];
 
 const statusLabel: Record<string, string> = { available: 'Disponível', sold: 'Vendido', negotiation: 'Reservado' };
 const statusCell: Record<string, string> = {
@@ -118,6 +126,7 @@ export default function UnitGrid() {
                   </div>
                 ))}
               </div>
+              <PaymentBreakdown price={selected.price} plan={PAYMENT_PLAN} />
               {manager && (
                 <Button className="w-full mt-2" onClick={() => {
                   trackClick(manager.slug, 'YUNA')
