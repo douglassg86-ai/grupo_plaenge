@@ -82,6 +82,7 @@ const plantCategories = [
       { src: `${P}/plantas/©VISTA_04_PLB_COBERTURA_FINAL.webp`, alt: 'Cobertura' },
       { src: `${P}/plantas/©VISTA_02_PLB_SUBSOLO_01_FINAL.webp`, alt: 'Subsolo 1' },
       { src: `${P}/plantas/©VISTA_14_PLB_SUBSOLO_02_(EXTRA)_FINAL.webp`, alt: 'Subsolo 2' },
+      { src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' },
     ],
   },
   {
