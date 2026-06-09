@@ -14,15 +14,15 @@ const P = '/TREND';
 
 // ─── NANO IMPLANTAÇÃO POR PAVIMENTO ──────────────────────────────────────────
 const nanoFloorPlans = [
-  { label: '1º Pavimento', src: `${P}/implantacoes-nano/nano-01.jpg`, alt: 'Implantação Torre Nano — 1º Pavimento' },
-  { label: '2º Pavimento', src: `${P}/implantacoes-nano/nano-02.jpg`, alt: 'Implantação Torre Nano — 2º Pavimento' },
-  { label: '3º Pavimento', src: `${P}/implantacoes-nano/nano-03.jpg`, alt: 'Implantação Torre Nano — 3º Pavimento' },
-  { label: '4º Pavimento', src: `${P}/implantacoes-nano/nano-04.jpg`, alt: 'Implantação Torre Nano — 4º Pavimento' },
-  { label: '5º Pavimento', src: `${P}/implantacoes-nano/nano-05.jpg`, alt: 'Implantação Torre Nano — 5º Pavimento' },
-  { label: '6º Pavimento', src: `${P}/implantacoes-nano/nano-06.jpg`, alt: 'Implantação Torre Nano — 6º Pavimento' },
-  { label: '7º Pavimento', src: `${P}/implantacoes-nano/nano-07.jpg`, alt: 'Implantação Torre Nano — 7º Pavimento' },
-  { label: '8º Pavimento', src: `${P}/implantacoes-nano/nano-08.jpg`, alt: 'Implantação Torre Nano — 8º Pavimento' },
-  { label: '9º Pavimento', src: `${P}/implantacoes-nano/nano-09.jpg`, alt: 'Implantação Torre Nano — 9º Pavimento' },
+  { label: '3º Pavimento',           src: `${P}/implantacoes-nano/nano-02.jpg`, alt: 'Implantação Torre Nano — 3º Pavimento' },
+  { label: '4º ao 8º Pavimentos',    src: `${P}/implantacoes-nano/nano-03.jpg`, alt: 'Implantação Torre Nano — 4º ao 8º Pavimentos' },
+  { label: '9º Pavimento',           src: `${P}/implantacoes-nano/nano-05.jpg`, alt: 'Implantação Torre Nano — 9º Pavimento' },
+  { label: '10º Pavimento',          src: `${P}/implantacoes-nano/nano-04.jpg`, alt: 'Implantação Torre Nano — 10º Pavimento' },
+  { label: '11º Pavimento',          src: `${P}/implantacoes-nano/nano-06.jpg`, alt: 'Implantação Torre Nano — 11º Pavimento' },
+  { label: '12º Pavimento',          src: `${P}/implantacoes-nano/nano-07.jpg`, alt: 'Implantação Torre Nano — 12º Pavimento' },
+  { label: '13º Pavimento',          src: `${P}/implantacoes-nano/nano-09.jpg`, alt: 'Implantação Torre Nano — 13º Pavimento' },
+  { label: '14º Pavimento',          src: `${P}/implantacoes-nano/nano-08.jpg`, alt: 'Implantação Torre Nano — 14º Pavimento' },
+  { label: '15º Pavimento',          src: `${P}/implantacoes-nano/nano-01.jpg`, alt: 'Implantação Torre Nano — 15º Pavimento' },
 ];
 
 // ─── HOME IMPLANTAÇÃO ─────────────────────────────────────────────────────────
