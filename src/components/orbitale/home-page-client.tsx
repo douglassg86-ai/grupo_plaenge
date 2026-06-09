@@ -96,12 +96,6 @@ const plantCategories = [
       { src: '/ORBITALE/plantas/PLARE_28_Subsolo_2_P4_HIGH_-2-.webp', alt: 'Subsolo 2' },
     ],
   },
-  {
-    label: 'Implantação das Unidades',
-    images: [
-      { src: '/ORBITALE/implantacoes/orbitale.png', alt: 'Implantação — Posição das Unidades' },
-    ],
-  },
 ];
 
 const diferenciais = [
@@ -301,6 +295,13 @@ export default function OrbitaleHomePageClient() {
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
           <UnitGrid />
+        </div>
+
+        {/* IMPLANTAÇÃO DAS UNIDADES */}
+        <div className="bg-card rounded-2xl p-8">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
+          <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
+          <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/ORBITALE/implantacoes/orbitale.png', alt: 'Implantação — Posição das Unidades' }] }]} />
         </div>
 
       </div>

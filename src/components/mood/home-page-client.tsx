@@ -57,12 +57,6 @@ const plantCategories = [
       { src: '/MOOD/plantas/IMG_9736.webp', alt: '1 Suíte+ — 65 m² (Final 05)' },
     ],
   },
-  {
-    label: 'Implantação das Unidades',
-    images: [
-      { src: '/MOOD/implantacoes/mood.png', alt: 'Implantação — Posição das Unidades' },
-    ],
-  },
 ];
 
 const diferenciais = [
@@ -261,6 +255,13 @@ export default function MoodHomePageClient() {
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
           <UnitGrid />
+        </div>
+
+        {/* IMPLANTAÇÃO DAS UNIDADES */}
+        <div className="bg-card rounded-2xl p-8 md:p-10">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
+          <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
+          <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/MOOD/implantacoes/mood.png', alt: 'Implantação — Posição das Unidades' }] }]} />
         </div>
 
       </div>

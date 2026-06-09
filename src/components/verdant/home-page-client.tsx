@@ -113,12 +113,6 @@ const plantCategories = [
       { src: `${P}/plantas/©VISTA_13_PLB_UNIDADE_RESIDÊNCIA_UNIFAMILIAR_PAV_SUPERIOR_FINAL.webp`, alt: 'Casa — Pavimento Superior — 366–370 m²' },
     ],
   },
-  {
-    label: 'Implantação das Unidades',
-    images: [
-      { src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' },
-    ],
-  },
 ];
 
 const diferenciais = [
@@ -360,6 +354,13 @@ export default function VerdantHomePageClient() {
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
           <UnitGrid />
+        </div>
+
+        {/* IMPLANTAÇÃO DAS UNIDADES */}
+        <div className="bg-card rounded-2xl p-8 md:p-10">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
+          <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
+          <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' }] }]} />
         </div>
 
       </div>

@@ -71,14 +71,6 @@ const plantCategories = [
       { src: `${P}/plantas/03_VAN_PARECI_APTO_2_DORM_Ef_COTAS.webp`, alt: 'Unidade III — Cotas — 72,58 m²' },
     ],
   },
-  {
-    label: 'Implantação das Unidades',
-    images: [
-      { src: `${P}/implantacoes/yuna-01.png`, alt: 'Implantação — Posição das Unidades 1' },
-      { src: `${P}/implantacoes/yuna-02.png`, alt: 'Implantação — Posição das Unidades 2' },
-      { src: `${P}/implantacoes/yuna-03.png`, alt: 'Implantação — Posição das Unidades 3' },
-    ],
-  },
 ];
 
 const diferenciais = [
@@ -260,6 +252,16 @@ export default function YunaHomePageClient() {
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Disponibilidade</p>
           <UnitGrid />
+        </div>
+
+        {/* IMPLANTAÇÃO DAS UNIDADES */}
+        <div className="bg-card rounded-2xl p-8">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Implantação das Unidades</p>
+          <PlantsViewer categories={[{ label: 'Implantação', images: [
+            { src: `${P}/implantacoes/yuna-01.png`, alt: 'Implantação — Posição das Unidades 1' },
+            { src: `${P}/implantacoes/yuna-02.png`, alt: 'Implantação — Posição das Unidades 2' },
+            { src: `${P}/implantacoes/yuna-03.png`, alt: 'Implantação — Posição das Unidades 3' },
+          ]}]} />
         </div>
 
       </div>

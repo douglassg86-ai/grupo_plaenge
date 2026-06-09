@@ -345,11 +345,6 @@ export default function TrendHomePageClient() {
                   </div>
                 </div>
 
-                {/* HOME — IMPLANTAÇÃO */}
-                <div>
-                  <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Implantação</p>
-                  <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
-                </div>
               </>
             ) : (
               <>
@@ -393,11 +388,6 @@ export default function TrendHomePageClient() {
                   </div>
                 </div>
 
-                {/* NANO — IMPLANTAÇÃO POR PAVIMENTO */}
-                <div>
-                  <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Implantação por Pavimento</p>
-                  <ImplantacaoFloorSelector floors={nanoFloorPlans} />
-                </div>
               </>
             )}
           </div>
@@ -474,6 +464,18 @@ export default function TrendHomePageClient() {
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Disponibilidade</p>
           <UnitGrid />
+        </div>
+
+        {/* IMPLANTAÇÃO — DOWNTOWN HOME */}
+        <div className="bg-card rounded-2xl p-8">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Implantação das Unidades — Downtown Home</p>
+          <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
+        </div>
+
+        {/* IMPLANTAÇÃO — DOWNTOWN NANO */}
+        <div className="bg-card rounded-2xl p-8">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Implantação das Unidades — Downtown Nano</p>
+          <ImplantacaoFloorSelector floors={nanoFloorPlans} />
         </div>
 
       </div>
