@@ -66,6 +66,7 @@ const plantCategories = [
       { src: '/EDITION/plantas/JAC_PB_01_Implantacao_Terreo_EF2.webp', alt: 'Implantação Térreo' },
       { src: '/EDITION/plantas/JAC_PB_02_Implantacao_Lazer_EF2_v2.webp', alt: 'Implantação Lazer' },
       { src: '/EDITION/plantas/JAC_PB_09_Implantacao_3pav_EF2_v2.webp', alt: 'Implantação 3º Pavimento' },
+      { src: '/EDITION/implantacoes/edition.png', alt: 'Implantação — Posição das Unidades' },
     ],
   },
   {

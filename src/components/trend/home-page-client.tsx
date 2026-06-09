@@ -7,9 +7,30 @@ import UnitGrid from '@/components/trend/unit-grid';
 import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
+import { ImplantacaoFloorSelector } from '@/components/shared/implantacao-floor-selector';
 import { ProductHeader } from '@/components/shared/product-header';
 
 const P = '/TREND';
+
+// ─── NANO IMPLANTAÇÃO POR PAVIMENTO ──────────────────────────────────────────
+const nanoFloorPlans = [
+  { label: '1º Pavimento', src: `${P}/implantacoes-nano/nano-01.jpg`, alt: 'Implantação Torre Nano — 1º Pavimento' },
+  { label: '2º Pavimento', src: `${P}/implantacoes-nano/nano-02.jpg`, alt: 'Implantação Torre Nano — 2º Pavimento' },
+  { label: '3º Pavimento', src: `${P}/implantacoes-nano/nano-03.jpg`, alt: 'Implantação Torre Nano — 3º Pavimento' },
+  { label: '4º Pavimento', src: `${P}/implantacoes-nano/nano-04.jpg`, alt: 'Implantação Torre Nano — 4º Pavimento' },
+  { label: '5º Pavimento', src: `${P}/implantacoes-nano/nano-05.jpg`, alt: 'Implantação Torre Nano — 5º Pavimento' },
+  { label: '6º Pavimento', src: `${P}/implantacoes-nano/nano-06.jpg`, alt: 'Implantação Torre Nano — 6º Pavimento' },
+  { label: '7º Pavimento', src: `${P}/implantacoes-nano/nano-07.jpg`, alt: 'Implantação Torre Nano — 7º Pavimento' },
+  { label: '8º Pavimento', src: `${P}/implantacoes-nano/nano-08.jpg`, alt: 'Implantação Torre Nano — 8º Pavimento' },
+  { label: '9º Pavimento', src: `${P}/implantacoes-nano/nano-09.jpg`, alt: 'Implantação Torre Nano — 9º Pavimento' },
+];
+
+// ─── HOME IMPLANTAÇÃO ─────────────────────────────────────────────────────────
+const homeImplantacaoImages = [
+  { src: `${P}/implantacoes-home/home-01.png`, alt: 'Implantação Downtown Home — 1' },
+  { src: `${P}/implantacoes-home/home-02.png`, alt: 'Implantação Downtown Home — 2' },
+  { src: `${P}/implantacoes-home/home-03.png`, alt: 'Implantação Downtown Home — 3' },
+];
 
 // ─── GALLERY ─────────────────────────────────────────────────────────────────
 const galleryCategories = [
@@ -323,6 +344,12 @@ export default function TrendHomePageClient() {
                     </table>
                   </div>
                 </div>
+
+                {/* HOME — IMPLANTAÇÃO */}
+                <div>
+                  <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Implantação</p>
+                  <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
+                </div>
               </>
             ) : (
               <>
@@ -364,6 +391,12 @@ export default function TrendHomePageClient() {
                       </tbody>
                     </table>
                   </div>
+                </div>
+
+                {/* NANO — IMPLANTAÇÃO POR PAVIMENTO */}
+                <div>
+                  <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Implantação por Pavimento</p>
+                  <ImplantacaoFloorSelector floors={nanoFloorPlans} />
                 </div>
               </>
             )}

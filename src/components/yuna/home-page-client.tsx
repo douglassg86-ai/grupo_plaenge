@@ -51,6 +51,9 @@ const plantCategories = [
       { src: `${P}/plantas/01_VAN_PARECI_TERREO_OP_EF2.webp`, alt: 'Térreo — Opção' },
       { src: `${P}/plantas/02_VAN_PARECI_TIPO_EF.webp`, alt: 'Pavimento Tipo' },
       { src: `${P}/plantas/05_VAN_PARECI_ROOFTOP_EF.webp`, alt: 'Rooftop' },
+      { src: `${P}/implantacoes/yuna-01.png`, alt: 'Implantação — Posição das Unidades 1' },
+      { src: `${P}/implantacoes/yuna-02.png`, alt: 'Implantação — Posição das Unidades 2' },
+      { src: `${P}/implantacoes/yuna-03.png`, alt: 'Implantação — Posição das Unidades 3' },
     ],
   },
   {
