@@ -82,7 +82,6 @@ const plantCategories = [
       { src: `${P}/plantas/©VISTA_04_PLB_COBERTURA_FINAL.webp`, alt: 'Cobertura' },
       { src: `${P}/plantas/©VISTA_02_PLB_SUBSOLO_01_FINAL.webp`, alt: 'Subsolo 1' },
       { src: `${P}/plantas/©VISTA_14_PLB_SUBSOLO_02_(EXTRA)_FINAL.webp`, alt: 'Subsolo 2' },
-      { src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' },
     ],
   },
   {
@@ -112,6 +111,12 @@ const plantCategories = [
     images: [
       { src: `${P}/plantas/©VISTA_12_PLB_UNIDADE_RESIDÊNCIA_UNIFAMILIAR_TÉRREO_FINAL.webp`, alt: 'Casa — Térreo — 366–370 m²' },
       { src: `${P}/plantas/©VISTA_13_PLB_UNIDADE_RESIDÊNCIA_UNIFAMILIAR_PAV_SUPERIOR_FINAL.webp`, alt: 'Casa — Pavimento Superior — 366–370 m²' },
+    ],
+  },
+  {
+    label: 'Implantação das Unidades',
+    images: [
+      { src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' },
     ],
   },
 ];

@@ -94,6 +94,11 @@ const plantCategories = [
       { src: '/ORBITALE/plantas/PLARE_20_Pav._Terreo_P4_HIGH.webp', alt: 'Implantação — Térreo' },
       { src: '/ORBITALE/plantas/PLARE_27_Subsolo_1_P4_HIGH (3).webp', alt: 'Subsolo 1' },
       { src: '/ORBITALE/plantas/PLARE_28_Subsolo_2_P4_HIGH_-2-.webp', alt: 'Subsolo 2' },
+    ],
+  },
+  {
+    label: 'Implantação das Unidades',
+    images: [
       { src: '/ORBITALE/implantacoes/orbitale.png', alt: 'Implantação — Posição das Unidades' },
     ],
   },

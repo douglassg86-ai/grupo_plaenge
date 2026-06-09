@@ -49,18 +49,18 @@ const galleryCategories = [
 
 const plantCategories = [
   {
-    label: 'Implantação',
-    images: [
-      { src: '/MOOD/implantacoes/mood.png', alt: 'Implantação — Posição das Unidades' },
-    ],
-  },
-  {
     label: 'Plantas',
     images: [
       { src: '/MOOD/plantas/IMG_9733.webp', alt: 'Studio — 30 m² (Finais 01 e 03)' },
       { src: '/MOOD/plantas/IMG_9734.webp', alt: 'Studio+ — 42 m² (Final 04)' },
       { src: '/MOOD/plantas/IMG_9735.webp', alt: '1 Suíte — 56 m² (Final 02)' },
       { src: '/MOOD/plantas/IMG_9736.webp', alt: '1 Suíte+ — 65 m² (Final 05)' },
+    ],
+  },
+  {
+    label: 'Implantação das Unidades',
+    images: [
+      { src: '/MOOD/implantacoes/mood.png', alt: 'Implantação — Posição das Unidades' },
     ],
   },
 ];

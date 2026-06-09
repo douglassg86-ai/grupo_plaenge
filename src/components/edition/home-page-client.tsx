@@ -66,7 +66,6 @@ const plantCategories = [
       { src: '/EDITION/plantas/JAC_PB_01_Implantacao_Terreo_EF2.webp', alt: 'Implantação Térreo' },
       { src: '/EDITION/plantas/JAC_PB_02_Implantacao_Lazer_EF2_v2.webp', alt: 'Implantação Lazer' },
       { src: '/EDITION/plantas/JAC_PB_09_Implantacao_3pav_EF2_v2.webp', alt: 'Implantação 3º Pavimento' },
-      { src: '/EDITION/implantacoes/edition.png', alt: 'Implantação — Posição das Unidades' },
     ],
   },
   {
@@ -83,6 +82,12 @@ const plantCategories = [
     images: [
       { src: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp', alt: '3 Suítes — 172 m²' },
       { src: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp', alt: '3 Suítes — 206 m²' },
+    ],
+  },
+  {
+    label: 'Implantação das Unidades',
+    images: [
+      { src: '/EDITION/implantacoes/edition.png', alt: 'Implantação — Posição das Unidades' },
     ],
   },
 ];
