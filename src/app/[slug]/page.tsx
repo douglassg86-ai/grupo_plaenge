@@ -19,6 +19,16 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import ShiftEventPopup from '@/components/shift-event-popup';
 import { WhatsappButton } from '@/components/whatsapp-button';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const SHIFT_LINKS = {
+  tabela: 'https://drive.google.com/open?id=11cd3uIwcpL9cLriCHuGNMPoHdT_5GbNL&usp=drive_fs',
+  book: 'https://drive.google.com/open?id=1NeTvdgNKT1Lq_l6AHh4UXkDY8dOlrajn&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=1y7Tu5K82bW8KthcVXPwkXlm1iP6nMsml&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=11Z-d0yf-itgzBqWbnSJTxbZ1GixvTKTx&usp=drive_fs',
+  site: 'https://www.vanguard.com.br/porto-alegre/shift',
+  clienteSlug: 'shift',
+};
 
 type ProjectPageProps = {
   params: {
@@ -272,7 +282,14 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                 </CardContent>
               </Card>
             </section>
-            {project.slug === 'shift' && <ShiftEventPopup />}
+            {project.slug === 'shift' && (
+              <>
+                <ShiftEventPopup />
+                <section className="container mx-auto px-4 pb-4">
+                  <ProductLinks config={SHIFT_LINKS} />
+                </section>
+              </>
+            )}
           </article>
         </div>
       </main>

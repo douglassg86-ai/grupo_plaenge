@@ -8,6 +8,13 @@ import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const LINKS_CONFIG = {
+  // synthè - em breve (sem tabela, book, video por enquanto)
+  site: undefined as string | undefined,
+  clienteSlug: 'synthe',
+};
 
 const P = '/SYNTHE';
 
@@ -19,6 +26,32 @@ const galleryCategories = [
       { src: `${P}/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp`, alt: 'Fachada Diurna' },
       { src: `${P}/©VISTA_03_EXT_FACHADA_DETALHE_01_FINAL.webp`, alt: 'Detalhe Fachada 1' },
       { src: `${P}/©VISTA_04_EXT_FACHADA_DETALHE_02_FINAL.webp`, alt: 'Detalhe Fachada 2' },
+      { src: `${P}/©VISTA_05_EXT_ACESSO_EXTERNO_OBSERVADOR_FINAL.webp`, alt: 'Acesso Externo' },
+      { src: `${P}/©VISTA_06_EXT_INSERCAO_FINAL.webp`, alt: 'Inserção Urbana' },
+    ],
+  },
+  {
+    label: 'Lazer',
+    images: [
+      { src: `${P}/©VISTA_07_EXT_PISCINA_FINAL.webp`, alt: 'Piscina' },
+      { src: `${P}/©VISTA_01_INT_SALÃO_DE_FESTAS_02_FINAL.webp`, alt: 'Salão de Festas' },
+      { src: `${P}/©VISTA_10_INT_SALÃO_DE_FESTAS_01_FINAL.webp`, alt: 'Salão de Festas — Vista 2' },
+      { src: `${P}/©VISTA_12_INT_SALÃO_DE_FESTAS_03_FINAL.webp`, alt: 'Salão de Festas — Vista 3' },
+      { src: `${P}/©VISTA_13_FITNESS_FINAL.webp`, alt: 'Fitness' },
+      { src: `${P}/©VISTA_14_INT_ESPAÇO_KIDS_FINAL.webp`, alt: 'Espaço Kids' },
+    ],
+  },
+  {
+    label: 'Espaços Sociais',
+    images: [
+      { src: `${P}/©VISTA_11_HALL_FINAL_03_FINAL - HALL .webp`, alt: 'Hall' },
+    ],
+  },
+  {
+    label: 'Apartamento',
+    images: [
+      { src: `${P}/©VISTA_15_INT_APTO_TIPO_01_LIVING_01_FINAL.webp`, alt: 'Living — Vista 1' },
+      { src: `${P}/©VISTA_16_INT_APTO_TIPO_01_LIVING_02_FINAL.webp`, alt: 'Living — Vista 2' },
     ],
   },
 ];
@@ -26,9 +59,35 @@ const galleryCategories = [
 // ─── PLANTS ──────────────────────────────────────────────────────────────────
 const plantCategories = [
   {
-    label: 'Apartamento Tipo 01',
+    label: 'Tipo 01 Padrão',
     images: [
-      { src: `${P}/plantas/planta_tipo01.webp`, alt: 'Apartamento Tipo 01 — 176,89 m² — 3 suítes c/ office' },
+      { src: `${P}/plantas/©VISTA_01_PLB_APARTAMENTO_TIPO_01_PADRAO_R03_COTAS_FINAL.webp`, alt: 'Apartamento Tipo 01 Padrão — 176,89 m²' },
+    ],
+  },
+  {
+    label: 'Cobertura (2 Pav.)',
+    images: [
+      { src: `${P}/plantas/©VISTA_02_PLB_APARTAMENTO_TIPO_02_(COBERTURA 2 PAV)_R04_COTAS_FINAL.webp`, alt: 'Penthouse — Cobertura 2 Pavimentos — 298 m²' },
+    ],
+  },
+  {
+    label: 'Tipo 01 Decorado',
+    images: [
+      { src: `${P}/plantas/©VISTA_06_PLB_APARTAMENTO_TIPO_01_(DECORADO)_R03_COTAS_FINAL.webp`, alt: 'Apartamento Tipo 01 — Decorado' },
+    ],
+  },
+  {
+    label: 'Tipo 01 c/ Office',
+    images: [
+      { src: `${P}/plantas/©VISTA_07_PLB_APARTAMENTO_TIPO_01_(OFFICE)_R04_COTAS_FINAL.webp`, alt: 'Apartamento Tipo 01 — Com Office' },
+    ],
+  },
+  {
+    label: 'Implantação',
+    images: [
+      { src: `${P}/plantas/©VISTA_03_PLB_IMPLANTAÇÃO_SUBSOLO_R03_FINAL.webp`, alt: 'Implantação — Subsolo' },
+      { src: `${P}/plantas/©VISTA_04_PLB_IMPLANTAÇÃO_TÉRREO_R05_FINAL.webp`, alt: 'Implantação — Térreo' },
+      { src: `${P}/plantas/©VISTA_05_PLB_IMPLANTAÇÃO_2PAV_R03_FINAL.webp`, alt: 'Implantação — 2º Pavimento' },
     ],
   },
 ];
@@ -56,10 +115,10 @@ const tipologias = [
 ];
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function SyntheHomePageClient() {
+export default function SyntheHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      <CommunityPopup />
+      {!isClientePage && <CommunityPopup />}
 
       {/* HEADER */}
       <ProductHeader />
@@ -212,14 +271,21 @@ export default function SyntheHomePageClient() {
           </div>
         </div>
 
-        {/* DISPONIBILIDADE */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2 text-center">Mapa de Unidades</p>
-          <p className="text-xs text-muted-foreground text-center mb-6">
-            Pré-lançamento · Clique em uma unidade para cadastrar seu interesse
-          </p>
-          <UnitGrid />
-        </div>
+        {!isClientePage && (
+          <>
+            {/* DISPONIBILIDADE */}
+            <div className="bg-card rounded-2xl p-8">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2 text-center">Mapa de Unidades</p>
+              <p className="text-xs text-muted-foreground text-center mb-6">
+                Pré-lançamento · Clique em uma unidade para cadastrar seu interesse
+              </p>
+              <UnitGrid />
+            </div>
+
+            {/* MATERIAIS */}
+            <ProductLinks config={LINKS_CONFIG} />
+          </>
+        )}
 
       </div>
 
@@ -227,7 +293,7 @@ export default function SyntheHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Plaenge · TGD · SYNTHÈ Petrópolis · Porto Alegre</p>
 
-      <WhatsappButton product="SYNTHÈ" />
+      {!isClientePage && <WhatsappButton product="SYNTHÈ" />}
       </footer>
 
     </div>

@@ -148,8 +148,13 @@ function Grid({ units, towerName, plan }: { units: Unit[]; towerName: string; pl
   );
 }
 
-export default function UnitGrid() {
+export default function UnitGrid({ onTabChange }: { onTabChange?: (tab: 'home' | 'nano') => void }) {
   const [tab, setTab] = useState<'home' | 'nano'>('home');
+
+  function handleTabChange(t: 'home' | 'nano') {
+    setTab(t);
+    onTabChange?.(t);
+  }
 
   return (
     <div className="space-y-6">
@@ -158,7 +163,7 @@ export default function UnitGrid() {
           { key: 'home', label: 'Downtown Home', count: homeUnits.length },
           { key: 'nano', label: 'Downtown Nano', count: nanoUnits.length },
         ].map(({ key, label, count }) => (
-          <button key={key} onClick={() => setTab(key as 'home' | 'nano')}
+          <button key={key} onClick={() => handleTabChange(key as 'home' | 'nano')}
             className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${
               tab === key ? 'bg-primary text-primary-foreground border-primary' : 'bg-transparent text-muted-foreground border-border hover:bg-muted'
             }`}>

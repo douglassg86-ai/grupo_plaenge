@@ -7,6 +7,16 @@ import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const LINKS_CONFIG = {
+  tabela: 'https://drive.google.com/drive/folders/1Ey98X-SIT-kwBUIuGhkafnp0ZXq2s0YC?usp=drive_link',
+  book: 'https://drive.google.com/open?id=1uDMviQSVcHl4kuZNyRk6FeXrmD8XAyo2&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=1wD-EyEmjFMNgkZRy9mYtXy8cJnwTcWvw&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=13rWA803iFNJTfIg0CKCqNCM-UPBpYU7O&usp=drive_fs',
+  site: 'https://www.plaenge.com.br/porto-alegre/edition',
+  clienteSlug: 'edition',
+};
 
 // ─── GALLERY DATA ─────────────────────────────────────────────────────────────
 const galleryCategories = [
@@ -104,10 +114,10 @@ const diferenciais = [
 
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function EditionHomePageClient() {
+export default function EditionHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      <CommunityPopup />
+      {!isClientePage && <CommunityPopup />}
 
       {/* ── HEADER ── */}
       <ProductHeader />
@@ -273,19 +283,26 @@ export default function EditionHomePageClient() {
           </div>
         </div>
 
-        {/* ── DISPONIBILIDADE ── */}
-        <div className="bg-card rounded-2xl p-8 md:p-10">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
-          <UnitGrid />
-        </div>
+        {!isClientePage && (
+          <>
+            {/* ── DISPONIBILIDADE ── */}
+            <div className="bg-card rounded-2xl p-8 md:p-10">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
+              <UnitGrid />
+            </div>
 
-        {/* IMPLANTAÇÃO DAS UNIDADES */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
-          <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/EDITION/implantacoes/edition.png', alt: 'Implantação — Posição das Unidades' }] }]} />
-        </div>
+            {/* IMPLANTAÇÃO DAS UNIDADES */}
+            <div className="bg-card rounded-2xl p-8">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
+              <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/EDITION/implantacoes/edition.png', alt: 'Implantação — Posição das Unidades' }] }]} />
+            </div>
+
+            {/* MATERIAIS */}
+            <ProductLinks config={LINKS_CONFIG} />
+          </>
+        )}
 
       </div>
 
@@ -294,7 +311,7 @@ export default function EditionHomePageClient() {
         <p className="font-medium">EDITION Moinhos · Grupo Plaenge</p>
         <p>Plaenge Empreendimentos Ltda. · Incorporação registrada conforme R-1/218.732 da 1ª Zona de Porto Alegre.</p>
 
-      <WhatsappButton product="EDITION Moinhos" />
+      {!isClientePage && <WhatsappButton product="EDITION Moinhos" />}
       </footer>
 
     </div>

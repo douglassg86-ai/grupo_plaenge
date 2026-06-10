@@ -9,6 +9,25 @@ import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ImplantacaoFloorSelector } from '@/components/shared/implantacao-floor-selector';
 import { ProductHeader } from '@/components/shared/product-header';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const LINKS_CONFIG_HOME = {
+  tabela: 'https://drive.google.com/open?id=189bZDWO-qzrbkZEcBm8V3f2BMRwXDqgH&usp=drive_fs',
+  book: 'https://drive.google.com/open?id=1BHx3p4Aqs00v6BlDPTsofWbFy69yNOUT&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=1CV3co7QlKcGEiMsi3Dh7MnKl8iyhAj0r&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=16iawguHLDXUfXT5RZ4s0Xf7CS22O62R6&usp=drive_fs',
+  site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
+  clienteSlug: 'trend',
+};
+
+const LINKS_CONFIG_NANO = {
+  tabela: 'https://drive.google.com/open?id=1pCBQNsu6bhzl2HM8yGB85paefW_Eb2Ip&usp=drive_fs',
+  book: 'https://drive.google.com/open?id=1p-pZFIkjEH7bG2AUwMKoouyTa7dUhXQy&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=13y8QvHGc2bSYlulvRV_ei1-wvWV7uB5j&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=18V3yEpa0DGiQyuGrlEyFMCqsaaRgveSj&usp=drive_fs',
+  site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
+  clienteSlug: 'trend',
+};
 
 const P = '/TREND';
 
@@ -129,8 +148,6 @@ const plantCategories = [
     images: [
       { src: `${P}/plantas/PNB_PB_04_Planta_5o_Pavimento_Office_EF.webp`, alt: 'Office — 5º Pavimento — 294,88 m²' },
       { src: `${P}/plantas/PNB_PB_05_Planta_6o_Pavimento_Office_EF.webp`, alt: 'Office — 6º Pavimento — 498,95 m²' },
-      { src: `${P}/plantas/PNB_PB_14_Planta_Office_Sala_02_EF.webp`, alt: 'Office — Sala 02 — 31,35 m²' },
-      { src: `${P}/plantas/PNB_PB_15_Planta_Office_Sala_04_EF.webp`, alt: 'Office — Sala 04 — 34,72 m²' },
     ],
   },
 ];
@@ -176,12 +193,13 @@ const tipologiasNano = [
 ];
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function TrendHomePageClient() {
+export default function TrendHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   const [activeTab, setActiveTab] = useState<'home' | 'nano'>('home');
+  const [implantacaoTab, setImplantacaoTab] = useState<'home' | 'nano'>('home');
 
   return (
     <div className="bg-background min-h-screen">
-      <CommunityPopup />
+      {!isClientePage && <CommunityPopup />}
 
       {/* HEADER */}
       <ProductHeader />
@@ -460,23 +478,27 @@ export default function TrendHomePageClient() {
           </div>
         </div>
 
-        {/* DISPONIBILIDADE */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Disponibilidade</p>
-          <UnitGrid />
-        </div>
+        {!isClientePage && (
+          <>
+            {/* DISPONIBILIDADE + IMPLANTAÇÃO */}
+            <div className="bg-card rounded-2xl p-8 space-y-8">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary text-center">Disponibilidade</p>
+              <UnitGrid onTabChange={setImplantacaoTab} />
+              <div className="border-t pt-8">
+                <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
+                  Implantação das Unidades — Downtown {implantacaoTab === 'home' ? 'Home' : 'Nano'}
+                </p>
+                {implantacaoTab === 'home'
+                  ? <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
+                  : <ImplantacaoFloorSelector floors={nanoFloorPlans} />
+                }
+              </div>
+            </div>
 
-        {/* IMPLANTAÇÃO — DOWNTOWN HOME */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Implantação das Unidades — Downtown Home</p>
-          <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
-        </div>
-
-        {/* IMPLANTAÇÃO — DOWNTOWN NANO */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Implantação das Unidades — Downtown Nano</p>
-          <ImplantacaoFloorSelector floors={nanoFloorPlans} />
-        </div>
+            {/* MATERIAIS */}
+            <ProductLinks config={implantacaoTab === 'home' ? LINKS_CONFIG_HOME : LINKS_CONFIG_NANO} />
+          </>
+        )}
 
       </div>
 
@@ -484,7 +506,7 @@ export default function TrendHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Maiojama · Vanguard · Fundo Phorbis · Trend Downtown · Porto Alegre</p>
 
-      <WhatsappButton product="TREND DOWNTOWN" />
+      {!isClientePage && <WhatsappButton product="TREND DOWNTOWN" />}
       </footer>
 
     </div>

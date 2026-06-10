@@ -8,6 +8,16 @@ import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const LINKS_CONFIG = {
+  tabela: 'https://drive.google.com/open?id=1CG5_uGw-yuIlvkW7Bo7BedIs0TdSYlKo&usp=drive_fs',
+  book: 'https://drive.google.com/open?id=1ZBwEkEJG8ui7PtUBnL6y-y_7Vh4q8LSn&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=1CP7sEt_EOrBCzQD5VkkJ5r24a7JDLYdA&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=1D7XWAvWjEPDOmDvQfifRER4uJfOPu4zT&usp=drive_fs',
+  site: 'https://www.plaenge.com.br/porto-alegre/verdant',
+  clienteSlug: 'verdant',
+};
 
 const P = '/VERDANT'; // base path
 
@@ -210,10 +220,10 @@ function Plants({ categories }: { categories: typeof plantCategories }) {
 }
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function VerdantHomePageClient() {
+export default function VerdantHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      <CommunityPopup />
+      {!isClientePage && <CommunityPopup />}
       <ProductHeader />
 
       {/* HERO */}
@@ -349,19 +359,26 @@ export default function VerdantHomePageClient() {
           </div>
         </div>
 
-        {/* DISPONIBILIDADE */}
-        <div className="bg-card rounded-2xl p-8 md:p-10">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
-          <UnitGrid />
-        </div>
+        {!isClientePage && (
+          <>
+            {/* DISPONIBILIDADE */}
+            <div className="bg-card rounded-2xl p-8 md:p-10">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
+              <UnitGrid />
+            </div>
 
-        {/* IMPLANTAÇÃO DAS UNIDADES */}
-        <div className="bg-card rounded-2xl p-8 md:p-10">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
-          <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' }] }]} />
-        </div>
+            {/* IMPLANTAÇÃO DAS UNIDADES */}
+            <div className="bg-card rounded-2xl p-8 md:p-10">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
+              <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' }] }]} />
+            </div>
+
+            {/* MATERIAIS */}
+            <ProductLinks config={LINKS_CONFIG} />
+          </>
+        )}
 
       </div>
 
@@ -369,7 +386,7 @@ export default function VerdantHomePageClient() {
         <p className="font-medium">VERDANT · Plaenge</p>
         <p>Rua Eça de Queiroz, 215 — Porto Alegre, RS</p>
 
-      <WhatsappButton product="VERDANT" />
+      {!isClientePage && <WhatsappButton product="VERDANT" />}
       </footer>
 
     </div>

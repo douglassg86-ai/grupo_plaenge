@@ -8,6 +8,16 @@ import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const LINKS_CONFIG = {
+  tabela: 'https://drive.google.com/open?id=1bCteAFZM13jHQTTX1MrB-Cdiyh8_VJzX&usp=drive_fs',
+  book: 'https://drive.google.com/open?id=1z2VaBjxZ0oCWFU-7F9R-IJNhopOijY5t&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=1z0m41I9WZ5rSDVuu0mQ-TXuIvqZjpVr_&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=1CTC8Vm9x8GOJPGlisLou5bBAlc8499CP&usp=drive_fs',
+  site: 'https://www.vanguard.com.br/porto-alegre/yuna',
+  clienteSlug: 'yuna',
+};
 
 const P = '/YUNA';
 
@@ -95,10 +105,10 @@ const tipologias = [
 ];
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function YunaHomePageClient() {
+export default function YunaHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      <CommunityPopup />
+      {!isClientePage && <CommunityPopup />}
 
       {/* HEADER */}
       <ProductHeader />
@@ -248,21 +258,28 @@ export default function YunaHomePageClient() {
           </div>
         </div>
 
-        {/* DISPONIBILIDADE */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Disponibilidade</p>
-          <UnitGrid />
-        </div>
+        {!isClientePage && (
+          <>
+            {/* DISPONIBILIDADE */}
+            <div className="bg-card rounded-2xl p-8">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Disponibilidade</p>
+              <UnitGrid />
+            </div>
 
-        {/* IMPLANTAÇÃO DAS UNIDADES */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Implantação das Unidades</p>
-          <PlantsViewer categories={[{ label: 'Implantação', images: [
-            { src: `${P}/implantacoes/yuna-01.png`, alt: 'Implantação — Posição das Unidades 1' },
-            { src: `${P}/implantacoes/yuna-02.png`, alt: 'Implantação — Posição das Unidades 2' },
-            { src: `${P}/implantacoes/yuna-03.png`, alt: 'Implantação — Posição das Unidades 3' },
-          ]}]} />
-        </div>
+            {/* IMPLANTAÇÃO DAS UNIDADES */}
+            <div className="bg-card rounded-2xl p-8">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Implantação das Unidades</p>
+              <PlantsViewer categories={[{ label: 'Implantação', images: [
+                { src: `${P}/implantacoes/yuna-01.png`, alt: 'Implantação — Posição das Unidades 1' },
+                { src: `${P}/implantacoes/yuna-02.png`, alt: 'Implantação — Posição das Unidades 2' },
+                { src: `${P}/implantacoes/yuna-03.png`, alt: 'Implantação — Posição das Unidades 3' },
+              ]}]} />
+            </div>
+
+            {/* MATERIAIS */}
+            <ProductLinks config={LINKS_CONFIG} />
+          </>
+        )}
 
       </div>
 
@@ -270,7 +287,7 @@ export default function YunaHomePageClient() {
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Vanguard · Grupo Plaenge · YUNA Jardim Botânico · Porto Alegre</p>
 
-      <WhatsappButton product="YUNA Jardim Botânico" />
+      {!isClientePage && <WhatsappButton product="YUNA Jardim Botânico" />}
       </footer>
 
     </div>

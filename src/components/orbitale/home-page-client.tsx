@@ -8,6 +8,16 @@ import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const LINKS_CONFIG = {
+  tabela: 'https://drive.google.com/open?id=1vnAEpjzQ_v_JKR6wCMzeX05vQ2edE-5v&usp=drive_fs',
+  book: 'https://drive.google.com/open?id=1uod7_DSMEXLRxPdG3c05A7R1IY-s8JU-&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=1u2OAOTqkXnzOSGfpPn795Zq8YdQm9a-P&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=10iaj8CDHPhWNzzk0UcBHX89djjIRFEbA&usp=drive_fs',
+  site: 'https://www.plaenge.com.br/porto-alegre/orbitale',
+  clienteSlug: 'orbitale',
+};
 
 // ─── GALLERY ─────────────────────────────────────────────────────────────────
 const galleryCategories = [
@@ -126,10 +136,10 @@ const tipologias = [
 ];
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function OrbitaleHomePageClient() {
+export default function OrbitaleHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      <CommunityPopup />
+      {!isClientePage && <CommunityPopup />}
 
       {/* HEADER */}
       <ProductHeader />
@@ -290,19 +300,26 @@ export default function OrbitaleHomePageClient() {
           </div>
         </div>
 
-        {/* DISPONIBILIDADE */}
-        <div className="bg-card rounded-2xl p-8 md:p-10">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
-          <UnitGrid />
-        </div>
+        {!isClientePage && (
+          <>
+            {/* DISPONIBILIDADE */}
+            <div className="bg-card rounded-2xl p-8 md:p-10">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
+              <UnitGrid />
+            </div>
 
-        {/* IMPLANTAÇÃO DAS UNIDADES */}
-        <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
-          <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/ORBITALE/implantacoes/orbitale.png', alt: 'Implantação — Posição das Unidades' }] }]} />
-        </div>
+            {/* IMPLANTAÇÃO DAS UNIDADES */}
+            <div className="bg-card rounded-2xl p-8">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
+              <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/ORBITALE/implantacoes/orbitale.png', alt: 'Implantação — Posição das Unidades' }] }]} />
+            </div>
+
+            {/* MATERIAIS */}
+            <ProductLinks config={LINKS_CONFIG} />
+          </>
+        )}
 
       </div>
 
@@ -311,7 +328,7 @@ export default function OrbitaleHomePageClient() {
         <p className="font-medium">ORBITALE · Plaenge</p>
         <p>Rua Regente, 152 — Petrópolis, Porto Alegre, RS</p>
 
-      <WhatsappButton product="ORBITALE" />
+      {!isClientePage && <WhatsappButton product="ORBITALE" />}
       </footer>
 
     </div>

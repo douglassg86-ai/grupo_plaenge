@@ -7,6 +7,16 @@ import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
+import { ProductLinks } from '@/components/shared/product-links';
+
+const LINKS_CONFIG = {
+  tabela: 'https://drive.google.com/open?id=101EC73ix9MdLjeJTPISFeEVGDSCxI9cN&usp=drive_fs',
+  book: 'https://drive.google.com/open?id=1yocb7t9xrJ2c8ZnZO4_Uk5iuPIlKBCfB&usp=drive_fs',
+  imagens: 'https://drive.google.com/open?id=15_JHvpNbXhCivMx-VCxzrw_pVlQDqcKI&usp=drive_fs',
+  video: 'https://drive.google.com/open?id=100Gm6XqzG26Os5f3-PSavwy0IyySYLwP&usp=drive_fs',
+  site: 'https://www.vanguard.com.br/porto-alegre/mood-central-parque',
+  clienteSlug: 'mood',
+};
 
 // ─── GALLERY ─────────────────────────────────────────────────────────────────
 const galleryCategories = [
@@ -87,10 +97,10 @@ const tipologias = [
 
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function MoodHomePageClient() {
+export default function MoodHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      <CommunityPopup />
+      {!isClientePage && <CommunityPopup />}
 
       {/* HEADER */}
       <ProductHeader />
@@ -250,19 +260,26 @@ export default function MoodHomePageClient() {
           </div>
         </div>
 
-        {/* DISPONIBILIDADE */}
-        <div className="bg-card rounded-2xl p-8 md:p-10">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
-          <UnitGrid />
-        </div>
+        {!isClientePage && (
+          <>
+            {/* DISPONIBILIDADE */}
+            <div className="bg-card rounded-2xl p-8 md:p-10">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
+              <UnitGrid />
+            </div>
 
-        {/* IMPLANTAÇÃO DAS UNIDADES */}
-        <div className="bg-card rounded-2xl p-8 md:p-10">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
-          <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
-          <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/MOOD/implantacoes/mood.png', alt: 'Implantação — Posição das Unidades' }] }]} />
-        </div>
+            {/* IMPLANTAÇÃO DAS UNIDADES */}
+            <div className="bg-card rounded-2xl p-8 md:p-10">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Implantação das Unidades</p>
+              <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
+              <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/MOOD/implantacoes/mood.png', alt: 'Implantação — Posição das Unidades' }] }]} />
+            </div>
+
+            {/* MATERIAIS */}
+            <ProductLinks config={LINKS_CONFIG} />
+          </>
+        )}
 
       </div>
 
@@ -271,7 +288,7 @@ export default function MoodHomePageClient() {
         <p className="font-medium">MOOD Central Parque · Vanguard + TGD</p>
         <p>Rua São Josemaría Escrivá, 585 — Central Parque, Porto Alegre, RS</p>
 
-      <WhatsappButton product="MOOD Central Parque" />
+      {!isClientePage && <WhatsappButton product="MOOD Central Parque" />}
       </footer>
 
     </div>

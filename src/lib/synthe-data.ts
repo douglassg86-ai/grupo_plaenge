@@ -41,8 +41,8 @@ const _rawUnits: Unit[] = [
   { id: 200026, code: '1502', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 15, prumada: '2', area: 176.89, status: 'available' },
   { id: 200027, code: '1601', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 16, prumada: '1', area: 176.89, status: 'available' },
   { id: 200028, code: '1602', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 16, prumada: '2', area: 176.89, status: 'available' },
-  { id: 200029, code: '1701', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 17, prumada: '1', area: 298.0, status: 'available' },
-  { id: 200030, code: '1702', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 17, prumada: '2', area: 298.0, status: 'available' },
+  { id: 200029, code: '1701', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 17, prumada: '1', area: 176.89, status: 'available' },
+  { id: 200030, code: '1702', type: 'Apartamento Tipo 01 — 3 Suítes', floor: 17, prumada: '2', area: 176.89, status: 'available' },
   { id: 200031, code: '1801', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 18, prumada: '1', area: 298.0, status: 'available' },
   { id: 200032, code: '1802', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 18, prumada: '2', area: 298.0, status: 'available' },
 ];
