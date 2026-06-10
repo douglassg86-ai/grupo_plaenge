@@ -37,13 +37,17 @@ src/components/shared/gallery-viewer.tsx      ← GalleryViewer com lightbox int
 src/components/shared/plants-viewer.tsx       ← PlantsViewer com lightbox integrado
 src/components/shared/product-header.tsx      ← ProductHeader (logo + dropdown navegação)
 src/components/shared/payment-breakdown.tsx   ← PaymentBreakdown (condições de pagamento no modal)
+src/components/shared/product-links.tsx       ← ProductLinks (botões tabela/book/imagens/vídeo/site + "Link para Cliente")
 src/components/ui/lightbox.tsx                ← Lightbox (zoom scroll/pinch/drag, ESC, ←→)
 src/components/home-hero-slideshow.tsx         ← Slideshow do hero da home (Ken Burns + fade)
 src/components/whatsapp-button.tsx             ← Botão flutuante WhatsApp (condicional ao cookie de gestor)
 ```
 **Nunca criar funções Gallery/Plants inline** — importar sempre os componentes shared.
 **Sempre usar ProductHeader** nos `home-page-client.tsx` de cada produto.
-**Sempre incluir `<WhatsappButton product="NOME DO PRODUTO" />`** em todo `home-page-client.tsx`.
+**Sempre incluir `<WhatsappButton product="NOME DO PRODUTO" />`** em todo `home-page-client.tsx` (dentro de `{!isClientePage && ...}`).
+**Sempre incluir `<ProductLinks config={LINKS_CONFIG} />`** em todo `home-page-client.tsx` (dentro de `{!isClientePage && ...}`).
+**Sempre criar `/[produto]/cliente/page.tsx`** para cada novo produto com `isClientePage` prop.
+**Todo `home-page-client.tsx` deve aceitar `isClientePage?: boolean`** e ocultar UnitGrid, ImplantaçãoSection, ProductLinks, WhatsappButton e CommunityPopup quando true.
 
 ### Interfaces dos componentes shared
 ```tsx
@@ -57,6 +61,18 @@ interface Category { label: string; images: { src: string; alt: string }[] }
 
 // WhatsappButton — aparece apenas se cookie 'manager' estiver presente
 <WhatsappButton product="NOME DO PRODUTO" />
+
+// ProductLinks — botões de materiais do corretor + gerador de link para cliente
+// Sempre dentro de {!isClientePage && <ProductLinks config={LINKS_CONFIG} />}
+interface ProductLinksConfig {
+  tabela?: string;    // link Google Drive da tabela de preços
+  book?: string;      // link Google Drive do book PDF
+  imagens?: string;   // link Google Drive da pasta de imagens
+  video?: string;     // link Google Drive do vídeo
+  site?: string;      // URL do site oficial do empreendimento
+  clienteSlug: string; // slug do produto para gerar URL /[slug]/cliente
+}
+<ProductLinks config={LINKS_CONFIG} />
 
 // PaymentBreakdown — exibe condições de pagamento calculadas a partir do preço
 // Sempre importar e usar dentro do modal de cada unit-grid
@@ -306,8 +322,8 @@ Produtos com 1 vídeo: card full-width. Produtos com 2 vídeos: `grid md:grid-co
 ### Notas por produto
 - **SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds` + `placeholder-images.json`. Condições de pagamento em `src/lib/payment-data.ts` (valores pré-calculados por unidade) + exibidas via tabela no `src/components/availability-grid.tsx` — fórmula: entrada 12,5% (5x), mensais 9% (30x), reforços 13% (3x), financiamento 65,5%. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`
 - **YUNA:** Vanguard · 14 andares · 6 prumadas · sem book PDF → book estava em pasta separada. **Atenção:** plantas das Unidades II (88,68 m²) e III (72,58 m²) estavam trocadas — corrigido em jun/2026. Os arquivos `04/06/07_VAN_PARECI_APTO_3_DORM` pertencem à Unidade II (88,68 m²) e `03_VAN_PARECI_APTO_2_DORM` à Unidade III (72,58 m²).
-- **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`; Nano usa prumada = últimos 2 dígitos do código (finais 01–23); Torre 2 não lançada; Office e Mall = informativos sem xlsx
-- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, penthouse andares 17–18; badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente
+- **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`; Nano usa prumada = últimos 2 dígitos do código (finais 01–23); Torre 2 não lançada; Office e Mall = informativos sem xlsx; Office plantas = apenas 294,88 m² e 498,95 m² (plantas menores removidas); implantações integradas ao card de disponibilidade (ao trocar Home↔Nano a implantação atualiza via `onTabChange`)
+- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, **penthouse apenas andares 18** (andar 17 = tipo padrão 176,89 m², sem rooftop); badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente; 14 imagens + 7 plantas WebP adicionadas em jun/2026
 - **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"
 - **VERDANT:** `setor` field — "Torre" e "Casas"
 - **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`; interface `Lot` (não `Unit`) com campos `block`, `number`; 4 status incluindo `opportunity`; modal do lote usa gestor do cookie para WhatsApp
