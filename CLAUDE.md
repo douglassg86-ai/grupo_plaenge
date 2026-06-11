@@ -326,7 +326,7 @@ Produtos com 1 vídeo: card full-width. Produtos com 2 vídeos: `grid md:grid-co
 - **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, **penthouse apenas andares 18** (andar 17 = tipo padrão 176,89 m², sem rooftop); badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente; 14 imagens + 7 plantas WebP adicionadas em jun/2026
 - **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"
 - **VERDANT:** `setor` field — "Torre" e "Casas"
-- **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`; interface `Lot` (não `Unit`) com campos `block`, `number`; 4 status incluindo `opportunity`; modal do lote usa gestor do cookie para WhatsApp
+- **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`; interface `Lot` (não `Unit`) com campos `block`, `number`; 4 status incluindo `opportunity`; modal do lote usa gestor do cookie para WhatsApp; usa `src/components/wave/materials.tsx` próprio (não `ProductLinks`) — inclui Site Oficial (`https://www.vanguard.com.br/porto-alegre/wave`) e botão "Link para Cliente" que copia `[origin]/wave/cliente`; rota `/wave/cliente` existe (`isSharePage=true`, noindex)
 - **MOOD:** 16 unidades por andar (prumadas 01-16); principal em junho, permuta (andares 3,7,10) em maio
 
 ## Ferramentas instaladas
