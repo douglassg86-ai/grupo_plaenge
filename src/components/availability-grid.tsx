@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import Link from 'next/link';
-import { Download, AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle as AlertTitleComponent } from './ui/alert';
 import {
@@ -145,12 +145,6 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                           </div>
                         )}
                     </div>
-                    <Button asChild size="sm" variant="outline">
-                      <Link href="https://drive.google.com/drive/folders/11cd3uIwcpL9cLriCHuGNMPoHdT_5GbNL" target="_blank">
-                        <Download className="mr-2 h-4 w-4" />
-                        Baixar Tabela
-                      </Link>
-                    </Button>
                   </div>
                 </AccordionContent>
               </AccordionItem>
