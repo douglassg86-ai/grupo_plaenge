@@ -1,8 +1,9 @@
 'use client';
 
-import { ExternalLink, Table2, BookOpen, Image as ImageIcon, Video, Globe, Copy, Check } from 'lucide-react';
-import { useState } from 'react';
+import { Table2, BookOpen, Image as ImageIcon, Video, Globe, Copy, Check, FileText } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
+import { managers } from '@/lib/managers';
 
 export interface ProductLinksConfig {
   tabela?: string;
@@ -38,6 +39,16 @@ function LinkButton({ href, icon: Icon, label, variant = 'outline' }: {
 
 export function ProductLinks({ config }: { config: ProductLinksConfig }) {
   const [copied, setCopied] = useState(false);
+  const [proposalUrl, setProposalUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const cookie = document.cookie.split(';').find(c => c.trim().startsWith('manager='));
+    if (cookie) {
+      const slug = cookie.trim().replace('manager=', '');
+      const manager = managers.find(m => m.slug === slug);
+      if (manager) setProposalUrl(manager.proposalUrl);
+    }
+  }, []);
 
   const baseUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/${config.clienteSlug}/cliente`
@@ -80,6 +91,9 @@ export function ProductLinks({ config }: { config: ProductLinksConfig }) {
           {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
           {copied ? 'Link copiado!' : 'Link para Cliente'}
         </button>
+        {proposalUrl && (
+          <LinkButton href={proposalUrl} icon={FileText} label="Formulário Proposta" variant="primary" />
+        )}
       </div>
     </div>
   );
