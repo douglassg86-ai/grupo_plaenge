@@ -224,6 +224,14 @@ function applyOv(units: Unit[], key: string): Unit[] {
 export const units = applyOv(_rawUnits, 'produto')
 ```
 
+### Sincronização de disponibilidade → app GPI Tracker (Supabase)
+O app **gpi-tracker** (`douglassg86-ai/gpi-tracker-app`) exibe um dashboard "Disponibilidade dos empreendimentos" com os números **disponíveis/total**. Os dados saem **daqui** (deste repo) e são sincronizados para uma tabela `disponibilidade_empreendimentos` no Supabase do gpi (ref `mfpuxpkjztwfawybnmql`).
+
+- **Script:** `scripts/sync-disponibilidade.ts` — importa os exports de cada `src/lib/[produto]-data.ts` (já com overrides aplicados), conta por status (`available`/`negotiation`/`sold`; `opportunity` do WAVE só no total) e faz **upsert agregado** (1 linha por empreendimento) via REST com a `service_role` key.
+- **Mapa produto→empreendimento/marca:** EDITION/ORBITALE/SYNTHÈ/VERDANT = Plaenge; MOOD/YUNA/SHIFT/TREND HOME(`homeUnits`)/TREND NANO(`nanoUnits`)/WAVE(`lots`) = Vanguard.
+- **Rodar manual:** `npm run sync:disponibilidade [-- --dry-run]` (precisa `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` no `.env`, gitignored; ver `.env.example`). Usa `tsx` (devDep).
+- **Automático:** `.github/workflows/sync-disponibilidade.yml` dispara em push na `main` que altere `availability-overrides.json` ou `src/lib/*-data.ts` (e `workflow_dispatch` manual). Requer o secret de repositório **`SUPABASE_SERVICE_ROLE_KEY`**. Ou seja: ao salvar disponibilidade pelo `/admin`, o app do GPI atualiza sozinho.
+
 ## Sistema de Links Personalizados por Gestor
 
 ### Arquitetura
