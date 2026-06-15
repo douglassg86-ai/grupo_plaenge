@@ -352,6 +352,7 @@ Produtos com 1 vídeo: card full-width. Produtos com 2 vídeos: `grid md:grid-co
 - Books PDF em imagem → pdftotext retorna vazio → usar `Read` tool visual
 - ImageMagick v7 instalado: usar `magick` (não `convert`)
 - Ao fazer push, Vercel faz deploy automático em ~2 min
+- **Tradução automática do navegador:** `src/app/layout.tsx` usa `<html lang="pt-BR" translate="no">` + `<meta name="google" content="notranslate">` para impedir que Chrome/Edge traduzam a página e mastiguem nomes próprios de produtos (SHIFT→Mudança, TREND→Tendência, MOOD→Humor, SYNTHÈ→Sintético). **Nunca** voltar `lang` para `en`. (Mesmo fix aplicado no `gpi-tracker-app`.)
 - **CSS arbitrário Tailwind com %** (ex: `object-[center_30%]`) não gera CSS em produção — usar sempre `style={{ objectPosition: '...' }}` inline
 - **Header da home** (`SiteHeader`): altura fixada via `style={{ height: '44px' }}` inline para garantir renderização
 - **Logos na home:** Plaenge `h-10 md:h-12 w-auto`, Vanguard `h-7 md:h-8 w-auto`
