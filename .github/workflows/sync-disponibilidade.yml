@@ -1,0 +1,30 @@
+name: Sync Disponibilidade → Supabase (gpi-tracker)
+
+# Roda quando a disponibilidade muda (admin commita os overrides ou os dados de unidade),
+# e também sob demanda (workflow_dispatch).
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/data/availability-overrides.json'
+      - 'src/lib/*-data.ts'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Sincronizar disponibilidade para o Supabase
+        run: node --import tsx scripts/sync-disponibilidade.ts
+        env:
+          SUPABASE_URL: https://mfpuxpkjztwfawybnmql.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
