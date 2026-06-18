@@ -4,7 +4,6 @@ import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/verdant/unit-grid';
-import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
@@ -223,8 +222,7 @@ function Plants({ categories }: { categories: typeof plantCategories }) {
 export default function VerdantHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      {!isClientePage && <CommunityPopup />}
-      <ProductHeader />
+      <ProductHeader hideNav={isClientePage} />
 
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
@@ -283,6 +281,9 @@ export default function VerdantHomePageClient({ isClientePage = false }: { isCli
             </div>
           </div>
         </div>
+
+        {/* ── MATERIAIS (corretor) — logo após o Sobre ── */}
+        {!isClientePage && <ProductLinks config={LINKS_CONFIG} />}
 
         {/* TIPOLOGIAS */}
         <div className="bg-card rounded-2xl p-8">
@@ -374,9 +375,6 @@ export default function VerdantHomePageClient({ isClientePage = false }: { isCli
               <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
               <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: `${P}/implantacoes/verdant-implantacao.jpg`, alt: 'Implantação — Posição das Unidades' }] }]} />
             </div>
-
-            {/* MATERIAIS */}
-            <ProductLinks config={LINKS_CONFIG} />
           </>
         )}
 

@@ -4,7 +4,6 @@ import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/orbitale/unit-grid';
-import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
@@ -139,10 +138,8 @@ const tipologias = [
 export default function OrbitaleHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      {!isClientePage && <CommunityPopup />}
-
       {/* HEADER */}
-      <ProductHeader />
+      <ProductHeader hideNav={isClientePage} />
 
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
@@ -206,6 +203,9 @@ export default function OrbitaleHomePageClient({ isClientePage = false }: { isCl
             </div>
           </div>
         </div>
+
+        {/* ── MATERIAIS (corretor) — logo após o Sobre ── */}
+        {!isClientePage && <ProductLinks config={LINKS_CONFIG} />}
 
         {/* TIPOLOGIAS */}
         <div className="bg-card rounded-2xl p-8">
@@ -315,9 +315,6 @@ export default function OrbitaleHomePageClient({ isClientePage = false }: { isCl
               <h2 className="font-display text-3xl text-foreground mb-6">Orientação das Unidades</h2>
               <PlantsViewer categories={[{ label: 'Implantação', images: [{ src: '/ORBITALE/implantacoes/orbitale.png', alt: 'Implantação — Posição das Unidades' }] }]} />
             </div>
-
-            {/* MATERIAIS */}
-            <ProductLinks config={LINKS_CONFIG} />
           </>
         )}
 

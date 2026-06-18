@@ -17,24 +17,27 @@ const empreendimentos = [
   { name: 'WAVE Home Resort', slug: 'wave', brand: 'Vanguard' },
 ];
 
-export function ProductHeader() {
+export function ProductHeader({ hideNav = false }: { hideNav?: boolean }) {
   const [open, setOpen] = useState(false);
+
+  const logo = (
+    <Image
+      src="/INSTITUCIONAL/logo_grupo_plaenge_escuro.webp"
+      alt="Grupo Plaenge"
+      width={150}
+      height={32}
+      className="h-7 w-auto"
+    />
+  );
 
   return (
     <header className="absolute top-0 left-0 w-full z-20 py-4">
       <div className="container flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/">
-          <Image
-            src="/INSTITUCIONAL/logo_grupo_plaenge_escuro.webp"
-            alt="Grupo Plaenge"
-            width={150}
-            height={32}
-            className="h-7 w-auto"
-          />
-        </Link>
+        {/* Logo — sem link na visão do cliente para não expor outros empreendimentos */}
+        {hideNav ? logo : <Link href="/">{logo}</Link>}
 
-        {/* Dropdown */}
+        {/* Dropdown — oculto na visão do cliente */}
+        {!hideNav && (
         <div className="relative">
           <button
             onClick={() => setOpen(!open)}
@@ -83,6 +86,7 @@ export function ProductHeader() {
             </>
           )}
         </div>
+        )}
       </div>
     </header>
   );

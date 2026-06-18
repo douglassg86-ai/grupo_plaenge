@@ -4,7 +4,6 @@ import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/yuna/unit-grid';
-import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
@@ -108,10 +107,8 @@ const tipologias = [
 export default function YunaHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      {!isClientePage && <CommunityPopup />}
-
       {/* HEADER */}
-      <ProductHeader />
+      <ProductHeader hideNav={isClientePage} />
 
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
@@ -178,6 +175,9 @@ export default function YunaHomePageClient({ isClientePage = false }: { isClient
             </div>
           </div>
         </div>
+
+        {/* ── MATERIAIS (corretor) — logo após o Sobre ── */}
+        {!isClientePage && <ProductLinks config={LINKS_CONFIG} />}
 
         {/* TIPOLOGIAS */}
         <div className="bg-card rounded-2xl p-8">
@@ -275,9 +275,6 @@ export default function YunaHomePageClient({ isClientePage = false }: { isClient
                 { src: `${P}/implantacoes/yuna-03.png`, alt: 'Implantação — Posição das Unidades 3' },
               ]}]} />
             </div>
-
-            {/* MATERIAIS */}
-            <ProductLinks config={LINKS_CONFIG} />
           </>
         )}
 

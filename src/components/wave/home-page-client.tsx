@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { lots, blockTotals } from '@/lib/wave-data';
 import LotGrid from '@/components/wave/lot-grid';
 import LotInfoModal from '@/components/wave/lot-info-modal';
-import CommunityPopup from '@/components/wave/community-popup';
 import Header from '@/components/wave/header';
 import Footer from '@/components/wave/footer';
 import Materials from '@/components/wave/materials';
@@ -29,7 +28,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
 
   return (
     <div className="wave-theme bg-background min-h-screen flex flex-col">
-      <Header />
+      <Header hideNav={isSharePage} />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative h-[40vh] md:h-[50vh] text-white flex items-center justify-center text-center">
@@ -59,6 +58,9 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
                 <p className="text-center font-semibold text-primary/90 text-lg md:text-xl animate-pulse-strong">
                     Contagem regressiva: Últimos lotes da construtora no mais novo condomínio de Xangri-lá. Pronto para construir!
                 </p>
+
+              {/* Materiais (corretor) — logo após a chamada */}
+              {!isSharePage && <Materials />}
 
               {/* Media Section */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -104,15 +106,11 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
                   <LotGrid lots={lots} onLotSelect={handleLotSelect} blockTotals={blockTotals} />
               </div>
 
-              {/* Materials Section */}
-              <Materials />
-
             </div>
         </div>
       </main>
       <WhatsappButton product="WAVE Home Resort" />
       {!isSharePage && <Footer />}
-      {!isSharePage && <CommunityPopup />}
       {selectedLot && (
         <LotInfoModal
           lot={selectedLot}

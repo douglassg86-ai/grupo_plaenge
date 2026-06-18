@@ -4,12 +4,13 @@ import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/trend/unit-grid';
-import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ImplantacaoFloorSelector } from '@/components/shared/implantacao-floor-selector';
 import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
+
+type Branch = 'home' | 'nano';
 
 const LINKS_CONFIG_HOME = {
   tabela: 'https://drive.google.com/open?id=189bZDWO-qzrbkZEcBm8V3f2BMRwXDqgH&usp=drive_fs',
@@ -51,106 +52,112 @@ const homeImplantacaoImages = [
   { src: `${P}/implantacoes-home/home-03.png`, alt: 'Implantação Downtown Home — 3' },
 ];
 
-// ─── GALLERY ─────────────────────────────────────────────────────────────────
-const galleryCategories = [
-  {
-    label: 'Complexo',
-    images: [
-      { src: `${P}/PNB_01_Fotomontagem_EF.webp`, alt: 'Fotomontagem — Complexo Trend Downtown' },
-      { src: `${P}/PNB_02_Fachada_Azenha_EF.webp`, alt: 'Fachada — Av. Azenha' },
-      { src: `${P}/PNB_03_Fachada_Lima_EF.webp`, alt: 'Fachada — Rua General Lima e Silva' },
-    ],
-  },
-  {
-    label: 'Downtown Home',
-    images: [
-      { src: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`, alt: 'Fachada Residencial — Torre A' },
-      { src: `${P}/PNB_05_Fachada_Residencial_B_EF.webp`, alt: 'Fachada Residencial — Torre B' },
-      { src: `${P}/PNB_13_Residencial_Piscina_EF_V2.webp`, alt: 'Piscina' },
-      { src: `${P}/PNB_14_Residencial_Kids_Externo_EF.webp`, alt: 'Kids Externo' },
-      { src: `${P}/PNB_15_Residencial_Beach_Tennis_EF.webp`, alt: 'Beach Tennis' },
-      { src: `${P}/PNB_16_Residencial_Quadra_Infantil_EF.webp`, alt: 'Quadra Infantil' },
-      { src: `${P}/PNB_17_Residencial_Gourmet_Externo_EF.webp`, alt: 'Espaço Gourmet Externo' },
-      { src: `${P}/PNB_18_Residencial_Espaco_Pet_EF.webp`, alt: 'Espaço Pet' },
-      { src: `${P}/PNB_19_Residencial_Fitness_EF.webp`, alt: 'Fitness' },
-      { src: `${P}/PNB_20_Residencial_Kids_EF.webp`, alt: 'Espaço Kids' },
-      { src: `${P}/PNB_21_Residencial_Festas_A_EF.webp`, alt: 'Salão de Festas A' },
-      { src: `${P}/PNB_22_Residencial_Festas_B_EF.webp`, alt: 'Salão de Festas B' },
-      { src: `${P}/PNB_23_Residencial_Coworking_EF_v1.webp`, alt: 'Coworking' },
-      { src: `${P}/PNB_23_Residencial_Coworking_EF_v2.webp`, alt: 'Coworking — Vista 2' },
-      { src: `${P}/PNB_24_Residencial_Hall_EF.webp`, alt: 'Hall Residencial' },
-      { src: `${P}/PNB_35_Residencial_Living_T1_Tipo_A_EF2.webp`, alt: 'Living — Torre 1 Tipo A' },
-    ],
-  },
-  {
-    label: 'Downtown Nano',
-    images: [
-      { src: `${P}/PNB_06_Fachada_Nano_EF.webp`, alt: 'Fachada Downtown Nano' },
-      { src: `${P}/PNB_11_Nano_Rooftop_Piscina_EF.webp`, alt: 'Rooftop — Piscina' },
-      { src: `${P}/PNB_12_Nano_Rooftop_Externo_EF.webp`, alt: 'Rooftop Externo' },
-      { src: `${P}/PNB_25_Nano_Rooftop_Interno_EF.webp`, alt: 'Rooftop Interno' },
-      { src: `${P}/PNB_26_Nano_Fitness_EF.webp`, alt: 'Fitness' },
-      { src: `${P}/PNB_27_Nano_Hall_EF.webp`, alt: 'Hall Nano' },
-      { src: `${P}/PNB_28_Nano_Lavanderia_EF.webp`, alt: 'Lavanderia Compartilhada' },
-      { src: `${P}/PNB_34_Nano_Apartamento_EF.webp`, alt: 'Apartamento Studio' },
-    ],
-  },
-  {
-    label: 'Office & Mall',
-    images: [
-      { src: `${P}/PNB_07_Fachada_Office_EF.webp`, alt: 'Fachada Downtown Office' },
-      { src: `${P}/PNB_08_Mall_Acesso_EF.webp`, alt: 'Mall — Acesso' },
-      { src: `${P}/PNB_09_Mall_Interno_EF2.webp`, alt: 'Mall Interno' },
-      { src: `${P}/PNB_10_Mall_Interno_B_EF.webp`, alt: 'Mall Interno — Vista 2' },
-      { src: `${P}/PNB_29_Office_Hall_EF.webp`, alt: 'Office — Hall' },
-      { src: `${P}/PNB_31_Office_Foyer_EF.webp`, alt: 'Office — Foyer' },
-      { src: `${P}/PNB_32_Office_Sala_Escritorio_EF.webp`, alt: 'Office — Sala Escritório' },
-      { src: `${P}/PNB_33_Office_Meia_Laje_EF.webp`, alt: 'Office — Meia Laje' },
-    ],
-  },
-];
+// ─── GALLERY (por ramificação) ────────────────────────────────────────────────
+const galleryComplexo = {
+  label: 'Complexo',
+  images: [
+    { src: `${P}/PNB_01_Fotomontagem_EF.webp`, alt: 'Fotomontagem — Complexo Trend Downtown' },
+    { src: `${P}/PNB_02_Fachada_Azenha_EF.webp`, alt: 'Fachada — Av. Azenha' },
+    { src: `${P}/PNB_03_Fachada_Lima_EF.webp`, alt: 'Fachada — Rua General Lima e Silva' },
+  ],
+};
+const galleryHome = {
+  label: 'Downtown Home',
+  images: [
+    { src: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`, alt: 'Fachada Residencial — Torre A' },
+    { src: `${P}/PNB_05_Fachada_Residencial_B_EF.webp`, alt: 'Fachada Residencial — Torre B' },
+    { src: `${P}/PNB_13_Residencial_Piscina_EF_V2.webp`, alt: 'Piscina' },
+    { src: `${P}/PNB_14_Residencial_Kids_Externo_EF.webp`, alt: 'Kids Externo' },
+    { src: `${P}/PNB_15_Residencial_Beach_Tennis_EF.webp`, alt: 'Beach Tennis' },
+    { src: `${P}/PNB_16_Residencial_Quadra_Infantil_EF.webp`, alt: 'Quadra Infantil' },
+    { src: `${P}/PNB_17_Residencial_Gourmet_Externo_EF.webp`, alt: 'Espaço Gourmet Externo' },
+    { src: `${P}/PNB_18_Residencial_Espaco_Pet_EF.webp`, alt: 'Espaço Pet' },
+    { src: `${P}/PNB_19_Residencial_Fitness_EF.webp`, alt: 'Fitness' },
+    { src: `${P}/PNB_20_Residencial_Kids_EF.webp`, alt: 'Espaço Kids' },
+    { src: `${P}/PNB_21_Residencial_Festas_A_EF.webp`, alt: 'Salão de Festas A' },
+    { src: `${P}/PNB_22_Residencial_Festas_B_EF.webp`, alt: 'Salão de Festas B' },
+    { src: `${P}/PNB_23_Residencial_Coworking_EF_v1.webp`, alt: 'Coworking' },
+    { src: `${P}/PNB_23_Residencial_Coworking_EF_v2.webp`, alt: 'Coworking — Vista 2' },
+    { src: `${P}/PNB_24_Residencial_Hall_EF.webp`, alt: 'Hall Residencial' },
+    { src: `${P}/PNB_35_Residencial_Living_T1_Tipo_A_EF2.webp`, alt: 'Living — Torre 1 Tipo A' },
+  ],
+};
+const galleryNano = {
+  label: 'Downtown Nano',
+  images: [
+    { src: `${P}/PNB_06_Fachada_Nano_EF.webp`, alt: 'Fachada Downtown Nano' },
+    { src: `${P}/PNB_11_Nano_Rooftop_Piscina_EF.webp`, alt: 'Rooftop — Piscina' },
+    { src: `${P}/PNB_12_Nano_Rooftop_Externo_EF.webp`, alt: 'Rooftop Externo' },
+    { src: `${P}/PNB_25_Nano_Rooftop_Interno_EF.webp`, alt: 'Rooftop Interno' },
+    { src: `${P}/PNB_26_Nano_Fitness_EF.webp`, alt: 'Fitness' },
+    { src: `${P}/PNB_27_Nano_Hall_EF.webp`, alt: 'Hall Nano' },
+    { src: `${P}/PNB_28_Nano_Lavanderia_EF.webp`, alt: 'Lavanderia Compartilhada' },
+    { src: `${P}/PNB_34_Nano_Apartamento_EF.webp`, alt: 'Apartamento Studio' },
+  ],
+};
+const galleryOfficeMall = {
+  label: 'Office & Mall',
+  images: [
+    { src: `${P}/PNB_07_Fachada_Office_EF.webp`, alt: 'Fachada Downtown Office' },
+    { src: `${P}/PNB_08_Mall_Acesso_EF.webp`, alt: 'Mall — Acesso' },
+    { src: `${P}/PNB_09_Mall_Interno_EF2.webp`, alt: 'Mall Interno' },
+    { src: `${P}/PNB_10_Mall_Interno_B_EF.webp`, alt: 'Mall Interno — Vista 2' },
+    { src: `${P}/PNB_29_Office_Hall_EF.webp`, alt: 'Office — Hall' },
+    { src: `${P}/PNB_31_Office_Foyer_EF.webp`, alt: 'Office — Foyer' },
+    { src: `${P}/PNB_32_Office_Sala_Escritorio_EF.webp`, alt: 'Office — Sala Escritório' },
+    { src: `${P}/PNB_33_Office_Meia_Laje_EF.webp`, alt: 'Office — Meia Laje' },
+  ],
+};
 
-// ─── PLANTS ──────────────────────────────────────────────────────────────────
-const plantCategories = [
-  {
-    label: 'Implantação',
-    images: [
-      { src: `${P}/plantas/PNB_PB_01_Implantacao_Terreo_EF.webp`, alt: 'Implantação — Térreo' },
-      { src: `${P}/plantas/PNB_PB_01_Implantacao_Terreo_EF_com tracejado.webp`, alt: 'Implantação — Térreo c/ tracejado' },
-      { src: `${P}/plantas/PNB_PB_02_Implantacao_2o_Pavimento_EF.webp`, alt: 'Implantação — 2º Pavimento' },
-      { src: `${P}/plantas/PNB_PB_02_Implantacao_2o_Pavimento_EF_com tracejado.webp`, alt: 'Implantação — 2º Pav. c/ tracejado' },
-    ],
-  },
-  {
-    label: 'Home — Torre 1',
-    images: [
-      { src: `${P}/plantas/PNB_PB_03_Implantacao_3o_Pavimento_EF.webp`, alt: 'Implantação — 3º Pavimento' },
-      { src: `${P}/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp`, alt: '109,40 m²' },
-      { src: `${P}/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF.webp`, alt: '88,84 m²' },
-      { src: `${P}/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp`, alt: '77,86 m²' },
-    ],
-  },
-  {
-    label: 'Nano — Studios',
-    images: [
-      { src: `${P}/plantas/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp`, alt: 'Nano — Studio 01A — 32,70 m²' },
-      { src: `${P}/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp`, alt: 'Nano — Studio 02B — 32,06 m²' },
-      { src: `${P}/plantas/PNB_PB_09_Planta_Nano_Apto_03B_EF.webp`, alt: 'Nano — Studio 03B — 34,72 m²' },
-      { src: `${P}/plantas/PNB_PB_10_Planta_Nano_Apto_04_EF.webp`, alt: 'Nano — Studio 04 — 28,39 m²' },
-      { src: `${P}/plantas/PNB_PB_11_Planta_Nano_Apto_05_EF.webp`, alt: 'Nano — Studio 05 — 23,63 m²' },
-      { src: `${P}/plantas/PNB_PB_12_Planta_Nano_Apto_06_EF.webp`, alt: 'Nano — Studio 06 — 32,06 m²' },
-      { src: `${P}/plantas/PNB_PB_13_Planta_Nano_Apto_07_EF.webp`, alt: 'Nano — Studio 07 — 23,63 m²' },
-      { src: `${P}/plantas/PNB_PB_06_Planta_Rooftop_Nano_EF.webp`, alt: 'Nano — Rooftop' },
-    ],
-  },
-  {
-    label: 'Office',
-    images: [
-      { src: `${P}/plantas/PNB_PB_04_Planta_5o_Pavimento_Office_EF.webp`, alt: 'Office — 5º Pavimento — 294,88 m²' },
-      { src: `${P}/plantas/PNB_PB_05_Planta_6o_Pavimento_Office_EF.webp`, alt: 'Office — 6º Pavimento — 498,95 m²' },
-    ],
-  },
-];
+const galleryByBranch: Record<Branch, typeof galleryComplexo[]> = {
+  home: [galleryComplexo, galleryHome],
+  nano: [galleryComplexo, galleryNano, galleryOfficeMall],
+};
+
+// ─── PLANTS (por ramificação) ─────────────────────────────────────────────────
+const plantsImplantacao = {
+  label: 'Implantação',
+  images: [
+    { src: `${P}/plantas/PNB_PB_01_Implantacao_Terreo_EF.webp`, alt: 'Implantação — Térreo' },
+    { src: `${P}/plantas/PNB_PB_01_Implantacao_Terreo_EF_com tracejado.webp`, alt: 'Implantação — Térreo c/ tracejado' },
+    { src: `${P}/plantas/PNB_PB_02_Implantacao_2o_Pavimento_EF.webp`, alt: 'Implantação — 2º Pavimento' },
+    { src: `${P}/plantas/PNB_PB_02_Implantacao_2o_Pavimento_EF_com tracejado.webp`, alt: 'Implantação — 2º Pav. c/ tracejado' },
+  ],
+};
+const plantsHome = {
+  label: 'Home — Torre 1',
+  images: [
+    { src: `${P}/plantas/PNB_PB_03_Implantacao_3o_Pavimento_EF.webp`, alt: 'Implantação — 3º Pavimento' },
+    { src: `${P}/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp`, alt: '109,40 m²' },
+    { src: `${P}/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF.webp`, alt: '88,84 m²' },
+    { src: `${P}/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp`, alt: '77,86 m²' },
+  ],
+};
+const plantsNano = {
+  label: 'Nano — Studios',
+  images: [
+    { src: `${P}/plantas/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp`, alt: 'Nano — Studio 01A — 32,70 m²' },
+    { src: `${P}/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp`, alt: 'Nano — Studio 02B — 32,06 m²' },
+    { src: `${P}/plantas/PNB_PB_09_Planta_Nano_Apto_03B_EF.webp`, alt: 'Nano — Studio 03B — 34,72 m²' },
+    { src: `${P}/plantas/PNB_PB_10_Planta_Nano_Apto_04_EF.webp`, alt: 'Nano — Studio 04 — 28,39 m²' },
+    { src: `${P}/plantas/PNB_PB_11_Planta_Nano_Apto_05_EF.webp`, alt: 'Nano — Studio 05 — 23,63 m²' },
+    { src: `${P}/plantas/PNB_PB_12_Planta_Nano_Apto_06_EF.webp`, alt: 'Nano — Studio 06 — 32,06 m²' },
+    { src: `${P}/plantas/PNB_PB_13_Planta_Nano_Apto_07_EF.webp`, alt: 'Nano — Studio 07 — 23,63 m²' },
+    { src: `${P}/plantas/PNB_PB_06_Planta_Rooftop_Nano_EF.webp`, alt: 'Nano — Rooftop' },
+  ],
+};
+const plantsOffice = {
+  label: 'Office',
+  images: [
+    { src: `${P}/plantas/PNB_PB_04_Planta_5o_Pavimento_Office_EF.webp`, alt: 'Office — 5º Pavimento — 294,88 m²' },
+    { src: `${P}/plantas/PNB_PB_05_Planta_6o_Pavimento_Office_EF.webp`, alt: 'Office — 6º Pavimento — 498,95 m²' },
+  ],
+};
+
+const plantsByBranch: Record<Branch, typeof plantsImplantacao[]> = {
+  home: [plantsImplantacao, plantsHome],
+  nano: [plantsImplantacao, plantsNano, plantsOffice],
+};
 
 const homeDiferenciais = [
   'Torre 1 lançada — Torre 2: futuro lançamento',
@@ -177,6 +184,7 @@ const nanoDiferenciais = [
   'Serviços pay-per-use exclusivos',
   'Estacionamento',
   '259 unidades residenciais',
+  'Inclui Downtown Office e Mall no mesmo complexo',
 ];
 
 const tipologiasHome = [
@@ -192,17 +200,38 @@ const tipologiasNano = [
   { tipo: 'Studio Terraço', area: '46,15 – 53,69 m²', detalhe: 'Studio com terraço privativo' },
 ];
 
+// ─── SELETOR DE RAMIFICAÇÃO (Home / Nano) ─────────────────────────────────────
+function BranchSwitch({ value, onChange, floating = false }: { value: Branch; onChange: (b: Branch) => void; floating?: boolean }) {
+  const options: { key: Branch; label: string }[] = [
+    { key: 'home', label: 'Downtown Home' },
+    { key: 'nano', label: 'Downtown Nano' },
+  ];
+  return (
+    <div className={`inline-flex rounded-full border bg-card/95 p-1 ${floating ? 'shadow-2xl backdrop-blur' : 'shadow-sm'}`}>
+      {options.map(({ key, label }) => (
+        <button
+          key={key}
+          onClick={() => onChange(key)}
+          aria-pressed={value === key}
+          className={`px-4 md:px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+            value === key ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function TrendHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
-  const [activeTab, setActiveTab] = useState<'home' | 'nano'>('home');
-  const [implantacaoTab, setImplantacaoTab] = useState<'home' | 'nano'>('home');
+  const [branch, setBranch] = useState<Branch>('home');
 
   return (
     <div className="bg-background min-h-screen">
-      {!isClientePage && <CommunityPopup />}
-
       {/* HEADER */}
-      <ProductHeader />
+      <ProductHeader hideNav={isClientePage} />
 
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
@@ -301,151 +330,125 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           </div>
         </div>
 
-        {/* TABS — DETALHE POR TORRE */}
-        <div className="bg-card rounded-2xl overflow-hidden">
-          {/* Tab nav */}
-          <div className="flex border-b">
-            {[
-              { key: 'home', label: 'Downtown Home' },
-              { key: 'nano', label: 'Downtown Nano' },
-            ].map(({ key, label }) => (
-              <button key={key} onClick={() => setActiveTab(key as 'home' | 'nano')}
-                className={`flex-1 py-4 text-sm font-medium transition-colors ${
-                  activeTab === key
-                    ? 'text-primary border-b-2 border-primary bg-muted/30'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}>
-                {label}
-              </button>
-            ))}
+        {/* ── SELETOR DE RAMIFICAÇÃO — define todo o conteúdo abaixo ── */}
+        <div className="bg-card rounded-2xl p-8 text-center scroll-mt-24" id="escolha-torre">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Escolha o que explorar</p>
+          <h2 className="font-display text-3xl text-foreground mb-2">Qual torre você quer ver?</h2>
+          <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
+            As informações abaixo (galeria, plantas, vídeos e disponibilidade) mudam conforme a sua escolha.
+            O <strong>Downtown Office</strong> e o <strong>Mall</strong> aparecem junto com o <strong>Nano</strong>.
+          </p>
+          <div className="flex justify-center">
+            <BranchSwitch value={branch} onChange={setBranch} />
           </div>
+        </div>
 
-          <div className="p-8 space-y-8">
-            {activeTab === 'home' ? (
-              <>
-                {/* HOME — SOBRE */}
-                <div className="grid md:grid-cols-2 gap-10 items-start">
-                  <div>
-                    <Image src={`${P}/logo_home.png`} alt="Downtown Home" width={180} height={50} className="mb-4" />
-                    <p className="text-muted-foreground leading-relaxed mb-5">
-                      As plantas do Trend Downtown Home foram projetadas para unir conforto e funcionalidade.
-                      Com arquitetura inteligente, cada detalhe maximiza o aproveitamento do espaço e da vida.
-                      Torre 1 disponível para venda. Torre 2 é futuro lançamento — sem informações disponíveis no momento.
-                    </p>
-                    <ul className="space-y-2">
-                      {homeDiferenciais.map((d, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="text-primary font-bold mt-0.5">✓</span>{d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Tipologias</p>
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="text-left pb-3 text-muted-foreground font-normal">Tipo</th>
-                          <th className="text-left pb-3 text-muted-foreground font-normal">Área</th>
-                          <th className="text-left pb-3 text-muted-foreground font-normal">Detalhe</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tipologiasHome.map((t, i) => (
-                          <tr key={i} className="border-b last:border-0">
-                            <td className="py-2.5 font-medium text-foreground">{t.tipo}</td>
-                            <td className="py-2.5 text-muted-foreground">{t.area}</td>
-                            <td className="py-2.5 text-muted-foreground text-xs">{t.detalhe}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+        {/* ── MATERIAIS (corretor) — logo após o Sobre/seleção ── */}
+        {!isClientePage && (
+          <ProductLinks config={branch === 'home' ? LINKS_CONFIG_HOME : LINKS_CONFIG_NANO} />
+        )}
 
-              </>
+        {/* DETALHE DA TORRE SELECIONADA */}
+        <div className="bg-card rounded-2xl p-8">
+          <div className="grid md:grid-cols-2 gap-10 items-start">
+            {branch === 'home' ? (
+              <div>
+                <Image src={`${P}/logo_home.png`} alt="Downtown Home" width={180} height={50} className="mb-4" />
+                <p className="text-muted-foreground leading-relaxed mb-5">
+                  As plantas do Trend Downtown Home foram projetadas para unir conforto e funcionalidade.
+                  Com arquitetura inteligente, cada detalhe maximiza o aproveitamento do espaço e da vida.
+                  Torre 1 disponível para venda. Torre 2 é futuro lançamento — sem informações disponíveis no momento.
+                </p>
+                <ul className="space-y-2">
+                  {homeDiferenciais.map((d, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <span className="text-primary font-bold mt-0.5">✓</span>{d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : (
-              <>
-                {/* NANO — SOBRE */}
-                <div className="grid md:grid-cols-2 gap-10 items-start">
-                  <div>
-                    <Image src={`${P}/logo_nano.png`} alt="Downtown Nano" width={180} height={50} className="mb-4" />
-                    <p className="text-muted-foreground leading-relaxed mb-5">
-                      A torre Downtown Nano é o lugar ideal para quem busca uma vida dinâmica, conectada e inteligente.
-                      Studios projetados para atender a todas as necessidades com eficiência, rooftop gourmet com piscina
-                      e a opção de gestão inteligente pela Cityhome.
-                    </p>
-                    <ul className="space-y-2">
-                      {nanoDiferenciais.map((d, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="text-primary font-bold mt-0.5">✓</span>{d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Tipologias</p>
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="text-left pb-3 text-muted-foreground font-normal">Tipo</th>
-                          <th className="text-left pb-3 text-muted-foreground font-normal">Área</th>
-                          <th className="text-left pb-3 text-muted-foreground font-normal">Detalhe</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tipologiasNano.map((t, i) => (
-                          <tr key={i} className="border-b last:border-0">
-                            <td className="py-2.5 font-medium text-foreground">{t.tipo}</td>
-                            <td className="py-2.5 text-muted-foreground">{t.area}</td>
-                            <td className="py-2.5 text-muted-foreground text-xs">{t.detalhe}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-              </>
+              <div>
+                <Image src={`${P}/logo_nano.png`} alt="Downtown Nano" width={180} height={50} className="mb-4" />
+                <p className="text-muted-foreground leading-relaxed mb-5">
+                  A torre Downtown Nano é o lugar ideal para quem busca uma vida dinâmica, conectada e inteligente.
+                  Studios projetados para atender a todas as necessidades com eficiência, rooftop gourmet com piscina
+                  e a opção de gestão inteligente pela Cityhome. Integrada ao Downtown Office e ao Mall do complexo.
+                </p>
+                <ul className="space-y-2">
+                  {nanoDiferenciais.map((d, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <span className="text-primary font-bold mt-0.5">✓</span>{d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
+            <div>
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Tipologias</p>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left pb-3 text-muted-foreground font-normal">Tipo</th>
+                    <th className="text-left pb-3 text-muted-foreground font-normal">Área</th>
+                    <th className="text-left pb-3 text-muted-foreground font-normal">Detalhe</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(branch === 'home' ? tipologiasHome : tipologiasNano).map((t, i) => (
+                    <tr key={i} className="border-b last:border-0">
+                      <td className="py-2.5 font-medium text-foreground">{t.tipo}</td>
+                      <td className="py-2.5 text-muted-foreground">{t.area}</td>
+                      <td className="py-2.5 text-muted-foreground text-xs">{t.detalhe}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
         {/* GALERIA */}
         <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Galeria</p>
-          <GalleryViewer categories={galleryCategories} />
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
+            Galeria — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+          </p>
+          <GalleryViewer categories={galleryByBranch[branch]} />
         </div>
 
         {/* PLANTAS */}
         <div className="bg-card rounded-2xl p-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Plantas</p>
-          <PlantsViewer categories={plantCategories} />
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
+            Plantas — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+          </p>
+          <PlantsViewer categories={plantsByBranch[branch]} />
         </div>
 
-        {/* VÍDEOS — TREND NANO */}
-        <div className="bg-card rounded-2xl p-8 space-y-6">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Vídeos</p>
-            <h2 className="font-display text-3xl text-foreground">Conheça o TREND Nano</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <div className="aspect-video w-full overflow-hidden rounded-xl border">
-                <iframe src="https://www.youtube.com/embed/KBCXAtAESWM" title="TREND Downtown Nano" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
-              </div>
-              <p className="text-xs text-muted-foreground text-center">Vídeo do empreendimento</p>
+        {/* VÍDEOS — apenas TREND NANO */}
+        {branch === 'nano' && (
+          <div className="bg-card rounded-2xl p-8 space-y-6">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Vídeos</p>
+              <h2 className="font-display text-3xl text-foreground">Conheça o TREND Nano</h2>
             </div>
-            <div className="space-y-2">
-              <div className="aspect-video w-full overflow-hidden rounded-xl border">
-                <iframe src="https://www.youtube.com/embed/a5lCfqU8UWY" title="TREND Downtown Nano — Decorado" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="aspect-video w-full overflow-hidden rounded-xl border">
+                  <iframe src="https://www.youtube.com/embed/KBCXAtAESWM" title="TREND Downtown Nano" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+                </div>
+                <p className="text-xs text-muted-foreground text-center">Vídeo do empreendimento</p>
               </div>
-              <p className="text-xs text-muted-foreground text-center">Apartamento decorado</p>
+              <div className="space-y-2">
+                <div className="aspect-video w-full overflow-hidden rounded-xl border">
+                  <iframe src="https://www.youtube.com/embed/a5lCfqU8UWY" title="TREND Downtown Nano — Decorado" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" style={{ border: 0 }} />
+                </div>
+                <p className="text-xs text-muted-foreground text-center">Apartamento decorado</p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* LOCALIZAÇÃO */}
+        {/* LOCALIZAÇÃO (comum ao complexo) */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Localização</p>
           <div className="grid md:grid-cols-2 gap-8 items-start">
@@ -479,27 +482,29 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
         </div>
 
         {!isClientePage && (
-          <>
-            {/* DISPONIBILIDADE + IMPLANTAÇÃO */}
-            <div className="bg-card rounded-2xl p-8 space-y-8">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary text-center">Disponibilidade</p>
-              <UnitGrid onTabChange={setImplantacaoTab} />
-              <div className="border-t pt-8">
-                <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
-                  Implantação das Unidades — Downtown {implantacaoTab === 'home' ? 'Home' : 'Nano'}
-                </p>
-                {implantacaoTab === 'home'
-                  ? <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
-                  : <ImplantacaoFloorSelector floors={nanoFloorPlans} />
-                }
-              </div>
+          /* DISPONIBILIDADE + IMPLANTAÇÃO (segue a torre selecionada) */
+          <div className="bg-card rounded-2xl p-8 space-y-8">
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary text-center">
+              Disponibilidade — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+            </p>
+            <UnitGrid activeTab={branch} />
+            <div className="border-t pt-8">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
+                Implantação das Unidades — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+              </p>
+              {branch === 'home'
+                ? <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
+                : <ImplantacaoFloorSelector floors={nanoFloorPlans} />
+              }
             </div>
-
-            {/* MATERIAIS */}
-            <ProductLinks config={implantacaoTab === 'home' ? LINKS_CONFIG_HOME : LINKS_CONFIG_NANO} />
-          </>
+          </div>
         )}
 
+      </div>
+
+      {/* BOTÃO FLUTUANTE — trocar entre Home/Nano de qualquer seção */}
+      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40">
+        <BranchSwitch value={branch} onChange={setBranch} floating />
       </div>
 
       {/* FOOTER */}

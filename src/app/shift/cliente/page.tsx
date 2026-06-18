@@ -23,7 +23,7 @@ export default function ShiftClientePage() {
 
   return (
     <div className="relative flex min-h-screen flex-col">
-      <ProductHeader />
+      <ProductHeader hideNav />
 
       <main className="flex-1">
         <div className="bg-shift-brand">

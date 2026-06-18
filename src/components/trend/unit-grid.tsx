@@ -148,29 +148,34 @@ function Grid({ units, towerName, plan }: { units: Unit[]; towerName: string; pl
   );
 }
 
-export default function UnitGrid({ onTabChange }: { onTabChange?: (tab: 'home' | 'nano') => void }) {
-  const [tab, setTab] = useState<'home' | 'nano'>('home');
+export default function UnitGrid({ onTabChange, activeTab }: { onTabChange?: (tab: 'home' | 'nano') => void; activeTab?: 'home' | 'nano' }) {
+  const [internalTab, setInternalTab] = useState<'home' | 'nano'>('home');
+  // Quando `activeTab` é passado, o grid é controlado externamente (seletor/​botão flutuante da página)
+  const controlled = activeTab !== undefined;
+  const tab = controlled ? activeTab : internalTab;
 
   function handleTabChange(t: 'home' | 'nano') {
-    setTab(t);
+    if (!controlled) setInternalTab(t);
     onTabChange?.(t);
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-2">
-        {[
-          { key: 'home', label: 'Downtown Home', count: homeUnits.length },
-          { key: 'nano', label: 'Downtown Nano', count: nanoUnits.length },
-        ].map(({ key, label, count }) => (
-          <button key={key} onClick={() => handleTabChange(key as 'home' | 'nano')}
-            className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${
-              tab === key ? 'bg-primary text-primary-foreground border-primary' : 'bg-transparent text-muted-foreground border-border hover:bg-muted'
-            }`}>
-            {label} <span className="ml-1 text-xs opacity-60">({count})</span>
-          </button>
-        ))}
-      </div>
+      {!controlled && (
+        <div className="flex gap-2">
+          {[
+            { key: 'home', label: 'Downtown Home', count: homeUnits.length },
+            { key: 'nano', label: 'Downtown Nano', count: nanoUnits.length },
+          ].map(({ key, label, count }) => (
+            <button key={key} onClick={() => handleTabChange(key as 'home' | 'nano')}
+              className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${
+                tab === key ? 'bg-primary text-primary-foreground border-primary' : 'bg-transparent text-muted-foreground border-border hover:bg-muted'
+              }`}>
+              {label} <span className="ml-1 text-xs opacity-60">({count})</span>
+            </button>
+          ))}
+        </div>
+      )}
       {tab === 'home'
         ? <Grid units={homeUnits} towerName="Home" plan={PLAN_HOME} />
         : <Grid units={nanoUnits} towerName="Nano" plan={PLAN_NANO} />

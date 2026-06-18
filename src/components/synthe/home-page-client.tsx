@@ -4,7 +4,6 @@ import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
 import { useState } from 'react';
 import UnitGrid from '@/components/synthe/unit-grid';
-import CommunityPopup from '@/components/wave/community-popup';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
@@ -118,10 +117,8 @@ const tipologias = [
 export default function SyntheHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
-      {!isClientePage && <CommunityPopup />}
-
       {/* HEADER */}
-      <ProductHeader />
+      <ProductHeader hideNav={isClientePage} />
 
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end pb-16 text-white">
@@ -202,6 +199,9 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
           </div>
         </div>
 
+        {/* ── MATERIAIS (corretor) — logo após o Sobre ── */}
+        {!isClientePage && <ProductLinks config={LINKS_CONFIG} />}
+
         {/* TIPOLOGIAS */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Tipologias</p>
@@ -281,9 +281,6 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
               </p>
               <UnitGrid />
             </div>
-
-            {/* MATERIAIS */}
-            <ProductLinks config={LINKS_CONFIG} />
           </>
         )}
 

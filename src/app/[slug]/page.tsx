@@ -171,6 +171,9 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                         <h2 className="font-headline text-3xl font-bold text-primary text-center">LIFE ON DEMAND</h2>
                         <p className="mt-4 text-muted-foreground leading-relaxed text-center">{project.description}</p>
                       </div>
+
+                      {/* MATERIAIS (corretor) — logo após o Sobre */}
+                      <ProductLinks config={SHIFT_LINKS} />
                       
                       <Separator />
                       
@@ -268,14 +271,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                 </CardContent>
               </Card>
             </section>
-            {project.slug === 'shift' && (
-              <>
-                <ShiftEventPopup />
-                <section className="container mx-auto px-4 pb-4">
-                  <ProductLinks config={SHIFT_LINKS} />
-                </section>
-              </>
-            )}
+            {project.slug === 'shift' && <ShiftEventPopup />}
           </article>
         </div>
       </main>
