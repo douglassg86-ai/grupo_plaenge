@@ -37,7 +37,8 @@
   },
   "orbitale": {
     "82984": "available",
-    "82985": "sold"
+    "82985": "sold",
+    "82992": "sold"
   },
   "synthe": {},
   "trend_home": {
@@ -85,7 +86,8 @@
     "101473": "sold",
     "101486": "sold",
     "101492": "sold",
-    "101495": "available"
+    "101495": "sold",
+    "101496": "negotiation"
   },
   "yuna": {
     "103394": "sold",
