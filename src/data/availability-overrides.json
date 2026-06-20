@@ -100,5 +100,15 @@
     "37": "available",
     "67": "available",
     "222": "available"
+  },
+  "shift": {
+    "52": "sold",
+    "65": "sold",
+    "82": "sold",
+    "169": "sold",
+    "178": "sold",
+    "179": "available",
+    "180": "sold",
+    "181": "sold"
   }
 }
