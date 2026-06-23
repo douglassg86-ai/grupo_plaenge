@@ -61,9 +61,10 @@ const plantCategories = [
     label: 'Plantas',
     images: [
       { src: '/MOOD/plantas/IMG_9733.webp', alt: 'Implantação' },
-      { src: '/MOOD/plantas/IMG_9734.webp', alt: '1D - 41m²' },
-      { src: '/MOOD/plantas/IMG_9735.webp', alt: '2 Suítes - 65m²' },
       { src: '/MOOD/plantas/IMG_9736.webp', alt: 'Stúdio - 29m²' },
+      { src: '/MOOD/plantas/IMG_9734.webp', alt: '1D - 41m²' },
+      { src: '/MOOD/plantas/IMG_9735.webp', alt: '1 Suíte - 55m²' },
+      { src: '/MOOD/plantas/mood_65m2.png', alt: '2 Suítes - 65m²' },
     ],
   },
 ];
