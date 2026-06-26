@@ -87,11 +87,11 @@ const diferenciais = [
 ];
 
 const tipologias = [
-  { tipo: 'Studio', area: '29 m²', unidades: '108 unid.', finais: 'Finais 06–14' },
+  { tipo: 'Studio', area: '29 m²', unidades: '108 unid.', finais: 'Finais 06 a 14' },
   { tipo: 'Studio', area: '30 m²', unidades: '48 unid.', finais: 'Finais 01, 03, 15 e 16' },
-  { tipo: 'Studio+', area: '42 m²', unidades: '12 unid.', finais: 'Final 04' },
+  { tipo: '1D', area: '42 m²', unidades: '12 unid.', finais: 'Final 04' },
   { tipo: '1 Suíte', area: '56 m²', unidades: '12 unid.', finais: 'Final 02' },
-  { tipo: '1 Suíte+', area: '65 m²', unidades: '12 unid.', finais: 'Final 05' },
+  { tipo: '2 Suítes', area: '65 m²', unidades: '12 unid.', finais: 'Final 05' },
 ];
 
 

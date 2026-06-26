@@ -30,6 +30,13 @@ function formatCurrency(v: number) {
   return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 }
 
+function getFriendlyType(type: string, area: number) {
+  if (area < 31) return 'Studio';
+  if (area < 45) return '1D';
+  if (area < 60) return '1 Suíte';
+  return '2 Suítes';
+}
+
 // Group units by floor, sorted desc
 function buildGrid() {
   const floors = [...new Set(units.map(u => u.floor))].sort((a, b) => b - a);
@@ -122,7 +129,7 @@ export default function UnitGrid() {
               <Badge className={cn('border', statusBadge[selected.status])}>{statusLabel[selected.status]}</Badge>
               <div className="grid grid-cols-2 gap-2 pt-2">
                 {[
-                  { label: 'Tipologia', value: selected.type },
+                  { label: 'Tipologia', value: getFriendlyType(selected.type, selected.area) },
                   { label: 'Área Privativa', value: `${selected.area.toFixed(2)} m²` },
                   { label: 'Andar', value: `${selected.floor}º` },
                   { label: 'Valor', value: formatCurrency(selected.price) },
