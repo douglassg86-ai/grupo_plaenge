@@ -78,7 +78,7 @@ interface ProductLinksConfig {
 // Sempre importar e usar dentro do modal de cada unit-grid
 type PaymentStep = { label: string; pct: number; count: number }
 <PaymentBreakdown price={selected.price} plan={PAYMENT_PLAN} />
-// count > 1 → exibe "Nx de R$ X" | count = 1 → exibe "R$ X"
+// count > 1 → exibe "Nx de R$ X" | count = 1 → exibe "1x de R$ X"
 // Os valores são calculados: price * pct / count (sempre somam 100% do preço)
 ```
 
@@ -110,7 +110,7 @@ grafismo.webp                    ← padrão listrado decorativo
 
 ### Estrutura da página (padrão visual)
 ```
-<ProductHeader />   ← absoluto, z-20, logo + dropdown navegação
+<ProductHeader />   ← absoluto, z-[60], logo + dropdown navegação
 Hero (h-[70vh], imagem fill, gradiente bottom, logo produto + badge entrega + cidade embaixo)
 Container -mt-8, space-y-2:
   ├── Card chamada (bg-primary, texto central)
@@ -331,9 +331,9 @@ Produtos com 1 vídeo: card full-width. Produtos com 2 vídeos: `grid md:grid-co
 - **SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds` + `placeholder-images.json`. Condições de pagamento em `src/lib/payment-data.ts` (valores pré-calculados por unidade) + exibidas via tabela no `src/components/availability-grid.tsx` — fórmula: entrada 12,5% (5x), mensais 9% (30x), reforços 13% (3x), financiamento 65,5%. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`
 - **YUNA:** Vanguard · 14 andares · 6 prumadas · sem book PDF → book estava em pasta separada. **Atenção:** plantas das Unidades II (88,68 m²) e III (72,58 m²) estavam trocadas — corrigido em jun/2026. Os arquivos `04/06/07_VAN_PARECI_APTO_3_DORM` pertencem à Unidade II (88,68 m²) e `03_VAN_PARECI_APTO_2_DORM` à Unidade III (72,58 m²).
 - **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`; Nano usa prumada = últimos 2 dígitos do código (finais 01–23); Torre 2 não lançada; Office e Mall = informativos sem xlsx; Office plantas = apenas 294,88 m² e 498,95 m² (plantas menores removidas); implantações integradas ao card de disponibilidade (ao trocar Home↔Nano a implantação atualiza via `onTabChange`)
-- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, **penthouse apenas andares 18** (andar 17 = tipo padrão 176,89 m², sem rooftop); badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente; 14 imagens + 7 plantas WebP adicionadas em jun/2026
-- **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"
-- **VERDANT:** `setor` field — "Torre" e "Casas"
+- **SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto), andares 3–18, **penthouse apenas no 18º andar** (andar 17 = tipo padrão 176,89 m², sem rooftop); rodapé do unit-grid exibe "18º andar" (não "17–18"); badge "Consulte valores e disponibilidade com o seu Corretor / GP"; `synthe-data.ts` gerado manualmente; 14 imagens + 7 plantas WebP adicionadas em jun/2026
+- **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale"; botões do unit-grid exibem **código da unidade** (ex: `0501`), metragem aparece apenas no modal
+- **VERDANT:** `setor` field — "Torre" e "Casas"; possui **modo Apresentação** (`src/components/verdant/presentation-mode.tsx`) — 37 slides fullscreen seguindo a ordem do book; botão aparece no hero (somente para corretores, oculto em `isClientePage`)
 - **WAVE:** `src/components/wave/header.tsx` re-exporta `ProductHeader`; interface `Lot` (não `Unit`) com campos `block`, `number`; 4 status incluindo `opportunity`; modal do lote usa gestor do cookie para WhatsApp; usa `src/components/wave/materials.tsx` próprio (não `ProductLinks`) — inclui Site Oficial (`https://www.vanguard.com.br/porto-alegre/wave`) e botão "Link para Cliente" que copia `[origin]/wave/cliente`; rota `/wave/cliente` existe (`isSharePage=true`, noindex)
 - **MOOD:** 16 unidades por andar (prumadas 01-16); principal em junho, permuta (andares 3,7,10) em maio
 
@@ -355,6 +355,7 @@ Produtos com 1 vídeo: card full-width. Produtos com 2 vídeos: `grid md:grid-co
 - **Tradução automática do navegador:** `src/app/layout.tsx` usa `<html lang="pt-BR" translate="no">` + `<meta name="google" content="notranslate">` para impedir que Chrome/Edge traduzam a página e mastiguem nomes próprios de produtos (SHIFT→Mudança, TREND→Tendência, MOOD→Humor, SYNTHÈ→Sintético). **Nunca** voltar `lang` para `en`. (Mesmo fix aplicado no `gpi-tracker-app`.)
 - **CSS arbitrário Tailwind com %** (ex: `object-[center_30%]`) não gera CSS em produção — usar sempre `style={{ objectPosition: '...' }}` inline
 - **Header da home** (`SiteHeader`): altura fixada via `style={{ height: '44px' }}` inline para garantir renderização
+- **ProductHeader z-index:** header em `z-[60]`, backdrop do dropdown em `z-[55]`, menu em `z-[60]` — nunca usar `z-20` no header pois o `<section>` do conteúdo (também `z-20`) fica sobre o dropdown quando tem o mesmo z-index (elemento posterior no DOM vence)
 - **Logos na home:** Plaenge `h-10 md:h-12 w-auto`, Vanguard `h-7 md:h-8 w-auto`
 - **Hydration mismatch:** nunca usar `Math.random()` / `shuffle` no `useState` initializer de componentes com SSR — mover para `useEffect`
 - **Admin push rejected:** o admin commita o `availability-overrides.json` diretamente no GitHub; antes de qualquer push fazer `git pull --rebase` para incorporar esses commits
