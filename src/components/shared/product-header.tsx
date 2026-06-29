@@ -31,7 +31,7 @@ export function ProductHeader({ hideNav = false }: { hideNav?: boolean }) {
   );
 
   return (
-    <header className="absolute top-0 left-0 w-full z-20 py-4">
+    <header className="absolute top-0 left-0 w-full z-[60] py-4">
       <div className="container flex items-center justify-between">
         {/* Logo — sem link na visão do cliente para não expor outros empreendimentos */}
         {hideNav ? logo : <Link href="/">{logo}</Link>}
@@ -51,9 +51,9 @@ export function ProductHeader({ hideNav = false }: { hideNav?: boolean }) {
           {open && (
             <>
               {/* Backdrop */}
-              <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+              <div className="fixed inset-0 z-[55]" onClick={() => setOpen(false)} />
               {/* Menu */}
-              <div className="absolute right-0 mt-2 w-64 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 overflow-hidden z-20">
+              <div className="absolute right-0 mt-2 w-64 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 overflow-hidden z-[60]">
                 <Link
                   href="/"
                   onClick={() => setOpen(false)}

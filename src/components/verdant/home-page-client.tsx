@@ -8,6 +8,8 @@ import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
+import { VerdantPresentationMode, PRESENTATION_TOTAL } from '@/components/verdant/presentation-mode';
+import { Presentation } from 'lucide-react';
 
 const LINKS_CONFIG = {
   tabela: 'https://drive.google.com/open?id=1CG5_uGw-yuIlvkW7Bo7BedIs0TdSYlKo&usp=drive_fs',
@@ -220,8 +222,18 @@ function Plants({ categories }: { categories: typeof plantCategories }) {
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function VerdantHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
+  const [presentationSlide, setPresentationSlide] = useState<number | null>(null);
+
   return (
     <div className="bg-background min-h-screen">
+      {presentationSlide !== null && (
+        <VerdantPresentationMode
+          currentSlide={presentationSlide}
+          onClose={() => setPresentationSlide(null)}
+          onPrev={() => setPresentationSlide(s => Math.max(0, (s ?? 0) - 1))}
+          onNext={() => setPresentationSlide(s => Math.min(PRESENTATION_TOTAL - 1, (s ?? 0) + 1))}
+        />
+      )}
       <ProductHeader hideNav={isClientePage} />
 
       {/* HERO */}
@@ -232,7 +244,18 @@ export default function VerdantHomePageClient({ isClientePage = false }: { isCli
         </div>
         <div className="relative z-10 container">
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-white/70 mb-3">Eça de Queiroz · Porto Alegre</p>
-          <span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold tracking-wide backdrop-blur-sm">Previsão de entrega: Abril 2027</span>
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold tracking-wide backdrop-blur-sm">Previsão de entrega: Abril 2027</span>
+            {!isClientePage && (
+              <button
+                onClick={() => setPresentationSlide(0)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold tracking-wide hover:bg-primary/90 transition-colors"
+              >
+                <Presentation className="w-3.5 h-3.5" />
+                Apresentação
+              </button>
+            )}
+          </div>
           <Image src={`${P}/logo_verdant.png`} alt="VERDANT" width={220} height={80} className="brightness-0 invert mb-4" />
           <p className="text-white/80 text-base max-w-md leading-relaxed">
             Descubra um pouco mais da nossa natureza. Casas, duplex e apartamentos com natureza integrada ao cotidiano.

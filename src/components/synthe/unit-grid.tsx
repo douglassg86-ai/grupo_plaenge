@@ -71,7 +71,7 @@ export default function UnitGrid() {
       </div>
 
       <p className="text-xs text-muted-foreground italic">
-        Unidades em destaque (andares 17–18): Penthouse com Rooftop Privativo.
+        Unidades em destaque (18º andar): Penthouse com Rooftop Privativo.
       </p>
 
       {/* Modal */}

@@ -110,7 +110,7 @@ export default function UnitGrid() {
                           statusCell[unit.status]
                         )}
                       >
-                        {unit.area.toFixed(0)}m²
+                        {unit.code}
                       </button>
                     </td>
                   );

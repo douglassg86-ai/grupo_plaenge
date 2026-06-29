@@ -20,7 +20,7 @@ export function PaymentBreakdown({ price, plan }: { price: number; plan: Payment
             <div key={step.label} className="flex justify-between items-baseline text-sm">
               <span className="text-muted-foreground">{step.label}</span>
               <span className="font-medium tabular-nums">
-                {step.count > 1 ? `${step.count}x de ${fmt(each)}` : fmt(total)}
+                {step.count > 1 ? `${step.count}x de ${fmt(each)}` : `1x de ${fmt(total)}`}
               </span>
             </div>
           )
