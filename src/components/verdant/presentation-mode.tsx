@@ -40,15 +40,15 @@ const SLIDES: Slide[] = [
     caption: 'Inserção Urbana', subcaption: 'Rua Eça de Queiroz, 215 · Bairro Rio Branco · Porto Alegre/RS', position: 'center 50%' },
 
   /* ══ CAP 02 — IMPLANTAÇÃO & LAZER ════════════════════════ */
-  { kind: 'chapter', num: '02', title: 'Implantação\ne Lazer', subtitle: '17 espaços de convívio e bem-estar' },
+  { kind: 'chapter', num: '02', title: 'Implantação\ne Lazer', subtitle: 'Áreas de convívio e bem-estar' },
 
   /* Listagem das áreas */
   { kind: 'text',
     super: 'ÁREAS DE LAZER — VERDANT',
     title: 'Espaços pensados\npara cada\nmomento.',
     cols: [
-      [ 'Piscina Adulto', 'Piscina Infantil', 'Deck Molhado', 'Pet Place', 'Playground com Casinha na Árvore', 'Hall Social', 'Salão de Festas', 'Espaço Gourmet' ],
-      [ 'Gymnasium Plaenge', 'Espaço Yoga', 'Sauna', 'Espaço Kids', 'Office Box', 'Sunset View — Rooftop Condominial', 'Brinquedoteca', 'Lounge de Espera' ],
+      [ 'Piscina Adulto', 'Piscina Infantil', 'Deck Molhado', 'Pet Place', 'Playground com Casinha na Árvore', 'Hall Social' ],
+      [ 'Salão de Festas', 'Gymnasium Plaenge', 'Terraço de Convivência', 'Sauna', 'Espaço Kids', 'Sala de Reuniões', 'Sunset View — Rooftop Condominial' ],
     ] },
 
   /* Fachadas e acesso */
@@ -77,7 +77,7 @@ const SLIDES: Slide[] = [
   { kind: 'image', src: `${P}/©VISTA_17_INT_SALÃO_DE_FESTAS_FINAL_.webp`,
     caption: 'Salão de Festas', position: 'center 35%' },
   { kind: 'image', src: `${P}/©VISTA_15_INT_YOGA_FINAL.webp`,
-    caption: 'Espaço Yoga', position: 'center 40%' },
+    caption: 'Terraço de Convivência', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_16_INT_FITNESS_FINAL.webp`,
     caption: 'Gymnasium Plaenge', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_33_INT_SAUNA_FINAL.webp`,
@@ -85,7 +85,7 @@ const SLIDES: Slide[] = [
   { kind: 'image', src: `${P}/©VISTA_35_INT_ESPAÇO_KIDS_02_FINAL.webp`,
     caption: 'Espaço Kids', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_23_INT_SALA_DE_REUNIÕES_FINAL.webp`,
-    caption: 'Office Box', position: 'center 35%' },
+    caption: 'Sala de Reuniões', position: 'center 35%' },
 
   /* Vista aéreas + implantação do térreo (áreas de lazer) */
   { kind: 'image', src: `${P}/©VISTA_11_EXT_AÉREA_ÁREA_CONDOMINIAL_FINAL.webp`,
@@ -108,7 +108,7 @@ const SLIDES: Slide[] = [
   /* Implantação terraço/cobertura */
   { kind: 'image', src: `${PL}/©VISTA_04_PLB_COBERTURA_FINAL.webp`,
     caption: 'Implantação — Terraço Condominial',
-    subcaption: 'Sunset View Rooftop · Área de Convivência · Churrasqueira · Lounge',
+    subcaption: 'Sunset View Rooftop',
     contain: true, compass: true },
 
   /* Implantação geral */
@@ -203,7 +203,7 @@ const SLIDES: Slide[] = [
       'Total de Unidades — 54 unidades (50 na Torre + 4 Casas)',
       'Tipologias — Tipo · Garden · Duplex · Cobertura · Casa com Pátio',
       'Áreas Privativas — 145 m² a 370 m²',
-      'Áreas de Lazer — 17 espaços de convívio e bem-estar',
+      'Áreas de Lazer — Piscina · Deck · Pet Place · Playground · Hall · Salão de Festas · Gymnasium · Terraço de Convivência · Sauna · Espaço Kids · Sala de Reuniões · Rooftop',
       'Previsão de Entrega — Abril de 2027',
     ] },
 
@@ -221,29 +221,28 @@ interface Props {
 }
 
 /* ─── Compass Rose SVG ──────────────────────────────────── */
+/* Norte real do Verdant aponta ~45° para o canto superior direito  */
+/* conforme marcação na implantação geral (círculo com traço).       */
 function CompassRose() {
   return (
     <div className="absolute bottom-20 right-8 z-20 select-none" style={{ width: 64, height: 64 }}>
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.6))' }}>
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+        style={{ filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.6))' }}>
         {/* Círculo base */}
         <circle cx="32" cy="32" r="30" fill="rgba(15,26,15,0.72)" stroke="rgba(184,148,90,0.6)" strokeWidth="0.8" />
-        {/* Pontos cardeais — linhas */}
-        <line x1="32" y1="6"  x2="32" y2="58" stroke="rgba(255,255,255,0.18)" strokeWidth="0.6" />
-        <line x1="6"  y1="32" x2="58" y2="32" stroke="rgba(255,255,255,0.18)" strokeWidth="0.6" />
-        {/* Seta Norte — preenchida ouro */}
-        <polygon points="32,7 28,32 32,28 36,32" fill="#B8945A" />
-        {/* Seta Sul — branca suave */}
-        <polygon points="32,57 28,32 32,36 36,32" fill="rgba(255,255,255,0.35)" />
-        {/* Losango central */}
-        <circle cx="32" cy="32" r="3" fill="#B8945A" />
-        {/* N */}
-        <text x="32" y="5" textAnchor="middle" fill="#B8945A" fontSize="7" fontFamily="'Jost',sans-serif" fontWeight="300" letterSpacing="0.05em">N</text>
-        {/* S */}
-        <text x="32" y="62" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="'Jost',sans-serif" fontWeight="300">S</text>
-        {/* L */}
-        <text x="60" y="34" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="'Jost',sans-serif" fontWeight="300">L</text>
-        {/* O */}
-        <text x="4" y="34" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="'Jost',sans-serif" fontWeight="300">O</text>
+        {/* Cruz de referência */}
+        <line x1="32" y1="6"  x2="32" y2="58" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
+        <line x1="6"  y1="32" x2="58" y2="32" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
+        {/* Agulha rotacionada 45° horário — norte = superior direito */}
+        <g transform="rotate(45 32 32)">
+          <polygon points="32,7 28,32 32,28 36,32" fill="#B8945A" />
+          <polygon points="32,57 28,32 32,36 36,32" fill="rgba(255,255,255,0.28)" />
+        </g>
+        {/* Ponto central */}
+        <circle cx="32" cy="32" r="2.5" fill="#B8945A" />
+        {/* N — segue a ponta da agulha (canto superior direito, ~45°) */}
+        <text x="50" y="16" textAnchor="middle" fill="#B8945A" fontSize="7"
+          fontFamily="'Jost',sans-serif" fontWeight="400" letterSpacing="0.05em">N</text>
       </svg>
     </div>
   );
