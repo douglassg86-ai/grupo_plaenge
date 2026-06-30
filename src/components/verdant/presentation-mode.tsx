@@ -47,8 +47,8 @@ const SLIDES: Slide[] = [
     super: 'ÁREAS DE LAZER — VERDANT',
     title: 'Espaços pensados\npara cada\nmomento.',
     cols: [
-      [ 'Piscina Adulto', 'Piscina Infantil', 'Deck Molhado', 'Pet Place', 'Playground com Casinha na Árvore', 'Hall Social' ],
-      [ 'Salão de Festas', 'Gymnasium Plaenge', 'Terraço de Convivência', 'Sauna', 'Espaço Kids', 'Sala de Reuniões', 'Sunset View — Rooftop Condominial' ],
+      [ 'Playground com Casinha na Árvore', 'Pet Place', 'Piscina Adulto e Infantil', 'Piscina Coberta com Raia de 20m', 'Deck Molhado', 'Quadra Poliesportiva' ],
+      [ 'Gymnasium Plaenge', 'Sauna', 'Salão de Festas', 'Espaço Kids', 'Office Box', 'Wine Sensations by Grand Cru', 'Sunset View' ],
     ] },
 
   /* Fachadas e acesso */
@@ -77,7 +77,7 @@ const SLIDES: Slide[] = [
   { kind: 'image', src: `${P}/©VISTA_17_INT_SALÃO_DE_FESTAS_FINAL_.webp`,
     caption: 'Salão de Festas', position: 'center 35%' },
   { kind: 'image', src: `${P}/©VISTA_15_INT_YOGA_FINAL.webp`,
-    caption: 'Terraço de Convivência', position: 'center 40%' },
+    caption: 'Wine Sensations by Grand Cru', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_16_INT_FITNESS_FINAL.webp`,
     caption: 'Gymnasium Plaenge', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_33_INT_SAUNA_FINAL.webp`,
@@ -85,7 +85,7 @@ const SLIDES: Slide[] = [
   { kind: 'image', src: `${P}/©VISTA_35_INT_ESPAÇO_KIDS_02_FINAL.webp`,
     caption: 'Espaço Kids', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_23_INT_SALA_DE_REUNIÕES_FINAL.webp`,
-    caption: 'Sala de Reuniões', position: 'center 35%' },
+    caption: 'Office Box', position: 'center 35%' },
 
   /* Vista aéreas + implantação do térreo (áreas de lazer) */
   { kind: 'image', src: `${P}/©VISTA_11_EXT_AÉREA_ÁREA_CONDOMINIAL_FINAL.webp`,
@@ -197,13 +197,13 @@ const SLIDES: Slide[] = [
     super: 'VERDANT · FICHA TÉCNICA',
     title: 'Um endereço\nque define\num novo padrão.',
     items: [
-      'Localização — Rua Eça de Queiroz, 215 · Bairro Rio Branco · Porto Alegre/RS',
-      'Número de Registro — RI n.º 215.432 · Cartório de Registro de Imóveis',
+      'Localização — Rua Eça de Queiroz, 215 · Porto Alegre/RS',
+      'Registro de Incorporação — R1 da Matrícula 167.625 · 2º Ofício de Registro de Imóveis',
       'Área do Terreno — 4.178,11 m²',
       'Total de Unidades — 54 unidades (50 na Torre + 4 Casas)',
-      'Tipologias — Tipo · Garden · Duplex · Cobertura · Casa com Pátio',
-      'Áreas Privativas — 145 m² a 370 m²',
-      'Áreas de Lazer — Piscina · Deck · Pet Place · Playground · Hall · Salão de Festas · Gymnasium · Terraço de Convivência · Sauna · Espaço Kids · Sala de Reuniões · Rooftop',
+      'Tipologias — Apartamentos · Gardens · Duplex · Coberturas · Casas com Pátio',
+      'Áreas Privativas — 145,08 m² a 369,73 m²',
+      'Áreas de Lazer — Playground · Pet Place · Piscinas · Quadra · Gymnasium · Sauna · Salão de Festas · Espaço Kids · Office Box · Wine Sensations · Sunset View',
       'Previsão de Entrega — Abril de 2027',
     ] },
 
