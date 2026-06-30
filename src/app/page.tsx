@@ -78,6 +78,7 @@ export default function Home() {
                                 alt={projectHero.description}
                                 fill
                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                style={{ objectPosition: (projectHero as { imagePosition?: string }).imagePosition || 'center 50%' }}
                                 data-ai-hint={projectHero.imageHint}
                               />
                             )}

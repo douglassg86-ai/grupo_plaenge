@@ -21,7 +21,7 @@
     {
       "id": "orbitale-hero",
       "description": "Fachada ORBITALE Petrópolis",
-      "imageUrl": "/ORBITALE/01_FACHADA-01.webp",
+      "imageUrl": "/ORBITALE/01_FACHADA-02.webp",
       "imageHint": "building facade"
     },
     {
@@ -363,7 +363,7 @@
     {
       "id": "yuna-hero",
       "description": "YUNA Jardim Botânico",
-      "imageUrl": "/YUNA/IMG-20240704-WA0031.webp",
+      "imageUrl": "/YUNA/IMG-20240704-WA0032.webp",
       "imageHint": "yuna jardim botanico"
     },
     {
@@ -429,7 +429,7 @@
     {
       "id": "shift-hero",
       "description": "SHIFT - LIFE ON DEMAND. Modern building at an urban corner.",
-      "imageUrl": "/SHIFT/painelGRANDE_3,5x1,8m_01.jpg",
+      "imageUrl": "/SHIFT/kota_tgd_sil_fachada_4k.webp",
       "imageHint": "urban architecture"
     },
     {
@@ -616,7 +616,8 @@
       "id": "wave-hero",
       "description": "Vista do resort ao entardecer",
       "imageUrl": "/WAVE/wave_pordosol.jpg",
-      "imageHint": "resort sunset"
+      "imageHint": "resort sunset",
+      "imagePosition": "center 75%"
     }
   ]
 }
