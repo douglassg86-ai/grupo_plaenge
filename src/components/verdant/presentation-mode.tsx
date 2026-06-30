@@ -11,6 +11,7 @@ const PI = `${P}/implantacoes`;
 /* ─── Tipagem ───────────────────────────────────────────── */
 type StatItem = { value: string; label: string };
 type Slide =
+  | { kind: 'cover' }
   | { kind: 'image';   src: string; caption?: string; subcaption?: string; position?: string; contain?: boolean; compass?: boolean }
   | { kind: 'chapter'; num: string; title: string; subtitle?: string }
   | { kind: 'text';    super?: string; title: string; body?: string; items?: string[]; cols?: [string[], string[]]; bg?: string; stats?: StatItem[] };
@@ -18,7 +19,10 @@ type Slide =
 /* ─── Roteiro ───────────────────────────────────────────── */
 const SLIDES: Slide[] = [
 
-  /* ══ CAPA ════════════════════════════════════════════════ */
+  /* ══ CAPA COM LOGOS ══════════════════════════════════════ */
+  { kind: 'cover' },
+
+  /* ══ FACHADA ═════════════════════════════════════════════ */
   { kind: 'image', src: `${P}/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp`,
     caption: 'VERDANT', subcaption: 'Plaenge · Rua Eça de Queiroz, 215 · Porto Alegre', position: 'center 40%' },
 
@@ -338,6 +342,7 @@ export function VerdantPresentationMode({ currentSlide, onClose, onPrev, onNext 
 
       {/* ── Slide ───────────────────────────────────────── */}
       <div className="absolute inset-0">
+        {slide.kind === 'cover'   && <CoverSlide   key={animKey} />}
         {slide.kind === 'image'   && <ImageSlide   key={animKey} slide={slide} />}
         {slide.kind === 'chapter' && <ChapterSlide key={animKey} slide={slide} />}
         {slide.kind === 'text'    && <TextSlide    key={animKey} slide={slide} />}
@@ -384,6 +389,74 @@ export function VerdantPresentationMode({ currentSlide, onClose, onPrev, onNext 
             />
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+/* ─── CoverSlide ────────────────────────────────────────── */
+function CoverSlide() {
+  return (
+    <div className="flex flex-col items-center justify-center h-full" style={{ background: '#0F1A0F' }}>
+      {/* Fachada suavíssima ao fundo */}
+      <Image
+        src={`${P}/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp`}
+        alt=""
+        fill
+        className="object-cover"
+        style={{ objectPosition: 'center 35%', opacity: 0.08 }}
+        sizes="100vw"
+        priority
+      />
+      {/* Grain */}
+      <div className="absolute inset-0 opacity-20" style={{
+        backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")',
+        backgroundSize: '200px',
+      }} />
+
+      <div className="relative z-10 flex flex-col items-center gap-10">
+        {/* Logo Verdant */}
+        <div className="vd-anim-1">
+          <Image
+            src={`${P}/logo_verdant.png`}
+            alt="VERDANT"
+            width={480}
+            height={80}
+            className="object-contain"
+            style={{ filter: 'brightness(1.15) sepia(0.3) saturate(1.4)' }}
+            priority
+          />
+        </div>
+
+        {/* Linha divisória ouro */}
+        <div className="vd-anim-2 flex items-center gap-4" style={{ width: '320px' }}>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(184,148,90,0.4)' }} />
+          <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#B8945A' }} />
+          <div style={{ flex: 1, height: '1px', background: 'rgba(184,148,90,0.4)' }} />
+        </div>
+
+        {/* Logo Plaenge */}
+        <div className="vd-anim-3">
+          <Image
+            src="/INSTITUCIONAL/logo_plaenge_escuro.webp"
+            alt="Plaenge"
+            width={160}
+            height={36}
+            className="object-contain"
+            style={{ filter: 'invert(1) brightness(0.75)' }}
+            priority
+          />
+        </div>
+
+        {/* Endereço */}
+        <p className="vd-sans vd-anim-3 font-light" style={{
+          color: 'rgba(255,255,255,0.25)',
+          fontSize: '0.65rem',
+          letterSpacing: '0.25em',
+          marginTop: '0.5rem',
+        }}>
+          RUA EÇA DE QUEIROZ, 215 · PORTO ALEGRE
+        </p>
       </div>
     </div>
   );
