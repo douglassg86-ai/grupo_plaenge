@@ -443,7 +443,7 @@ function CoverSlide() {
             width={160}
             height={36}
             className="object-contain"
-            style={{ filter: 'invert(1) brightness(0.75)' }}
+            style={{ opacity: 0.75 }}
             priority
           />
         </div>
