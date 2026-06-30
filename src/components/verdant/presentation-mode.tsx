@@ -9,9 +9,9 @@ const PL = `${P}/plantas`;
 
 /* ─── Tipagem ──────────────────────────────────────────── */
 type Slide =
-  | { kind: 'image';   src: string; caption?: string; subcaption?: string; position?: string }
+  | { kind: 'image';   src: string; caption?: string; subcaption?: string; position?: string; contain?: boolean }
   | { kind: 'chapter'; num: string; title: string; subtitle?: string }
-  | { kind: 'text';    super?: string; title: string; body?: string; items?: string[]; cols?: [string[], string[]] };
+  | { kind: 'text';    super?: string; title: string; body?: string; items?: string[]; cols?: [string[], string[]]; bg?: string };
 
 /* ─── Roteiro — 46 slides ───────────────────────────────── */
 const SLIDES: Slide[] = [
@@ -26,12 +26,14 @@ const SLIDES: Slide[] = [
   { kind: 'text',
     super: 'PLAENGE — 50 ANOS',
     title: 'Criamos muitas\nraízes ao longo\ndos anos.',
-    body: 'Líder no Sul do Brasil, referência no mercado imobiliário de alto padrão em seis estados e no Chile. Há mais de 50 anos, a Plaenge une tradição e inovação para transformar cada empreendimento em um lugar onde os sonhos ganham vida.' },
+    body: 'Líder no Sul do Brasil, referência no mercado imobiliário de alto padrão em seis estados e no Chile. Há mais de 50 anos, a Plaenge une tradição e inovação para transformar cada empreendimento em um lugar onde os sonhos ganham vida.',
+    bg: `${P}/©VISTA_11_EXT_AÉREA_ÁREA_CONDOMINIAL_FINAL.webp` },
 
   { kind: 'text',
     super: 'VERDANT',
     title: 'Natureza\nintegrada\nà vida.',
-    body: '54 unidades com tipologias inéditas em Porto Alegre — apartamentos tipo, gardens, duplex, coberturas e casas com pátio privativo. Um empreendimento concebido para quem vive a natureza como filosofia.' },
+    body: '54 unidades com tipologias inéditas em Porto Alegre — apartamentos tipo, gardens, duplex, coberturas e casas com pátio privativo. Um empreendimento concebido para quem vive a natureza como filosofia.',
+    bg: `${P}/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp` },
 
   { kind: 'image', src: `${P}/©VISTA_13_EXT_INSERCAO_FINAL.webp`,
     caption: 'Inserção Urbana', subcaption: 'Rua Eça de Queiroz, 215 · Bairro Rio Branco · Porto Alegre', position: 'center 50%' },
@@ -124,25 +126,25 @@ const SLIDES: Slide[] = [
   { kind: 'chapter', num: '04', title: 'Plantas', subtitle: 'Implantação · Pavimento Tipo · Unidades' },
 
   { kind: 'image', src: `${PL}/©VISTA_01_PLB_TÉRREO_FINAL.webp`,
-    caption: 'Planta Baixa — Térreo', position: 'center 50%' },
+    caption: 'Planta Baixa — Térreo', contain: true },
 
   { kind: 'image', src: `${PL}/©VISTA_03_PLB_PAV_TIPO_FINAL.webp`,
-    caption: 'Planta Baixa — Pavimento Tipo', position: 'center 50%' },
+    caption: 'Planta Baixa — Pavimento Tipo', contain: true },
 
   { kind: 'image', src: `${PL}/©VISTA_05_PLB_UNIDADE_APTO_TIPO_01_FINAL.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Apartamento Tipo 01', position: 'center 50%' },
+    caption: 'Planta da Unidade', subcaption: 'Apartamento Tipo 01', contain: true },
 
   { kind: 'image', src: `${PL}/©VISTA_06_PLB_UNIDADE_APTO_TIPO_02_FINAL.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Apartamento Tipo 02', position: 'center 50%' },
+    caption: 'Planta da Unidade', subcaption: 'Apartamento Tipo 02', contain: true },
 
   { kind: 'image', src: `${PL}/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Duplex — Pavimento Inferior', position: 'center 50%' },
+    caption: 'Planta da Unidade', subcaption: 'Duplex — Pavimento Inferior', contain: true },
 
   { kind: 'image', src: `${PL}/©VISTA_10_PLB_UNIDADE_APTO_COBERTURA_INFERIOR_FINAL_sem banheira.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Cobertura — Pavimento Inferior', position: 'center 50%' },
+    caption: 'Planta da Unidade', subcaption: 'Cobertura — Pavimento Inferior', contain: true },
 
   { kind: 'image', src: `${PL}/©VISTA_12_PLB_UNIDADE_RESIDÊNCIA_UNIFAMILIAR_TÉRREO_FINAL.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Residência Unifamiliar — Térreo', position: 'center 50%' },
+    caption: 'Planta da Unidade', subcaption: 'Residência Unifamiliar — Térreo', contain: true },
 
   /* ── CAP 5: DIFERENCIAIS (5 slides) ───────────────────── */
   { kind: 'chapter', num: '05', title: 'Diferenciais', subtitle: 'Acabamento · Construtivos' },
@@ -381,24 +383,37 @@ export function VerdantPresentationMode({ currentSlide, onClose, onPrev, onNext 
 /* ─── Sub-componentes de slide ──────────────────────────── */
 
 function ImageSlide({ slide }: { slide: Extract<Slide, { kind: 'image' }> }) {
+  const isContain = slide.contain;
   return (
     <>
+      {/* Fundo verde para slides de planta (object-contain) */}
+      {isContain && (
+        <div className="absolute inset-0" style={{ background: '#0F1A0F' }} />
+      )}
       <Image
         src={slide.src}
         alt={slide.caption ?? 'VERDANT'}
         fill
-        className="object-cover"
-        style={{ objectPosition: slide.position ?? 'center 40%' }}
+        className={isContain ? 'object-contain' : 'object-cover'}
+        style={!isContain ? { objectPosition: slide.position ?? 'center 40%' } : { padding: '60px 80px 80px' }}
         sizes="100vw"
         priority
       />
-      {/* Gradiente duplo — topo escuro sutil + base forte */}
-      <div className="absolute inset-0" style={{
-        background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.75) 100%)'
-      }} />
+      {/* Gradiente base (só em cover) */}
+      {!isContain && (
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.75) 100%)'
+        }} />
+      )}
+      {/* Gradiente inferior suave para plantas (legibilidade do caption) */}
+      {isContain && (
+        <div className="absolute inset-x-0 bottom-0" style={{
+          height: '140px',
+          background: 'linear-gradient(to top, rgba(15,26,15,0.95) 0%, transparent 100%)'
+        }} />
+      )}
       {(slide.caption || slide.subcaption) && (
         <div className="vd-caption-anim absolute bottom-12 left-12 right-12">
-          {/* Linha ouro decorativa */}
           <div className="mb-4" style={{ width: '40px', height: '1px', background: '#B8945A' }} />
           {slide.caption && (
             <p className="vd-serif text-white font-light leading-none mb-2" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
@@ -450,7 +465,23 @@ function TextSlide({ slide }: { slide: Extract<Slide, { kind: 'text' }> }) {
   const hasItems = slide.items && slide.items.length > 0;
 
   return (
-    <div className="flex flex-col justify-center h-full px-16 md:px-24" style={{ background: '#0A0A08' }}>
+    <div className="flex flex-col justify-center h-full px-16 md:px-24" style={{ background: '#0F1A0F' }}>
+      {/* Imagem de apoio de fundo (conceito) */}
+      {slide.bg && (
+        <>
+          <Image
+            src={slide.bg}
+            alt=""
+            fill
+            className="object-cover"
+            style={{ objectPosition: 'center 40%' }}
+            sizes="100vw"
+            priority
+          />
+          {/* Overlay verde escuro intenso — imagem como textura, não destaque */}
+          <div className="absolute inset-0" style={{ background: 'rgba(15,26,15,0.82)' }} />
+        </>
+      )}
       {/* Grain sutil */}
       <div className="absolute inset-0 opacity-10" style={{
         backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")',
