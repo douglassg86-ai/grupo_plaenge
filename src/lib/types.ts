@@ -49,4 +49,5 @@ export type Project = {
   };
   contactButtonText?: string;
   contactButtonLink?: string;
+  deliveryLabel?: string;
 };

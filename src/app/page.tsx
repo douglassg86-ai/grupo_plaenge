@@ -83,6 +83,25 @@ export default function Home() {
                               />
                             )}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                            {project.deliveryLabel && (
+                              <div className="absolute top-0 left-0 right-0">
+                                <div
+                                  className="w-full py-1.5 text-center text-xs font-semibold tracking-widest uppercase"
+                                  style={{
+                                    background: project.deliveryLabel.startsWith('Pronto')
+                                      ? 'rgba(34,197,94,0.85)'
+                                      : project.deliveryLabel === 'Pré-lançamento'
+                                      ? 'rgba(234,179,8,0.85)'
+                                      : 'rgba(0,0,0,0.55)',
+                                    backdropFilter: 'blur(4px)',
+                                    color: '#fff',
+                                    letterSpacing: '0.12em',
+                                  }}
+                                >
+                                  {project.deliveryLabel}
+                                </div>
+                              </div>
+                            )}
                             <div className="absolute bottom-0 left-0 p-6 text-white">
                               <Badge variant="secondary" className="mb-2 bg-white/20 text-white backdrop-blur-sm border-0">{project.brand}</Badge>
                               <h4 className="font-headline text-2xl font-bold">{project.name}</h4>

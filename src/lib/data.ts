@@ -19,6 +19,7 @@ export const projects: Project[] = [
     name: 'ORBITALE',
     brand: 'Plaenge',
     slug: 'orbitale',
+    deliveryLabel: 'Pronto para morar',
     description:
       'Um marco arquitetônico que redefine o horizonte da cidade. ORBITALE combina design futurista com conforto e sofisticação, oferecendo uma experiência de vida única e vistas panorâmicas espetaculares.',
     heroImageId: 'orbitale-hero',
@@ -41,6 +42,7 @@ export const projects: Project[] = [
     name: 'EDITION MOINHOS',
     brand: 'Plaenge',
     slug: 'edition',
+    deliveryLabel: 'Entrega Jul/2028',
     description:
       'O charme do clássico encontra a funcionalidade do moderno. Localizado no coração do bairro Moinhos, o EDITION oferece exclusividade e elegância em cada detalhe, próximo a tudo que você precisa.',
     heroImageId: 'em-hero',
@@ -72,6 +74,7 @@ export const projects: Project[] = [
     name: 'VERDANT',
     brand: 'Plaenge',
     slug: 'verdant',
+    deliveryLabel: 'Entrega Abr/2027',
     description:
       'Um refúgio verde em meio à cidade. O VERDANT integra natureza e arquitetura de forma harmoniosa, com jardins verticais e espaços que promovem o bem-estar e a conexão com o meio ambiente.',
     heroImageId: 'verdant-hero',
@@ -93,6 +96,7 @@ export const projects: Project[] = [
     name: 'MOOD CENTRAL PARQUE',
     brand: 'Vanguard',
     slug: 'mood',
+    deliveryLabel: 'Pronto para morar',
     description:
       'Vibrante, conectado e cheio de vida. O MOOD está localizado ao lado do Central Parque, ideal para quem busca um estilo de vida dinâmico, com espaços criativos e apartamentos inteligentes.',
     heroImageId: 'mood-hero-real',
@@ -114,6 +118,7 @@ export const projects: Project[] = [
     name: 'YUNA JARDIM BOTÂNICO',
     brand: 'Vanguard',
     slug: 'yuna',
+    deliveryLabel: 'Entrega Nov/2027',
     description:
       'Equilíbrio e tranquilidade ao lado do Jardim Botânico. O YUNA foi pensado para quem valoriza a paz e a natureza, oferecendo um ambiente sereno e acolhedor para recarregar as energias.',
     heroImageId: 'yuna-hero',
@@ -134,6 +139,7 @@ export const projects: Project[] = [
     name: 'TREND DOWNTOWN',
     brand: 'Vanguard',
     slug: 'trend',
+    deliveryLabel: 'Em breve',
     description:
       'O pulso da cidade ao seu alcance. Com design arrojado e localização estratégica no centro, o TREND é perfeito para quem tem uma vida urbana agitada e não abre mão de praticidade e estilo.',
     heroImageId: 'trend-hero',
@@ -155,6 +161,7 @@ export const projects: Project[] = [
     name: 'SHIFT',
     brand: 'Vanguard',
     slug: 'shift',
+    deliveryLabel: 'Entrega Abr/2029',
     description:
       'O endereço mais cobiçado de Porto Alegre. Localização absolutamente privilegiada na esquina da Rua Silva Jardim com a Rua 24 de Outubro. Morar no Shift é desfrutar da vibração urbana do Moinhos de Vento, um novo projeto VANGUARD | TGD. O entorno oferece referências gastronômicas como Roister e Leiteria, além do lazer no Parcão. O empreendimento conta com 1 Torre e 184 unidades.',
     heroImageId: 'shift-hero',
@@ -173,6 +180,7 @@ export const projects: Project[] = [
     name: 'SYNTHÈ',
     brand: 'Plaenge',
     slug: 'synthe',
+    deliveryLabel: 'Pré-lançamento',
     description: 'A síntese do equilíbrio. 32 unidades exclusivas de 172 m² a 298 m² em Petrópolis, Porto Alegre. Pré-lançamento.',
     heroImageId: 'synthe-hero',
     galleryImageIds: [],
@@ -189,6 +197,7 @@ export const projects: Project[] = [
     name: 'WAVE HOME RESORT',
     brand: 'Vanguard',
     slug: 'wave',
+    deliveryLabel: 'Pronto para construir',
     description: 'Seu refúgio particular em Xangri-lá.',
     heroImageId: 'wave-hero',
     galleryImageIds: [],
