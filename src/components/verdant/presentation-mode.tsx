@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -96,9 +96,29 @@ interface Props {
 
 export function VerdantPresentationMode({ currentSlide, onClose, onPrev, onNext }: Props) {
   const slide = SLIDES[currentSlide];
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Entra em fullscreen real ao montar
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.requestFullscreen?.().catch(() => {});
+    return () => {
+      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
+    };
+  }, []);
+
+  // Fecha ao sair do fullscreen com ESC do browser
+  useEffect(() => {
+    const handler = () => {
+      if (!document.fullscreenElement) onClose();
+    };
+    document.addEventListener('fullscreenchange', handler);
+    return () => document.removeEventListener('fullscreenchange', handler);
+  }, [onClose]);
 
   const handleKey = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') onClose();
+    if (e.key === 'Escape') { document.exitFullscreen?.().catch(() => {}); onClose(); }
     if (e.key === 'ArrowRight' || e.key === ' ') onNext();
     if (e.key === 'ArrowLeft') onPrev();
   }, [onClose, onNext, onPrev]);
@@ -109,7 +129,7 @@ export function VerdantPresentationMode({ currentSlide, onClose, onPrev, onNext 
   }, [handleKey]);
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black flex flex-col select-none">
+    <div ref={containerRef} className="fixed inset-0 z-[200] bg-black flex flex-col select-none">
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 py-4">
         <span className="text-white/50 text-sm font-medium tracking-widest uppercase">
@@ -120,7 +140,7 @@ export function VerdantPresentationMode({ currentSlide, onClose, onPrev, onNext 
             {currentSlide + 1} / {SLIDES.length}
           </span>
           <button
-            onClick={onClose}
+            onClick={() => { document.exitFullscreen?.().catch(() => {}); onClose(); }}
             className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
             aria-label="Fechar apresentação"
           >
