@@ -2,13 +2,15 @@
 
 import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import UnitGrid from '@/components/trend/unit-grid';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ImplantacaoFloorSelector } from '@/components/shared/implantacao-floor-selector';
 import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
+import { TrendNanoPresentationMode } from '@/components/trend/presentation-mode-nano';
+import { TrendHomePresentationMode } from '@/components/trend/presentation-mode-home';
 
 type Branch = 'home' | 'nano';
 
@@ -227,6 +229,13 @@ function BranchSwitch({ value, onChange, floating = false }: { value: Branch; on
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function TrendHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   const [branch, setBranch] = useState<Branch>('home');
+  const [nanoSlide, setNanoSlide] = useState(0);
+  const [homeSlide, setHomeSlide] = useState(0);
+  const [showNano, setShowNano] = useState(false);
+  const [showHome, setShowHome] = useState(false);
+
+  const openNano = useCallback(() => { setNanoSlide(0); setShowNano(true); }, []);
+  const openHome = useCallback(() => { setHomeSlide(0); setShowHome(true); }, []);
 
   return (
     <div className="bg-background min-h-screen">
@@ -346,6 +355,26 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
         {/* ── MATERIAIS (corretor) — logo após o Sobre/seleção ── */}
         {!isClientePage && (
           <ProductLinks config={branch === 'home' ? LINKS_CONFIG_HOME : LINKS_CONFIG_NANO} />
+        )}
+
+        {/* ── BOTÕES DE APRESENTAÇÃO ── */}
+        {!isClientePage && (
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={openNano}
+              className="flex-1 rounded-xl py-3 px-6 text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 active:scale-95"
+              style={{ background: '#0A0A0A', color: '#D4785A', border: '1px solid rgba(212,120,90,0.3)' }}
+            >
+              ▶ Apresentação — Nano + Office
+            </button>
+            <button
+              onClick={openHome}
+              className="flex-1 rounded-xl py-3 px-6 text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 active:scale-95"
+              style={{ background: '#F5F2EE', color: '#C1422A', border: '1px solid rgba(193,66,42,0.3)' }}
+            >
+              ▶ Apresentação — Downtown Home
+            </button>
+          </div>
         )}
 
         {/* DETALHE DA TORRE SELECIONADA */}
@@ -513,6 +542,24 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
 
       {!isClientePage && <WhatsappButton product="TREND DOWNTOWN" />}
       </footer>
+
+      {/* ── APRESENTAÇÕES FULLSCREEN ── */}
+      {showNano && (
+        <TrendNanoPresentationMode
+          currentSlide={nanoSlide}
+          onClose={() => setShowNano(false)}
+          onPrev={() => setNanoSlide(s => Math.max(0, s - 1))}
+          onNext={() => setNanoSlide(s => s + 1)}
+        />
+      )}
+      {showHome && (
+        <TrendHomePresentationMode
+          currentSlide={homeSlide}
+          onClose={() => setShowHome(false)}
+          onPrev={() => setHomeSlide(s => Math.max(0, s - 1))}
+          onNext={() => setHomeSlide(s => s + 1)}
+        />
+      )}
 
     </div>
   );
