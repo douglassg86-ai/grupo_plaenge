@@ -9,10 +9,11 @@ const PL = `${P}/plantas`;
 const PI = `${P}/implantacoes`;
 
 /* ─── Tipagem ───────────────────────────────────────────── */
+type StatItem = { value: string; label: string };
 type Slide =
   | { kind: 'image';   src: string; caption?: string; subcaption?: string; position?: string; contain?: boolean; compass?: boolean }
   | { kind: 'chapter'; num: string; title: string; subtitle?: string }
-  | { kind: 'text';    super?: string; title: string; body?: string; items?: string[]; cols?: [string[], string[]]; bg?: string };
+  | { kind: 'text';    super?: string; title: string; body?: string; items?: string[]; cols?: [string[], string[]]; bg?: string; stats?: StatItem[] };
 
 /* ─── Roteiro ───────────────────────────────────────────── */
 const SLIDES: Slide[] = [
@@ -33,8 +34,14 @@ const SLIDES: Slide[] = [
   { kind: 'text',
     super: 'VERDANT',
     title: 'Natureza\nintegrada\nà vida.',
-    body: '54 unidades com tipologias inéditas em Porto Alegre — apartamentos tipo, gardens, duplex, coberturas e casas com pátio privativo. Um empreendimento concebido para quem vive a natureza como filosofia.',
-    bg: `${P}/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp` },
+    body: 'Tipologias inéditas em Porto Alegre — apartamentos, gardens, duplex, coberturas e casas com pátio privativo. Um empreendimento concebido para quem vive a natureza como filosofia.',
+    bg: `${P}/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp`,
+    stats: [
+      { value: '54',        label: 'unidades' },
+      { value: '3',         label: 'suítes' },
+      { value: '1',         label: 'torre única' },
+      { value: '145–370',   label: 'm² privativos' },
+    ] },
 
   { kind: 'image', src: `${P}/©VISTA_13_EXT_INSERCAO_FINAL.webp`,
     caption: 'Inserção Urbana', subcaption: 'Rua Eça de Queiroz, 215 · Bairro Rio Branco · Porto Alegre/RS', position: 'center 50%' },
@@ -77,7 +84,7 @@ const SLIDES: Slide[] = [
   { kind: 'image', src: `${P}/©VISTA_17_INT_SALÃO_DE_FESTAS_FINAL_.webp`,
     caption: 'Salão de Festas', position: 'center 35%' },
   { kind: 'image', src: `${P}/©VISTA_15_INT_YOGA_FINAL.webp`,
-    caption: 'Wine Sensations by Grand Cru', position: 'center 40%' },
+    caption: 'Área de Convivência', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_16_INT_FITNESS_FINAL.webp`,
     caption: 'Gymnasium Plaenge', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_33_INT_SAUNA_FINAL.webp`,
@@ -101,9 +108,9 @@ const SLIDES: Slide[] = [
 
   /* Rooftop — imagens antes da implantação */
   { kind: 'image', src: `${P}/©VISTA_21_INT_ESPACO_ROOFTOP_01_FINAL.webp`,
-    caption: 'Sunset View', subcaption: 'Rooftop Condominial', position: 'center 40%' },
+    caption: 'Wine Sensations by Grand Cru', subcaption: 'Rooftop Condominial', position: 'center 40%' },
   { kind: 'image', src: `${P}/©VISTA_22_INT_ESPAÇO_ROOFTOP_02_FINAL_.webp`,
-    caption: 'Sunset View', subcaption: 'Rooftop Condominial — Vista Panorâmica', position: 'center 40%' },
+    caption: 'Sunset View', subcaption: 'Rooftop Condominial', position: 'center 40%' },
 
   /* Implantação terraço/cobertura */
   { kind: 'image', src: `${PL}/©VISTA_04_PLB_COBERTURA_FINAL.webp`,
@@ -130,9 +137,9 @@ const SLIDES: Slide[] = [
   { kind: 'image', src: `${PL}/©VISTA_06_PLB_UNIDADE_APTO_TIPO_02_FINAL.webp`,
     caption: 'Planta da Unidade', subcaption: 'Apartamento Tipo 02', contain: true },
   { kind: 'image', src: `${PL}/©VISTA_07_PLB_UNIDADE_APTO_TIPO_03_FINAL.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Apartamento Tipo 03 — Living Estendido', contain: true },
+    caption: 'Planta da Unidade', subcaption: 'Apartamento Tipo 03', contain: true },
   { kind: 'image', src: `${PL}/©VISTA_15_PLB_PAV_TIPO_LIVING_ESTENDIDO_(EXTRA)_FINAL.webp`,
-    caption: 'Pavimento Tipo', subcaption: 'Opção Living Estendido', contain: true, compass: true },
+    caption: 'Pavimento Tipo', subcaption: 'Opção de Layout Alternativo', contain: true, compass: true },
 
   /* ══ CAP 04 — DUPLEX ════════════════════════════════════ */
   { kind: 'chapter', num: '04', title: 'Duplex', subtitle: '295 m² · 3 suítes · 2 pavimentos' },
@@ -162,14 +169,14 @@ const SLIDES: Slide[] = [
   { kind: 'chapter', num: '06', title: 'Residência\nUnifamiliar', subtitle: '366 m² a 370 m² · 3 suítes · Pátio Privativo' },
 
   { kind: 'image', src: `${P}/©VISTA_27_EXT_PÁTIO_CASAS_FINAL.webp`,
-    caption: 'Pátio Privativo', subcaption: 'Residência Unifamiliar', position: 'center 45%' },
+    caption: 'Pátio Privativo', subcaption: 'Casa', position: 'center 45%' },
   { kind: 'image', src: `${P}/©VISTA_28_INT_ESTAR_JANTAR_TERREO_CASAS_FINAL.webp`,
-    caption: 'Estar e Jantar', subcaption: 'Residência Unifamiliar — Pavimento Térreo', position: 'center 35%' },
+    caption: 'Estar e Jantar', subcaption: 'Casa — Pavimento Térreo', position: 'center 35%' },
 
   { kind: 'image', src: `${PL}/©VISTA_12_PLB_UNIDADE_RESIDÊNCIA_UNIFAMILIAR_TÉRREO_FINAL.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Residência Unifamiliar — Pavimento Térreo', contain: true },
+    caption: 'Planta da Unidade', subcaption: 'Casa — Pavimento Térreo', contain: true },
   { kind: 'image', src: `${PL}/©VISTA_13_PLB_UNIDADE_RESIDÊNCIA_UNIFAMILIAR_PAV_SUPERIOR_FINAL.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Residência Unifamiliar — Pavimento Superior', contain: true },
+    caption: 'Planta da Unidade', subcaption: 'Casa — Pavimento Superior', contain: true },
 
   /* ══ CAP 07 — DIFERENCIAIS ══════════════════════════════ */
   { kind: 'chapter', num: '07', title: 'Diferenciais', subtitle: 'Acabamento · Construtivos' },
@@ -281,7 +288,7 @@ export function VerdantPresentationMode({ currentSlide, onClose, onPrev, onNext 
   }, [handleKey]);
 
   /* Capítulo ativo para o top bar */
-  const chapterLabels = ['Conceito', 'Implantação & Lazer', 'Apartamento Tipo', 'Duplex', 'Cobertura', 'Residência Unifamiliar', 'Diferenciais', 'Resumo'];
+  const chapterLabels = ['Conceito', 'Implantação & Lazer', 'Apartamento Tipo', 'Duplex', 'Cobertura', 'Casa', 'Diferenciais', 'Resumo'];
   let chapterCount = -1;
   for (let i = 0; i <= currentSlide; i++) {
     if (SLIDES[i].kind === 'chapter') chapterCount++;
@@ -460,6 +467,7 @@ function ChapterSlide({ slide }: { slide: Extract<Slide, { kind: 'chapter' }> })
 function TextSlide({ slide }: { slide: Extract<Slide, { kind: 'text' }> }) {
   const hasColumns = slide.cols && slide.cols.length === 2;
   const hasItems   = slide.items && slide.items.length > 0;
+  const hasStats   = slide.stats && slide.stats.length > 0;
 
   return (
     <div className="flex flex-col justify-center h-full px-16 md:px-24" style={{ background: '#0F1A0F' }}>
@@ -474,59 +482,99 @@ function TextSlide({ slide }: { slide: Extract<Slide, { kind: 'text' }> }) {
         backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")',
         backgroundSize: '200px',
       }} />
-      <div className="relative z-10 max-w-5xl">
-        {slide.super && (
-          <p className="vd-sans vd-anim-1 font-light mb-5" style={{ color: '#B8945A', fontSize: 'clamp(0.55rem, 0.9vw, 0.7rem)', letterSpacing: '0.3em' }}>
-            {slide.super}
-          </p>
-        )}
-        <div className="vd-anim-1 mb-6" style={{ width: '40px', height: '1px', background: '#B8945A' }} />
-        <h2 className="vd-serif vd-anim-2 text-white font-light leading-none mb-8" style={{ fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', whiteSpace: 'pre-line' }}>
-          {slide.title}
-        </h2>
-        {slide.body && (
-          <p className="vd-sans vd-anim-3 font-light leading-relaxed max-w-xl" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(0.85rem, 1.2vw, 1rem)' }}>
-            {slide.body}
-          </p>
-        )}
-        {hasItems && (
-          <ul className="vd-anim-3 space-y-3">
-            {slide.items!.map((item, i) => {
-              const [label, value] = item.split(' — ');
-              return (
-                <li key={i} className="flex items-baseline gap-3">
-                  <span className="vd-sans font-light shrink-0" style={{ color: '#B8945A', fontSize: '0.55rem' }}>◆</span>
-                  {value ? (
-                    <span className="vd-sans font-light" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.75rem, 1.1vw, 0.9rem)' }}>
-                      <span style={{ color: 'rgba(255,255,255,0.9)' }}>{label}</span>
-                      <span style={{ color: 'rgba(255,255,255,0.3)' }}> — </span>
-                      {value}
-                    </span>
-                  ) : (
-                    <span className="vd-sans font-light" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(0.75rem, 1.1vw, 0.9rem)' }}>{label}</span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        )}
-        {hasColumns && (
-          <div className="vd-anim-3 grid grid-cols-2 gap-x-12 gap-y-3 mt-2">
-            {slide.cols!.map((col, ci) => (
-              <ul key={ci} className="space-y-3">
-                {col.map((item, i) => (
-                  <li key={i} className="flex items-baseline gap-3">
-                    <span className="vd-sans font-light shrink-0" style={{ color: '#B8945A', fontSize: '0.5rem' }}>◆</span>
-                    <span className="vd-sans font-light" style={{ color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(0.7rem, 1vw, 0.85rem)', lineHeight: '1.5' }}>
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+
+      {/* Layout com stats à direita */}
+      {hasStats ? (
+        <div className="relative z-10 flex items-center gap-0 w-full max-w-6xl">
+          {/* Coluna esquerda — texto */}
+          <div className="flex-1 pr-16">
+            {slide.super && (
+              <p className="vd-sans vd-anim-1 font-light mb-5" style={{ color: '#B8945A', fontSize: 'clamp(0.55rem, 0.9vw, 0.7rem)', letterSpacing: '0.3em' }}>
+                {slide.super}
+              </p>
+            )}
+            <div className="vd-anim-1 mb-6" style={{ width: '40px', height: '1px', background: '#B8945A' }} />
+            <h2 className="vd-serif vd-anim-2 text-white font-light leading-none mb-8" style={{ fontSize: 'clamp(2.8rem, 5.5vw, 5rem)', whiteSpace: 'pre-line' }}>
+              {slide.title}
+            </h2>
+            {slide.body && (
+              <p className="vd-sans vd-anim-3 font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.8rem, 1.1vw, 0.95rem)', maxWidth: '36ch' }}>
+                {slide.body}
+              </p>
+            )}
+          </div>
+          {/* Divisor vertical */}
+          <div className="self-stretch" style={{ width: '1px', background: 'rgba(184,148,90,0.2)', marginBlock: '4rem' }} />
+          {/* Coluna direita — stats */}
+          <div className="vd-anim-3 pl-16 flex flex-col gap-8" style={{ minWidth: '280px' }}>
+            {slide.stats!.map((s, i) => (
+              <div key={i}>
+                <p className="vd-serif text-white font-light leading-none" style={{ fontSize: 'clamp(3rem, 5.5vw, 5rem)', color: i === 0 ? '#B8945A' : 'rgba(255,255,255,0.92)' }}>
+                  {s.value}
+                </p>
+                <p className="vd-sans font-light mt-1" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.6rem, 0.85vw, 0.72rem)', letterSpacing: '0.2em' }}>
+                  {s.label.toUpperCase()}
+                </p>
+              </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        /* Layout padrão sem stats */
+        <div className="relative z-10 max-w-5xl">
+          {slide.super && (
+            <p className="vd-sans vd-anim-1 font-light mb-5" style={{ color: '#B8945A', fontSize: 'clamp(0.55rem, 0.9vw, 0.7rem)', letterSpacing: '0.3em' }}>
+              {slide.super}
+            </p>
+          )}
+          <div className="vd-anim-1 mb-6" style={{ width: '40px', height: '1px', background: '#B8945A' }} />
+          <h2 className="vd-serif vd-anim-2 text-white font-light leading-none mb-8" style={{ fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', whiteSpace: 'pre-line' }}>
+            {slide.title}
+          </h2>
+          {slide.body && (
+            <p className="vd-sans vd-anim-3 font-light leading-relaxed max-w-xl" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(0.85rem, 1.2vw, 1rem)' }}>
+              {slide.body}
+            </p>
+          )}
+          {hasItems && (
+            <ul className="vd-anim-3 space-y-3">
+              {slide.items!.map((item, i) => {
+                const [label, value] = item.split(' — ');
+                return (
+                  <li key={i} className="flex items-baseline gap-3">
+                    <span className="vd-sans font-light shrink-0" style={{ color: '#B8945A', fontSize: '0.55rem' }}>◆</span>
+                    {value ? (
+                      <span className="vd-sans font-light" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.75rem, 1.1vw, 0.9rem)' }}>
+                        <span style={{ color: 'rgba(255,255,255,0.9)' }}>{label}</span>
+                        <span style={{ color: 'rgba(255,255,255,0.3)' }}> — </span>
+                        {value}
+                      </span>
+                    ) : (
+                      <span className="vd-sans font-light" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(0.75rem, 1.1vw, 0.9rem)' }}>{label}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {hasColumns && (
+            <div className="vd-anim-3 grid grid-cols-2 gap-x-12 gap-y-3 mt-2">
+              {slide.cols!.map((col, ci) => (
+                <ul key={ci} className="space-y-3">
+                  {col.map((item, i) => (
+                    <li key={i} className="flex items-baseline gap-3">
+                      <span className="vd-sans font-light shrink-0" style={{ color: '#B8945A', fontSize: '0.5rem' }}>◆</span>
+                      <span className="vd-sans font-light" style={{ color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(0.7rem, 1vw, 0.85rem)', lineHeight: '1.5' }}>
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
