@@ -11,9 +11,10 @@ const PN = '/TREND/implantacoes-nano';
 /* ─── Tipos ─────────────────────────────────────────────── */
 type Slide =
   | { kind: 'cover' }
-  | { kind: 'image'; src: string; caption?: string; subcaption?: string; position?: string; contain?: boolean; compass?: boolean }
+  | { kind: 'image'; src: string; caption?: string; subcaption?: string; position?: string; contain?: boolean; whiteBg?: boolean }
   | { kind: 'chapter'; num: string; title: string; subtitle?: string }
-  | { kind: 'text'; super?: string; title: string; body?: string; items?: string[]; cols?: string[][]; bg?: string };
+  | { kind: 'text'; super?: string; title: string; body?: string; items?: string[]; cols?: string[][] }
+  | { kind: 'grid'; super?: string; title?: string; images: { src: string; label: string }[] };
 
 /* ─── Roteiro NANO + OFFICE ─────────────────────────────── */
 const SLIDES: Slide[] = [
@@ -34,8 +35,9 @@ const SLIDES: Slide[] = [
 
   { kind: 'image', src: `${P}/PNB_02_Fachada_Azenha_EF.webp`,
     caption: 'Fachada', subcaption: 'Av. Azenha', position: 'center 40%' },
+
   { kind: 'image', src: `${P}/PNB_03_Fachada_Lima_EF.webp`,
-    caption: 'Fachada', subcaption: 'Rua General Lima e Silva', position: 'center 40%' },
+    caption: 'Fachada', subcaption: 'Rua General Lima e Silva', position: 'center 65%' },
 
   { kind: 'image', src: `${P}/PNB_08_Mall_Acesso_EF.webp`,
     caption: 'Mall', subcaption: 'Acesso Principal', position: 'center 40%' },
@@ -45,9 +47,9 @@ const SLIDES: Slide[] = [
     caption: 'Mall', subcaption: 'Galeria de Serviços', position: 'center 40%' },
 
   { kind: 'image', src: `${PL}/PNB_PB_01_Implantacao_Terreo_EF.webp`,
-    caption: 'Implantação', subcaption: 'Térreo · Mall + Acessos', contain: true, compass: true },
+    caption: 'Implantação', subcaption: 'Térreo · Mall + Acessos', contain: true, whiteBg: true },
   { kind: 'image', src: `${PL}/PNB_PB_02_Implantacao_2o_Pavimento_EF.webp`,
-    caption: 'Implantação', subcaption: '2º Pavimento · Mall + Nano + Office', contain: true, compass: true },
+    caption: 'Implantação', subcaption: '2º Pavimento · Mall + Nano + Office', contain: true, whiteBg: true },
 
   /* ══ CAP 02 — OFFICE ════════════════════════════════════ */
   { kind: 'chapter', num: '02', title: 'Office', subtitle: 'Downtown Office · Soluções para negócios' },
@@ -73,14 +75,11 @@ const SLIDES: Slide[] = [
   { kind: 'image', src: `${P}/PNB_33_Office_Meia_Laje_EF.webp`,
     caption: 'Meia Laje', subcaption: 'Downtown Office', position: 'center 35%' },
 
-  { kind: 'image', src: `${PL}/PNB_PB_14_Planta_Office_Sala_02_EF.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Office · Sala 02', contain: true },
-  { kind: 'image', src: `${PL}/PNB_PB_15_Planta_Office_Sala_04_EF.webp`,
-    caption: 'Planta da Unidade', subcaption: 'Office · Sala 04', contain: true },
+  /* Plantas Office: apenas as duas pavimentos (meia laje e laje inteira) */
   { kind: 'image', src: `${PL}/PNB_PB_04_Planta_5o_Pavimento_Office_EF.webp`,
-    caption: 'Planta do Pavimento', subcaption: 'Office · 5º Pavimento', contain: true, compass: true },
+    caption: 'Planta do Pavimento', subcaption: 'Office · 5º Pavimento — Meia Laje', contain: true, whiteBg: true },
   { kind: 'image', src: `${PL}/PNB_PB_05_Planta_6o_Pavimento_Office_EF.webp`,
-    caption: 'Planta do Pavimento', subcaption: 'Office · 6º Pavimento', contain: true, compass: true },
+    caption: 'Planta do Pavimento', subcaption: 'Office · 6º Pavimento — Laje Inteira', contain: true, whiteBg: true },
 
   /* ══ CAP 03 — NANO LAZER ════════════════════════════════ */
   { kind: 'chapter', num: '03', title: 'Nano\nLazer', subtitle: 'Rooftop · Comodidades · Mercado Autônomo' },
@@ -90,7 +89,7 @@ const SLIDES: Slide[] = [
     title: 'Tudo que\nvocê precisa,\na poucos passos.',
     cols: [
       [ 'Rooftop com piscina e área de lazer', 'Fitness moderno', 'Hall com lounge', 'Lavanderia compartilhada' ],
-      [ 'Acesso direto ao Mall', 'Mercado Autônomo 24h', 'Localização Av. Azenha 123', '259 unidades · Studios e 1 dorm' ],
+      [ 'Acesso direto ao Mall', 'Mercado Autônomo 24h', 'Localização Av. Azenha 123', '259 unidades · Studios' ],
     ],
   },
 
@@ -119,32 +118,38 @@ const SLIDES: Slide[] = [
     caption: 'Rooftop', subcaption: 'Downtown Nano — Piscina', position: 'center 40%' },
 
   { kind: 'image', src: `${PL}/PNB_PB_06_Planta_Rooftop_Nano_EF.webp`,
-    caption: 'Planta do Rooftop', subcaption: 'Downtown Nano', contain: true, compass: true },
+    caption: 'Planta do Rooftop', subcaption: 'Downtown Nano', contain: true, whiteBg: true },
 
-  /* Implantações por pavimento */
-  { kind: 'image', src: `${PN}/nano-01.jpg`, caption: 'Implantação', subcaption: 'Nano · 15º Pavimento', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-02.jpg`, caption: 'Implantação', subcaption: 'Nano · 3º Pavimento', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-03.jpg`, caption: 'Implantação', subcaption: 'Nano · 4º ao 8º Pavimentos', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-04.jpg`, caption: 'Implantação', subcaption: 'Nano · 10º Pavimento', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-05.jpg`, caption: 'Implantação', subcaption: 'Nano · 9º Pavimento', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-06.jpg`, caption: 'Implantação', subcaption: 'Nano · 11º Pavimento', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-07.jpg`, caption: 'Implantação', subcaption: 'Nano · 12º Pavimento', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-08.jpg`, caption: 'Implantação', subcaption: 'Nano · 14º Pavimento', contain: true, compass: true },
-  { kind: 'image', src: `${PN}/nano-09.jpg`, caption: 'Implantação', subcaption: 'Nano · 13º Pavimento', contain: true, compass: true },
+  /* Todas as implantações por pavimento em um único slide grid */
+  { kind: 'grid',
+    super: 'NANO · IMPLANTAÇÃO DAS UNIDADES',
+    title: 'Tipologia\npor pavimento.',
+    images: [
+      { src: `${PN}/nano-02.jpg`, label: '3º Pav' },
+      { src: `${PN}/nano-03.jpg`, label: '4º–8º Pav' },
+      { src: `${PN}/nano-05.jpg`, label: '9º Pav' },
+      { src: `${PN}/nano-04.jpg`, label: '10º Pav' },
+      { src: `${PN}/nano-06.jpg`, label: '11º Pav' },
+      { src: `${PN}/nano-07.jpg`, label: '12º Pav' },
+      { src: `${PN}/nano-09.jpg`, label: '13º Pav' },
+      { src: `${PN}/nano-08.jpg`, label: '14º Pav' },
+      { src: `${PN}/nano-01.jpg`, label: '15º Pav' },
+    ],
+  },
 
   /* ══ CAP 04 — NANO APARTAMENTOS ════════════════════════ */
-  { kind: 'chapter', num: '04', title: 'Nano\nAptos', subtitle: 'Studios e 1 dorm · 259 unidades · Av. Azenha 123' },
+  { kind: 'chapter', num: '04', title: 'Nano\nStudios', subtitle: 'Studios · 259 unidades · Av. Azenha 123' },
 
   { kind: 'image', src: `${P}/PNB_34_Nano_Apartamento_EF.webp`,
-    caption: 'Apartamento', subcaption: 'Downtown Nano', position: 'center 35%' },
+    caption: 'Studio', subcaption: 'Downtown Nano', position: 'center 35%' },
 
-  { kind: 'image', src: `${PL}/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp`, caption: 'Planta da Unidade', subcaption: 'Nano · Tipo 01A', contain: true },
-  { kind: 'image', src: `${PL}/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp`, caption: 'Planta da Unidade', subcaption: 'Nano · Tipo 02B', contain: true },
-  { kind: 'image', src: `${PL}/PNB_PB_09_Planta_Nano_Apto_03B_EF.webp`, caption: 'Planta da Unidade', subcaption: 'Nano · Tipo 03B', contain: true },
-  { kind: 'image', src: `${PL}/PNB_PB_10_Planta_Nano_Apto_04_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Tipo 04',  contain: true },
-  { kind: 'image', src: `${PL}/PNB_PB_11_Planta_Nano_Apto_05_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Tipo 05',  contain: true },
-  { kind: 'image', src: `${PL}/PNB_PB_12_Planta_Nano_Apto_06_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Tipo 06',  contain: true },
-  { kind: 'image', src: `${PL}/PNB_PB_13_Planta_Nano_Apto_07_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Tipo 07',  contain: true },
+  { kind: 'image', src: `${PL}/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp`, caption: 'Planta da Unidade', subcaption: 'Nano · Studio Tipo 01A', contain: true, whiteBg: true },
+  { kind: 'image', src: `${PL}/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp`, caption: 'Planta da Unidade', subcaption: 'Nano · Studio Tipo 02B', contain: true, whiteBg: true },
+  { kind: 'image', src: `${PL}/PNB_PB_09_Planta_Nano_Apto_03B_EF.webp`, caption: 'Planta da Unidade', subcaption: 'Nano · Studio Tipo 03B', contain: true, whiteBg: true },
+  { kind: 'image', src: `${PL}/PNB_PB_10_Planta_Nano_Apto_04_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Studio Tipo 04',  contain: true, whiteBg: true },
+  { kind: 'image', src: `${PL}/PNB_PB_11_Planta_Nano_Apto_05_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Studio Tipo 05',  contain: true, whiteBg: true },
+  { kind: 'image', src: `${PL}/PNB_PB_12_Planta_Nano_Apto_06_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Studio Tipo 06',  contain: true, whiteBg: true },
+  { kind: 'image', src: `${PL}/PNB_PB_13_Planta_Nano_Apto_07_EF.webp`,  caption: 'Planta da Unidade', subcaption: 'Nano · Studio Tipo 07',  contain: true, whiteBg: true },
 
   /* ══ CAP 05 — GESTÃO ════════════════════════════════════ */
   { kind: 'chapter', num: '05', title: 'Gestão', subtitle: 'Cityhome by Intercity Hotels' },
@@ -159,8 +164,8 @@ const SLIDES: Slide[] = [
     super: 'GESTÃO · VANTAGENS DO PROGRAMA',
     title: 'Rentabilidade\nsem abrir mão\nda flexibilidade.',
     cols: [
-      [ 'Gestão profissional Intercity Hotels', 'Plataformas de reserva integradas (Airbnb, Booking, site próprio)', 'Limpeza e manutenção incluídas', 'Repasse mensal de receitas' ],
-      [ 'Uso pelo próprio proprietário nos períodos desejados', 'Contrato flexível de adesão ao programa', 'Relatórios de desempenho periódicos', 'Atendimento 24h para hóspedes' ],
+      [ 'Gestão profissional Intercity Hotels', 'Plataformas integradas (Airbnb, Booking)', 'Limpeza e manutenção incluídas', 'Repasse mensal de receitas' ],
+      [ 'Uso pelo proprietário nos períodos desejados', 'Contrato flexível de adesão', 'Relatórios de desempenho periódicos', 'Atendimento 24h para hóspedes' ],
     ],
   },
 
@@ -174,7 +179,7 @@ const SLIDES: Slide[] = [
       'Localização Nano — Av. Azenha, 123 · Porto Alegre/RS',
       'Localização Office — Av. Azenha, 15 · Porto Alegre/RS',
       'Mall — 22 lojas de serviços e conveniência',
-      'Torre Nano — 259 unidades · Studios e 1 dormitório',
+      'Torre Nano — 259 studios',
       'Torre Office — 82 unidades comerciais',
       'Gestão Nano — Cityhome by Intercity Hotels',
       'Arquitetura — IDEAI1',
@@ -196,27 +201,6 @@ interface Props {
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
-}
-
-/* ─── Compass Rose ───────────────────────────────────────── */
-function CompassRose() {
-  return (
-    <div className="absolute bottom-20 right-8 z-20 select-none" style={{ width: 64, height: 64 }}>
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-        style={{ filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.6))' }}>
-        <circle cx="32" cy="32" r="30" fill="rgba(10,10,10,0.72)" stroke="rgba(212,120,90,0.6)" strokeWidth="0.8" />
-        <line x1="32" y1="6"  x2="32" y2="58" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
-        <line x1="6"  y1="32" x2="58" y2="32" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
-        <g transform="rotate(45 32 32)">
-          <polygon points="32,7 28,32 32,28 36,32" fill="#D4785A" />
-          <polygon points="32,57 28,32 32,36 36,32" fill="rgba(255,255,255,0.28)" />
-        </g>
-        <circle cx="32" cy="32" r="2.5" fill="#D4785A" />
-        <text x="50" y="16" textAnchor="middle" fill="#D4785A" fontSize="7"
-          fontFamily="'Jost',sans-serif" fontWeight="400" letterSpacing="0.05em">N</text>
-      </svg>
-    </div>
-  );
 }
 
 /* ─── Componente principal ──────────────────────────────── */
@@ -242,16 +226,21 @@ export function TrendNanoPresentationMode({ currentSlide, onClose, onPrev, onNex
 
   const handleKey = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') { document.exitFullscreen?.().catch(() => {}); onClose(); }
-    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); onNext(); }
-    if (e.key === 'ArrowLeft') onPrev();
-  }, [onClose, onNext, onPrev]);
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      if (currentSlide < SLIDES.length - 1) onNext();
+    }
+    if (e.key === 'ArrowLeft') {
+      if (currentSlide > 0) onPrev();
+    }
+  }, [onClose, onNext, onPrev, currentSlide]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, [handleKey]);
 
-  const chapterLabels = ['O Complexo', 'Office', 'Nano Lazer', 'Nano Aptos', 'Gestão', 'Ficha Técnica'];
+  const chapterLabels = ['O Complexo', 'Office', 'Nano Lazer', 'Nano Studios', 'Gestão', 'Ficha Técnica'];
   let chapterCount = -1;
   for (let i = 0; i <= currentSlide; i++) {
     if (SLIDES[i].kind === 'chapter') chapterCount++;
@@ -262,8 +251,8 @@ export function TrendNanoPresentationMode({ currentSlide, onClose, onPrev, onNex
     <div ref={containerRef} className="fixed inset-0 z-[200] select-none overflow-hidden" style={{ background: '#0A0A0A' }}>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap');
-        .tn-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700;800&family=Jost:wght@200;300;400;500&display=swap');
+        .tn-serif { font-family: 'Montserrat', system-ui, sans-serif; }
         .tn-sans  { font-family: 'Jost', system-ui, sans-serif; }
         @keyframes tn-enter { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
         .tn-anim-1 { animation: tn-enter 0.7s cubic-bezier(.22,.68,0,1.2) both; }
@@ -304,6 +293,7 @@ export function TrendNanoPresentationMode({ currentSlide, onClose, onPrev, onNex
         {slide.kind === 'image'   && <NanoImageSlide   key={animKey} slide={slide} />}
         {slide.kind === 'chapter' && <NanoChapterSlide key={animKey} slide={slide} />}
         {slide.kind === 'text'    && <NanoTextSlide    key={animKey} slide={slide} />}
+        {slide.kind === 'grid'    && <NanoGridSlide    key={animKey} slide={slide} />}
       </div>
 
       {/* ── Navegação ────────────────────────────────── */}
@@ -369,7 +359,7 @@ function NanoCoverSlide() {
         backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")',
         backgroundSize: '200px',
       }} />
-      <div className="relative z-10 flex flex-col items-center gap-10">
+      <div className="relative z-10 flex flex-col items-center gap-8">
         <div className="tn-anim-1">
           <Image
             src={`${P}/logo_nano.png`}
@@ -385,27 +375,26 @@ function NanoCoverSlide() {
           <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#D4785A' }} />
           <div style={{ flex: 1, height: '1px', background: 'rgba(212,120,90,0.4)' }} />
         </div>
-        <p className="tn-sans tn-anim-2 font-light" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(0.8rem, 1.5vw, 1.1rem)', letterSpacing: '0.3em' }}>
+        <p className="tn-sans tn-anim-2 font-light" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', letterSpacing: '0.3em' }}>
           VOCÊ NO CENTRO DE TUDO
         </p>
-        <div className="tn-anim-3">
-          <Image
-            src="/INSTITUCIONAL/logo_plaenge_vanguard_escuro.webp"
-            alt="Plaenge | Vanguard"
-            width={240}
-            height={36}
-            className="object-contain"
-            style={{ opacity: 0.6 }}
-            priority
-          />
+        {/* Parceiros */}
+        <div className="tn-anim-3 flex flex-col items-center gap-1" style={{ marginTop: '0.5rem' }}>
+          <p className="tn-sans font-light" style={{ color: 'rgba(255,255,255,0.22)', fontSize: '0.6rem', letterSpacing: '0.2em' }}>
+            UMA REALIZAÇÃO
+          </p>
+          <p className="tn-sans font-semibold" style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.7rem', letterSpacing: '0.25em' }}>
+            MAIOJAMA · VANGUARD · FUNDO PHORBIS
+          </p>
         </div>
-        <p className="tn-sans tn-anim-3 font-light" style={{
-          color: 'rgba(255,255,255,0.2)',
-          fontSize: '0.65rem',
-          letterSpacing: '0.25em',
-        }}>
-          AV. AZENHA · PORTO ALEGRE
-        </p>
+        <div className="tn-anim-3 flex flex-col items-center gap-1" style={{ marginTop: '0.5rem' }}>
+          <p className="tn-sans font-light" style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.6rem', letterSpacing: '0.25em' }}>
+            AV. AZENHA, 123 · PORTO ALEGRE, RS
+          </p>
+          <p className="tn-sans font-light" style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.6rem', letterSpacing: '0.25em' }}>
+            AV. AZENHA, 15 · OFFICE
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -414,9 +403,11 @@ function NanoCoverSlide() {
 /* ─── NanoImageSlide ─────────────────────────────────────── */
 function NanoImageSlide({ slide }: { slide: Extract<Slide, { kind: 'image' }> }) {
   const isContain = slide.contain;
+  const bg = slide.whiteBg ? '#FFFFFF' : '#0A0A0A';
+  const captionDark = slide.whiteBg;
   return (
     <>
-      {isContain && <div className="absolute inset-0" style={{ background: '#0A0A0A' }} />}
+      {isContain && <div className="absolute inset-0" style={{ background: bg }} />}
       <Image
         src={slide.src}
         alt={slide.caption ?? 'TREND DOWNTOWN'}
@@ -431,23 +422,23 @@ function NanoImageSlide({ slide }: { slide: Extract<Slide, { kind: 'image' }> })
           background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.75) 100%)'
         }} />
       )}
-      {isContain && (
+      {isContain && !slide.whiteBg && (
         <div className="absolute inset-x-0 bottom-0" style={{
           height: '150px',
           background: 'linear-gradient(to top, rgba(10,10,10,0.97) 0%, transparent 100%)'
         }} />
       )}
-      {slide.compass && <CompassRose />}
       {(slide.caption || slide.subcaption) && (
         <div className="tn-caption-anim absolute bottom-12 left-12 right-24">
-          <div className="mb-4" style={{ width: '40px', height: '1px', background: '#D4785A' }} />
+          <div className="mb-3" style={{ width: '40px', height: '1px', background: '#D4785A' }} />
           {slide.caption && (
-            <p className="tn-serif text-white font-light leading-none mb-2" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3rem)' }}>
+            <p className="tn-serif font-bold leading-none mb-2"
+              style={{ fontSize: 'clamp(1.4rem, 2.8vw, 2.4rem)', color: captionDark ? '#1A1A1A' : '#fff', letterSpacing: '-0.02em' }}>
               {slide.caption}
             </p>
           )}
           {slide.subcaption && (
-            <p className="tn-sans text-white/55 font-light" style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.75rem)', letterSpacing: '0.15em' }}>
+            <p className="tn-sans font-light" style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.75rem)', letterSpacing: '0.15em', color: captionDark ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.55)' }}>
               {slide.subcaption.toUpperCase()}
             </p>
           )}
@@ -470,7 +461,7 @@ function NanoChapterSlide({ slide }: { slide: Extract<Slide, { kind: 'chapter' }
           CAPÍTULO {slide.num}
         </p>
         <div className="tn-anim-1 mx-auto mb-8" style={{ width: '60px', height: '1px', background: '#D4785A' }} />
-        <h2 className="tn-serif tn-anim-2 text-white font-light leading-none" style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)', whiteSpace: 'pre-line' }}>
+        <h2 className="tn-serif tn-anim-2 text-white font-bold leading-none" style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)', whiteSpace: 'pre-line', letterSpacing: '-0.03em' }}>
           {slide.title}
         </h2>
         {slide.subtitle && (
@@ -490,13 +481,6 @@ function NanoTextSlide({ slide }: { slide: Extract<Slide, { kind: 'text' }> }) {
 
   return (
     <div className="flex flex-col justify-center h-full px-16 md:px-24" style={{ background: '#0A0A0A' }}>
-      {slide.bg && (
-        <>
-          <Image src={slide.bg} alt="" fill className="object-cover"
-            style={{ objectPosition: 'center 40%' }} sizes="100vw" priority />
-          <div className="absolute inset-0" style={{ background: 'rgba(10,10,10,0.85)' }} />
-        </>
-      )}
       <div className="absolute inset-0 opacity-10" style={{
         backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")',
         backgroundSize: '200px',
@@ -508,7 +492,7 @@ function NanoTextSlide({ slide }: { slide: Extract<Slide, { kind: 'text' }> }) {
           </p>
         )}
         <div className="tn-anim-1 mb-6" style={{ width: '40px', height: '1px', background: '#D4785A' }} />
-        <h2 className="tn-serif tn-anim-2 text-white font-light leading-none mb-8" style={{ fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', whiteSpace: 'pre-line' }}>
+        <h2 className="tn-serif tn-anim-2 text-white font-bold leading-none mb-8" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5rem)', whiteSpace: 'pre-line', letterSpacing: '-0.03em' }}>
           {slide.title}
         </h2>
         {slide.body && (
@@ -553,6 +537,46 @@ function NanoTextSlide({ slide }: { slide: Extract<Slide, { kind: 'text' }> }) {
             ))}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ─── NanoGridSlide ──────────────────────────────────────── */
+function NanoGridSlide({ slide }: { slide: Extract<Slide, { kind: 'grid' }> }) {
+  return (
+    <div className="flex flex-col h-full" style={{ background: '#0A0A0A' }}>
+      {/* Cabeçalho */}
+      <div className="px-16 pt-20 pb-6 flex-shrink-0">
+        {slide.super && (
+          <p className="tn-sans tn-anim-1 font-light mb-3" style={{ color: '#D4785A', fontSize: '0.65rem', letterSpacing: '0.3em' }}>
+            {slide.super}
+          </p>
+        )}
+        <div className="tn-anim-1 mb-3" style={{ width: '40px', height: '1px', background: '#D4785A' }} />
+        {slide.title && (
+          <h2 className="tn-serif tn-anim-2 text-white font-bold leading-none" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', letterSpacing: '-0.03em', whiteSpace: 'pre-line' }}>
+            {slide.title}
+          </h2>
+        )}
+      </div>
+      {/* Grid de imagens */}
+      <div className="flex-1 px-12 pb-16 grid grid-cols-5 gap-3" style={{ gridTemplateRows: 'repeat(2, 1fr)' }}>
+        {slide.images.map((img, i) => (
+          <div key={i} className="relative rounded-lg overflow-hidden" style={{ background: '#FFFFFF', gridColumn: i === 8 ? '3' : 'auto' }}>
+            <Image
+              src={img.src}
+              alt={img.label}
+              fill
+              className="object-contain"
+              style={{ padding: '4px' }}
+              sizes="20vw"
+            />
+            <div className="absolute bottom-0 inset-x-0 py-1 text-center" style={{ background: 'rgba(10,10,10,0.7)' }}>
+              <span className="tn-sans font-light text-white" style={{ fontSize: '0.55rem', letterSpacing: '0.1em' }}>{img.label}</span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
