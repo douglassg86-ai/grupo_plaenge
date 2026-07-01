@@ -442,7 +442,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
             Galeria — Downtown {branch === 'home' ? 'Home' : 'Nano'}
           </p>
-          <GalleryViewer categories={galleryByBranch[branch]} />
+          <GalleryViewer key={`gallery-${branch}`} categories={galleryByBranch[branch]} />
         </div>
 
         {/* PLANTAS */}
@@ -450,7 +450,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
             Plantas — Downtown {branch === 'home' ? 'Home' : 'Nano'}
           </p>
-          <PlantsViewer categories={plantsByBranch[branch]} />
+          <PlantsViewer key={`plants-${branch}`} categories={plantsByBranch[branch]} />
         </div>
 
         {/* VÍDEOS — apenas TREND NANO */}
