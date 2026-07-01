@@ -29,7 +29,7 @@ const SLIDES: Slide[] = [
   /* 3 */ { kind: 'text',
     super: 'CONCEITO',
     title: 'Sua vida\nno centro\nde tudo.',
-    body: 'O Trend Downtown Home reúne em um único endereço na Rua General Lima e Silva duas torres residenciais com lazer completo no 7º pavimento, acesso ao mall de serviços e a conveniência do bairro Azenha — um dos mais dinâmicos de Porto Alegre.',
+    body: 'O Trend Downtown Home reúne em um único endereço na Rua General Lima e Silva duas torres residenciais com lazer completo no 3º pavimento, acesso ao mall de serviços e a conveniência do bairro Azenha — um dos mais dinâmicos de Porto Alegre.',
   },
 
   /* 4 */ { kind: 'image', src: `${P}/PNB_01_Fotomontagem_EF.webp`,
@@ -53,7 +53,7 @@ const SLIDES: Slide[] = [
   /* 11 */ { kind: 'image', src: `${PL}/PNB_PB_02_Implantacao_2o_Pavimento_EF.webp`,
     caption: 'Implantação', subcaption: '2º Pavimento', contain: true, whiteBg: true },
 
-  /* ══ CAP 02 — LAZER 7º PAVIMENTO ════════════════════════ */
+  /* ══ CAP 02 — LAZER 3º PAVIMENTO ════════════════════════ */
   /* 12 */ { kind: 'chapter', num: '02', title: 'Lazer\n3º Pav', subtitle: 'Downtown Home · Área de lazer completa' },
 
   /* 13 */ { kind: 'image', src: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`,
@@ -208,7 +208,7 @@ export function TrendHomePresentationMode({ currentSlide, onClose, onPrev, onNex
     return () => document.removeEventListener('keydown', handleKey);
   }, [handleKey]);
 
-  const chapterLabels = ['O Complexo', 'Lazer 7º Pav', 'Apartamentos', 'Ficha Técnica'];
+  const chapterLabels = ['O Complexo', 'Lazer 3º Pav', 'Apartamentos', 'Ficha Técnica'];
   let chapterCount = -1;
   for (let i = 0; i <= currentSlide; i++) {
     if (SLIDES[i].kind === 'chapter') chapterCount++;
