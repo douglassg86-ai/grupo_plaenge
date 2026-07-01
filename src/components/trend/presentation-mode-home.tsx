@@ -54,14 +54,14 @@ const SLIDES: Slide[] = [
     caption: 'Implantação', subcaption: '2º Pavimento', contain: true, whiteBg: true },
 
   /* ══ CAP 02 — LAZER 7º PAVIMENTO ════════════════════════ */
-  /* 12 */ { kind: 'chapter', num: '02', title: 'Lazer\n7º Pav', subtitle: 'Downtown Home · Área de lazer completa' },
+  /* 12 */ { kind: 'chapter', num: '02', title: 'Lazer\n3º Pav', subtitle: 'Downtown Home · Área de lazer completa' },
 
   /* 13 */ { kind: 'image', src: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`,
     caption: 'Downtown Home', subcaption: 'Torre 1 — Fachada Residencial', position: 'center 40%' },
 
   /* 14 */ { kind: 'text',
-    super: 'TREND DOWNTOWN HOME · LAZER',
-    title: 'Um andar\ninteiro\npara você.',
+    super: 'TREND DOWNTOWN HOME · LAZER 3º PAVIMENTO',
+    title: 'Um pavimento\ninteiro\npara você.',
     cols: [
       [ 'Piscina adulto e infantil', 'Beach Tennis', 'Quadra infantil', 'Fitness moderno', 'Espaço Kids coberto' ],
       [ 'Salão de festas A e B', 'Espaço Gourmet externo', 'Espaço Pet', 'Coworking', 'Hall social de entrada' ],
@@ -104,7 +104,7 @@ const SLIDES: Slide[] = [
     caption: 'Espaço Pet', subcaption: 'Downtown Home', position: 'center 35%' },
 
   /* 27 */ { kind: 'image', src: `${PL}/PNB_PB_03_Implantacao_3o_Pavimento_EF.webp`,
-    caption: 'Implantação', subcaption: 'Downtown Home · 3º Pavimento — Lazer', contain: true, whiteBg: true },
+    caption: 'Implantação', subcaption: 'Downtown Home · 3º Pavimento — Lazer Condominial', contain: true, whiteBg: true },
 
   /* ══ CAP 03 — APARTAMENTOS ══════════════════════════════ */
   /* 28 */ { kind: 'chapter', num: '03', title: 'Aparta-\nmentos', subtitle: 'Torre 1 · Rua Gen. Lima e Silva, 1462' },
@@ -124,17 +124,17 @@ const SLIDES: Slide[] = [
     caption: 'Suíte Master', subcaption: 'Downtown Home · Torre 1', position: 'center 35%' },
 
   /* 32 */ { kind: 'image', src: `${PL}/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF_2.webp`,
-    caption: 'Planta 77 m²', subcaption: '2 Suítes', contain: true, whiteBg: true },
+    caption: 'Planta 109 m²', subcaption: '3 Dormitórios · Suíte', contain: true, whiteBg: true },
 
   /* slide 34 (PNB_PB_17 — T1A Apto 02) REMOVIDO */
 
   /* 33 */ { kind: 'image', src: `${PL}/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp`,
-    caption: 'Planta 88 m²', subcaption: '3 Dormitórios · Suíte', contain: true, whiteBg: true },
+    caption: 'Planta 77 m²', subcaption: '2 Suítes', contain: true, whiteBg: true },
 
   /* slide 36 (PNB_PB_19 — T1B Apto 01) REMOVIDO */
 
   /* 34 */ { kind: 'image', src: `${PL}/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF_2.webp`,
-    caption: 'Planta 109 m²', subcaption: '3 Dormitórios · Suíte', contain: true, whiteBg: true },
+    caption: 'Planta 88 m²', subcaption: '3 Dormitórios · Suíte', contain: true, whiteBg: true },
 
   /* slides 38-45 (T1B Apto 04 + todos T2) REMOVIDOS */
 
@@ -148,7 +148,7 @@ const SLIDES: Slide[] = [
       'Localização — Rua General Lima e Silva, 1462 · Porto Alegre/RS',
       'Torre 1 — 77 m² (2 suítes) · 88 m² (3D com suíte) · 109 m² (3D com suíte)',
       'Todas as tipologias disponíveis com e sem sacada',
-      'Lazer — 7º Pavimento completo com piscina, fitness, beach tennis, festas, kids, pet e coworking',
+      'Lazer — 3º Pavimento completo com piscina, fitness, beach tennis, festas, kids, pet e coworking',
       'Mall — 22 lojas de serviços e conveniência com acesso direto',
       'Arquitetura — IDEAI1',
       'Conceito — Smart Arquitetura',

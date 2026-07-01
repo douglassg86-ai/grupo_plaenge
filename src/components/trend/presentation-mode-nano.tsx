@@ -546,35 +546,38 @@ function NanoTextSlide({ slide }: { slide: Extract<Slide, { kind: 'text' }> }) {
 function NanoGridSlide({ slide }: { slide: Extract<Slide, { kind: 'grid' }> }) {
   return (
     <div className="flex flex-col h-full" style={{ background: '#0A0A0A' }}>
-      {/* Cabeçalho */}
-      <div className="px-16 pt-20 pb-6 flex-shrink-0">
-        {slide.super && (
-          <p className="tn-sans tn-anim-1 font-light mb-3" style={{ color: '#D4785A', fontSize: '0.65rem', letterSpacing: '0.3em' }}>
-            {slide.super}
-          </p>
-        )}
-        <div className="tn-anim-1 mb-3" style={{ width: '40px', height: '1px', background: '#D4785A' }} />
-        {slide.title && (
-          <h2 className="tn-serif tn-anim-2 text-white font-bold leading-none" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', letterSpacing: '-0.03em', whiteSpace: 'pre-line' }}>
-            {slide.title}
-          </h2>
-        )}
+      {/* Cabeçalho compacto */}
+      <div className="px-16 pt-20 pb-4 flex-shrink-0 flex items-center gap-8">
+        <div>
+          {slide.super && (
+            <p className="tn-sans tn-anim-1 font-light mb-2" style={{ color: '#D4785A', fontSize: '0.6rem', letterSpacing: '0.3em' }}>
+              {slide.super}
+            </p>
+          )}
+          <div className="tn-anim-1 mb-2" style={{ width: '30px', height: '1px', background: '#D4785A' }} />
+          {slide.title && (
+            <h2 className="tn-serif tn-anim-2 text-white font-bold leading-none" style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2.2rem)', letterSpacing: '-0.03em', whiteSpace: 'pre-line' }}>
+              {slide.title}
+            </h2>
+          )}
+        </div>
       </div>
-      {/* Grid de imagens */}
-      <div className="flex-1 px-12 pb-16 grid grid-cols-5 gap-3" style={{ gridTemplateRows: 'repeat(2, 1fr)' }}>
+      {/* Grid de imagens — sem box, direto na tela */}
+      <div className="flex-1 px-10 pb-14 grid grid-cols-5 gap-2" style={{ gridTemplateRows: 'repeat(2, 1fr)' }}>
         {slide.images.map((img, i) => (
-          <div key={i} className="relative rounded-lg overflow-hidden" style={{ background: '#FFFFFF', gridColumn: i === 8 ? '3' : 'auto' }}>
-            <Image
-              src={img.src}
-              alt={img.label}
-              fill
-              className="object-contain"
-              style={{ padding: '4px' }}
-              sizes="20vw"
-            />
-            <div className="absolute bottom-0 inset-x-0 py-1 text-center" style={{ background: 'rgba(10,10,10,0.7)' }}>
-              <span className="tn-sans font-light text-white" style={{ fontSize: '0.55rem', letterSpacing: '0.1em' }}>{img.label}</span>
+          <div key={i} className="relative flex flex-col" style={{ gridColumn: i === 8 ? '3' : 'auto' }}>
+            <div className="relative flex-1 min-h-0">
+              <Image
+                src={img.src}
+                alt={img.label}
+                fill
+                className="object-contain"
+                sizes="20vw"
+              />
             </div>
+            <p className="tn-sans text-center font-light mt-1 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.6rem', letterSpacing: '0.1em' }}>
+              {img.label}
+            </p>
           </div>
         ))}
       </div>
