@@ -123,7 +123,7 @@ const SLIDES: Slide[] = [
   /* Todas as implantações por pavimento em um único slide grid */
   { kind: 'grid',
     super: 'NANO · IMPLANTAÇÃO DAS UNIDADES',
-    title: 'Tipologia\npor pavimento.',
+    title: 'Posição dos finais\nnos pavimentos.',
     images: [
       { src: `${PN}/nano-02.jpg`, label: '3º Pav' },
       { src: `${PN}/nano-03.jpg`, label: '4º–8º Pav' },
