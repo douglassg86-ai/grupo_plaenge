@@ -350,7 +350,7 @@ function HomeCoverSlide({ bg, acc }: { bg: string; acc: string }) {
             UMA REALIZAÇÃO
           </p>
           <p className="th-sans font-semibold" style={{ color: 'rgba(0,0,0,0.65)', fontSize: '0.7rem', letterSpacing: '0.25em' }}>
-            MAIOJAMA · VANGUARD · FUNDO PHORBIS
+            MAIOJAMA · VANGUARD · PHORBIS
           </p>
         </div>
         <div className="th-anim-3 flex flex-col items-center gap-1" style={{ marginTop: '0.25rem' }}>

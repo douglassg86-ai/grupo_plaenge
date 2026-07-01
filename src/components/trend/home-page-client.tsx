@@ -268,7 +268,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
         <div className="bg-primary text-primary-foreground rounded-2xl px-8 py-6 text-center">
           <p className="text-lg font-semibold tracking-wide">Você no Centro de Tudo</p>
           <p className="text-primary-foreground/80 text-sm mt-1">
-            Maiojama · Vanguard · Fundo Phorbis · Av. Azenha / Rua Gen. Lima e Silva · Porto Alegre
+            Maiojama · Vanguard · Phorbis · Av. Azenha / Rua Gen. Lima e Silva · Porto Alegre
           </p>
         </div>
 
@@ -289,7 +289,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
               </div>
               <div className="pt-2 border-t space-y-3">
                 {[
-                  { label: 'Incorporação', value: 'Maiojama · Vanguard · Fundo Phorbis' },
+                  { label: 'Incorporação', value: 'Maiojama · Vanguard · Phorbis' },
                   { label: 'Conceituação', value: 'Smart Arquitetura' },
                   { label: 'Interiores', value: 'Maena Design Conecta' },
                   { label: 'Paisagismo', value: 'Creare Paisagismo' },
@@ -538,7 +538,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
 
       {/* FOOTER */}
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} Maiojama · Vanguard · Fundo Phorbis · Trend Downtown · Porto Alegre</p>
+        <p>© {new Date().getFullYear()} Maiojama · Vanguard · Phorbis · Trend Downtown · Porto Alegre</p>
 
       {!isClientePage && <WhatsappButton product="TREND DOWNTOWN" />}
       </footer>

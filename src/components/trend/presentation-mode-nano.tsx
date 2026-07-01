@@ -384,7 +384,7 @@ function NanoCoverSlide() {
             UMA REALIZAÇÃO
           </p>
           <p className="tn-sans font-semibold" style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.7rem', letterSpacing: '0.25em' }}>
-            MAIOJAMA · VANGUARD · FUNDO PHORBIS
+            MAIOJAMA · VANGUARD · PHORBIS
           </p>
         </div>
         <div className="tn-anim-3 flex flex-col items-center gap-1" style={{ marginTop: '0.5rem' }}>
