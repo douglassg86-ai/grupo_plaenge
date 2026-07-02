@@ -65,6 +65,21 @@ whatsapp-button.tsx         ← botão flutuante (só com cookie 'manager')
 
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 
+## Apresentações fullscreen — TREND DOWNTOWN
+- **Arquivos:** `src/components/trend/presentation-mode-nano.tsx` (NANO + OFFICE, 46 slides) e `presentation-mode-home.tsx` (HOME Torre 1, 37 slides)
+- **Ativação:** botões em `src/components/trend/home-page-client.tsx` dentro de `{!isClientePage}`
+- **Identidade visual:** NANO = dark (#0A0A0A) + copper (#D4785A) + Montserrat · HOME = cream (#F5F2EE) + vermelho (#C1422A) + Raleway
+- **Slide types:** `cover | image | chapter | text | grid` — `grid` mostra todas as plantas numa tela só
+- **`whiteBg?: boolean`** em slides `image`: quando `true`, fundo branco e texto escuro (usar em plantas e implantações com fundo branco para evitar recorte quadrado visível)
+- **Guard teclado:** `if (currentSlide < SLIDES.length - 1) onNext()` — nunca avançar além do último slide
+- **Bug branch switch:** `key={branch}` em `<GalleryViewer>` e `<PlantsViewer>` para forçar remount ao trocar Nano ↔ Home (evita crash com índice de categoria inválido)
+- **HOME:** Torre 1 apenas · lazer no **3º Pavimento** · 3 plantas (109 m² / 77 m² / 88 m²) · sem rosa dos ventos
+
+## SYNTHÈ — Mont'Serrat
+- **Bairro:** Mont'Serrat (NÃO Petrópolis)
+- **Apostrofe em JS:** strings JS com `Mont'Serrat` DEVEM usar aspas duplas (`"Mont'Serrat"`), nunca aspas simples — a aspa simples interna quebra o parser webpack e gera Syntax Error no build Vercel
+- **JSX text e JSON:** apóstrofe é seguro em texto JSX e em valores JSON (JSON usa aspas duplas por padrão)
+
 ## Observações críticas
 - **ProductHeader z-index:** `z-[60]`, backdrop `z-[55]`, menu `z-[60]` — nunca `z-20` (section do conteúdo também é `z-20` e venceria por ordem DOM)
 - **Tradução automática:** `<html lang="pt-BR" translate="no">` + `<meta name="google" content="notranslate">` — nunca voltar para `lang="en"`
