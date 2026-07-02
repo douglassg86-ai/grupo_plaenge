@@ -180,7 +180,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
                 {[
                   { label: 'Incorporação', value: 'Plaenge · TGD' },
                   { label: 'Endereço', value: 'Rua Pedro Ivo, 550' },
-                  { label: 'Bairro', value: 'Mont'Serrat' },
+                  { label: 'Bairro', value: "Mont'Serrat" },
                   { label: 'Cidade', value: 'Porto Alegre — RS' },
                   { label: 'Unidades', value: '32 · 2 por andar' },
                   { label: 'Áreas', value: '172 m² a 298 m²' },
