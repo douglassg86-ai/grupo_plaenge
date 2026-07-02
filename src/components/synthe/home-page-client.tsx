@@ -129,7 +129,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
         </div>
         <div className="relative z-10 container">
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-white/70 mb-3">
-            Petrópolis · Porto Alegre
+            Mont'Serrat · Porto Alegre
           </p>
           <Image src={`${P}/logo.png`} alt="SYNTHÈ" width={200} height={60}
             className="brightness-0 invert mb-4" />
@@ -153,7 +153,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
         <div className="bg-primary text-primary-foreground rounded-2xl px-8 py-6 text-center">
           <p className="text-lg font-semibold tracking-wide">A Síntese do Equilíbrio</p>
           <p className="text-primary-foreground/80 text-sm mt-1">
-            Plaenge · TGD · Rua Pedro Ivo, 550 · Petrópolis · Porto Alegre
+            Plaenge · TGD · Rua Pedro Ivo, 550 · Mont'Serrat · Porto Alegre
           </p>
         </div>
 
@@ -180,7 +180,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
                 {[
                   { label: 'Incorporação', value: 'Plaenge · TGD' },
                   { label: 'Endereço', value: 'Rua Pedro Ivo, 550' },
-                  { label: 'Bairro', value: 'Petrópolis' },
+                  { label: 'Bairro', value: 'Mont'Serrat' },
                   { label: 'Cidade', value: 'Porto Alegre — RS' },
                   { label: 'Unidades', value: '32 · 2 por andar' },
                   { label: 'Áreas', value: '172 m² a 298 m²' },
@@ -257,7 +257,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
             <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6">Localização</p>
             <div className="space-y-4">
               <div className="text-sm space-y-1">
-                <p className="font-medium text-foreground">Rua Pedro Ivo, 550 · Petrópolis · Porto Alegre — RS</p>
+                <p className="font-medium text-foreground">Rua Pedro Ivo, 550 · Mont'Serrat · Porto Alegre — RS</p>
                 <p className="text-muted-foreground">Uma localização que oferece conveniência sem ruído e conexão sem excesso. Próximo a William & Sons Coffee, Jean Pierre Patisserie, Zaffari Anita, Academia Body Tech e Paddock & Co Padaria Artesanal.</p>
               </div>
               <div className="rounded-xl overflow-hidden border" style={{ height: '280px' }}>
@@ -288,7 +288,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
 
       {/* FOOTER */}
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} Plaenge · TGD · SYNTHÈ Petrópolis · Porto Alegre</p>
+        <p>© {new Date().getFullYear()} Plaenge · TGD · SYNTHÈ Mont'Serrat · Porto Alegre</p>
 
       {!isClientePage && <WhatsappButton product="SYNTHÈ" />}
       </footer>

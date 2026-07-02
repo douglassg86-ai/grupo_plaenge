@@ -20,7 +20,7 @@
     },
     {
       "id": "orbitale-hero",
-      "description": "Fachada ORBITALE Petrópolis",
+      "description": "Fachada ORBITALE Mont'Serrat",
       "imageUrl": "/ORBITALE/01_FACHADA-02.webp",
       "imageHint": "building facade"
     },
@@ -398,7 +398,7 @@
     },
     {
       "id": "synthe-hero",
-      "description": "SYNTHÈ — Pré-lançamento Petrópolis Porto Alegre",
+      "description": "SYNTHÈ — Pré-lançamento Mont'Serrat Porto Alegre",
       "imageUrl": "/SYNTHE/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp",
       "imageHint": "synthè fachada"
     },
