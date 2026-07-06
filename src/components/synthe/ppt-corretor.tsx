@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Play, Maximize, Minimize } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Maximize, Minimize, Download } from 'lucide-react';
 
 const BG   = '#F5F2EE';
 const ACC  = '#C1422A';
@@ -127,7 +127,7 @@ function slideLabel(s: Slide): string {
     case 'capa':        return 'Abertura';
     case 'highlight':   return 'Pré-Lançamento';
     case 'book':        return 'Book Digital';
-    case 'gallery':     return s.label ?? 'Imagens';
+    case 'gallery':     return s.img.label ?? 'Imagens';
     case 'corretores':  return 'Campanha';
     case 'incentive':   return 'Impulsionamento';
     case 'imersiva':    return 'Sala Imersiva';
@@ -483,7 +483,11 @@ function SlideEstrategia2() {
   );
 }
 
-function SlideCta() {
+function SlideCta({ onDownloadPDF, isGeneratingPDF, pdfProgress }: {
+  onDownloadPDF: () => void;
+  isGeneratingPDF: boolean;
+  pdfProgress: number;
+}) {
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: DARK }}>
       <div className="absolute inset-0">
@@ -528,7 +532,18 @@ function SlideCta() {
           </div>
         </div>
         <div className="sn-a3 mt-14" style={{ height: '1px', width: '70px', background: `${ACC}45` }} />
-        <p className="sn sn-a4 mt-5" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+        {/* PDF Download */}
+        <div className="sn-a4 mt-8">
+          <button
+            onClick={onDownloadPDF}
+            disabled={isGeneratingPDF}
+            className="sn flex items-center gap-3 px-8 py-3 rounded-full transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-wait disabled:scale-100"
+            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.8rem, 1.1vw, 0.95rem)', letterSpacing: '0.08em' }}>
+            <Download className="w-4 h-4 flex-shrink-0" />
+            <span>{isGeneratingPDF ? `Gerando PDF... ${pdfProgress}%` : 'Baixar PDF'}</span>
+          </button>
+        </div>
+        <p className="sn sn-a5 mt-5" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
           PLAENGE · TGD · MONT&apos;SERRAT · PORTO ALEGRE
         </p>
       </div>
@@ -542,7 +557,84 @@ export default function SynthePptCorretor() {
   const [slide, setSlide] = useState(0);
   const [animKey, setAnimKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [pdfProgress, setPdfProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const generatePDF = useCallback(async () => {
+    if (isGeneratingPDF || !containerRef.current) return;
+    setIsGeneratingPDF(true);
+    setPdfProgress(0);
+
+    const container = containerRef.current;
+    const vw = container.clientWidth;
+    const vh = container.clientHeight;
+    const scale = 1920 / vw;
+    const capturedHeight = Math.round(vh * scale);
+
+    // Suppress animations during capture
+    const noAnimStyle = document.createElement('style');
+    noAnimStyle.id = '__pdf_no_anim';
+    noAnimStyle.textContent = `
+      #__ppt_container .sn-a0, #__ppt_container .sn-a1, #__ppt_container .sn-a2,
+      #__ppt_container .sn-a3, #__ppt_container .sn-a4, #__ppt_container .sn-a5,
+      #__ppt_container .sn-fade {
+        animation-duration: 0.001ms !important;
+        animation-delay: 0ms !important;
+      }
+    `;
+    document.head.appendChild(noAnimStyle);
+    container.id = '__ppt_container';
+
+    try {
+      const { default: html2canvas } = await import('html2canvas');
+      const { jsPDF } = await import('jspdf');
+
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [1920, capturedHeight],
+        compress: true,
+      });
+
+      const savedSlide = slide;
+
+      for (let i = 0; i < TOTAL; i++) {
+        setSlide(i);
+        setAnimKey(k => k + 1);
+        setPdfProgress(Math.round((i / TOTAL) * 100));
+
+        // Wait for React render + Next.js images to load
+        await new Promise(r => setTimeout(r, 900));
+
+        const canvas = await html2canvas(container, {
+          scale,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          imageTimeout: 10000,
+          width: vw,
+          height: vh,
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.9);
+        if (i > 0) pdf.addPage([1920, capturedHeight], 'landscape');
+        pdf.addImage(imgData, 'JPEG', 0, 0, 1920, capturedHeight);
+      }
+
+      setSlide(savedSlide);
+      setAnimKey(k => k + 1);
+      setPdfProgress(100);
+      pdf.save('SYNTHE-Apresentacao-Corretores.pdf');
+    } catch (err) {
+      console.error('PDF generation error:', err);
+    } finally {
+      document.getElementById('__pdf_no_anim')?.remove();
+      container.removeAttribute('id');
+      setIsGeneratingPDF(false);
+      setPdfProgress(0);
+    }
+  }, [isGeneratingPDF, slide]);
 
   const goTo = useCallback((n: number) => {
     if (n < 0 || n >= TOTAL) return;
@@ -596,7 +688,7 @@ export default function SynthePptCorretor() {
         {current.kind === 'meta2'       && <SlideMeta2 />}
         {current.kind === 'estrategia1' && <SlideEstrategia1 />}
         {current.kind === 'estrategia2' && <SlideEstrategia2 />}
-        {current.kind === 'cta'         && <SlideCta />}
+        {current.kind === 'cta'         && <SlideCta onDownloadPDF={generatePDF} isGeneratingPDF={isGeneratingPDF} pdfProgress={pdfProgress} />}
       </div>
 
       {/* Top bar */}
