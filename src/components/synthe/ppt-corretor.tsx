@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Play, Maximize, Minimize, Download } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Maximize, Minimize } from 'lucide-react';
 
 const BG   = '#F5F2EE';
 const ACC  = '#C1422A';
@@ -509,11 +509,7 @@ function SlideEstrategia2() {
   );
 }
 
-function SlideCta({ onDownloadPDF, isGeneratingPDF, pdfProgress }: {
-  onDownloadPDF: () => void;
-  isGeneratingPDF: boolean;
-  pdfProgress: number;
-}) {
+function SlideCta() {
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: DARK }}>
       <div className="absolute inset-0">
@@ -529,25 +525,14 @@ function SlideCta({ onDownloadPDF, isGeneratingPDF, pdfProgress }: {
           ACESSE O MATERIAL COMPLETO
         </p>
         <div className="sn-a2 flex gap-16 items-center">
-          {/* QR Code real */}
           <div className="flex flex-col items-center gap-4">
-            <div style={{
-              width: 'clamp(160px, 16vw, 200px)',
-              height: 'clamp(160px, 16vw, 200px)',
-              borderRadius: '14px',
-              overflow: 'hidden',
-              background: '#FFFFFF',
-              padding: '8px',
-              position: 'relative',
-            }}>
-              <Image src={`${P}/qrcode-synthe.webp`} alt="QR Code SYNTHÈ" fill
-                className="object-contain" sizes="200px" />
+            <div style={{ width: 'clamp(160px, 16vw, 200px)', height: 'clamp(160px, 16vw, 200px)', borderRadius: '14px', overflow: 'hidden', background: '#FFFFFF', padding: '8px', position: 'relative' }}>
+              <Image src={`${P}/qrcode-synthe.webp`} alt="QR Code SYNTHÈ" fill className="object-contain" sizes="200px" />
             </div>
             <p className="sn" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.7rem, 0.9vw, 0.8rem)', letterSpacing: '0.08em' }}>
               Escaneie para acessar
             </p>
           </div>
-          {/* Link */}
           <div className="flex flex-col items-center justify-center gap-5">
             <p className="sn" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>ou acesse</p>
             <a href="https://grupo-plaenge.vercel.app/synthe" target="_blank" rel="noopener noreferrer"
@@ -558,18 +543,7 @@ function SlideCta({ onDownloadPDF, isGeneratingPDF, pdfProgress }: {
           </div>
         </div>
         <div className="sn-a3 mt-14" style={{ height: '1px', width: '70px', background: `${ACC}45` }} />
-        {/* PDF Download */}
-        <div className="sn-a4 mt-8">
-          <button
-            onClick={onDownloadPDF}
-            disabled={isGeneratingPDF}
-            className="sn flex items-center gap-3 px-8 py-3 rounded-full transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-wait disabled:scale-100"
-            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.8rem, 1.1vw, 0.95rem)', letterSpacing: '0.08em' }}>
-            <Download className="w-4 h-4 flex-shrink-0" />
-            <span>{isGeneratingPDF ? `Gerando PDF... ${pdfProgress}%` : 'Baixar PDF'}</span>
-          </button>
-        </div>
-        <p className="sn sn-a5 mt-5" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+        <p className="sn sn-a4 mt-5" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
           PLAENGE · TGD · MONT&apos;SERRAT · PORTO ALEGRE
         </p>
       </div>
@@ -583,103 +557,7 @@ export default function SynthePptCorretor() {
   const [slide, setSlide] = useState(0);
   const [animKey, setAnimKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-  const [pdfProgress, setPdfProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const generatePDF = useCallback(async () => {
-    if (isGeneratingPDF || !containerRef.current) return;
-    setIsGeneratingPDF(true);
-    setPdfProgress(0);
-
-    const container = containerRef.current;
-    const vw = container.clientWidth;
-    const vh = container.clientHeight;
-    // Scale canvas to 1920px wide
-    const captureScale = 1920 / vw;
-
-    // CSS: suppress animations + hide nav overlays during capture
-    const captureStyle = document.createElement('style');
-    captureStyle.id = '__pdf_capture_style';
-    captureStyle.textContent = `
-      #__ppt_c .sn-a0,#__ppt_c .sn-a1,#__ppt_c .sn-a2,
-      #__ppt_c .sn-a3,#__ppt_c .sn-a4,#__ppt_c .sn-a5,#__ppt_c .sn-fade {
-        animation-duration:0.001ms!important; animation-delay:0ms!important;
-      }
-      #__ppt_c [data-pdf-hide] { display:none!important; }
-    `;
-    document.head.appendChild(captureStyle);
-    container.id = '__ppt_c';
-
-    // html2canvas does not handle position:fixed correctly — switch to absolute temporarily
-    container.style.position = 'absolute';
-    container.style.width = `${vw}px`;
-    container.style.height = `${vh}px`;
-    container.style.top = '0';
-    container.style.left = '0';
-    document.body.style.minHeight = `${vh}px`;
-
-    try {
-      const { default: html2canvas } = await import('html2canvas');
-      const { jsPDF } = await import('jspdf');
-
-      const savedSlide = slide;
-      let pdf: InstanceType<typeof jsPDF> | null = null;
-
-      for (let i = 0; i < TOTAL; i++) {
-        setSlide(i);
-        setAnimKey(k => k + 1);
-        setPdfProgress(Math.round((i / TOTAL) * 100));
-
-        // Wait for React render + image loading
-        await new Promise(r => setTimeout(r, 1000));
-
-        const canvas = await html2canvas(container, {
-          scale: captureScale,
-          useCORS: true,
-          allowTaint: true,
-          logging: false,
-          imageTimeout: 12000,
-          width: vw,
-          height: vh,
-          windowWidth: vw,
-          windowHeight: vh,
-          scrollX: 0,
-          scrollY: 0,
-        });
-
-        // 1px = 0.75pt at 96dpi
-        const pdfW = Math.round(canvas.width * 0.75);
-        const pdfH = Math.round(canvas.height * 0.75);
-
-        if (i === 0) {
-          pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: [pdfW, pdfH], compress: true });
-        } else {
-          pdf!.addPage([pdfW, pdfH], 'landscape');
-        }
-
-        pdf!.addImage(canvas.toDataURL('image/jpeg', 0.9), 'JPEG', 0, 0, pdfW, pdfH);
-      }
-
-      setSlide(savedSlide);
-      setAnimKey(k => k + 1);
-      setPdfProgress(100);
-      pdf?.save('SYNTHE-Apresentacao-Corretores.pdf');
-    } catch (err) {
-      console.error('PDF generation error:', err);
-    } finally {
-      document.getElementById('__pdf_capture_style')?.remove();
-      container.removeAttribute('id');
-      container.style.position = '';
-      container.style.width = '';
-      container.style.height = '';
-      container.style.top = '';
-      container.style.left = '';
-      document.body.style.minHeight = '';
-      setIsGeneratingPDF(false);
-      setPdfProgress(0);
-    }
-  }, [isGeneratingPDF, slide]);
 
   const goTo = useCallback((n: number) => {
     if (n < 0 || n >= TOTAL) return;
@@ -733,7 +611,7 @@ export default function SynthePptCorretor() {
         {current.kind === 'meta2'       && <SlideMeta2 />}
         {current.kind === 'estrategia1' && <SlideEstrategia1 />}
         {current.kind === 'estrategia2' && <SlideEstrategia2 />}
-        {current.kind === 'cta'         && <SlideCta onDownloadPDF={generatePDF} isGeneratingPDF={isGeneratingPDF} pdfProgress={pdfProgress} />}
+        {current.kind === 'cta'         && <SlideCta />}
       </div>
 
       {/* Top bar */}
