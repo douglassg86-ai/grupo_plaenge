@@ -569,10 +569,10 @@ export default function SynthePptCorretor() {
     const container = containerRef.current;
     const vw = container.clientWidth;
     const vh = container.clientHeight;
-    const scale = 1920 / vw;
-    const capturedHeight = Math.round(vh * scale);
+    // Scale so canvas width = 1920 CSS px; height follows viewport ratio
+    const captureScale = 1920 / vw;
 
-    // Suppress animations during capture
+    // Suppress animations during capture so all elements are fully visible
     const noAnimStyle = document.createElement('style');
     noAnimStyle.id = '__pdf_no_anim';
     noAnimStyle.textContent = `
@@ -590,14 +590,8 @@ export default function SynthePptCorretor() {
       const { default: html2canvas } = await import('html2canvas');
       const { jsPDF } = await import('jspdf');
 
-      const pdf = new jsPDF({
-        orientation: 'landscape',
-        unit: 'px',
-        format: [1920, capturedHeight],
-        compress: true,
-      });
-
       const savedSlide = slide;
+      let pdf: InstanceType<typeof jsPDF> | null = null;
 
       for (let i = 0; i < TOTAL; i++) {
         setSlide(i);
@@ -608,7 +602,7 @@ export default function SynthePptCorretor() {
         await new Promise(r => setTimeout(r, 900));
 
         const canvas = await html2canvas(container, {
-          scale,
+          scale: captureScale,
           useCORS: true,
           allowTaint: true,
           logging: false,
@@ -617,15 +611,25 @@ export default function SynthePptCorretor() {
           height: vh,
         });
 
+        // Derive PDF page size in pt (1px = 0.75pt at 96dpi)
+        // This ensures the PDF page matches the canvas exactly with no distortion
+        const pdfW = Math.round(canvas.width * 0.75);
+        const pdfH = Math.round(canvas.height * 0.75);
+
+        if (i === 0) {
+          pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: [pdfW, pdfH], compress: true });
+        } else {
+          pdf!.addPage([pdfW, pdfH], 'landscape');
+        }
+
         const imgData = canvas.toDataURL('image/jpeg', 0.9);
-        if (i > 0) pdf.addPage([1920, capturedHeight], 'landscape');
-        pdf.addImage(imgData, 'JPEG', 0, 0, 1920, capturedHeight);
+        pdf!.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
       }
 
       setSlide(savedSlide);
       setAnimKey(k => k + 1);
       setPdfProgress(100);
-      pdf.save('SYNTHE-Apresentacao-Corretores.pdf');
+      pdf?.save('SYNTHE-Apresentacao-Corretores.pdf');
     } catch (err) {
       console.error('PDF generation error:', err);
     } finally {
