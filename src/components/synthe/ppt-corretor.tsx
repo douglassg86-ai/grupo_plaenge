@@ -111,10 +111,10 @@ const SLIDES: Slide[] = [
   { kind: 'corretores' },
   { kind: 'incentive' },
   { kind: 'imersiva' },
-  { kind: 'meta1' },
-  { kind: 'meta2' },
   { kind: 'estrategia1' },
   { kind: 'estrategia2' },
+  { kind: 'meta1' },
+  { kind: 'meta2' },
   { kind: 'cta' },
 ];
 
@@ -438,42 +438,68 @@ function SlideEstrategia1() {
 
 function SlideEstrategia2() {
   const units = [
-    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
-    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
-    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
-    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
-    { unidade: '—', tipo: 'Penthouse', area: '298 m²',   andar: '18º', obs: 'Marcação' },
+    { unidade: '302',  area: '180,39', valor: '2.952.043,20', entrada: '73.801,08', mensal: '14.702,56', reforco: '73.801,08', saldo: '1.743.550,52', m2: '16.364,78' },
+    { unidade: '501',  area: '176,80', valor: '2.966.634,90', entrada: '74.165,87', mensal: '14.775,23', reforco: '74.165,87', saldo: '1.752.168,74', m2: '16.779,61' },
+    { unidade: '601',  area: '176,80', valor: '2.992.591,20', entrada: '74.814,78', mensal: '14.904,51', reforco: '74.814,78', saldo: '1.767.499,18', m2: '16.926,42' },
+    { unidade: '1201', area: '180,30', valor: '3.159.163,50', entrada: '78.979,09', mensal: '15.734,12', reforco: '78.979,09', saldo: '1.865.880,94', m2: '17.521,71' },
+    { unidade: '1502', area: '176,89', valor: '3.159.163,50', entrada: '78.979,09', mensal: '15.734,12', reforco: '78.979,09', saldo: '1.865.880,94', m2: '17.859,48' },
   ];
+  const headers = [
+    { label: 'Unidade', sub: '' },
+    { label: 'Área (m²)', sub: '' },
+    { label: 'Valor Pré-venda', sub: '' },
+    { label: 'Entrada', sub: '5×' },
+    { label: 'Mensais', sub: '32×' },
+    { label: 'Reforços', sub: '5×' },
+    { label: 'Saldo', sub: '1×' },
+    { label: 'R$/m²', sub: '' },
+  ];
+  const vals = (u: typeof units[0]) => [u.unidade, u.area, u.valor, u.entrada, u.mensal, u.reforco, u.saldo, u.m2];
   return (
     <div className="relative w-full h-full flex flex-col" style={{ background: DARK }}>
-      <div className="px-16 pt-14 pb-8 flex-shrink-0">
-        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-4" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>ESTRATÉGIA COMERCIAL · 02</p>
-        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2.5rem, 4.5vw, 4rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
-          5 LINHAS DE TABELA
-        </h2>
-        <p className="sn sn-a2 mt-3" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.9rem, 1.4vw, 1.2rem)', fontWeight: 300 }}>
-          5 unidades selecionadas com condições especiais de negociação
+      <div className="px-14 pt-12 pb-6 flex-shrink-0">
+        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-3" style={{ color: ACC, fontSize: 'clamp(0.75rem, 1.1vw, 0.9rem)', fontWeight: 500 }}>ESTRATÉGIA COMERCIAL · 02</p>
+        <p className="sn sn-a1" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(0.85rem, 1.3vw, 1.1rem)', fontWeight: 300 }}>
+          5 unidades selecionadas · condições especiais de pré-lançamento
         </p>
       </div>
-      <div className="flex-1 px-16 pb-14 sn-a3 overflow-auto">
-        <table className="w-full" style={{ borderCollapse: 'separate', borderSpacing: '0 8px' }}>
+      <div className="flex-1 px-14 pb-12 sn-a2 flex flex-col justify-center">
+        <table className="w-full" style={{ borderCollapse: 'collapse' }}>
           <thead>
-            <tr>
-              {['Unidade', 'Tipologia', 'Área', 'Andar', 'Obs.'].map(h => (
-                <th key={h} className="sn text-left pb-4" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.7rem, 1vw, 0.85rem)', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', paddingRight: '2rem' }}>{h}</th>
+            <tr style={{ borderBottom: `1px solid ${ACC}60` }}>
+              {headers.map((h, i) => (
+                <th key={i} className="sn text-left pb-4" style={{
+                  color: ACC,
+                  fontSize: 'clamp(0.65rem, 0.9vw, 0.78rem)',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  paddingRight: i < headers.length - 1 ? '1.2rem' : 0,
+                  whiteSpace: 'nowrap',
+                }}>
+                  {h.label}{h.sub && <span style={{ color: 'rgba(255,255,255,0.3)', marginLeft: '4px' }}>{h.sub}</span>}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {units.map((u, i) => (
-              <tr key={i}>
-                <td className="sn py-5 pr-8" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.unidade}</td>
-                <td className="sn py-5 pr-8" style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 300, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.tipo}</td>
-                <td className="sn py-5 pr-8" style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 300, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.area}</td>
-                <td className="sn py-5 pr-8" style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 300, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.andar}</td>
-                <td className="sn py-5" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-                  <span className="sn px-3 py-1 rounded-full" style={{ background: `${ACC}25`, color: ACC, fontSize: 'clamp(0.7rem, 1vw, 0.85rem)', fontWeight: 500, border: `1px solid ${ACC}40` }}>{u.obs}</span>
-                </td>
+              <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                {vals(u).map((v, j) => (
+                  <td key={j} className="sn" style={{
+                    paddingTop: 'clamp(14px, 2.2vh, 22px)',
+                    paddingBottom: 'clamp(14px, 2.2vh, 22px)',
+                    paddingRight: j < vals(u).length - 1 ? '1.2rem' : 0,
+                    color: j === 0 ? '#FFFFFF' : j === 2 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.6)',
+                    fontWeight: j === 0 ? 700 : j === 2 ? 500 : 300,
+                    fontSize: j === 0
+                      ? 'clamp(1rem, 1.5vw, 1.25rem)'
+                      : 'clamp(0.8rem, 1.15vw, 0.95rem)',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    {j === 0 ? v : j === 1 ? v : `R$ ${v}`}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
