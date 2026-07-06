@@ -338,23 +338,32 @@ function SlideImersiva() {
 
 function SlideMeta1() {
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden" style={{ background: BG }}>
-      <div className="absolute inset-0 sn-fade" style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${ACC}10 0%, transparent 70%)` }} />
-      <div className="relative z-10 flex flex-col items-center text-center px-12 w-full max-w-4xl">
+    <div className="relative w-full h-full overflow-hidden" style={{ background: DARK }}>
+      {/* Car image full bleed */}
+      <div className="absolute inset-0 sn-fade">
+        <Image src={`${P}/carro-meta1-mg4.webp`} alt="MG4 HATCH" fill
+          className="object-cover" sizes="100vw" style={{ objectPosition: 'center 40%' }} />
+      </div>
+      {/* Gradient overlays — escurece bordas, texto legível */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.15) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)' }} />
+      {/* Text — left side */}
+      <div className="absolute left-0 top-0 bottom-0 z-10 flex flex-col justify-center px-20 max-w-2xl">
         <p className="sn sn-a0 tracking-[0.35em] uppercase mb-6" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
           METAS E PRÊMIOS · META 1
         </p>
-        {/* Car placeholder — substituir pela imagem do BYD Dolphin Mini */}
-        <div className="sn-a1 w-full rounded-2xl flex flex-col items-center justify-center mb-10 py-12 px-8"
-          style={{ background: DARK, minHeight: '240px', border: `2px solid rgba(0,0,0,0.08)` }}>
-          <p className="sn" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', marginBottom: '0.8rem' }}>[ IMAGEM DO VEÍCULO ]</p>
-          <p className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.01em', textTransform: 'uppercase' }}>BYD DOLPHIN MINI</p>
+        <div className="sn-a1 flex items-baseline gap-4 mb-3">
+          <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(6rem, 11vw, 10rem)', lineHeight: 0.85, letterSpacing: '-0.03em' }}>10</span>
+          <span className="sn" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>unidades</span>
         </div>
-        <div className="sn-a2 flex items-baseline gap-4 mb-4">
-          <span className="sn" style={{ color: DARK, fontWeight: 900, fontSize: 'clamp(5rem, 9vw, 8rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>10</span>
-          <span className="sn" style={{ color: `${DARK}60`, fontWeight: 300, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)' }}>unidades</span>
-        </div>
-        <p className="sn sn-a3" style={{ color: `${DARK}60`, fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, letterSpacing: '0.08em' }}>em 60 dias</p>
+        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>em 60 dias</p>
+        <div className="sn-a3" style={{ width: '56px', height: '3px', background: ACC, marginBottom: '1.8rem' }} />
+        <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 3.8vw, 3.5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
+          MG4 HATCH
+        </p>
+        <p className="sn sn-a5" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', fontWeight: 300, marginTop: '0.6rem' }}>
+          Veículo elétrico · Prêmio Meta 1
+        </p>
       </div>
     </div>
   );
@@ -362,30 +371,40 @@ function SlideMeta1() {
 
 function SlideMeta2() {
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden" style={{ background: DARK }}>
-      <div className="absolute inset-0 sn-fade" style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${ACC}18 0%, transparent 70%)` }} />
-      <div className="relative z-10 flex flex-col items-center text-center px-12 w-full max-w-4xl">
+    <div className="relative w-full h-full overflow-hidden" style={{ background: DARK }}>
+      {/* Car image full bleed */}
+      <div className="absolute inset-0 sn-fade">
+        <Image src={`${P}/carro-meta2-cyberster.webp`} alt="MG Cyberster" fill
+          className="object-cover" sizes="100vw" style={{ objectPosition: 'center 45%' }} />
+      </div>
+      {/* Gradients */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0.1) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 50%)' }} />
+      {/* Text — left side */}
+      <div className="absolute left-0 top-0 bottom-0 z-10 flex flex-col justify-center px-20 max-w-2xl">
         <div className="sn-a0 flex items-center gap-3 mb-6">
           <div style={{ width: '32px', height: '2px', background: ACC }} />
           <p className="sn tracking-[0.35em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
-            METAS E PRÊMIOS · META 2 · O PRÊMIO EVOLUI
+            META 2 · O PRÊMIO EVOLUI
           </p>
-          <div style={{ width: '32px', height: '2px', background: ACC }} />
         </div>
-        {/* Car placeholder — substituir pela imagem do BYD Seal */}
-        <div className="sn-a1 w-full rounded-2xl flex flex-col items-center justify-center mb-10 py-12 px-8"
-          style={{ background: 'rgba(255,255,255,0.04)', minHeight: '240px', border: `2px solid ${ACC}40` }}>
-          <p className="sn" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem', letterSpacing: '0.2em', marginBottom: '0.8rem' }}>[ IMAGEM DO VEÍCULO ]</p>
-          <p className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.01em', textTransform: 'uppercase' }}>BYD SEAL</p>
+        <div className="sn-a1 flex items-baseline gap-4 mb-3">
+          <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(6rem, 11vw, 10rem)', lineHeight: 0.85, letterSpacing: '-0.03em' }}>15</span>
+          <span className="sn" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>unidades</span>
         </div>
-        <div className="sn-a2 flex items-baseline gap-4 mb-4">
-          <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(5rem, 9vw, 8rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>15</span>
-          <span className="sn" style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)' }}>unidades</span>
-        </div>
-        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, letterSpacing: '0.08em' }}>em 90 dias</p>
-        <p className="sn sn-a4 mt-6 px-6 py-3 rounded-full" style={{ background: `${ACC}25`, color: ACC, fontSize: 'clamp(0.85rem, 1.3vw, 1.1rem)', fontWeight: 400, border: `1px solid ${ACC}40` }}>
-          Ao atingir a meta 2, o prêmio evolui automaticamente do Dolphin Mini para o Seal
+        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>em 90 dias</p>
+        <div className="sn-a3" style={{ width: '56px', height: '3px', background: ACC, marginBottom: '1.8rem' }} />
+        <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 3.8vw, 3.5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
+          MG CYBERSTER
         </p>
+        <p className="sn sn-a5" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', fontWeight: 300, marginTop: '0.6rem', marginBottom: '1.5rem' }}>
+          Esportivo elétrico conversível · Prêmio Meta 2
+        </p>
+        <div className="sn-a5 px-5 py-3 rounded-full self-start" style={{ background: `${ACC}30`, border: `1px solid ${ACC}60` }}>
+          <p className="sn" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
+            Atinja a meta 2 e o prêmio evolui do MG4 para o Cyberster
+          </p>
+        </div>
       </div>
     </div>
   );
