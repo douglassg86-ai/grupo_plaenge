@@ -94,7 +94,6 @@ export default function UnitGrid() {
                   { label: 'Área Privativa', value: `${selected.area.toFixed(2)} m²` },
                   { label: 'Andar', value: `${selected.floor}º` },
                   { label: 'Suítes', value: '3 suítes' },
-                  { label: 'Vagas', value: selected.floor <= 6 ? '2 vagas' : '3 vagas' },
                   { label: 'Hall', value: 'Privativo por andar' },
                 ].map(({ label, value }) => (
                   <div key={label}>
