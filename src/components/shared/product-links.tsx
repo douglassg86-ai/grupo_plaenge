@@ -1,6 +1,6 @@
 'use client';
 
-import { Table2, BookOpen, Image as ImageIcon, Video, Globe, Copy, Check, FileText } from 'lucide-react';
+import { Table2, BookOpen, Image as ImageIcon, Video, Globe, Copy, Check, FileText, LayoutTemplate, Camera } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { managers } from '@/lib/managers';
@@ -9,6 +9,9 @@ export interface ProductLinksConfig {
   tabela?: string;
   book?: string;
   imagens?: string;
+  plantas?: string;
+  fotosDecorado?: string;
+  reels?: string;
   video?: string;
   site?: string;
   clienteSlug: string;
@@ -77,6 +80,15 @@ export function ProductLinks({ config }: { config: ProductLinksConfig }) {
         )}
         {config.imagens && (
           <LinkButton href={config.imagens} icon={ImageIcon} label="Imagens" />
+        )}
+        {config.plantas && (
+          <LinkButton href={config.plantas} icon={LayoutTemplate} label="Plantas" />
+        )}
+        {config.fotosDecorado && (
+          <LinkButton href={config.fotosDecorado} icon={Camera} label="Fotos Decorado" />
+        )}
+        {config.reels && (
+          <LinkButton href={config.reels} icon={Video} label="Reels" />
         )}
         {config.video && (
           <LinkButton href={config.video} icon={Video} label="Vídeo" />

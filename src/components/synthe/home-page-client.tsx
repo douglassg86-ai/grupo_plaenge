@@ -10,9 +10,12 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
-  // synthè - em breve (sem tabela, book, video por enquanto)
-  site: undefined as string | undefined,
-  clienteSlug: 'synthe',
+  book:          'https://drive.google.com/open?id=1netjJDKzSz8VPgROc3ZoMloFPSv07O7m&usp=drive_fs',
+  imagens:       'https://drive.google.com/open?id=1Q6LpU-LPMwxZtdbbHb7E3XX1u24UD3o0&usp=drive_fs',
+  plantas:       'https://drive.google.com/open?id=1WLV6OkYCJRBoeKZGakO1Mvupy_0cdhgC&usp=drive_fs',
+  fotosDecorado: 'https://drive.google.com/open?id=1cUR5dU96rq85x5pyEMsN693EjHeu2Miw&usp=drive_fs',
+  reels:         'https://drive.google.com/open?id=16p4XzKKraSWvwPGLsuJ7Wig07xhE7_ZS&usp=drive_fs',
+  clienteSlug:   'synthe',
 };
 
 const P = '/SYNTHE';
@@ -96,7 +99,6 @@ const diferenciais = [
   'Hall privativo por andar',
   'Apartamentos de 172 m² a 298 m²',
   '3 suítes em todas as unidades',
-  '3 vagas de garagem',
   'Gerador pleno',
   'Espera para carregador elétrico',
   'Piscina',
@@ -109,8 +111,8 @@ const diferenciais = [
 ];
 
 const tipologias = [
-  { tipo: 'Apartamento Tipo 01', area: '176,89 m²', unidades: '30 unid.', detalhe: '3 suítes · Hall privativo · 3 vagas' },
-  { tipo: 'Penthouse', area: '298 m²', unidades: '2 unid.', detalhe: '3 suítes · Rooftop privativo · 3 vagas' },
+  { tipo: 'Apartamento Tipo 01', area: '176,89 m²', unidades: '30 unid.', detalhe: '3 suítes · Hall privativo' },
+  { tipo: 'Penthouse', area: '298 m²', unidades: '2 unid.', detalhe: '3 suítes · Rooftop privativo' },
 ];
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
