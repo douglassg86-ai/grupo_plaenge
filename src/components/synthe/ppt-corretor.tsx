@@ -1,14 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Play, Maximize, Minimize } from 'lucide-react';
 
 const BG   = '#F5F2EE';
 const ACC  = '#C1422A';
 const DARK = '#1A1A1A';
 const P    = '/SYNTHE';
-const TOTAL = 10;
 
 const FONT_CSS = `
 @font-face {
@@ -42,9 +41,8 @@ const FONT_CSS = `
   font-weight: 900; font-style: normal; font-display: swap;
 }
 .sn { font-family: 'Normalidad', 'Helvetica Neue', Arial, sans-serif; }
-@keyframes sn-up   { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+@keyframes sn-up   { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
 @keyframes sn-in   { from { opacity:0; } to { opacity:1; } }
-@keyframes sn-scale { from { opacity:0; transform:scale(0.94); } to { opacity:1; transform:scale(1); } }
 .sn-a0  { animation: sn-up 0.65s 0.00s cubic-bezier(.22,.68,0,1.15) both; }
 .sn-a1  { animation: sn-up 0.65s 0.12s cubic-bezier(.22,.68,0,1.15) both; }
 .sn-a2  { animation: sn-up 0.65s 0.24s cubic-bezier(.22,.68,0,1.15) both; }
@@ -52,69 +50,155 @@ const FONT_CSS = `
 .sn-a4  { animation: sn-up 0.65s 0.48s cubic-bezier(.22,.68,0,1.15) both; }
 .sn-a5  { animation: sn-up 0.65s 0.60s cubic-bezier(.22,.68,0,1.15) both; }
 .sn-fade { animation: sn-in 1.2s 0.1s both; }
-.sn-sc  { animation: sn-scale 0.8s 0.1s cubic-bezier(.22,.68,0,1.15) both; }
 `;
 
-// ─── SLIDE COMPONENTS ────────────────────────────────────────────────────────
+// ─── GALLERY IMAGES (all SYNTHE renders) ────────────────────────────────────
 
-function Slide01Capa() {
+const GALLERY_IMAGES = [
+  { src: `${P}/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp`,             label: 'Fachada Diurna' },
+  { src: `${P}/©VISTA_03_EXT_FACHADA_DETALHE_01_FINAL.webp`,         label: 'Fachada — Detalhe' },
+  { src: `${P}/©VISTA_04_EXT_FACHADA_DETALHE_02_FINAL.webp`,         label: 'Fachada — Detalhe 2' },
+  { src: `${P}/©VISTA_05_EXT_ACESSO_EXTERNO_OBSERVADOR_FINAL.webp`,  label: 'Acesso Externo' },
+  { src: `${P}/©VISTA_06_EXT_INSERCAO_FINAL.webp`,                   label: 'Inserção Urbana' },
+  { src: `${P}/©VISTA_07_EXT_PISCINA_FINAL.webp`,                    label: 'Piscina' },
+  { src: `${P}/©VISTA_01_INT_SALÃO_DE_FESTAS_02_FINAL.webp`,         label: 'Salão de Festas' },
+  { src: `${P}/©VISTA_10_INT_SALÃO_DE_FESTAS_01_FINAL.webp`,         label: 'Salão de Festas 2' },
+  { src: `${P}/©VISTA_12_INT_SALÃO_DE_FESTAS_03_FINAL.webp`,         label: 'Salão de Festas 3' },
+  { src: `${P}/©VISTA_11_HALL_FINAL_03_FINAL - HALL .webp`,          label: 'Hall' },
+  { src: `${P}/©VISTA_13_FITNESS_FINAL.webp`,                        label: 'Fitness' },
+  { src: `${P}/©VISTA_14_INT_ESPAÇO_KIDS_FINAL.webp`,               label: 'Espaço Kids' },
+  { src: `${P}/©VISTA_15_INT_APTO_TIPO_01_LIVING_01_FINAL.webp`,    label: 'Living — Vista 1' },
+  { src: `${P}/©VISTA_16_INT_APTO_TIPO_01_LIVING_02_FINAL.webp`,    label: 'Living — Vista 2' },
+];
+
+// ─── CORRETORES ──────────────────────────────────────────────────────────────
+
+const CORRETORES = [
+  '01-alexandra','02-diogo','03-veneza','04-thayla','05-amanda',
+  '06-andrea','07-chiara','08-ulisses','09-marcio','10-estefani',
+  '11-jorge','12-rogerio','13-karen','14-ana-paula','15-nara',
+  '16-amanda-f','17-luciana','18-celso','19-claudio-z','20-cristina',
+  '21-claudio-g','22-fabricia','23-rudimar','24-tarcisio','25-roger',
+  '26-regina','27-raquel',
+];
+
+// ─── SLIDE STRUCTURE ─────────────────────────────────────────────────────────
+
+type Slide =
+  | { kind: 'capa' }
+  | { kind: 'highlight' }
+  | { kind: 'book' }
+  | { kind: 'gallery'; img: { src: string; label: string }; index: number; total: number }
+  | { kind: 'corretores' }
+  | { kind: 'incentive' }
+  | { kind: 'imersiva' }
+  | { kind: 'meta1' }
+  | { kind: 'meta2' }
+  | { kind: 'estrategia1' }
+  | { kind: 'estrategia2' }
+  | { kind: 'cta' };
+
+const SLIDES: Slide[] = [
+  { kind: 'capa' },
+  { kind: 'highlight' },
+  { kind: 'book' },
+  ...GALLERY_IMAGES.map((img, i) => ({
+    kind: 'gallery' as const,
+    img,
+    index: i + 1,
+    total: GALLERY_IMAGES.length,
+  })),
+  { kind: 'corretores' },
+  { kind: 'incentive' },
+  { kind: 'imersiva' },
+  { kind: 'meta1' },
+  { kind: 'meta2' },
+  { kind: 'estrategia1' },
+  { kind: 'estrategia2' },
+  { kind: 'cta' },
+];
+
+const TOTAL = SLIDES.length;
+
+// ─── LABEL MAP ───────────────────────────────────────────────────────────────
+
+function slideLabel(s: Slide): string {
+  switch (s.kind) {
+    case 'capa':        return 'Abertura';
+    case 'highlight':   return 'Pré-Lançamento';
+    case 'book':        return 'Book Digital';
+    case 'gallery':     return s.label ?? 'Imagens';
+    case 'corretores':  return 'Campanha';
+    case 'incentive':   return 'Impulsionamento';
+    case 'imersiva':    return 'Sala Imersiva';
+    case 'meta1':       return 'Meta 1';
+    case 'meta2':       return 'Meta 2';
+    case 'estrategia1': return 'Estratégia — Condições';
+    case 'estrategia2': return 'Estratégia — Tabela';
+    case 'cta':         return 'Material';
+    default:            return '';
+  }
+}
+
+// ─── INDIVIDUAL SLIDE COMPONENTS ─────────────────────────────────────────────
+
+function SlideCapa({ onFullscreen, isFullscreen }: { onFullscreen: () => void; isFullscreen: boolean }) {
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-end pb-20">
+    <div className="relative w-full h-full flex flex-col items-center justify-end pb-24">
       <div className="absolute inset-0">
         <Image src={`${P}/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp`} alt="SYNTHÈ Fachada" fill
           className="object-cover" priority sizes="100vw" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.72) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.75) 100%)' }} />
       </div>
+      {/* Fullscreen button */}
+      <button onClick={onFullscreen}
+        className="absolute top-6 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:scale-105"
+        style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(8px)' }}>
+        {isFullscreen
+          ? <Minimize className="w-4 h-4 text-white" />
+          : <Maximize className="w-4 h-4 text-white" />}
+        <span className="sn text-white text-xs tracking-wider">{isFullscreen ? 'SAIR' : 'TELA CHEIA'}</span>
+      </button>
       <div className="relative z-10 flex flex-col items-center text-center px-8">
-        <p className="sn sn-a0 text-white/60 tracking-[0.35em] uppercase mb-8" style={{ fontSize: 'clamp(0.65rem, 1vw, 0.8rem)' }}>
+        <p className="sn sn-a0 text-white/60 tracking-[0.35em] uppercase mb-8" style={{ fontSize: 'clamp(0.8rem, 1.2vw, 1rem)' }}>
           APRESENTAÇÃO CORRETORES
         </p>
-        <div className="sn-a1 mb-6">
-          <Image src={`${P}/logo.png`} alt="SYNTHÈ" width={260} height={78}
-            className="brightness-0 invert" style={{ width: 'clamp(180px, 18vw, 280px)', height: 'auto' }} />
+        <div className="sn-a1 mb-8">
+          <Image src={`${P}/logo.png`} alt="SYNTHÈ" width={320} height={96}
+            className="brightness-0 invert" style={{ width: 'clamp(220px, 22vw, 340px)', height: 'auto' }} />
         </div>
-        <p className="sn sn-a2 text-white/75 italic" style={{ fontSize: 'clamp(1rem, 1.8vw, 1.4rem)', letterSpacing: '0.08em', fontWeight: 300 }}>
+        <p className="sn sn-a2 text-white/75 italic" style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)', letterSpacing: '0.08em', fontWeight: 300 }}>
           A síntese do equilíbrio.
         </p>
-        <div className="sn-a3 mt-8 flex items-center gap-3">
-          <div style={{ height: '1px', width: '40px', background: 'rgba(255,255,255,0.35)' }} />
-          <p className="sn text-white/55 tracking-[0.25em] uppercase" style={{ fontSize: 'clamp(0.6rem, 0.85vw, 0.75rem)' }}>
+        <div className="sn-a3 mt-8 flex items-center gap-4">
+          <div style={{ height: '1px', width: '48px', background: 'rgba(255,255,255,0.35)' }} />
+          <p className="sn text-white/55 tracking-[0.25em] uppercase" style={{ fontSize: 'clamp(0.75rem, 1vw, 0.9rem)' }}>
             PLAENGE · TGD · MONT&apos;SERRAT · PORTO ALEGRE
           </p>
-          <div style={{ height: '1px', width: '40px', background: 'rgba(255,255,255,0.35)' }} />
+          <div style={{ height: '1px', width: '48px', background: 'rgba(255,255,255,0.35)' }} />
         </div>
       </div>
     </div>
   );
 }
 
-function Slide02Highlight() {
+function SlideHighlight() {
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: BG }}>
       <div className="absolute inset-0 sn-fade" style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${ACC}12 0%, transparent 70%)` }} />
       <div className="relative z-10 flex flex-col items-center text-center px-12">
-        <div className="sn-a0 flex items-center gap-4 mb-8">
-          <div style={{ height: '1px', width: '60px', background: `${ACC}80` }} />
-          <p className="sn tracking-[0.35em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', fontWeight: 500 }}>
-            SYNTHÈ · PLAENGE
-          </p>
-          <div style={{ height: '1px', width: '60px', background: `${ACC}80` }} />
+        <div className="sn-a0 flex items-center gap-5 mb-10">
+          <div style={{ height: '1px', width: '70px', background: `${ACC}80` }} />
+          <p className="sn tracking-[0.4em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>SYNTHÈ · PLAENGE</p>
+          <div style={{ height: '1px', width: '70px', background: `${ACC}80` }} />
         </div>
-        <h1 className="sn sn-a1" style={{
-          color: DARK, fontWeight: 900,
-          fontSize: 'clamp(3.5rem, 8vw, 7rem)',
-          lineHeight: 0.9, letterSpacing: '-0.02em', textTransform: 'uppercase',
-        }}>
+        <h1 className="sn sn-a1" style={{ color: DARK, fontWeight: 900, fontSize: 'clamp(4.5rem, 10vw, 9rem)', lineHeight: 0.9, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
           NOVA ETAPA
         </h1>
-        <h2 className="sn sn-a2" style={{
-          color: ACC, fontWeight: 900,
-          fontSize: 'clamp(3.5rem, 8vw, 7rem)',
-          lineHeight: 0.9, letterSpacing: '-0.02em', textTransform: 'uppercase',
-        }}>
+        <h2 className="sn sn-a2" style={{ color: ACC, fontWeight: 900, fontSize: 'clamp(4.5rem, 10vw, 9rem)', lineHeight: 0.9, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
           PRÉ-LANÇAMENTO
         </h2>
-        <p className="sn sn-a3 mt-10" style={{ color: `${DARK}70`, fontSize: 'clamp(0.8rem, 1.4vw, 1.1rem)', fontWeight: 300, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+        <p className="sn sn-a3 mt-12" style={{ color: `${DARK}60`, fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
           O momento é agora.
         </p>
       </div>
@@ -122,32 +206,28 @@ function Slide02Highlight() {
   );
 }
 
-function Slide03Feature() {
+function SlideBook() {
   return (
     <div className="relative w-full h-full flex" style={{ background: DARK }}>
-      {/* Left — image */}
       <div className="relative w-1/2 h-full">
         <Image src={`${P}/©VISTA_15_INT_APTO_TIPO_01_LIVING_01_FINAL.webp`} alt="Apartamento SYNTHÈ"
           fill className="object-cover" sizes="50vw" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(26,26,26,0.9) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(26,26,26,0.95) 100%)' }} />
       </div>
-      {/* Right — content */}
       <div className="relative z-10 w-1/2 flex flex-col justify-center px-16 py-16">
-        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-6" style={{ color: ACC, fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', fontWeight: 500 }}>
-          FERRAMENTA DO CORRETOR
-        </p>
-        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
+        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-6" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>FERRAMENTA DO CORRETOR</p>
+        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3rem, 5.5vw, 5rem)', lineHeight: 0.95, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
           BOOK DIGITAL<br />COMPLETO
         </h2>
-        <div className="sn-a2 mt-8 mb-8" style={{ width: '48px', height: '2px', background: ACC }} />
-        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.85rem, 1.4vw, 1.1rem)', fontWeight: 300, lineHeight: 1.7, maxWidth: '380px' }}>
-          Acesse o material completo do empreendimento: galeria de imagens, plantas, ficha técnica e condições de pagamento — tudo em um só lugar.
+        <div className="sn-a2 mt-8 mb-8" style={{ width: '56px', height: '3px', background: ACC }} />
+        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, lineHeight: 1.7, maxWidth: '400px' }}>
+          Acesse o material completo do empreendimento: galeria de imagens, plantas, ficha técnica e condições de pagamento.
         </p>
-        <div className="sn-a4 mt-10 flex flex-col gap-3">
+        <div className="sn-a4 mt-12 flex flex-col gap-4">
           {['Galeria de imagens e renders', 'Plantas e tipologias', 'Ficha técnica completa', 'Site do cliente disponível'].map((item, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: ACC, flexShrink: 0 }} />
-              <p className="sn" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.8rem, 1.2vw, 0.95rem)', fontWeight: 300 }}>{item}</p>
+            <div key={i} className="flex items-center gap-4">
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACC, flexShrink: 0 }} />
+              <p className="sn" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.9rem, 1.4vw, 1.1rem)', fontWeight: 300 }}>{item}</p>
             </div>
           ))}
         </div>
@@ -156,79 +236,70 @@ function Slide03Feature() {
   );
 }
 
-function Slide04Fachada() {
+function SlideGallery({ img, index, total }: { img: { src: string; label: string }; index: number; total: number }) {
   return (
     <div className="relative w-full h-full">
-      <Image src={`${P}/©VISTA_03_EXT_FACHADA_DETALHE_01_FINAL.webp`} alt="SYNTHÈ — Fachada"
-        fill className="object-cover" sizes="100vw" priority />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)' }} />
-      <div className="absolute bottom-12 left-16 right-16 z-10">
-        <p className="sn sn-a0 text-white/55 tracking-[0.3em] uppercase mb-3" style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.75rem)' }}>
-          SYNTHÈ · FACHADA
+      <Image src={img.src} alt={img.label} fill className="object-cover" sizes="100vw" priority />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 40%)' }} />
+      <div className="absolute bottom-12 left-16 z-10">
+        <p className="sn sn-a0 text-white/50 tracking-[0.25em] uppercase mb-2" style={{ fontSize: 'clamp(0.7rem, 1vw, 0.85rem)' }}>
+          SYNTHÈ · {index}/{total}
         </p>
-        <p className="sn sn-a1 text-white italic" style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)', fontWeight: 300, letterSpacing: '0.04em' }}>
-          Precisão. Escolha. Equilíbrio.
+        <p className="sn sn-a1 text-white font-medium tracking-wide" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.6rem)' }}>
+          {img.label}
         </p>
       </div>
     </div>
   );
 }
 
-function Slide05VideoGrid() {
-  const videos = [
-    { label: 'Campanha — Lançamento', sub: 'Vídeo principal da campanha' },
-    { label: 'Campanha — Produto',    sub: 'Tour pelo empreendimento' },
-    { label: 'Campanha — Lifestyle',  sub: 'Estilo de vida SYNTHÈ' },
-    { label: 'Campanha — Depoimento', sub: 'Voz do cliente' },
-  ];
+function SlideCorretores() {
   return (
     <div className="relative w-full h-full flex flex-col" style={{ background: DARK }}>
-      <div className="px-16 pt-14 pb-6 flex-shrink-0">
-        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-3" style={{ color: ACC, fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', fontWeight: 500 }}>SYNTHÈ · CAMPANHA</p>
-        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(2rem, 3.5vw, 3rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
-          VÍDEOS DA CAMPANHA
+      <div className="px-16 pt-14 pb-4 flex-shrink-0">
+        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-3" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>SYNTHÈ · CAMPANHA</p>
+        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2.5rem, 4.5vw, 4rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
+          CORRETORES NA CAMPANHA
         </h2>
       </div>
-      <div className="flex-1 px-16 pb-14 grid grid-cols-2 gap-4 sn-a2">
-        {videos.map((v, i) => (
-          <div key={i} className="relative rounded-xl overflow-hidden flex flex-col items-center justify-center cursor-pointer group"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div className="flex flex-col items-center gap-4 p-8">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center transition-all group-hover:scale-110"
-                style={{ border: `2px solid ${ACC}`, background: `${ACC}18` }}>
-                <Play className="w-6 h-6 ml-0.5" style={{ color: ACC }} />
-              </div>
-              <div className="text-center">
-                <p className="sn font-medium text-white/85" style={{ fontSize: 'clamp(0.85rem, 1.3vw, 1rem)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{v.label}</p>
-                <p className="sn font-light text-white/40 mt-1" style={{ fontSize: 'clamp(0.7rem, 1vw, 0.82rem)' }}>{v.sub}</p>
-              </div>
+      <div className="flex-1 px-16 pb-10 overflow-hidden sn-a2">
+        <div className="grid gap-2 h-full" style={{ gridTemplateColumns: 'repeat(9, 1fr)', gridTemplateRows: 'repeat(3, 1fr)' }}>
+          {CORRETORES.map((name, i) => (
+            <div key={i} className="relative rounded-lg overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+              <Image
+                src={`${P}/capas-corretores/${name}.webp`}
+                alt={name}
+                fill
+                className="object-cover"
+                sizes="11vw"
+              />
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-function Slide06Incentive() {
+function SlideIncentive() {
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: ACC }}>
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }} />
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)' }} />
       <div className="relative z-10 flex flex-col items-center text-center px-12">
-        <p className="sn sn-a0 tracking-[0.4em] uppercase mb-8" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', fontWeight: 500 }}>
+        <p className="sn sn-a0 tracking-[0.4em] uppercase mb-10" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
           VERBA DE MARKETING · APOIO AO CORRETOR
         </p>
-        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', lineHeight: 0.95, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
+        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3.5rem, 6.5vw, 6rem)', lineHeight: 0.95, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
           IMPULSIONAMENTO
         </h2>
-        <div className="sn-a2 my-8" style={{ width: '80px', height: '2px', background: 'rgba(255,255,255,0.35)' }} />
-        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(0.85rem, 1.5vw, 1.15rem)', fontWeight: 300, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+        <div className="sn-a2 my-10" style={{ width: '90px', height: '3px', background: 'rgba(255,255,255,0.35)' }} />
+        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.2rem' }}>
           SORTEIO
         </p>
-        <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3rem, 6vw, 5.5rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>
+        <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(4rem, 7.5vw, 7rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>
           R$ 5.000
         </p>
-        <p className="sn sn-a5 mt-4" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.8rem, 1.3vw, 1rem)', fontWeight: 300, letterSpacing: '0.06em' }}>
+        <p className="sn sn-a5 mt-5" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', fontWeight: 300, letterSpacing: '0.06em' }}>
           Verba de marketing para apoio aos corretores parceiros
         </p>
       </div>
@@ -236,159 +307,223 @@ function Slide06Incentive() {
   );
 }
 
-function Slide07Media() {
+function SlideImersiva() {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center" style={{ background: DARK }}>
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(193,66,42,0.12) 0%, transparent 70%)' }} />
-      <div className="relative z-10 flex flex-col items-center text-center px-8">
-        <p className="sn sn-a0 tracking-[0.35em] uppercase mb-10" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', fontWeight: 400 }}>
-          SYNTHÈ · EXPERIÊNCIA IMERSIVA
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(193,66,42,0.14) 0%, transparent 70%)' }} />
+      <div className="relative z-10 flex flex-col items-center text-center px-16 max-w-4xl">
+        <p className="sn sn-a0 tracking-[0.35em] uppercase mb-10" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 400 }}>
+          SYNTHÈ · EXPERIÊNCIA
         </p>
-        <div className="sn-a1 relative w-24 h-24 rounded-full flex items-center justify-center mb-10 cursor-pointer group"
-          style={{ border: `2px solid ${ACC}`, background: `${ACC}18` }}>
-          <Play className="w-10 h-10 ml-1" style={{ color: ACC }} />
-          <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ border: `1px solid ${ACC}` }} />
+        <div className="sn-a1 relative w-28 h-28 rounded-full flex items-center justify-center mb-12 cursor-pointer"
+          style={{ border: `2px solid ${ACC}`, background: `${ACC}20` }}>
+          <Play className="w-12 h-12 ml-1" style={{ color: ACC }} />
+          <div className="absolute inset-0 rounded-full animate-ping opacity-15" style={{ border: `1px solid ${ACC}` }} />
         </div>
-        <h2 className="sn sn-a2" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
-          VÍDEO SALA IMERSIVA
+        <h2 className="sn sn-a2" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
+          SALA IMERSIVA
         </h2>
-        <p className="sn sn-a3 mt-5" style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.8rem, 1.3vw, 1rem)', fontWeight: 300, letterSpacing: '0.1em' }}>
-          Inserir link do vídeo
+        <div className="sn-a3 mt-6" style={{ width: '60px', height: '2px', background: ACC }} />
+        <p className="sn sn-a4 mt-8" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, lineHeight: 1.6 }}>
+          Você está convidado a conhecer o SYNTHÈ na nossa<br />
+          <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 400 }}>Central de Decorados</span>
+        </p>
+        <p className="sn sn-a5 mt-6" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.85rem, 1.3vw, 1.1rem)', fontWeight: 300, letterSpacing: '0.08em' }}>
+          Experiência imersiva em vídeo 360° · Ambiente exclusivo para corretores
         </p>
       </div>
     </div>
   );
 }
 
-function Slide08Metas() {
-  const metas = [
-    { unidades: '10', prazo: 'em 60 dias', premio: 'BYD DOLPHIN MINI', tag: 'Meta Bronze' },
-    { unidades: '15', prazo: 'em 90 dias', premio: 'BYD SEAL',         tag: 'Meta Ouro' },
-  ];
+function SlideMeta1() {
   return (
-    <div className="relative w-full h-full flex flex-col" style={{ background: BG }}>
-      <div className="px-16 pt-14 pb-6 flex-shrink-0">
-        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-3" style={{ color: ACC, fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', fontWeight: 500 }}>CAMPANHA DE VENDAS</p>
-        <h2 className="sn sn-a1" style={{ color: DARK, fontWeight: 900, fontSize: 'clamp(2rem, 3.5vw, 3rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
-          METAS E PRÊMIOS
-        </h2>
-      </div>
-      <div className="flex-1 px-16 pb-14 grid grid-cols-2 gap-6 sn-a2">
-        {metas.map((m, i) => (
-          <div key={i} className="relative rounded-2xl flex flex-col justify-between overflow-hidden p-10"
-            style={{ background: DARK, border: `2px solid ${i === 1 ? ACC : 'transparent'}` }}>
-            {i === 1 && (
-              <div className="absolute top-0 right-0 px-4 py-2 text-white text-xs tracking-widest uppercase sn"
-                style={{ background: ACC, fontSize: '0.65rem', borderBottomLeftRadius: '12px' }}>
-                DESTAQUE
-              </div>
-            )}
-            <div>
-              <p className="sn tracking-[0.25em] uppercase mb-4" style={{ color: `${ACC}`, fontSize: 'clamp(0.65rem, 1vw, 0.75rem)', fontWeight: 500 }}>{m.tag}</p>
-              <div className="flex items-baseline gap-3 mb-2">
-                <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3.5rem, 6vw, 5.5rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>{m.unidades}</span>
-                <span className="sn" style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 300, fontSize: 'clamp(1rem, 1.8vw, 1.5rem)' }}>unidades</span>
-              </div>
-              <p className="sn" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.8rem, 1.2vw, 0.95rem)', fontWeight: 300, letterSpacing: '0.06em' }}>{m.prazo}</p>
-            </div>
-            <div>
-              <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', marginBottom: '1.5rem', marginTop: '1.5rem' }} />
-              <p className="sn" style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.65rem, 0.9vw, 0.75rem)', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>PRÊMIO</p>
-              <p className="sn" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(1.4rem, 2.5vw, 2.2rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>{m.premio}</p>
-            </div>
-          </div>
-        ))}
+    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden" style={{ background: BG }}>
+      <div className="absolute inset-0 sn-fade" style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${ACC}10 0%, transparent 70%)` }} />
+      <div className="relative z-10 flex flex-col items-center text-center px-12 w-full max-w-4xl">
+        <p className="sn sn-a0 tracking-[0.35em] uppercase mb-6" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
+          METAS E PRÊMIOS · META 1
+        </p>
+        {/* Car placeholder — substituir pela imagem do BYD Dolphin Mini */}
+        <div className="sn-a1 w-full rounded-2xl flex flex-col items-center justify-center mb-10 py-12 px-8"
+          style={{ background: DARK, minHeight: '240px', border: `2px solid rgba(0,0,0,0.08)` }}>
+          <p className="sn" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', marginBottom: '0.8rem' }}>[ IMAGEM DO VEÍCULO ]</p>
+          <p className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.01em', textTransform: 'uppercase' }}>BYD DOLPHIN MINI</p>
+        </div>
+        <div className="sn-a2 flex items-baseline gap-4 mb-4">
+          <span className="sn" style={{ color: DARK, fontWeight: 900, fontSize: 'clamp(5rem, 9vw, 8rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>10</span>
+          <span className="sn" style={{ color: `${DARK}60`, fontWeight: 300, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)' }}>unidades</span>
+        </div>
+        <p className="sn sn-a3" style={{ color: `${DARK}60`, fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, letterSpacing: '0.08em' }}>em 60 dias</p>
       </div>
     </div>
   );
 }
 
-function Slide09Estrategia() {
-  const points = [
-    { title: 'Parcerias mantidas', desc: 'Manutenção de todas as parcerias estabelecidas durante a pré-venda.' },
-    { title: '5 linhas de tabela', desc: 'Negociações com 5 linhas de tabela disponíveis para maior flexibilidade.' },
-  ];
+function SlideMeta2() {
+  return (
+    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden" style={{ background: DARK }}>
+      <div className="absolute inset-0 sn-fade" style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${ACC}18 0%, transparent 70%)` }} />
+      <div className="relative z-10 flex flex-col items-center text-center px-12 w-full max-w-4xl">
+        <div className="sn-a0 flex items-center gap-3 mb-6">
+          <div style={{ width: '32px', height: '2px', background: ACC }} />
+          <p className="sn tracking-[0.35em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
+            METAS E PRÊMIOS · META 2 · O PRÊMIO EVOLUI
+          </p>
+          <div style={{ width: '32px', height: '2px', background: ACC }} />
+        </div>
+        {/* Car placeholder — substituir pela imagem do BYD Seal */}
+        <div className="sn-a1 w-full rounded-2xl flex flex-col items-center justify-center mb-10 py-12 px-8"
+          style={{ background: 'rgba(255,255,255,0.04)', minHeight: '240px', border: `2px solid ${ACC}40` }}>
+          <p className="sn" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem', letterSpacing: '0.2em', marginBottom: '0.8rem' }}>[ IMAGEM DO VEÍCULO ]</p>
+          <p className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.01em', textTransform: 'uppercase' }}>BYD SEAL</p>
+        </div>
+        <div className="sn-a2 flex items-baseline gap-4 mb-4">
+          <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(5rem, 9vw, 8rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>15</span>
+          <span className="sn" style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)' }}>unidades</span>
+        </div>
+        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, letterSpacing: '0.08em' }}>em 90 dias</p>
+        <p className="sn sn-a4 mt-6 px-6 py-3 rounded-full" style={{ background: `${ACC}25`, color: ACC, fontSize: 'clamp(0.85rem, 1.3vw, 1.1rem)', fontWeight: 400, border: `1px solid ${ACC}40` }}>
+          Ao atingir a meta 2, o prêmio evolui automaticamente do Dolphin Mini para o Seal
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SlideEstrategia1() {
   return (
     <div className="relative w-full h-full flex" style={{ background: BG }}>
-      {/* Left accent bar */}
-      <div style={{ width: '5px', background: ACC, flexShrink: 0 }} />
+      <div style={{ width: '6px', background: ACC, flexShrink: 0 }} />
       <div className="flex-1 flex flex-col justify-center px-20 py-16">
-        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-6" style={{ color: ACC, fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', fontWeight: 500 }}>SYNTHÈ · COMERCIAL</p>
-        <h2 className="sn sn-a1" style={{ color: DARK, fontWeight: 900, fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
-          ESTRATÉGIA<br />COMERCIAL
+        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-6" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>ESTRATÉGIA COMERCIAL · 01</p>
+        <h2 className="sn sn-a1" style={{ color: DARK, fontWeight: 900, fontSize: 'clamp(2.8rem, 5vw, 4.5rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
+          CONDIÇÕES DA<br />1ª ETAPA<br />MANTIDAS
         </h2>
-        <div className="sn-a2 mt-10 space-y-8">
-          {points.map((pt, i) => (
-            <div key={i} className="flex gap-8 items-start">
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: ACC, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span className="sn" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '1.1rem' }}>{i + 1}</span>
-              </div>
-              <div>
-                <p className="sn" style={{ color: DARK, fontWeight: 700, fontSize: 'clamp(1rem, 1.8vw, 1.4rem)', letterSpacing: '0.01em', marginBottom: '0.4rem' }}>{pt.title}</p>
-                <p className="sn" style={{ color: `${DARK}70`, fontSize: 'clamp(0.85rem, 1.3vw, 1rem)', fontWeight: 300, lineHeight: 1.6 }}>{pt.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <div className="sn-a2 mt-10 mb-10" style={{ width: '60px', height: '3px', background: ACC }} />
+        <p className="sn sn-a3" style={{ color: `${DARK}70`, fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, lineHeight: 1.6, maxWidth: '560px' }}>
+          Todas as parcerias e condições estabelecidas durante a primeira etapa do pré-lançamento serão mantidas nesta nova fase.
+        </p>
+        <p className="sn sn-a4 mt-8" style={{ color: ACC, fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', fontWeight: 500, letterSpacing: '0.04em' }}>
+          Seus clientes continuam com as mesmas vantagens.
+        </p>
       </div>
-      {/* Right — decorative image */}
       <div className="relative w-2/5 h-full sn-fade">
-        <Image src={`${P}/©VISTA_11_HALL_FINAL_03_FINAL - HALL .webp`} alt="Hall SYNTHÈ"
+        <Image src={`${P}/©VISTA_03_EXT_FACHADA_DETALHE_01_FINAL.webp`} alt="SYNTHÈ"
           fill className="object-cover" sizes="40vw" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(245,242,238,0.85) 0%, rgba(245,242,238,0.2) 60%, transparent 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(245,242,238,0.9) 0%, rgba(245,242,238,0.2) 60%, transparent 100%)' }} />
       </div>
     </div>
   );
 }
 
-function Slide10Cta() {
+function SlideEstrategia2() {
+  const units = [
+    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
+    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
+    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
+    { unidade: '—', tipo: 'Tipo 01', area: '176,89 m²', andar: '—', obs: 'Marcação' },
+    { unidade: '—', tipo: 'Penthouse', area: '298 m²',   andar: '18º', obs: 'Marcação' },
+  ];
+  return (
+    <div className="relative w-full h-full flex flex-col" style={{ background: DARK }}>
+      <div className="px-16 pt-14 pb-8 flex-shrink-0">
+        <p className="sn sn-a0 tracking-[0.3em] uppercase mb-4" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>ESTRATÉGIA COMERCIAL · 02</p>
+        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2.5rem, 4.5vw, 4rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
+          5 LINHAS DE TABELA
+        </h2>
+        <p className="sn sn-a2 mt-3" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.9rem, 1.4vw, 1.2rem)', fontWeight: 300 }}>
+          5 unidades selecionadas com condições especiais de negociação
+        </p>
+      </div>
+      <div className="flex-1 px-16 pb-14 sn-a3 overflow-auto">
+        <table className="w-full" style={{ borderCollapse: 'separate', borderSpacing: '0 8px' }}>
+          <thead>
+            <tr>
+              {['Unidade', 'Tipologia', 'Área', 'Andar', 'Obs.'].map(h => (
+                <th key={h} className="sn text-left pb-4" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.7rem, 1vw, 0.85rem)', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', paddingRight: '2rem' }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {units.map((u, i) => (
+              <tr key={i}>
+                <td className="sn py-5 pr-8" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.unidade}</td>
+                <td className="sn py-5 pr-8" style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 300, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.tipo}</td>
+                <td className="sn py-5 pr-8" style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 300, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.area}</td>
+                <td className="sn py-5 pr-8" style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 300, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', borderTop: '1px solid rgba(255,255,255,0.07)' }}>{u.andar}</td>
+                <td className="sn py-5" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+                  <span className="sn px-3 py-1 rounded-full" style={{ background: `${ACC}25`, color: ACC, fontSize: 'clamp(0.7rem, 1vw, 0.85rem)', fontWeight: 500, border: `1px solid ${ACC}40` }}>{u.obs}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function SlideCta() {
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: DARK }}>
       <div className="absolute inset-0">
         <Image src={`${P}/©VISTA_05_EXT_ACESSO_EXTERNO_OBSERVADOR_FINAL.webp`} alt="SYNTHÈ"
-          fill className="object-cover" sizes="100vw" style={{ opacity: 0.18 }} />
+          fill className="object-cover" sizes="100vw" style={{ opacity: 0.15 }} />
       </div>
       <div className="relative z-10 flex flex-col items-center text-center px-12">
-        <div className="sn-a0 mb-8">
-          <Image src={`${P}/logo.png`} alt="SYNTHÈ" width={200} height={60}
-            className="brightness-0 invert" style={{ width: 'clamp(140px, 14vw, 200px)', height: 'auto', opacity: 0.9 }} />
+        <div className="sn-a0 mb-10">
+          <Image src={`${P}/logo.png`} alt="SYNTHÈ" width={240} height={72}
+            className="brightness-0 invert" style={{ width: 'clamp(180px, 17vw, 240px)', height: 'auto', opacity: 0.9 }} />
         </div>
-        <p className="sn sn-a1 tracking-[0.35em] uppercase mb-10" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.65rem, 1vw, 0.8rem)' }}>
+        <p className="sn sn-a1 tracking-[0.35em] uppercase mb-12" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.8rem, 1.2vw, 1rem)' }}>
           ACESSE O MATERIAL COMPLETO
         </p>
-        {/* QR Code placeholder */}
-        <div className="sn-a2 flex flex-col items-center gap-4">
-          <div style={{
-            width: 'clamp(140px, 15vw, 180px)',
-            height: 'clamp(140px, 15vw, 180px)',
-            border: `2px dashed ${ACC}70`,
-            borderRadius: '12px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'rgba(255,255,255,0.04)',
-          }}>
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.4 }}>
-              <rect x="4" y="4" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
-              <rect x="8" y="8" width="8" height="8" rx="1" fill={ACC}/>
-              <rect x="28" y="4" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
-              <rect x="32" y="8" width="8" height="8" rx="1" fill={ACC}/>
-              <rect x="4" y="28" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
-              <rect x="8" y="32" width="8" height="8" rx="1" fill={ACC}/>
-              <rect x="28" y="28" width="4" height="4" rx="0.5" fill={ACC}/>
-              <rect x="36" y="28" width="4" height="4" rx="0.5" fill={ACC}/>
-              <rect x="28" y="36" width="4" height="4" rx="0.5" fill={ACC}/>
-              <rect x="36" y="36" width="4" height="4" rx="0.5" fill={ACC}/>
-            </svg>
-            <p className="sn mt-2" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>QR CODE</p>
+        <div className="sn-a2 flex gap-12 items-start">
+          {/* QR Code */}
+          <div className="flex flex-col items-center gap-4">
+            <div style={{
+              width: 'clamp(160px, 16vw, 200px)',
+              height: 'clamp(160px, 16vw, 200px)',
+              border: `2px dashed ${ACC}60`,
+              borderRadius: '14px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(255,255,255,0.04)',
+            }}>
+              <svg width="52" height="52" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.4 }}>
+                <rect x="4" y="4" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
+                <rect x="8" y="8" width="8" height="8" rx="1" fill={ACC}/>
+                <rect x="28" y="4" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
+                <rect x="32" y="8" width="8" height="8" rx="1" fill={ACC}/>
+                <rect x="4" y="28" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
+                <rect x="8" y="32" width="8" height="8" rx="1" fill={ACC}/>
+                <rect x="28" y="28" width="4" height="4" rx="0.5" fill={ACC}/>
+                <rect x="36" y="28" width="4" height="4" rx="0.5" fill={ACC}/>
+                <rect x="28" y="36" width="4" height="4" rx="0.5" fill={ACC}/>
+                <rect x="36" y="36" width="4" height="4" rx="0.5" fill={ACC}/>
+              </svg>
+              <p className="sn mt-2" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>QR CODE</p>
+            </div>
+            <p className="sn" style={{ color: 'rgba(255,255,255,0.2)', fontSize: 'clamp(0.7rem, 0.9vw, 0.8rem)', letterSpacing: '0.08em' }}>
+              grupo-plaenge.vercel.app
+            </p>
           </div>
-          <p className="sn" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.65rem, 0.9vw, 0.75rem)', letterSpacing: '0.1em' }}>
-            grupo-plaenge.vercel.app/synthe
-          </p>
+          {/* Link */}
+          <div className="flex flex-col items-center justify-center gap-5" style={{ paddingTop: '1rem' }}>
+            <div style={{ height: '1px', width: '1px', background: 'transparent' }} />
+            <p className="sn" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>ou acesse</p>
+            <a href="https://grupo-plaenge.vercel.app/synthe" target="_blank" rel="noopener noreferrer"
+              className="sn flex items-center gap-3 px-8 py-4 rounded-full transition-all hover:scale-105"
+              style={{ background: ACC, color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', letterSpacing: '0.04em', textDecoration: 'none' }}>
+              grupo-plaenge.vercel.app/synthe
+            </a>
+          </div>
         </div>
-        <div className="sn-a3 mt-12" style={{ height: '1px', width: '60px', background: `${ACC}50` }} />
-        <p className="sn sn-a4 mt-5" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 'clamp(0.65rem, 0.9vw, 0.75rem)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+        <div className="sn-a3 mt-14" style={{ height: '1px', width: '70px', background: `${ACC}45` }} />
+        <p className="sn sn-a4 mt-5" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
           PLAENGE · TGD · MONT&apos;SERRAT · PORTO ALEGRE
         </p>
       </div>
@@ -396,31 +531,13 @@ function Slide10Cta() {
   );
 }
 
-// ─── SLIDES MAP ───────────────────────────────────────────────────────────────
-
-const SLIDES = [
-  Slide01Capa,
-  Slide02Highlight,
-  Slide03Feature,
-  Slide04Fachada,
-  Slide05VideoGrid,
-  Slide06Incentive,
-  Slide07Media,
-  Slide08Metas,
-  Slide09Estrategia,
-  Slide10Cta,
-];
-
-const LABELS = [
-  'Abertura', 'Pré-Lançamento', 'Book Digital', 'Fachada',
-  'Campanhas', 'Impulsionamento', 'Experiência', 'Metas', 'Estratégia', 'Material',
-];
-
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 
 export default function SynthePptCorretor() {
   const [slide, setSlide] = useState(0);
   const [animKey, setAnimKey] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const goTo = useCallback((n: number) => {
     if (n < 0 || n >= TOTAL) return;
@@ -437,61 +554,89 @@ export default function SynthePptCorretor() {
     return () => window.removeEventListener('keydown', handler);
   }, [slide, goTo]);
 
-  const SlideContent = SLIDES[slide];
-  const isLight = [0, 3].includes(slide);
+  useEffect(() => {
+    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onFsChange);
+    return () => document.removeEventListener('fullscreenchange', onFsChange);
+  }, []);
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen?.();
+    } else {
+      document.exitFullscreen?.();
+    }
+  }, []);
+
+  const current = SLIDES[slide];
+
+  const isLightSlide = current.kind === 'capa' ||
+    (current.kind === 'gallery') ||
+    current.kind === 'estrategia1';
 
   return (
-    <div className="fixed inset-0 overflow-hidden select-none" style={{ background: DARK }}>
+    <div ref={containerRef} className="fixed inset-0 overflow-hidden select-none" style={{ background: DARK }}>
       <style>{FONT_CSS}</style>
 
-      {/* Slide */}
+      {/* Slide content */}
       <div key={animKey} className="w-full h-full">
-        <SlideContent />
+        {current.kind === 'capa'        && <SlideCapa onFullscreen={toggleFullscreen} isFullscreen={isFullscreen} />}
+        {current.kind === 'highlight'   && <SlideHighlight />}
+        {current.kind === 'book'        && <SlideBook />}
+        {current.kind === 'gallery'     && <SlideGallery img={current.img} index={current.index} total={current.total} />}
+        {current.kind === 'corretores'  && <SlideCorretores />}
+        {current.kind === 'incentive'   && <SlideIncentive />}
+        {current.kind === 'imersiva'    && <SlideImersiva />}
+        {current.kind === 'meta1'       && <SlideMeta1 />}
+        {current.kind === 'meta2'       && <SlideMeta2 />}
+        {current.kind === 'estrategia1' && <SlideEstrategia1 />}
+        {current.kind === 'estrategia2' && <SlideEstrategia2 />}
+        {current.kind === 'cta'         && <SlideCta />}
       </div>
 
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between px-10 py-5 pointer-events-none">
         <div className="flex items-center gap-3">
-          <div style={{ width: '20px', height: '1px', background: isLight ? 'rgba(255,255,255,0.35)' : `${ACC}60` }} />
-          <span className="sn tracking-[0.25em] uppercase" style={{ color: isLight ? 'rgba(255,255,255,0.45)' : `${DARK}60`, fontSize: '0.62rem', fontWeight: 400 }}>
-            {LABELS[slide]}
+          <div style={{ width: '22px', height: '1px', background: isLightSlide ? 'rgba(255,255,255,0.35)' : `${ACC}55` }} />
+          <span className="sn tracking-[0.25em] uppercase" style={{ color: isLightSlide ? 'rgba(255,255,255,0.45)' : `${DARK}55`, fontSize: '0.72rem', fontWeight: 400 }}>
+            {slideLabel(current)}
           </span>
         </div>
-        <span className="sn tabular-nums" style={{ color: isLight ? 'rgba(255,255,255,0.3)' : `${DARK}40`, fontSize: '0.62rem', fontWeight: 300, letterSpacing: '0.15em' }}>
+        <span className="sn tabular-nums" style={{ color: isLightSlide ? 'rgba(255,255,255,0.3)' : `${DARK}35`, fontSize: '0.72rem', fontWeight: 300, letterSpacing: '0.15em' }}>
           {String(slide + 1).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-40 h-0.5" style={{ background: 'rgba(255,255,255,0.07)' }}>
+      <div className="absolute bottom-0 left-0 right-0 z-40 h-0.5" style={{ background: 'rgba(255,255,255,0.06)' }}>
         <div style={{ width: `${((slide + 1) / TOTAL) * 100}%`, height: '100%', background: ACC, transition: 'width 0.45s cubic-bezier(.4,0,.2,1)' }} />
       </div>
 
       {/* Dot nav */}
-      <div className="absolute bottom-3 left-0 right-0 z-40 flex justify-center gap-2 pointer-events-none">
+      <div className="absolute bottom-3 left-0 right-0 z-40 flex justify-center gap-1.5 flex-wrap px-8">
         {Array.from({ length: TOTAL }).map((_, i) => (
           <button key={i} onClick={() => goTo(i)}
-            className="pointer-events-auto transition-all duration-300"
+            className="transition-all duration-300"
             style={{
-              width: i === slide ? '20px' : '5px',
+              width: i === slide ? '18px' : '5px',
               height: '5px',
               borderRadius: '3px',
-              background: i === slide ? ACC : 'rgba(255,255,255,0.2)',
+              background: i === slide ? ACC : 'rgba(255,255,255,0.18)',
             }} />
         ))}
       </div>
 
-      {/* Arrow nav (invisible hotzones) */}
+      {/* Arrow nav */}
       {slide > 0 && (
         <button onClick={() => goTo(slide - 1)}
-          className="absolute left-0 top-8 bottom-8 w-20 z-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-          <ChevronLeft className="w-7 h-7" style={{ color: isLight ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.25)' }} />
+          className="absolute left-0 top-12 bottom-8 w-20 z-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+          <ChevronLeft className="w-8 h-8" style={{ color: isLightSlide ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.3)' }} />
         </button>
       )}
       {slide < TOTAL - 1 && (
         <button onClick={() => goTo(slide + 1)}
-          className="absolute right-0 top-8 bottom-8 w-20 z-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-          <ChevronRight className="w-7 h-7" style={{ color: isLight ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.25)' }} />
+          className="absolute right-0 top-12 bottom-8 w-20 z-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+          <ChevronRight className="w-8 h-8" style={{ color: isLightSlide ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.3)' }} />
         </button>
       )}
     </div>
