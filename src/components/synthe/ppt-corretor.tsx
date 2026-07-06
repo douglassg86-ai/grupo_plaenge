@@ -329,7 +329,7 @@ function SlideImersiva() {
           <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 400 }}>Central de Decorados</span>
         </p>
         <p className="sn sn-a5 mt-6" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.85rem, 1.3vw, 1.1rem)', fontWeight: 300, letterSpacing: '0.08em' }}>
-          Experiência imersiva em vídeo 360° · Ambiente exclusivo para corretores
+          Ambiente exclusivo para corretores · Central de Decorados
         </p>
       </div>
     </div>
@@ -498,46 +498,32 @@ function SlideCta() {
         <p className="sn sn-a1 tracking-[0.35em] uppercase mb-12" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.8rem, 1.2vw, 1rem)' }}>
           ACESSE O MATERIAL COMPLETO
         </p>
-        <div className="sn-a2 flex gap-12 items-start">
-          {/* QR Code */}
+        <div className="sn-a2 flex gap-16 items-center">
+          {/* QR Code real */}
           <div className="flex flex-col items-center gap-4">
             <div style={{
               width: 'clamp(160px, 16vw, 200px)',
               height: 'clamp(160px, 16vw, 200px)',
-              border: `2px dashed ${ACC}60`,
               borderRadius: '14px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'rgba(255,255,255,0.04)',
+              overflow: 'hidden',
+              background: '#FFFFFF',
+              padding: '8px',
+              position: 'relative',
             }}>
-              <svg width="52" height="52" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.4 }}>
-                <rect x="4" y="4" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
-                <rect x="8" y="8" width="8" height="8" rx="1" fill={ACC}/>
-                <rect x="28" y="4" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
-                <rect x="32" y="8" width="8" height="8" rx="1" fill={ACC}/>
-                <rect x="4" y="28" width="16" height="16" rx="2" stroke={ACC} strokeWidth="2.5" fill="none"/>
-                <rect x="8" y="32" width="8" height="8" rx="1" fill={ACC}/>
-                <rect x="28" y="28" width="4" height="4" rx="0.5" fill={ACC}/>
-                <rect x="36" y="28" width="4" height="4" rx="0.5" fill={ACC}/>
-                <rect x="28" y="36" width="4" height="4" rx="0.5" fill={ACC}/>
-                <rect x="36" y="36" width="4" height="4" rx="0.5" fill={ACC}/>
-              </svg>
-              <p className="sn mt-2" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>QR CODE</p>
+              <Image src={`${P}/qrcode-synthe.webp`} alt="QR Code SYNTHÈ" fill
+                className="object-contain" sizes="200px" />
             </div>
-            <p className="sn" style={{ color: 'rgba(255,255,255,0.2)', fontSize: 'clamp(0.7rem, 0.9vw, 0.8rem)', letterSpacing: '0.08em' }}>
-              grupo-plaenge.vercel.app
+            <p className="sn" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 'clamp(0.7rem, 0.9vw, 0.8rem)', letterSpacing: '0.08em' }}>
+              Escaneie para acessar
             </p>
           </div>
           {/* Link */}
-          <div className="flex flex-col items-center justify-center gap-5" style={{ paddingTop: '1rem' }}>
-            <div style={{ height: '1px', width: '1px', background: 'transparent' }} />
+          <div className="flex flex-col items-center justify-center gap-5">
             <p className="sn" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>ou acesse</p>
             <a href="https://grupo-plaenge.vercel.app/synthe" target="_blank" rel="noopener noreferrer"
-              className="sn flex items-center gap-3 px-8 py-4 rounded-full transition-all hover:scale-105"
-              style={{ background: ACC, color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', letterSpacing: '0.04em', textDecoration: 'none' }}>
-              grupo-plaenge.vercel.app/synthe
+              className="sn flex items-center gap-3 px-10 py-4 rounded-full transition-all hover:scale-105"
+              style={{ background: ACC, color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', letterSpacing: '0.06em', textDecoration: 'none' }}>
+              Clique aqui
             </a>
           </div>
         </div>
