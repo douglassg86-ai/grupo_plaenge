@@ -151,7 +151,7 @@ function SlideCapa({ onFullscreen, isFullscreen }: { onFullscreen: () => void; i
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.75) 100%)' }} />
       </div>
       {/* Fullscreen button */}
-      <button onClick={onFullscreen}
+      <button data-pdf-hide onClick={onFullscreen}
         className="absolute top-6 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:scale-105"
         style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(8px)' }}>
         {isFullscreen
@@ -595,22 +595,29 @@ export default function SynthePptCorretor() {
     const container = containerRef.current;
     const vw = container.clientWidth;
     const vh = container.clientHeight;
-    // Scale so canvas width = 1920 CSS px; height follows viewport ratio
+    // Scale canvas to 1920px wide
     const captureScale = 1920 / vw;
 
-    // Suppress animations during capture so all elements are fully visible
-    const noAnimStyle = document.createElement('style');
-    noAnimStyle.id = '__pdf_no_anim';
-    noAnimStyle.textContent = `
-      #__ppt_container .sn-a0, #__ppt_container .sn-a1, #__ppt_container .sn-a2,
-      #__ppt_container .sn-a3, #__ppt_container .sn-a4, #__ppt_container .sn-a5,
-      #__ppt_container .sn-fade {
-        animation-duration: 0.001ms !important;
-        animation-delay: 0ms !important;
+    // CSS: suppress animations + hide nav overlays during capture
+    const captureStyle = document.createElement('style');
+    captureStyle.id = '__pdf_capture_style';
+    captureStyle.textContent = `
+      #__ppt_c .sn-a0,#__ppt_c .sn-a1,#__ppt_c .sn-a2,
+      #__ppt_c .sn-a3,#__ppt_c .sn-a4,#__ppt_c .sn-a5,#__ppt_c .sn-fade {
+        animation-duration:0.001ms!important; animation-delay:0ms!important;
       }
+      #__ppt_c [data-pdf-hide] { display:none!important; }
     `;
-    document.head.appendChild(noAnimStyle);
-    container.id = '__ppt_container';
+    document.head.appendChild(captureStyle);
+    container.id = '__ppt_c';
+
+    // html2canvas does not handle position:fixed correctly — switch to absolute temporarily
+    container.style.position = 'absolute';
+    container.style.width = `${vw}px`;
+    container.style.height = `${vh}px`;
+    container.style.top = '0';
+    container.style.left = '0';
+    document.body.style.minHeight = `${vh}px`;
 
     try {
       const { default: html2canvas } = await import('html2canvas');
@@ -624,21 +631,24 @@ export default function SynthePptCorretor() {
         setAnimKey(k => k + 1);
         setPdfProgress(Math.round((i / TOTAL) * 100));
 
-        // Wait for React render + Next.js images to load
-        await new Promise(r => setTimeout(r, 900));
+        // Wait for React render + image loading
+        await new Promise(r => setTimeout(r, 1000));
 
         const canvas = await html2canvas(container, {
           scale: captureScale,
           useCORS: true,
           allowTaint: true,
           logging: false,
-          imageTimeout: 10000,
+          imageTimeout: 12000,
           width: vw,
           height: vh,
+          windowWidth: vw,
+          windowHeight: vh,
+          scrollX: 0,
+          scrollY: 0,
         });
 
-        // Derive PDF page size in pt (1px = 0.75pt at 96dpi)
-        // This ensures the PDF page matches the canvas exactly with no distortion
+        // 1px = 0.75pt at 96dpi
         const pdfW = Math.round(canvas.width * 0.75);
         const pdfH = Math.round(canvas.height * 0.75);
 
@@ -648,8 +658,7 @@ export default function SynthePptCorretor() {
           pdf!.addPage([pdfW, pdfH], 'landscape');
         }
 
-        const imgData = canvas.toDataURL('image/jpeg', 0.9);
-        pdf!.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+        pdf!.addImage(canvas.toDataURL('image/jpeg', 0.9), 'JPEG', 0, 0, pdfW, pdfH);
       }
 
       setSlide(savedSlide);
@@ -659,8 +668,14 @@ export default function SynthePptCorretor() {
     } catch (err) {
       console.error('PDF generation error:', err);
     } finally {
-      document.getElementById('__pdf_no_anim')?.remove();
+      document.getElementById('__pdf_capture_style')?.remove();
       container.removeAttribute('id');
+      container.style.position = '';
+      container.style.width = '';
+      container.style.height = '';
+      container.style.top = '';
+      container.style.left = '';
+      document.body.style.minHeight = '';
       setIsGeneratingPDF(false);
       setPdfProgress(0);
     }
@@ -722,7 +737,7 @@ export default function SynthePptCorretor() {
       </div>
 
       {/* Top bar */}
-      <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between px-10 py-5 pointer-events-none">
+      <div data-pdf-hide className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between px-10 py-5 pointer-events-none">
         <div className="flex items-center gap-3">
           <div style={{ width: '22px', height: '1px', background: isLightSlide ? 'rgba(255,255,255,0.35)' : `${ACC}55` }} />
           <span className="sn tracking-[0.25em] uppercase" style={{ color: isLightSlide ? 'rgba(255,255,255,0.45)' : `${DARK}55`, fontSize: '0.72rem', fontWeight: 400 }}>
@@ -735,12 +750,12 @@ export default function SynthePptCorretor() {
       </div>
 
       {/* Progress bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-40 h-0.5" style={{ background: 'rgba(255,255,255,0.06)' }}>
+      <div data-pdf-hide className="absolute bottom-0 left-0 right-0 z-40 h-0.5" style={{ background: 'rgba(255,255,255,0.06)' }}>
         <div style={{ width: `${((slide + 1) / TOTAL) * 100}%`, height: '100%', background: ACC, transition: 'width 0.45s cubic-bezier(.4,0,.2,1)' }} />
       </div>
 
       {/* Dot nav */}
-      <div className="absolute bottom-3 left-0 right-0 z-40 flex justify-center gap-1.5 flex-wrap px-8">
+      <div data-pdf-hide className="absolute bottom-3 left-0 right-0 z-40 flex justify-center gap-1.5 flex-wrap px-8">
         {Array.from({ length: TOTAL }).map((_, i) => (
           <button key={i} onClick={() => goTo(i)}
             className="transition-all duration-300"
@@ -755,13 +770,13 @@ export default function SynthePptCorretor() {
 
       {/* Arrow nav */}
       {slide > 0 && (
-        <button onClick={() => goTo(slide - 1)}
+        <button data-pdf-hide onClick={() => goTo(slide - 1)}
           className="absolute left-0 top-12 bottom-8 w-20 z-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
           <ChevronLeft className="w-8 h-8" style={{ color: isLightSlide ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.3)' }} />
         </button>
       )}
       {slide < TOTAL - 1 && (
-        <button onClick={() => goTo(slide + 1)}
+        <button data-pdf-hide onClick={() => goTo(slide + 1)}
           className="absolute right-0 top-12 bottom-8 w-20 z-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
           <ChevronRight className="w-8 h-8" style={{ color: isLightSlide ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.3)' }} />
         </button>
