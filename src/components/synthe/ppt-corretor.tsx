@@ -374,10 +374,7 @@ function SlideMetaIntro1() {
           <span className="sn" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300, fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>unidades</span>
         </div>
         <div className="sn-a2" style={{ width: '70px', height: '3px', background: ACC, marginBottom: '2rem' }} />
-        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1.2rem, 2vw, 1.7rem)', fontWeight: 300, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-          EM 90 DIAS
-        </p>
-        <div className="sn-a4 flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${ACC}50`, background: `${ACC}15` }}>
+        <div className="sn-a3 flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${ACC}50`, background: `${ACC}15` }}>
           <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: ACC, flexShrink: 0 }} />
           <p className="sn" style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(0.9rem, 1.4vw, 1.2rem)', fontWeight: 400, letterSpacing: '0.08em' }}>
             PRAZO: ATÉ <span style={{ color: '#FFFFFF', fontWeight: 700 }}>31/10/2026</span>
@@ -401,10 +398,7 @@ function SlideMetaIntro2() {
           <span className="sn" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300, fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>unidades</span>
         </div>
         <div className="sn-a2" style={{ width: '70px', height: '3px', background: ACC, marginBottom: '2rem' }} />
-        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1.2rem, 2vw, 1.7rem)', fontWeight: 300, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-          EM 90 DIAS
-        </p>
-        <div className="sn-a4 flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${ACC}50`, background: `${ACC}15` }}>
+        <div className="sn-a3 flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${ACC}50`, background: `${ACC}15` }}>
           <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: ACC, flexShrink: 0 }} />
           <p className="sn" style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(0.9rem, 1.4vw, 1.2rem)', fontWeight: 400, letterSpacing: '0.08em' }}>
             PRAZO: ATÉ <span style={{ color: '#FFFFFF', fontWeight: 700 }}>31/10/2026</span>
@@ -435,7 +429,7 @@ function SlideMeta1() {
           <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(6rem, 11vw, 10rem)', lineHeight: 0.85, letterSpacing: '-0.03em' }}>10</span>
           <span className="sn" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>unidades</span>
         </div>
-        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>em 90 dias</p>
+        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>até 31/10/2026</p>
         <div className="sn-a3" style={{ width: '56px', height: '3px', background: ACC, marginBottom: '1.8rem' }} />
         <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 3.8vw, 3.5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
           MG4 XPOWER
