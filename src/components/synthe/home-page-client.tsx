@@ -157,47 +157,41 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
 
         {/* BANNER CAMPANHA DE INCENTIVO — só para corretores */}
         {!isClientePage && (
-          <div className="relative rounded-2xl overflow-hidden" style={{ background: '#111' }}>
-            {/* Imagem do Cyberster */}
-            <div className="absolute inset-0">
-              <Image
-                src={`${P}/carro-meta2-cyberster.webp`}
-                alt="MG Cyberster"
-                fill
-                className="object-cover"
-                sizes="100vw"
-                style={{ objectPosition: 'center 50%', opacity: 0.35 }}
-              />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.2) 100%)' }} />
+          <a
+            href="/synthe/pptcorretor?slide=22"
+            className="relative block rounded-2xl overflow-hidden"
+            style={{ height: '260px', background: '#111' }}
+          >
+            <Image
+              src={`${P}/carro-meta2-cyberster.webp`}
+              alt="MG Cyberster — Campanha de Incentivo SYNTHÈ"
+              fill
+              className="object-cover"
+              sizes="100vw"
+              style={{ objectPosition: '50% 38%' }}
+            />
+            {/* gradiente suave nas bordas para enquadrar */}
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.55) 100%)' }} />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.2) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.2) 100%)' }} />
+            {/* Label topo */}
+            <div className="absolute top-4 left-5">
+              <p className="text-xs font-semibold tracking-[0.3em] uppercase" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                Campanha de Incentivo · Pré-lançamento
+              </p>
             </div>
-            {/* Conteúdo */}
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 px-8 py-7">
-              <div className="flex-1">
-                <p className="text-xs font-semibold tracking-[0.35em] uppercase mb-2" style={{ color: '#C1422A' }}>
-                  Campanha de Incentivo · Pré-lançamento
-                </p>
-                <p className="text-white font-bold text-xl md:text-2xl leading-tight mb-1">
-                  Venda e ganhe um carro elétrico.
-                </p>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  <span className="text-white/80 font-medium">Meta 1:</span> 10 unidades até 31/10/2026 →{' '}
-                  <span className="text-white/80 font-medium">MG4 XPOWER</span>
-                  {' · '}
-                  <span className="text-white/80 font-medium">Meta 2:</span> 15 unidades →{' '}
-                  <span className="text-white/80 font-medium">MG Cyberster</span>
-                </p>
-              </div>
-              <a
-                href="https://drive.google.com/open?id=1dSK7ztNZ6PpfywJYX-1IL-d7WftLPb6e&usp=drive_fs"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-shrink-0 px-6 py-3 rounded-full text-sm font-semibold transition-opacity hover:opacity-80 whitespace-nowrap"
+            {/* CTA no rodapé */}
+            <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+              <p className="text-white font-bold text-lg leading-tight drop-shadow-lg">
+                Venda e ganhe um<br />carro elétrico.
+              </p>
+              <span
+                className="flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-semibold"
                 style={{ background: '#C1422A', color: '#fff' }}
               >
-                Ver regulamento
-              </a>
+                Saiba como concorrer →
+              </span>
             </div>
-          </div>
+          </a>
         )}
 
         {/* CHAMADA */}

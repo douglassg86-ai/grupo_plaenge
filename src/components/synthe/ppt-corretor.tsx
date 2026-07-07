@@ -643,6 +643,12 @@ export default function SynthePptCorretor() {
   }, [slide, goTo]);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const s = parseInt(params.get('slide') ?? '', 10);
+    if (!isNaN(s) && s >= 0 && s < TOTAL) goTo(s);
+  }, [goTo]);
+
+  useEffect(() => {
     const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener('fullscreenchange', onFsChange);
     return () => document.removeEventListener('fullscreenchange', onFsChange);
