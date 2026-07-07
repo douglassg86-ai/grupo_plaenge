@@ -160,7 +160,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
           <a
             href="/synthe/pptcorretor?slide=22"
             className="relative block rounded-2xl overflow-hidden"
-            style={{ height: '260px', background: '#111' }}
+            style={{ height: 'clamp(280px, 42vw, 480px)', background: '#111' }}
           >
             <Image
               src={`${P}/carro-meta2-cyberster.webp`}
@@ -168,7 +168,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
               fill
               className="object-cover"
               sizes="100vw"
-              style={{ objectPosition: '50% 38%' }}
+              style={{ objectPosition: '50% 45%' }}
             />
             {/* gradiente suave nas bordas para enquadrar */}
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.55) 100%)' }} />
