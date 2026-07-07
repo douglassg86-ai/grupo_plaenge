@@ -59,7 +59,7 @@ const GALLERY_IMAGES = [
   { src: `${P}/©VISTA_03_EXT_FACHADA_DETALHE_01_FINAL.webp`,         label: 'Fachada — Detalhe' },
   { src: `${P}/©VISTA_04_EXT_FACHADA_DETALHE_02_FINAL.webp`,         label: 'Fachada — Detalhe 2' },
   { src: `${P}/©VISTA_05_EXT_ACESSO_EXTERNO_OBSERVADOR_FINAL.webp`,  label: 'Acesso Externo' },
-  { src: `${P}/©VISTA_06_EXT_INSERCAO_FINAL.webp`,                   label: 'Inserção Urbana' },
+  { src: `${P}/©VISTA_06_EXT_INSERCAO_FINAL.webp`, label: 'Inserção Urbana', objectPosition: '58% 62%', pin: { x: 57.5, y: 64 } },
   { src: `${P}/©VISTA_07_EXT_PISCINA_FINAL.webp`,                    label: 'Piscina' },
   { src: `${P}/©VISTA_01_INT_SALÃO_DE_FESTAS_02_FINAL.webp`,         label: 'Salão de Festas' },
   { src: `${P}/©VISTA_10_INT_SALÃO_DE_FESTAS_01_FINAL.webp`,         label: 'Salão de Festas 2' },
@@ -88,9 +88,8 @@ type Slide =
   | { kind: 'capa' }
   | { kind: 'highlight' }
   | { kind: 'book' }
-  | { kind: 'gallery'; img: { src: string; label: string }; index: number; total: number }
+  | { kind: 'gallery'; img: { src: string; label: string; objectPosition?: string; pin?: { x: number; y: number } }; index: number; total: number }
   | { kind: 'corretores' }
-  | { kind: 'incentive' }
   | { kind: 'imersiva' }
   | { kind: 'meta1' }
   | { kind: 'meta2' }
@@ -109,7 +108,6 @@ const SLIDES: Slide[] = [
     total: GALLERY_IMAGES.length,
   })),
   { kind: 'corretores' },
-  { kind: 'incentive' },
   { kind: 'imersiva' },
   { kind: 'estrategia1' },
   { kind: 'estrategia2' },
@@ -129,7 +127,6 @@ function slideLabel(s: Slide): string {
     case 'book':        return 'Book Digital';
     case 'gallery':     return s.img.label ?? 'Imagens';
     case 'corretores':  return 'Campanha';
-    case 'incentive':   return 'Impulsionamento';
     case 'imersiva':    return 'Sala Imersiva';
     case 'meta1':       return 'Meta 1';
     case 'meta2':       return 'Meta 2';
@@ -189,7 +186,7 @@ function SlideHighlight() {
       <div className="relative z-10 flex flex-col items-center text-center px-12">
         <div className="sn-a0 flex items-center gap-5 mb-10">
           <div style={{ height: '1px', width: '70px', background: `${ACC}80` }} />
-          <p className="sn tracking-[0.4em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>SYNTHÈ · PLAENGE</p>
+          <p className="sn tracking-[0.4em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>SYNTHÈ · PLAENGE · TGD</p>
           <div style={{ height: '1px', width: '70px', background: `${ACC}80` }} />
         </div>
         <h1 className="sn sn-a1" style={{ color: DARK, fontWeight: 900, fontSize: 'clamp(4.5rem, 10vw, 9rem)', lineHeight: 0.9, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
@@ -236,11 +233,27 @@ function SlideBook() {
   );
 }
 
-function SlideGallery({ img, index, total }: { img: { src: string; label: string }; index: number; total: number }) {
+function SlideGallery({ img, index, total }: { img: { src: string; label: string; objectPosition?: string; pin?: { x: number; y: number } }; index: number; total: number }) {
   return (
     <div className="relative w-full h-full">
-      <Image src={img.src} alt={img.label} fill className="object-cover" sizes="100vw" priority />
+      <Image src={img.src} alt={img.label} fill className="object-cover" sizes="100vw" priority
+        style={{ objectPosition: img.objectPosition ?? 'center center' }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 40%)' }} />
+      {/* PIN marker for location slides */}
+      {img.pin && (
+        <div className="absolute z-20" style={{ left: `${img.pin.x}%`, top: `${img.pin.y}%`, transform: 'translate(-50%, -100%)' }}>
+          {/* Drop shadow */}
+          <svg width="44" height="58" viewBox="0 0 44 58" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.7))' }}>
+            <path d="M22 0C9.85 0 0 9.85 0 22C0 38.5 22 58 22 58C22 58 44 38.5 44 22C44 9.85 34.15 0 22 0Z" fill={ACC} />
+            <circle cx="22" cy="22" r="9" fill="white" />
+            <circle cx="22" cy="22" r="5" fill={ACC} />
+          </svg>
+          {/* Label */}
+          <div className="sn absolute left-1/2 -bottom-8 whitespace-nowrap px-3 py-1 rounded-full" style={{ transform: 'translateX(-50%)', background: ACC, color: '#fff', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.08em' }}>
+            SYNTHÈ
+          </div>
+        </div>
+      )}
       <div className="absolute bottom-12 left-16 z-10">
         <p className="sn sn-a0 text-white/50 tracking-[0.25em] uppercase mb-2" style={{ fontSize: 'clamp(0.7rem, 1vw, 0.85rem)' }}>
           SYNTHÈ · {index}/{total}
@@ -341,7 +354,7 @@ function SlideMeta1() {
     <div className="relative w-full h-full overflow-hidden" style={{ background: DARK }}>
       {/* Car image full bleed */}
       <div className="absolute inset-0 sn-fade">
-        <Image src={`${P}/carro-meta1-mg4.webp`} alt="MG4 HATCH" fill
+        <Image src={`${P}/carro-meta1-mg4.webp`} alt="MG4 XPOWER" fill
           className="object-cover" sizes="100vw" style={{ objectPosition: 'center 40%' }} />
       </div>
       {/* Gradient overlays — escurece bordas, texto legível */}
@@ -356,10 +369,10 @@ function SlideMeta1() {
           <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(6rem, 11vw, 10rem)', lineHeight: 0.85, letterSpacing: '-0.03em' }}>10</span>
           <span className="sn" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>unidades</span>
         </div>
-        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>em 60 dias</p>
+        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>em 90 dias</p>
         <div className="sn-a3" style={{ width: '56px', height: '3px', background: ACC, marginBottom: '1.8rem' }} />
         <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 3.8vw, 3.5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
-          MG4 HATCH
+          MG4 XPOWER
         </p>
         <p className="sn sn-a5" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', fontWeight: 300, marginTop: '0.6rem' }}>
           Veículo elétrico · Prêmio Meta 1
