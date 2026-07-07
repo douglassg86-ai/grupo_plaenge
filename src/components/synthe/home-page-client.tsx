@@ -155,6 +155,51 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
           <p className="text-primary-foreground/80 text-sm mt-1">com o seu Corretor / GP</p>
         </div>
 
+        {/* BANNER CAMPANHA DE INCENTIVO — só para corretores */}
+        {!isClientePage && (
+          <div className="relative rounded-2xl overflow-hidden" style={{ background: '#111' }}>
+            {/* Imagem do Cyberster */}
+            <div className="absolute inset-0">
+              <Image
+                src={`${P}/carro-meta2-cyberster.webp`}
+                alt="MG Cyberster"
+                fill
+                className="object-cover"
+                sizes="100vw"
+                style={{ objectPosition: 'center 50%', opacity: 0.35 }}
+              />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.2) 100%)' }} />
+            </div>
+            {/* Conteúdo */}
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 px-8 py-7">
+              <div className="flex-1">
+                <p className="text-xs font-semibold tracking-[0.35em] uppercase mb-2" style={{ color: '#C1422A' }}>
+                  Campanha de Incentivo · Pré-lançamento
+                </p>
+                <p className="text-white font-bold text-xl md:text-2xl leading-tight mb-1">
+                  Venda e ganhe um carro elétrico.
+                </p>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  <span className="text-white/80 font-medium">Meta 1:</span> 10 unidades até 31/10/2026 →{' '}
+                  <span className="text-white/80 font-medium">MG4 XPOWER</span>
+                  {' · '}
+                  <span className="text-white/80 font-medium">Meta 2:</span> 15 unidades →{' '}
+                  <span className="text-white/80 font-medium">MG Cyberster</span>
+                </p>
+              </div>
+              <a
+                href="https://drive.google.com/open?id=1dSK7ztNZ6PpfywJYX-1IL-d7WftLPb6e&usp=drive_fs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0 px-6 py-3 rounded-full text-sm font-semibold transition-opacity hover:opacity-80 whitespace-nowrap"
+                style={{ background: '#C1422A', color: '#fff' }}
+              >
+                Ver regulamento
+              </a>
+            </div>
+          </div>
+        )}
+
         {/* CHAMADA */}
         <div className="bg-primary text-primary-foreground rounded-2xl px-8 py-6 text-center">
           <p className="text-lg font-semibold tracking-wide">A Síntese do Equilíbrio</p>
