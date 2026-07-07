@@ -8,6 +8,7 @@ import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
+import { ConvitePopup } from '@/components/synthe/convite-popup';
 
 const LINKS_CONFIG = {
   tabela:        'https://drive.google.com/open?id=1EloA34inI_S0FGE03BY9QVaKpZTJerww&usp=drive_fs',
@@ -121,6 +122,7 @@ const tipologias = [
 export default function SyntheHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
   return (
     <div className="bg-background min-h-screen">
+      {!isClientePage && <ConvitePopup />}
       {/* HEADER */}
       <ProductHeader hideNav={isClientePage} />
 

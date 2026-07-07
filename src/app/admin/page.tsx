@@ -68,6 +68,9 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
 
+  // Video views state
+  const [videoViews, setVideoViews] = useState<{ total: number; today: number } | null>(null)
+
   // Analytics state
   const [analyticsData, setAnalyticsData] = useState<{
     slug: string; name: string; photo: string;
@@ -100,6 +103,21 @@ export default function AdminPage() {
   useEffect(() => {
     if (sessionStorage.getItem('admin_authed') === '1') setAuthed(true)
   }, [])
+
+  useEffect(() => {
+    if (!authed) return
+    const pw = sessionStorage.getItem('admin_password') || ''
+    fetch('/api/video-views', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw }),
+    }).then(async r => {
+      if (r.ok) {
+        const d = await r.json()
+        if (d.ok) setVideoViews({ total: d.total, today: d.today })
+      }
+    }).catch(() => {})
+  }, [authed])
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -258,6 +276,23 @@ export default function AdminPage() {
           </button>
         ))}
       </div>
+
+      {/* Contador vídeo convite SYNTHÈ */}
+      {adminView === 'gestores' && videoViews !== null && (
+        <div className="px-6 py-3 border-b border-gray-800">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">📹 Convite SYNTHÈ — Sábado 11/07</p>
+          <div className="flex gap-4">
+            <div className="bg-gray-800 rounded-xl px-5 py-3 text-center min-w-[100px]">
+              <p className="text-2xl font-bold text-white">{videoViews.total}</p>
+              <p className="text-xs text-gray-400 mt-0.5">visualizações totais</p>
+            </div>
+            <div className="bg-gray-800 rounded-xl px-5 py-3 text-center min-w-[100px]">
+              <p className="text-2xl font-bold text-green-400">{videoViews.today}</p>
+              <p className="text-xs text-gray-400 mt-0.5">hoje</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Analytics dashboard */}
       {adminView === 'gestores' && (
