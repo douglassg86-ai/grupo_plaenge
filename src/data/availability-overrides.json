@@ -41,7 +41,9 @@
     "82985": "sold",
     "82992": "sold"
   },
-  "synthe": {},
+  "synthe": {
+    "200032": "available"
+  },
   "trend_home": {
     "108604": "negotiation",
     "108606": "sold",
