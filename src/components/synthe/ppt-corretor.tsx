@@ -91,7 +91,10 @@ type Slide =
   | { kind: 'gallery'; img: { src: string; label: string; objectPosition?: string; pin?: { x: number; y: number } }; index: number; total: number }
   | { kind: 'corretores' }
   | { kind: 'imersiva' }
+  | { kind: 'evento' }
+  | { kind: 'meta1intro' }
   | { kind: 'meta1' }
+  | { kind: 'meta2intro' }
   | { kind: 'meta2' }
   | { kind: 'estrategia1' }
   | { kind: 'estrategia2' }
@@ -111,7 +114,10 @@ const SLIDES: Slide[] = [
   { kind: 'imersiva' },
   { kind: 'estrategia1' },
   { kind: 'estrategia2' },
+  { kind: 'evento' },
+  { kind: 'meta1intro' },
   { kind: 'meta1' },
+  { kind: 'meta2intro' },
   { kind: 'meta2' },
   { kind: 'cta' },
 ];
@@ -128,8 +134,11 @@ function slideLabel(s: Slide): string {
     case 'gallery':     return s.img.label ?? 'Imagens';
     case 'corretores':  return 'Campanha';
     case 'imersiva':    return 'Sala Imersiva';
-    case 'meta1':       return 'Meta 1';
-    case 'meta2':       return 'Meta 2';
+    case 'evento':      return 'Evento Especial';
+    case 'meta1intro':  return 'Meta 1';
+    case 'meta1':       return 'Meta 1 — Prêmio';
+    case 'meta2intro':  return 'Meta 2';
+    case 'meta2':       return 'Meta 2 — Prêmio';
     case 'estrategia1': return 'Estratégia — Condições';
     case 'estrategia2': return 'Estratégia — Tabela';
     case 'cta':         return 'Material';
@@ -294,32 +303,6 @@ function SlideCorretores() {
   );
 }
 
-function SlideIncentive() {
-  return (
-    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: ACC }}>
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)' }} />
-      <div className="relative z-10 flex flex-col items-center text-center px-12">
-        <p className="sn sn-a0 tracking-[0.4em] uppercase mb-10" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
-          VERBA DE MARKETING · APOIO AO CORRETOR
-        </p>
-        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3.5rem, 6.5vw, 6rem)', lineHeight: 0.95, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
-          IMPULSIONAMENTO
-        </h2>
-        <div className="sn-a2 my-10" style={{ width: '90px', height: '3px', background: 'rgba(255,255,255,0.35)' }} />
-        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(1rem, 1.6vw, 1.3rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.2rem' }}>
-          SORTEIO
-        </p>
-        <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(4rem, 7.5vw, 7rem)', lineHeight: 0.9, letterSpacing: '-0.02em' }}>
-          R$ 5.000
-        </p>
-        <p className="sn sn-a5 mt-5" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', fontWeight: 300, letterSpacing: '0.06em' }}>
-          Verba de marketing para apoio aos corretores parceiros
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function SlideImersiva() {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center" style={{ background: DARK }}>
@@ -344,6 +327,89 @@ function SlideImersiva() {
         <p className="sn sn-a5 mt-6" style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.85rem, 1.3vw, 1.1rem)', fontWeight: 300, letterSpacing: '0.08em' }}>
           Ambiente exclusivo para corretores · Central de Decorados
         </p>
+      </div>
+    </div>
+  );
+}
+
+function SlideEvento() {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: DARK }}>
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${ACC}22 0%, transparent 65%)` }} />
+      {/* Horizontal line top */}
+      <div className="absolute top-0 left-0 right-0" style={{ height: '3px', background: ACC }} />
+      <div className="relative z-10 flex flex-col items-center text-center px-16 max-w-5xl">
+        <p className="sn sn-a0 tracking-[0.45em] uppercase mb-12" style={{ color: `${ACC}90`, fontSize: 'clamp(0.75rem, 1.1vw, 0.9rem)', fontWeight: 500 }}>
+          SYNTHÈ · EVENTO ESPECIAL
+        </p>
+        <h2 className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3.2rem, 6vw, 5.5rem)', lineHeight: 1.05, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
+          E NESSE SÁBADO<br />
+          <span style={{ color: ACC }}>PREPARAMOS ALGO</span><br />
+          MUITO ESPECIAL
+        </h2>
+        <div className="sn-a2 my-10" style={{ width: '70px', height: '2px', background: `${ACC}70` }} />
+        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(1.3rem, 2.2vw, 1.9rem)', fontWeight: 300, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          UMA EXPERIÊNCIA ARTESANAL
+        </p>
+        <div className="sn-a4 mt-8 px-10 py-4 rounded-full" style={{ border: `1px solid ${ACC}60`, background: `${ACC}18` }}>
+          <p className="sn" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+            PARA APENAS <span style={{ color: ACC }}>30 CLIENTES</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlideMetaIntro1() {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: DARK }}>
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 70% at 30% 50%, ${ACC}18 0%, transparent 65%)` }} />
+      <div className="relative z-10 flex flex-col justify-center px-24 max-w-5xl w-full">
+        <p className="sn sn-a0 tracking-[0.4em] uppercase mb-10" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
+          METAS E PRÊMIOS · META 1
+        </p>
+        <div className="sn-a1 flex items-baseline gap-5 mb-4">
+          <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(8rem, 15vw, 14rem)', lineHeight: 0.85, letterSpacing: '-0.04em' }}>10</span>
+          <span className="sn" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300, fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>unidades</span>
+        </div>
+        <div className="sn-a2" style={{ width: '70px', height: '3px', background: ACC, marginBottom: '2rem' }} />
+        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1.2rem, 2vw, 1.7rem)', fontWeight: 300, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+          EM 90 DIAS
+        </p>
+        <div className="sn-a4 flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${ACC}50`, background: `${ACC}15` }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: ACC, flexShrink: 0 }} />
+          <p className="sn" style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(0.9rem, 1.4vw, 1.2rem)', fontWeight: 400, letterSpacing: '0.08em' }}>
+            PRAZO: ATÉ <span style={{ color: '#FFFFFF', fontWeight: 700 }}>31/10/2026</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlideMetaIntro2() {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: DARK }}>
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 70% at 30% 50%, ${ACC}18 0%, transparent 65%)` }} />
+      <div className="relative z-10 flex flex-col justify-center px-24 max-w-5xl w-full">
+        <p className="sn sn-a0 tracking-[0.4em] uppercase mb-10" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
+          METAS E PRÊMIOS · META 2
+        </p>
+        <div className="sn-a1 flex items-baseline gap-5 mb-4">
+          <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(8rem, 15vw, 14rem)', lineHeight: 0.85, letterSpacing: '-0.04em' }}>15</span>
+          <span className="sn" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300, fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>unidades</span>
+        </div>
+        <div className="sn-a2" style={{ width: '70px', height: '3px', background: ACC, marginBottom: '2rem' }} />
+        <p className="sn sn-a3" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1.2rem, 2vw, 1.7rem)', fontWeight: 300, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+          EM 90 DIAS
+        </p>
+        <div className="sn-a4 flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${ACC}50`, background: `${ACC}15` }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: ACC, flexShrink: 0 }} />
+          <p className="sn" style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(0.9rem, 1.4vw, 1.2rem)', fontWeight: 400, letterSpacing: '0.08em' }}>
+            PRAZO: ATÉ <span style={{ color: '#FFFFFF', fontWeight: 700 }}>31/10/2026</span>
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -385,39 +451,29 @@ function SlideMeta1() {
 function SlideMeta2() {
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: DARK }}>
-      {/* Car image full bleed */}
+      {/* Car image full bleed — centrado para máximo destaque */}
       <div className="absolute inset-0 sn-fade">
         <Image src={`${P}/carro-meta2-cyberster.webp`} alt="MG Cyberster" fill
-          className="object-cover" sizes="100vw" style={{ objectPosition: 'center 45%' }} />
+          className="object-cover" sizes="100vw" style={{ objectPosition: 'center 50%' }} />
       </div>
-      {/* Gradients */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0.1) 100%)' }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 50%)' }} />
-      {/* Text — left side */}
-      <div className="absolute left-0 top-0 bottom-0 z-10 flex flex-col justify-center px-20 max-w-2xl">
-        <div className="sn-a0 flex items-center gap-3 mb-6">
-          <div style={{ width: '32px', height: '2px', background: ACC }} />
-          <p className="sn tracking-[0.35em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
-            META 2 · O PRÊMIO EVOLUI
-          </p>
-        </div>
-        <div className="sn-a1 flex items-baseline gap-4 mb-3">
-          <span className="sn" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(6rem, 11vw, 10rem)', lineHeight: 0.85, letterSpacing: '-0.03em' }}>15</span>
-          <span className="sn" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>unidades</span>
-        </div>
-        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>em 90 dias</p>
-        <div className="sn-a3" style={{ width: '56px', height: '3px', background: ACC, marginBottom: '1.8rem' }} />
-        <p className="sn sn-a4" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2rem, 3.8vw, 3.5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
+      {/* Gradiente suave só nas bordas, carro fica em destaque */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.85) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.15) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.15) 100%)' }} />
+      {/* Label topo */}
+      <div className="absolute top-0 left-0 right-0 z-10 flex items-center gap-3 px-16 pt-14">
+        <div style={{ width: '32px', height: '2px', background: ACC }} />
+        <p className="sn sn-a0 tracking-[0.35em] uppercase" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
+          META 2 · O PRÊMIO EVOLUI
+        </p>
+      </div>
+      {/* Texto na faixa inferior */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 px-16 pb-14">
+        <p className="sn sn-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3rem, 5.5vw, 5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
           MG CYBERSTER
         </p>
-        <p className="sn sn-a5" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', fontWeight: 300, marginTop: '0.6rem', marginBottom: '1.5rem' }}>
+        <p className="sn sn-a2" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)', fontWeight: 300 }}>
           Esportivo elétrico conversível · Prêmio Meta 2
         </p>
-        <div className="sn-a5 px-5 py-3 rounded-full self-start" style={{ background: `${ACC}30`, border: `1px solid ${ACC}60` }}>
-          <p className="sn" style={{ color: ACC, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
-            Atinja a meta 2 e o prêmio evolui do MG4 para o Cyberster
-          </p>
-        </div>
       </div>
     </div>
   );
@@ -618,9 +674,11 @@ export default function SynthePptCorretor() {
         {current.kind === 'book'        && <SlideBook />}
         {current.kind === 'gallery'     && <SlideGallery img={current.img} index={current.index} total={current.total} />}
         {current.kind === 'corretores'  && <SlideCorretores />}
-        {current.kind === 'incentive'   && <SlideIncentive />}
         {current.kind === 'imersiva'    && <SlideImersiva />}
+        {current.kind === 'evento'      && <SlideEvento />}
+        {current.kind === 'meta1intro'  && <SlideMetaIntro1 />}
         {current.kind === 'meta1'       && <SlideMeta1 />}
+        {current.kind === 'meta2intro'  && <SlideMetaIntro2 />}
         {current.kind === 'meta2'       && <SlideMeta2 />}
         {current.kind === 'estrategia1' && <SlideEstrategia1 />}
         {current.kind === 'estrategia2' && <SlideEstrategia2 />}
