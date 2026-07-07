@@ -10,11 +10,13 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
+  tabela:        'https://drive.google.com/open?id=1EloA34inI_S0FGE03BY9QVaKpZTJerww&usp=drive_fs',
   book:          'https://drive.google.com/open?id=1netjJDKzSz8VPgROc3ZoMloFPSv07O7m&usp=drive_fs',
   imagens:       'https://drive.google.com/open?id=1Q6LpU-LPMwxZtdbbHb7E3XX1u24UD3o0&usp=drive_fs',
   plantas:       'https://drive.google.com/open?id=1WLV6OkYCJRBoeKZGakO1Mvupy_0cdhgC&usp=drive_fs',
   fotosDecorado: 'https://drive.google.com/open?id=1cUR5dU96rq85x5pyEMsN693EjHeu2Miw&usp=drive_fs',
   reels:         'https://drive.google.com/open?id=16p4XzKKraSWvwPGLsuJ7Wig07xhE7_ZS&usp=drive_fs',
+  video:         'https://drive.google.com/open?id=1V88BFKdVAGjAcMPyECIg0t1_4SCNPmr7&usp=drive_fs',
   clienteSlug:   'synthe',
 };
 

@@ -3,36 +3,66 @@
 import { useState } from 'react';
 import { useManager, trackClick } from '@/lib/use-manager';
 import { units, type Unit } from '@/lib/synthe-data';
+import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { PaymentBreakdown, type PaymentStep } from '@/components/shared/payment-breakdown';
+
+const PAYMENT_PLAN: PaymentStep[] = [
+  { label: 'Entrada',  pct: 0.125, count: 5  },
+  { label: 'Mensais',  pct: 0.15,  count: 32 },
+  { label: 'Reforços', pct: 0.125, count: 5  },
+  { label: 'Saldo',    pct: 0.60,  count: 1  },
+];
+
+const statusLabel: Record<string, string> = { available: 'Disponível', sold: 'Vendido', negotiation: 'Reservado' };
+const statusCell: Record<string, string> = {
+  available:   'bg-emerald-500 hover:bg-emerald-600 cursor-pointer text-white',
+  sold:        'bg-stone-200 text-stone-400 cursor-default',
+  negotiation: 'bg-amber-400 hover:bg-amber-500 cursor-pointer text-white',
+};
+const statusBadge: Record<string, string> = {
+  available:   'bg-emerald-100 text-emerald-800 border-emerald-300',
+  sold:        'bg-stone-100 text-stone-400 border-stone-200',
+  negotiation: 'bg-amber-100 text-amber-800 border-amber-300',
+};
+
+function formatCurrency(v: number) {
+  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+}
 
 export default function UnitGrid() {
   const [selected, setSelected] = useState<Unit | null>(null);
   const manager = useManager();
-  const floors = [...new Set(units.map(u => u.floor))].sort((a, b) => b - a);
+  const floors   = [...new Set(units.map(u => u.floor))].sort((a, b) => b - a);
   const prumadas = [...new Set(units.map(u => u.prumada))].sort((a, b) => Number(a) - Number(b));
-  const getUnit = (floor: number, prumada: string) => units.find(u => u.floor === floor && u.prumada === prumada);
+  const getUnit  = (floor: number, prumada: string) => units.find(u => u.floor === floor && u.prumada === prumada);
 
   return (
     <div className="space-y-5">
-      {/* Badge pré-lançamento */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1.5 text-xs">
-          <span className="w-3 h-3 rounded-sm inline-block bg-stone-300 border border-stone-400" />
-          <span className="text-muted-foreground">Pré-lançamento — todas as unidades disponíveis para cadastro</span>
-        </div>
+      {/* Legend */}
+      <div className="flex gap-4 text-xs flex-wrap">
+        {Object.entries(statusLabel).map(([key, label]) => (
+          <div key={key} className="flex items-center gap-1.5">
+            <span className={cn('w-3 h-3 rounded-sm inline-block border', statusCell[key])} />
+            {label}
+          </div>
+        ))}
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-2 gap-3 text-center text-sm max-w-xs">
-        <div className="bg-muted/50 rounded-lg p-3">
-          <p className="text-2xl font-display font-bold text-stone-600">32</p>
-          <p className="text-muted-foreground text-xs">Total de unidades</p>
-        </div>
-        <div className="bg-muted/50 rounded-lg p-3">
-          <p className="text-2xl font-display font-bold text-stone-600">16</p>
-          <p className="text-muted-foreground text-xs">Pavimentos</p>
-        </div>
+      <div className="grid grid-cols-3 gap-3 text-center text-sm">
+        {[
+          { label: 'Disponíveis', count: units.filter(u => u.status === 'available').length,   color: 'text-emerald-600' },
+          { label: 'Reservadas',  count: units.filter(u => u.status === 'negotiation').length, color: 'text-amber-600'   },
+          { label: 'Vendidas',    count: units.filter(u => u.status === 'sold').length,        color: 'text-stone-400'   },
+        ].map(({ label, count, color }) => (
+          <div key={label} className="bg-muted/50 rounded-lg p-3">
+            <p className={`text-2xl font-display font-bold ${color}`}>{count}</p>
+            <p className="text-muted-foreground text-xs">{label}</p>
+          </div>
+        ))}
       </div>
 
       {/* Grid */}
@@ -53,11 +83,12 @@ export default function UnitGrid() {
                 {prumadas.map(p => {
                   const unit = getUnit(floor, p);
                   if (!unit) return <td key={p} className="px-1 py-0.5" />;
+                  const canClick = unit.status !== 'sold';
                   return (
                     <td key={p} className="px-1 py-0.5">
                       <button
-                        onClick={() => setSelected(unit)}
-                        className="w-full rounded px-1 py-1.5 font-medium border transition-colors text-xs bg-stone-100 hover:bg-stone-200 text-stone-600 border-stone-300 cursor-pointer"
+                        onClick={() => canClick && setSelected(unit)}
+                        className={cn('w-full rounded px-1 py-1.5 font-medium border transition-colors text-xs', statusCell[unit.status])}
                       >
                         {unit.code}
                       </button>
@@ -71,7 +102,7 @@ export default function UnitGrid() {
       </div>
 
       <p className="text-xs text-muted-foreground italic">
-        Unidades em destaque (18º andar): Penthouse com Rooftop Privativo.
+        18º andar: Penthouse com Rooftop Privativo.
       </p>
 
       {/* Modal */}
@@ -84,17 +115,19 @@ export default function UnitGrid() {
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 text-sm">
-              <div className="bg-stone-50 rounded-lg px-4 py-3 text-center border border-stone-200">
-                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Pré-lançamento</p>
-                <p className="font-semibold text-foreground">Cadastre seu interesse</p>
+              <div className="flex items-center justify-between">
+                <Badge className={cn('border text-xs', statusBadge[selected.status])}>
+                  {statusLabel[selected.status]}
+                </Badge>
+                <span className="font-semibold text-foreground">{formatCurrency(selected.price)}</span>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: 'Tipologia', value: selected.type },
+                  { label: 'Tipologia',      value: selected.type },
                   { label: 'Área Privativa', value: `${selected.area.toFixed(2)} m²` },
-                  { label: 'Andar', value: `${selected.floor}º` },
-                  { label: 'Suítes', value: '3 suítes' },
-                  { label: 'Hall', value: 'Privativo por andar' },
+                  { label: 'Andar',          value: `${selected.floor}º` },
+                  { label: 'Suítes',         value: '3 suítes' },
+                  { label: 'Hall',           value: 'Privativo por andar' },
                 ].map(({ label, value }) => (
                   <div key={label}>
                     <p className="text-muted-foreground text-xs">{label}</p>
@@ -102,12 +135,13 @@ export default function UnitGrid() {
                   </div>
                 ))}
               </div>
-              {manager && (
+              <PaymentBreakdown price={selected.price} plan={PAYMENT_PLAN} />
+              {manager && selected.status !== 'sold' && (
                 <Button className="w-full" onClick={() => {
-                  trackClick(manager.slug, 'SYNTHÈ')
-                  window.open(`https://wa.me/${manager.phone}?text=${encodeURIComponent(`Olá ${manager.name}! Tenho interesse no Apto ${selected.code} do SYNTHÈ (pré-lançamento).`)}`, '_blank')
+                  trackClick(manager.slug, 'SYNTHÈ');
+                  window.open(`https://wa.me/${manager.phone}?text=${encodeURIComponent(`Olá ${manager.name}! Tenho interesse no Apto ${selected.code} do SYNTHÈ.`)}`, '_blank');
                 }}>
-                  Cadastrar Interesse via WhatsApp
+                  Tenho Interesse — WhatsApp
                 </Button>
               )}
             </div>
