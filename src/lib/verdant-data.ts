@@ -40,7 +40,7 @@ const _rawUnits: Unit[] = [
   { id: 101483, code: '0704', type: 'UNIDADE V — 145,08 m²', floor: 7, prumada: '4', area: 145.08, price: 2856960, status: 'sold', setor: 'Torre' },
   { id: 101484, code: '0801', type: 'UNIDADE IV — 150,45 m²', floor: 8, prumada: '1', area: 150.45, price: 3034320, status: 'available', setor: 'Torre' },
   { id: 101485, code: '0802', type: 'UNIDADE V — 145,08 m²', floor: 8, prumada: '2', area: 145.08, price: 2868660, status: 'available', setor: 'Torre' },
-  { id: 101486, code: '0803', type: 'UNIDADE V — 145,08 m²', floor: 8, prumada: '3', area: 145.08, price: 2843630, status: 'available', setor: 'Torre' },
+  { id: 101486, code: '0803', type: 'UNIDADE V — 145,08 m²', floor: 8, prumada: '3', area: 145.08, price: 2868660, status: 'available', setor: 'Torre' },
   { id: 101487, code: '0804', type: 'UNIDADE V — 145,08 m²', floor: 8, prumada: '4', area: 145.08, price: 2900450, status: 'sold', setor: 'Torre' },
   { id: 101488, code: '0901', type: 'UNIDADE DUPLEX — 295,09 m²', floor: 9, prumada: '1', area: 295.09, price: 6040520, status: 'available', setor: 'Torre' },
   { id: 101489, code: '0902', type: 'UNIDADE IV — 150,45 m²', floor: 9, prumada: '2', area: 150.45, price: 3019420, status: 'available', setor: 'Torre' },
