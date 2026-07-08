@@ -11,16 +11,16 @@ import { PaymentBreakdown, type PaymentStep } from '@/components/shared/payment-
 
 const PLAN_HOME: PaymentStep[] = [
   { label: 'Entrada',       pct: 0.15, count: 5  },
-  { label: 'Mensais',       pct: 0.10, count: 23 },
+  { label: 'Mensais',       pct: 0.10, count: 22 },
   { label: 'Reforços',      pct: 0.15, count: 3  },
   { label: 'Financiamento', pct: 0.60, count: 1  },
 ];
 
 const PLAN_NANO: PaymentStep[] = [
-  { label: 'Entrada',       pct: 0.11, count: 4 },
-  { label: 'Mensais',       pct: 0.08, count: 1 },
-  { label: 'Reforços',      pct: 0.06, count: 1 },
-  { label: 'Financiamento', pct: 0.75, count: 1 },
+  { label: 'Entrada',       pct: 0.14, count: 4 },
+  { label: 'Mensais',       pct: 0.125, count: 1 },
+  { label: 'Reforços',      pct: 0.125, count: 1 },
+  { label: 'Financiamento', pct: 0.61, count: 1 },
 ];
 
 const statusLabel: Record<string, string> = { available: 'Disponível', sold: 'Vendido', negotiation: 'Reservado' };

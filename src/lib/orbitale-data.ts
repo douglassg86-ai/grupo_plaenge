@@ -14,7 +14,7 @@ export interface Unit {
 
 const _rawUnits: Unit[] = [
   { id: 82983, code: '0201', type: 'UNIDADE XVIII — 502,86 m²', floor: 2, prumada: '1', area: 502.86, price: 7629040, status: 'sold' },
-  { id: 82984, code: '0202', type: 'UNIDADE XV — 397,10 m²', floor: 2, prumada: '2', area: 397.1, price: 6693030, status: 'negotiation' },
+  { id: 82984, code: '0202', type: 'UNIDADE XV — 397,10 m²', floor: 2, prumada: '2', area: 397.1, price: 6751930, status: 'negotiation' },
   { id: 82985, code: '0301', type: 'UNIDADE I — 230,94 m²', floor: 3, prumada: '1', area: 230.94, price: 5752780, status: 'negotiation' },
   { id: 82986, code: '0302', type: 'UNIDADE II — 231,53 m²', floor: 3, prumada: '2', area: 231.53, price: 5623350, status: 'sold' },
   { id: 82987, code: '0401', type: 'UNIDADE IV — 231,62 m²', floor: 4, prumada: '1', area: 231.62, price: 5887500, status: 'sold' },

@@ -49,18 +49,18 @@ whatsapp-button.tsx         ← botão flutuante (só com cookie 'manager')
 10. **Route Handlers** — sempre `await` operações async antes do `return response`
 11. **Admin push rejected** — antes de push, `git pull --rebase` (admin commita diretamente no GitHub)
 
-## Condições de pagamento (tabela junho/2026)
+## Condições de pagamento (tabela julho/2026)
 | Produto | Plano |
 |---------|-------|
-| YUNA | Entrada 15%(5x) · Mensais 10%(13x) · Reforços 15%(1x) · Financiamento 60% |
-| EDITION | Entrada 20%(4x) · Mensais 15%(22x) · Reforços 15%(3x) · Financiamento 50% |
+| YUNA | Entrada 15%(5x) · Mensais 10%(13x) · Reforços 15%(2x) · Financiamento 60% (42%+18,3% pós) |
+| EDITION | Entrada 20%(4x) · Mensais 15%(21x) · Reforços 15%(3x) · Financiamento 50% (40%+10% pós) |
 | MOOD | Entrada 20%(1x) · Financiamento 80% |
 | ORBITALE | Entrada 40%(1x) · Financiamento 60% |
-| VERDANT | Entrada 15%(5x) · Mensais 10%(6x) · Reforços 10%(2x) · Financiamento 65% |
-| TREND Home | Entrada 15%(5x) · Mensais 10%(23x) · Reforços 15%(3x) · Financiamento 60% |
-| TREND Nano | Entrada 11%(4x) · Mensais 8%(1x) · Reforços 6%(1x) · Financiamento 75% |
+| VERDANT | Entrada 15%(5x) · Mensais 10%(5x) · Reforços 10%(2x) · Financiamento 65% |
+| TREND Home | Entrada 15%(5x) · Mensais 10%(22x) · Reforços 15%(3x) · Financiamento 60% (55%+5,5% pós) |
+| TREND Nano | Entrada 14%(4x) · Mensais 12,5%(1x) · Reforços 12,5%(1x) · Financiamento 61% |
 | WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
-| SHIFT | Entrada 12,5%(5x) · Mensais 9%(30x) · Reforços 13%(3x) · Financiamento 65,5% |
+| SHIFT | Entrada 12,5%(5x) · Mensais 9%(29x) · Reforços 13,5%(3x) · Financiamento 65% |
 | SYNTHÈ | Pré-lançamento — sem condições |
 
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
