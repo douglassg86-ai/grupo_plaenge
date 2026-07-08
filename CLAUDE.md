@@ -2,11 +2,11 @@
 
 ## Repositório & Caminhos
 - **GitHub:** `douglassg86-ai/grupo_plaenge` · **Produção:** `grupo-plaenge.vercel.app`
-- **Local:** `/Users/douglas/Desktop/grupo_plaenge`
-- **Assets fonte:** `/Users/douglas/Desktop/SITE PRODUTOS/Produtos/`
-- **Disponibilidade (xlsx):** `/Users/douglas/Desktop/SITE PRODUTOS/DISPONIBILIDADE/` — pasta `junho` (jun/2026)
-- **Tabelas de pagamento:** `~/Library/CloudStorage/GoogleDrive-douglassg86@gmail.com/Meu Drive/Douglas - Executivo de Vendas/TRANSFERÊNCIA/tabelas/`
-- **Books PDF:** `/Users/douglas/Desktop/SITE PRODUTOS/BOOKS/` (alguns dentro da pasta do produto)
+- **Local:** `/Users/douglasgoncalves/Desktop/grupo_plaenge`
+- **Assets fonte:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/Produtos/`
+- **Disponibilidade (xlsx):** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/DISPONIBILIDADE/`
+- **Tabelas de pagamento (PDF):** pasta `ajustes/TABELAS JULHO/` no projeto local (atualizar mensalmente)
+- **Books PDF:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/BOOKS/` (alguns dentro da pasta do produto)
 
 ## Stack
 Next.js 14 (App Router, Turbo) · TypeScript · Tailwind CSS · shadcn/ui
@@ -48,6 +48,7 @@ whatsapp-button.tsx         ← botão flutuante (só com cookie 'manager')
 9. **Hydration mismatch** — nunca `Math.random()` / `shuffle` no `useState` initializer; mover para `useEffect`
 10. **Route Handlers** — sempre `await` operações async antes do `return response`
 11. **Admin push rejected** — antes de push, `git pull --rebase` (admin commita diretamente no GitHub)
+12. **EDITION tem duas torres** — `'Torre Jardim Cristofel'` e `'Torre Doutor Vale'`, ambas no mesmo `edition-data.ts`. Os códigos de andar se repetem (ex. `'0701'` existe em cada torre). Ao mapear código→ID sempre filtrar por campo `tower`. Atualizar preços e disponibilidade por `id`, nunca só por código.
 
 ## Condições de pagamento (tabela julho/2026)
 | Produto | Plano |
@@ -64,6 +65,15 @@ whatsapp-button.tsx         ← botão flutuante (só com cookie 'manager')
 | SYNTHÈ | Pré-lançamento — sem condições |
 
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
+
+## Atualização mensal de preços e disponibilidade
+1. PDFs das tabelas entram na pasta `ajustes/TABELAS JULHO/` (ou mês correspondente)
+2. Usar `pdfplumber` para extrair preços — formato BRL com espaços: `re.sub(r'R\$\s*','',v).replace(' ','').replace('.','').replace(',','.')` → `int(float(...))`
+3. Unidades **ausentes** do PDF = vendidas. Unidades **presentes** = disponíveis.
+4. `availability-overrides.json` é keyed por **id numérico** da unidade (não código). Sempre buscar por `id`.
+5. Ao atualizar preços linha a linha (não por replace em massa), usar o campo `id` para identificar a unidade unicamente — especialmente na EDITION onde o mesmo código existe em duas torres.
+6. SHIFT não tem preço por unidade no `shift-data.ts` — não atualizar preços (usa `soldCodes` set inline).
+7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
 
 ## Apresentações fullscreen — TREND DOWNTOWN
 - **Arquivos:** `src/components/trend/presentation-mode-nano.tsx` (NANO + OFFICE, 46 slides) e `presentation-mode-home.tsx` (HOME Torre 1, 37 slides)
