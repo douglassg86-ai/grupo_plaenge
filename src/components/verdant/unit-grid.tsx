@@ -105,7 +105,7 @@ export default function UnitGrid() {
                     <td key={p} className="px-1 py-0.5">
                       <button
                         disabled={unit.status === 'sold'}
-                        onClick={() => unit.status !== 'sold' && setSelected(unit)}
+                        onClick={() => { if (unit.status !== 'sold') { setSelected(unit); fetch('/api/track-unit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'VERDANT', unitCode: unit.code }) }).catch(() => {}) } }}
                         className={cn('w-full rounded px-1 py-1.5 font-medium border transition-colors text-xs', statusCell[unit.status])}
                       >
                         {unit.code}

@@ -41,7 +41,7 @@ function formatCurrency(v: number) {
     : 'Consulte';
 }
 
-function Grid({ units, towerName, plan }: { units: Unit[]; towerName: string; plan: PaymentStep[] }) {
+function Grid({ units, towerName, plan, trackProduct }: { units: Unit[]; towerName: string; plan: PaymentStep[]; trackProduct: string }) {
   const [selected, setSelected] = useState<Unit | null>(null);
   const manager = useManager();
   const floors = [...new Set(units.map(u => u.floor))].sort((a, b) => b - a);
@@ -94,7 +94,7 @@ function Grid({ units, towerName, plan }: { units: Unit[]; towerName: string; pl
                     <td key={p} className="px-1 py-0.5">
                       <button
                         disabled={unit.status === 'sold'}
-                        onClick={() => unit.status !== 'sold' && setSelected(unit)}
+                        onClick={() => { if (unit.status !== 'sold') { setSelected(unit); fetch('/api/track-unit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: trackProduct, unitCode: unit.code }) }).catch(() => {}) } }}
                         className={cn('w-full rounded px-1 py-1.5 font-medium border transition-colors text-xs', statusCell[unit.status])}
                       >
                         {unit.code}
@@ -177,8 +177,8 @@ export default function UnitGrid({ onTabChange, activeTab }: { onTabChange?: (ta
         </div>
       )}
       {tab === 'home'
-        ? <Grid units={homeUnits} towerName="Home" plan={PLAN_HOME} />
-        : <Grid units={nanoUnits} towerName="Nano" plan={PLAN_NANO} />
+        ? <Grid units={homeUnits} towerName="Home" plan={PLAN_HOME} trackProduct="TREND HOME" />
+        : <Grid units={nanoUnits} towerName="Nano" plan={PLAN_NANO} trackProduct="TREND NANO" />
       }
     </div>
   );

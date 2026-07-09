@@ -104,7 +104,7 @@ export default function UnitGrid() {
                     <td key={p} className="px-2 py-0.5">
                       <button
                         disabled={unit.status === 'sold'}
-                        onClick={() => unit.status !== 'sold' && setSelected(unit)}
+                        onClick={() => { if (unit.status !== 'sold') { setSelected(unit); const towerAbbr = unit.tower.includes('Jardim') ? 'Jd' : 'Dr'; fetch('/api/track-unit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'EDITION', unitCode: unit.code + '-' + towerAbbr }) }).catch(() => {}) } }}
                         className={cn(
                           'w-full rounded px-2 py-1.5 text-xs font-medium border transition-colors',
                           statusCell[unit.status]

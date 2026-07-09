@@ -23,6 +23,7 @@ export default function HomePageClient({ isSharePage = false }: HomePageClientPr
     if (lot.status === 'available' || lot.status === 'opportunity' || lot.status === 'negotiation') {
       setSelectedLot(lot);
       setIsModalOpen(true);
+      fetch('/api/track-unit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'WAVE', unitCode: lot.number }) }).catch(() => {})
     }
   };
 

@@ -61,7 +61,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false)
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState('')
-  const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores'>('disponibilidade')
+  const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores' | 'interesse'>('disponibilidade')
   const [activeProduct, setActiveProduct] = useState(PRODUCTS[0].key)
   const [activeTower, setActiveTower] = useState(editionTowers[0])
   const [overrides, setOverrides] = useState<OverridesMap>(rawOverrides as OverridesMap)
@@ -71,23 +71,29 @@ export default function AdminPage() {
   // Video views state
   const [videoViews, setVideoViews] = useState<{ total: number; today: number } | null>(null)
 
-  // Analytics state
+  // Shared date range for all analytics views
+  const [dateStart, setDateStart] = useState(() => {
+    const d = new Date(); d.setDate(d.getDate() - 29)
+    return d.toISOString().slice(0, 10)
+  })
+  const [dateEnd, setDateEnd] = useState(() => new Date().toISOString().slice(0, 10))
+
+  // Gestores analytics state
   const [analyticsData, setAnalyticsData] = useState<{
     slug: string; name: string; photo: string;
     visits: number; clicks: number;
     daily: { date: string; visits: number; clicks: number }[]
     byProduct: Record<string, number>
   }[]>([])
-  const [analyticsDays, setAnalyticsDays] = useState(30)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
 
-  const loadAnalytics = useCallback(async (days: number) => {
+  const loadAnalytics = useCallback(async (start: string, end: string) => {
     const pw = sessionStorage.getItem('admin_password') || ''
     setAnalyticsLoading(true)
     const res = await fetch('/api/analytics', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: pw, days }),
+      body: JSON.stringify({ password: pw, startDate: start, endDate: end }),
     })
     if (res.ok) {
       const { data } = await res.json()
@@ -96,9 +102,35 @@ export default function AdminPage() {
     setAnalyticsLoading(false)
   }, [])
 
+  // Interesse (unit clicks) state
+  const [interestProduct, setInterestProduct] = useState('YUNA')
+  const [interestData, setInterestData] = useState<{ code: string; clicks: number }[]>([])
+  const [interestLoading, setInterestLoading] = useState(false)
+
+  const INTEREST_PRODUCTS = ['YUNA','EDITION','MOOD','ORBITALE','VERDANT','TREND HOME','TREND NANO','WAVE']
+
+  const loadInterest = useCallback(async (product: string, start: string, end: string) => {
+    const pw = sessionStorage.getItem('admin_password') || ''
+    setInterestLoading(true)
+    const res = await fetch('/api/unit-analytics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw, product, startDate: start, endDate: end }),
+    })
+    if (res.ok) {
+      const { units } = await res.json()
+      setInterestData(units ?? [])
+    }
+    setInterestLoading(false)
+  }, [])
+
   useEffect(() => {
-    if (authed && adminView === 'gestores') loadAnalytics(analyticsDays)
-  }, [authed, adminView, analyticsDays, loadAnalytics])
+    if (authed && adminView === 'gestores') loadAnalytics(dateStart, dateEnd)
+  }, [authed, adminView, dateStart, dateEnd, loadAnalytics])
+
+  useEffect(() => {
+    if (authed && adminView === 'interesse') loadInterest(interestProduct, dateStart, dateEnd)
+  }, [authed, adminView, interestProduct, dateStart, dateEnd, loadInterest])
 
   useEffect(() => {
     if (sessionStorage.getItem('admin_authed') === '1') setAuthed(true)
@@ -268,11 +300,15 @@ export default function AdminPage() {
       </div>
 
       {/* View switcher */}
-      <div className="px-6 pt-4 flex gap-2 border-b border-gray-800 pb-3">
-        {(['disponibilidade', 'gestores'] as const).map(v => (
-          <button key={v} onClick={() => setAdminView(v)}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors ${adminView === v ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
-            {v === 'disponibilidade' ? '📋 Disponibilidade' : '📊 Gestores'}
+      <div className="px-6 pt-4 flex gap-2 border-b border-gray-800 pb-3 flex-wrap">
+        {([
+          { key: 'disponibilidade', label: '📋 Disponibilidade' },
+          { key: 'gestores',        label: '📊 Gestores' },
+          { key: 'interesse',       label: '🎯 Interesse' },
+        ] as const).map(v => (
+          <button key={v.key} onClick={() => setAdminView(v.key)}
+            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${adminView === v.key ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
+            {v.label}
           </button>
         ))}
       </div>
@@ -294,19 +330,42 @@ export default function AdminPage() {
         </div>
       )}
 
+      {/* Shared date range picker — shown in gestores and interesse */}
+      {(adminView === 'gestores' || adminView === 'interesse') && (
+        <div className="px-6 pt-4 pb-3 border-b border-gray-800 flex flex-wrap items-center gap-3">
+          <span className="text-sm text-gray-400">Período:</span>
+          <div className="flex items-center gap-2">
+            <input type="date" value={dateStart} max={dateEnd}
+              onChange={e => setDateStart(e.target.value)}
+              className="bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg border border-gray-700 focus:outline-none focus:border-gray-500" />
+            <span className="text-gray-500 text-sm">até</span>
+            <input type="date" value={dateEnd} min={dateStart} max={new Date().toISOString().slice(0,10)}
+              onChange={e => setDateEnd(e.target.value)}
+              className="bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg border border-gray-700 focus:outline-none focus:border-gray-500" />
+          </div>
+          {[
+            { label: '7d',  days: 7 },
+            { label: '30d', days: 30 },
+            { label: '60d', days: 60 },
+            { label: '90d', days: 90 },
+          ].map(({ label, days }) => (
+            <button key={days} onClick={() => {
+              const end = new Date().toISOString().slice(0, 10)
+              const start = new Date(Date.now() - (days - 1) * 86400000).toISOString().slice(0, 10)
+              setDateStart(start); setDateEnd(end)
+            }} className="px-3 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-lg text-sm transition-colors">
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Analytics dashboard */}
       {adminView === 'gestores' && (
         <div className="px-6 py-4">
           <div className="flex items-center gap-3 mb-5">
-            <span className="text-sm text-gray-400">Período:</span>
-            {[7, 30, 90].map(d => (
-              <button key={d} onClick={() => setAnalyticsDays(d)}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${analyticsDays === d ? 'bg-white text-gray-900 font-semibold' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
-                {d} dias
-              </button>
-            ))}
-            <button onClick={() => loadAnalytics(analyticsDays)}
-              className="ml-2 px-3 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-lg text-sm transition-colors">
+            <button onClick={() => loadAnalytics(dateStart, dateEnd)}
+              className="px-3 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-lg text-sm transition-colors">
               ↻ Atualizar
             </button>
           </div>
@@ -397,6 +456,50 @@ export default function AdminPage() {
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Interesse — mapa de cliques por unidade */}
+      {adminView === 'interesse' && (
+        <div className="px-6 py-4">
+          {/* Product selector */}
+          <div className="flex gap-2 flex-wrap mb-5">
+            {INTEREST_PRODUCTS.map(p => (
+              <button key={p} onClick={() => setInterestProduct(p)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${interestProduct === p ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}>
+                {p}
+              </button>
+            ))}
+          </div>
+
+          {interestLoading ? (
+            <div className="text-gray-500 text-sm py-12 text-center">Carregando...</div>
+          ) : interestData.length === 0 ? (
+            <div className="text-gray-500 text-sm py-12 text-center">
+              Nenhum clique registrado para {interestProduct} no período selecionado.<br />
+              <span className="text-gray-600 text-xs mt-1 block">Os cliques começam a aparecer assim que os visitantes abrirem unidades no site.</span>
+            </div>
+          ) : (
+            <div className="space-y-2 max-w-lg">
+              <p className="text-xs text-gray-500 mb-3 uppercase tracking-widest">
+                {interestProduct} — {interestData.length} unidades clicadas
+              </p>
+              {interestData.map((item, i) => {
+                const max = interestData[0]?.clicks ?? 1
+                const pct = Math.round((item.clicks / max) * 100)
+                return (
+                  <div key={item.code} className="flex items-center gap-3">
+                    <span className="text-xs text-gray-500 w-5 text-right tabular-nums">{i + 1}</span>
+                    <span className="font-mono text-sm text-gray-200 w-16 shrink-0">{item.code}</span>
+                    <div className="flex-1 bg-gray-800 rounded h-5 overflow-hidden">
+                      <div className="h-full bg-sky-500 rounded transition-all duration-300" style={{ width: `${pct}%` }} />
+                    </div>
+                    <span className="text-sm font-semibold text-sky-400 tabular-nums w-8 text-right">{item.clicks}</span>
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       )}
 
