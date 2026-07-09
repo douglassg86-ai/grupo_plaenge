@@ -93,10 +93,10 @@ function SlideCapa({ onFullscreen, isFullscreen }: { onFullscreen: () => void; i
     <div className="relative w-full h-full flex flex-col items-center justify-end pb-20">
       <div className="absolute inset-0">
         <Image
-          src={`${P}/kota_tgd_sil_fachada_4k.webp`}
+          src={`${P}/cidade_book_p8_0.webp`}
           alt="SHIFT Fachada"
           fill className="object-cover" priority sizes="100vw"
-          style={{ objectPosition: 'center 30%' }}
+          style={{ objectPosition: 'center top' }}
         />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 35%, rgba(0,0,0,0.82) 100%)' }} />
       </div>
@@ -236,12 +236,12 @@ function SlideCondicoes({ onFullscreen, isFullscreen }: { onFullscreen: () => vo
       {/* Plant image panel */}
       <div className="relative hidden lg:block w-[44%] h-full shrink-0" style={{ background: '#fff' }}>
         <Image
-          src={`${P}/plantas_shift.png`}
+          src={`${P}/planta_book_p28_0.webp`}
           alt="Planta SHIFT"
           fill
           className="object-contain"
           sizes="44vw"
-          style={{ padding: '32px' }}
+          style={{ padding: '24px' }}
         />
       </div>
 
