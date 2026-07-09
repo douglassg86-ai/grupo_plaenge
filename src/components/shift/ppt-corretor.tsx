@@ -10,8 +10,7 @@ const WARM = '#F0EDE8';
 const P    = '/SHIFT';
 
 const FONT_CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
-.sh { font-family: 'Helvetica Neue', 'Inter', Arial, sans-serif; }
+.sh { font-family: 'Helvetica Neue', Arial, sans-serif; }
 @keyframes sh-up   { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
 @keyframes sh-in   { from { opacity:0; } to { opacity:1; } }
 .sh-a0  { animation: sh-up 0.6s 0.00s cubic-bezier(.22,.68,0,1.2) both; }
@@ -75,7 +74,7 @@ function FullscreenBtn({ onFullscreen, isFullscreen }: { onFullscreen: () => voi
       data-pdf-hide
       onClick={onFullscreen}
       className="absolute top-5 right-5 z-50 flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:scale-105"
-      style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.25)', backdropFilter: 'blur(10px)' }}
+      style={{ background: 'rgba(0,0,0,0.40)', border: '1px solid rgba(255,255,255,0.22)', backdropFilter: 'blur(10px)' }}
     >
       {isFullscreen
         ? <Minimize className="w-4 h-4 text-white" />
@@ -116,7 +115,7 @@ function SlideCapa({ onFullscreen, isFullscreen }: { onFullscreen: () => void; i
         <div className="sh-a3 mt-8 flex items-center gap-4">
           <div style={{ height: '1px', width: '44px', background: `${ACC}90` }} />
           <p className="sh text-white/45 tracking-[0.28em] uppercase" style={{ fontSize: 'clamp(0.7rem, 0.9vw, 0.82rem)', fontWeight: 400 }}>
-            PLAENGE · TGD · MOINHOS DE VENTO · PORTO ALEGRE
+            VANGUARD · TGD · PORTO ALEGRE
           </p>
           <div style={{ height: '1px', width: '44px', background: `${ACC}90` }} />
         </div>
@@ -127,9 +126,10 @@ function SlideCapa({ onFullscreen, isFullscreen }: { onFullscreen: () => void; i
 
 // ─── SLIDE: VÍDEO ────────────────────────────────────────────────────────────
 
-function SlideVideo() {
+function SlideVideo({ onFullscreen, isFullscreen }: { onFullscreen: () => void; isFullscreen: boolean }) {
   return (
     <div className="relative w-full h-full flex" style={{ background: BG }}>
+      <FullscreenBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
       {/* Left panel */}
       <div className="relative w-[38%] h-full shrink-0">
         <Image src={`${P}/kota_tgd_sil_apto_studio_4k.webp`} alt="SHIFT Studio" fill
@@ -158,7 +158,7 @@ function SlideVideo() {
           </div>
         </div>
         <p className="sh sh-a4 mt-5" style={{ color: 'rgba(255,255,255,0.38)', fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)', fontWeight: 300, letterSpacing: '0.04em' }}>
-          Moinhos de Vento · Entrega Abril/2029
+          Entrega Abril/2029
         </p>
       </div>
     </div>
@@ -167,16 +167,17 @@ function SlideVideo() {
 
 // ─── SLIDE: CIDADE ───────────────────────────────────────────────────────────
 
-function SlideCidade() {
+function SlideCidade({ onFullscreen, isFullscreen }: { onFullscreen: () => void; isFullscreen: boolean }) {
   return (
     <div className="relative w-full h-full">
       <Image
-        src={`${P}/kota_tgd_sil_fachada_detalhe_4k.webp`}
+        src={`${P}/cidade_book_p8_0.webp`}
         alt="SHIFT — Vista da cidade"
         fill className="object-cover" sizes="100vw"
         style={{ objectPosition: 'center center' }}
       />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)' }} />
+      <FullscreenBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
       <div className="absolute bottom-12 left-16 z-10">
         <p className="sh sh-a0 tracking-[0.35em] uppercase mb-3" style={{ color: ACC, fontSize: 'clamp(0.75rem, 1.1vw, 0.95rem)', fontWeight: 600 }}>
           SHIFT · LOCALIZAÇÃO
@@ -184,8 +185,8 @@ function SlideCidade() {
         <h2 className="sh sh-a1 text-white" style={{ fontWeight: 900, fontSize: 'clamp(2rem, 3.5vw, 3rem)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
           O ENDEREÇO MAIS<br />COBIÇADO DE PORTO ALEGRE
         </h2>
-        <p className="sh sh-a2 mt-3 text-white/60" style={{ fontSize: 'clamp(0.9rem, 1.4vw, 1.1rem)', fontWeight: 300, letterSpacing: '0.06em' }}>
-          Silva Jardim c/ Rua 24 de Outubro · Moinhos de Vento
+        <p className="sh sh-a2 mt-3 text-white/55" style={{ fontSize: 'clamp(0.9rem, 1.4vw, 1.1rem)', fontWeight: 300, letterSpacing: '0.06em' }}>
+          Silva Jardim c/ Rua 24 de Outubro
         </p>
       </div>
     </div>
@@ -194,11 +195,15 @@ function SlideCidade() {
 
 // ─── SLIDE: GALLERY ──────────────────────────────────────────────────────────
 
-function SlideGallery({ img, index, total }: { img: { src: string; label: string }; index: number; total: number }) {
+function SlideGallery({ img, index, total, onFullscreen, isFullscreen }: {
+  img: { src: string; label: string }; index: number; total: number;
+  onFullscreen: () => void; isFullscreen: boolean;
+}) {
   return (
     <div className="relative w-full h-full">
       <Image src={img.src} alt={img.label} fill className="object-cover" sizes="100vw" priority />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.60) 0%, transparent 45%)' }} />
+      <FullscreenBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
       <div className="absolute bottom-12 left-16 z-10">
         <p className="sh sh-a0 text-white/45 tracking-[0.25em] uppercase mb-2" style={{ fontSize: 'clamp(0.7rem, 0.95vw, 0.82rem)' }}>
           SHIFT · {index}/{total}
@@ -213,23 +218,31 @@ function SlideGallery({ img, index, total }: { img: { src: string; label: string
 
 // ─── SLIDE: CONDIÇÕES ────────────────────────────────────────────────────────
 
-function SlideCondicoes() {
+function SlideCondicoes({ onFullscreen, isFullscreen }: { onFullscreen: () => void; isFullscreen: boolean }) {
   const items = [
-    { label: 'Ato',          value: 'R$ 50.000',  sub: 'na assinatura',         highlight: false },
-    { label: 'Mensais',      value: 'R$ 1.000',   sub: 'por mês durante a obra', highlight: false },
-    { label: '3 Reforços',   value: 'R$ 20.000',  sub: 'por reforço',            highlight: false },
+    { label: 'Ato',          value: 'R$ 50.000',  sub: 'na assinatura',              highlight: false },
+    { label: 'Mensais',      value: 'R$ 1.000',   sub: 'por mês durante a obra',     highlight: false },
+    { label: '3 Reforços',   value: 'R$ 20.000',  sub: 'por reforço',                highlight: false },
     { label: 'Saldo',        value: 'R$ 270.000', sub: 'na entrega / financiamento', highlight: true  },
   ];
 
   return (
     <div className="relative w-full h-full flex" style={{ background: BG }}>
+      <FullscreenBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+
       {/* Left accent bar */}
       <div className="w-1.5 h-full shrink-0" style={{ background: ACC }} />
 
-      {/* Right image panel */}
-      <div className="relative hidden lg:block w-[42%] h-full shrink-0">
-        <Image src={`${P}/kota_tgd_sil_ph_terreo_iso.webp`} alt="SHIFT" fill className="object-cover" sizes="42vw" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(13,13,13,0.98) 0%, rgba(13,13,13,0.2) 60%, transparent 100%)' }} />
+      {/* Plant image panel */}
+      <div className="relative hidden lg:block w-[44%] h-full shrink-0" style={{ background: '#fff' }}>
+        <Image
+          src={`${P}/plantas_shift.png`}
+          alt="Planta SHIFT"
+          fill
+          className="object-contain"
+          sizes="44vw"
+          style={{ padding: '32px' }}
+        />
       </div>
 
       {/* Content */}
@@ -254,7 +267,7 @@ function SlideCondicoes() {
                 <p className="sh" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.7rem, 1vw, 0.82rem)', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '2px' }}>
                   {item.label}
                 </p>
-                <p className="sh" style={{ color: item.highlight ? WARM : WARM, fontWeight: 800, fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)', letterSpacing: '-0.01em', lineHeight: 1 }}>
+                <p className="sh" style={{ color: WARM, fontWeight: 800, fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)', letterSpacing: '-0.01em', lineHeight: 1 }}>
                   {item.value}
                 </p>
               </div>
@@ -275,30 +288,31 @@ function SlideCondicoes() {
 
 // ─── SLIDE: CTA ──────────────────────────────────────────────────────────────
 
-function SlideCta() {
+function SlideCta({ onFullscreen, isFullscreen }: { onFullscreen: () => void; isFullscreen: boolean }) {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center" style={{ background: BG }}>
       <div className="absolute inset-0 sh-fade" style={{ background: `radial-gradient(ellipse 70% 55% at 50% 50%, ${ACC}18 0%, transparent 70%)` }} />
+      <FullscreenBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
       <div className="relative z-10 flex flex-col items-center text-center px-12">
         <div className="sh-a0 mb-10">
           <Image src={`${P}/logo_shift.png`} alt="SHIFT" width={240} height={68}
             className="brightness-0 invert opacity-90" style={{ width: 'clamp(160px, 16vw, 240px)', height: 'auto' }} />
         </div>
         <h2 className="sh sh-a1" style={{ color: WARM, fontWeight: 900, fontSize: 'clamp(3rem, 6vw, 5.5rem)', lineHeight: 0.9, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
-          MOINHOS
+          LIFE ON
         </h2>
         <h2 className="sh sh-a2" style={{ color: ACC, fontWeight: 900, fontSize: 'clamp(3rem, 6vw, 5.5rem)', lineHeight: 0.9, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
-          DE VENTO
+          DEMAND
         </h2>
         <div className="sh-a3 mt-8 flex items-center gap-4">
           <div style={{ height: '1px', width: '44px', background: `${ACC}60` }} />
           <p className="sh text-white/40 tracking-[0.3em] uppercase" style={{ fontSize: 'clamp(0.7rem, 0.95vw, 0.85rem)', fontWeight: 400 }}>
-            PLAENGE · TGD · ENTREGA ABRIL 2029
+            VANGUARD · TGD · ENTREGA ABRIL 2029
           </p>
           <div style={{ height: '1px', width: '44px', background: `${ACC}60` }} />
         </div>
         <p className="sh sh-a4 mt-10 text-white/35 italic" style={{ fontSize: 'clamp(1rem, 1.6vw, 1.25rem)', fontWeight: 300, letterSpacing: '0.08em' }}>
-          Life on demand.
+          Porto Alegre, RS.
         </p>
       </div>
     </div>
@@ -307,14 +321,16 @@ function SlideCta() {
 
 // ─── RENDER SLIDE ─────────────────────────────────────────────────────────────
 
-function RenderSlide({ slide, onFullscreen, isFullscreen }: { slide: Slide; onFullscreen: () => void; isFullscreen: boolean }) {
+function RenderSlide({ slide, onFullscreen, isFullscreen }: {
+  slide: Slide; onFullscreen: () => void; isFullscreen: boolean;
+}) {
   switch (slide.kind) {
-    case 'capa':      return <SlideCapa onFullscreen={onFullscreen} isFullscreen={isFullscreen} />;
-    case 'video':     return <SlideVideo />;
-    case 'cidade':    return <SlideCidade />;
-    case 'gallery':   return <SlideGallery img={slide.img} index={slide.index} total={slide.total} />;
-    case 'condicoes': return <SlideCondicoes />;
-    case 'cta':       return <SlideCta />;
+    case 'capa':      return <SlideCapa      onFullscreen={onFullscreen} isFullscreen={isFullscreen} />;
+    case 'video':     return <SlideVideo     onFullscreen={onFullscreen} isFullscreen={isFullscreen} />;
+    case 'cidade':    return <SlideCidade    onFullscreen={onFullscreen} isFullscreen={isFullscreen} />;
+    case 'gallery':   return <SlideGallery   img={slide.img} index={slide.index} total={slide.total} onFullscreen={onFullscreen} isFullscreen={isFullscreen} />;
+    case 'condicoes': return <SlideCondicoes onFullscreen={onFullscreen} isFullscreen={isFullscreen} />;
+    case 'cta':       return <SlideCta       onFullscreen={onFullscreen} isFullscreen={isFullscreen} />;
     default:          return null;
   }
 }
