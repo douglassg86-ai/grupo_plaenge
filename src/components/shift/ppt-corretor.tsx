@@ -174,7 +174,7 @@ function SlideCidade({ onFullscreen, isFullscreen }: { onFullscreen: () => void;
         src={`${P}/cidade_book_p8_0.webp`}
         alt="SHIFT — Vista da cidade"
         fill className="object-cover" sizes="100vw"
-        style={{ objectPosition: 'center 20%' }}
+        style={{ objectPosition: '65% top' }}
       />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)' }} />
       <FullscreenBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
