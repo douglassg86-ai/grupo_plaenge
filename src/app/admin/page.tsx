@@ -375,8 +375,13 @@ export default function AdminPage() {
           ) : (
             <div className="space-y-4">
               {analyticsData.map(m => {
-                const conversion = m.visits > 0 ? ((m.clicks / m.visits) * 100).toFixed(1) : '0'
+                // Sum visits/clicks from the filtered daily data (not all-time totals)
+                const periodVisits = m.daily.reduce((s, d) => s + d.visits, 0)
+                const periodClicks = m.daily.reduce((s, d) => s + d.clicks, 0)
+                const conversion = periodVisits > 0 ? ((periodClicks / periodVisits) * 100).toFixed(1) : '0'
                 const maxVisits = Math.max(...m.daily.map(d => d.visits), 1)
+                const byProductEntries = m.byProduct ? Object.entries(m.byProduct).sort((a, b) => b[1] - a[1]) : []
+                const maxProduct = byProductEntries[0]?.[1] ?? 1
                 return (
                   <div key={m.slug} className="bg-gray-900 rounded-xl p-4 border border-gray-800">
                     <div className="flex items-center gap-4 mb-4">
@@ -389,11 +394,11 @@ export default function AdminPage() {
                       </div>
                       <div className="flex gap-4 text-center">
                         <div>
-                          <p className="text-2xl font-bold text-blue-400">{m.visits}</p>
+                          <p className="text-2xl font-bold text-blue-400">{periodVisits}</p>
                           <p className="text-xs text-gray-500">Visitas</p>
                         </div>
                         <div>
-                          <p className="text-2xl font-bold text-green-400">{m.clicks}</p>
+                          <p className="text-2xl font-bold text-green-400">{periodClicks}</p>
                           <p className="text-xs text-gray-500">Cliques WA</p>
                         </div>
                         <div>
@@ -415,14 +420,18 @@ export default function AdminPage() {
                       <span className="flex items-center gap-1"><span className="w-2 h-2 bg-blue-600 rounded-sm inline-block"/>Visitas</span>
                       <span className="flex items-center gap-1"><span className="w-2 h-2 bg-green-600 rounded-sm inline-block"/>Cliques WA</span>
                     </div>
-                    {m.byProduct && Object.keys(m.byProduct).length > 0 && (
+                    {byProductEntries.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-gray-800">
-                        <p className="text-xs text-gray-500 mb-2">Cliques por produto</p>
-                        <div className="flex flex-wrap gap-2">
-                          {Object.entries(m.byProduct).sort((a, b) => b[1] - a[1]).map(([prod, count]) => (
-                            <span key={prod} className="text-xs bg-gray-800 px-2 py-0.5 rounded text-gray-300">
-                              {prod} <span className="text-green-400 font-semibold">{count}</span>
-                            </span>
+                        <p className="text-xs text-gray-500 mb-2 uppercase tracking-widest">Produto que gerou o clique no WhatsApp</p>
+                        <div className="space-y-1.5">
+                          {byProductEntries.map(([prod, count]) => (
+                            <div key={prod} className="flex items-center gap-2">
+                              <span className="text-xs text-gray-400 w-24 shrink-0 font-medium">{prod}</span>
+                              <div className="flex-1 bg-gray-800 rounded h-4 overflow-hidden">
+                                <div className="h-full bg-green-700 rounded transition-all" style={{ width: `${Math.round((count / maxProduct) * 100)}%` }} />
+                              </div>
+                              <span className="text-xs font-semibold text-green-400 tabular-nums w-5 text-right">{count}</span>
+                            </div>
                           ))}
                         </div>
                       </div>
