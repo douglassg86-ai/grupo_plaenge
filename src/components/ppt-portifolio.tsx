@@ -19,13 +19,13 @@ interface ProductData {
   bgPos?: string;
   plantaImg: string;
   plantaLabel: string;
+  plantaHorizontal?: boolean;
   addr: string;
   bairro: string;
   price?: string;
   badges: string[];
   delivery: string;
   sold?: string;
-  extra?: string;
 }
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────────
@@ -33,7 +33,7 @@ const PRODUCTS: ProductData[] = [
   {
     name: 'Orbitale',
     logo: '/ORBITALE/logo_orbitale.png',
-    img: '/ORBITALE/01_FACHADA-01.webp',
+    img: '/ORBITALE/01_FACHADA-02.webp',
     plantaImg: '/ORBITALE/plantas/PLARE_29_Garden_2_P4_HIGH.webp',
     plantaLabel: 'Apartamento Garden — Final 2',
     addr: 'Rua Regente, 152',
@@ -59,7 +59,7 @@ const PRODUCTS: ProductData[] = [
     name: 'Mood',
     logo: '/MOOD/logo_mood.png',
     img: '/MOOD/01_fachada-02.webp',
-    plantaImg: '/MOOD/plantas/IMG_9733.webp',
+    plantaImg: '/MOOD/plantas/IMG_9736.webp',
     plantaLabel: 'Studio — 29 m²',
     addr: 'Rua São Josemaría Escrivá, 585',
     bairro: 'Porto Alegre',
@@ -71,8 +71,9 @@ const PRODUCTS: ProductData[] = [
     name: 'Trend Nano',
     logo: '/TREND/logo_nano.png',
     img: '/TREND/PNB_06_Fachada_Nano_EF.webp',
-    plantaImg: '/TREND/plantas/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp',
-    plantaLabel: 'Studio — 32 m²',
+    plantaImg: '/TREND/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp',
+    plantaLabel: 'Studio 02B — 32,06 m²',
+    plantaHorizontal: true,
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
     badges: ['Fluxo 20/80', 'Parcelas fixas'],
@@ -82,17 +83,17 @@ const PRODUCTS: ProductData[] = [
     name: 'Trend Home',
     logo: '/TREND/logo_home.png',
     img: '/TREND/PNB_04_Fachada_Residencial_A_EF.webp',
-    plantaImg: '/TREND/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp',
-    plantaLabel: 'Apartamento 2 Suítes — 76 m²',
+    plantaImg: '/TREND/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp',
+    plantaLabel: '2 Suítes — 77 m²',
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
-    badges: [],
+    badges: ['Grande oportunidade — consulte condições'],
     delivery: 'Entrega Setembro 2028',
   },
   {
     name: 'Yuna',
     logo: '/YUNA/logo.png',
-    img: '/YUNA/IMG-20240704-WA0031.webp',
+    img: '/YUNA/IMG-20240704-WA0032.webp',
     bgPos: '45% center',
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
@@ -106,7 +107,7 @@ const PRODUCTS: ProductData[] = [
     name: 'SHIFT',
     logo: '/SHIFT/logo_shift.png',
     img: '/SHIFT/kota_tgd_sil_fachada_4k.webp',
-    plantaImg: '/SHIFT/plantas_shift.png',
+    plantaImg: '/SHIFT/plantas_shift3.png',
     plantaLabel: 'Studio — 25 m²',
     addr: 'Silva Jardim c/ Rua 24 de Outubro',
     bairro: 'Moinhos de Vento · Porto Alegre',
@@ -122,8 +123,7 @@ const PRODUCTS: ProductData[] = [
     plantaLabel: '3 Suítes — 146 m²',
     addr: 'Rua Jardim Cristófel',
     bairro: 'Moinhos de Vento · Porto Alegre',
-    price: 'a partir de R$ 2.890.000',
-    badges: [],
+    badges: ['Grande oportunidade — consulte condições'],
     delivery: 'Entrega Julho 2028',
   },
   {
@@ -136,21 +136,20 @@ const PRODUCTS: ProductData[] = [
     bairro: "Mont'Serrat · Porto Alegre",
     badges: ['Últimas unidades com preço de pré-lançamento'],
     delivery: 'Pré-lançamento',
-    extra: 'sorteio-carro',
   },
 ];
 
 // ── MOSAIC DATA ───────────────────────────────────────────────────────────────
 const MOSAIC = [
   { name: 'YVY',        logo: '/YVY/logo_yvy.png',          img: '/YVY/IMG_9127.webp',                          tag: 'ENTREGUE',       date: 'Mar/2024' },
-  { name: 'Orbitale',   logo: '/ORBITALE/logo_orbitale.png', img: '/ORBITALE/01_FACHADA-01.webp',                tag: 'PRONTO',         date: '' },
+  { name: 'Orbitale',   logo: '/ORBITALE/logo_orbitale.png', img: '/ORBITALE/01_FACHADA-02.webp',                tag: 'PRONTO',         date: '' },
   { name: 'Verdant',    logo: '/VERDANT/logo_verdant.png',   img: '/VERDANT/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp', tag: 'ENTREGA', date: 'Abr/2027' },
   { name: 'Mood',       logo: '/MOOD/logo_mood.png',         img: '/MOOD/01_fachada-02.webp',                    tag: 'PRONTO',         date: '' },
-  { name: 'Trend Nano', logo: '/TREND/logo_nano.png',        img: '/TREND/PNB_06_Fachada_Nano_EF.webp',          tag: 'ENTREGA',        date: 'Nov/2026' },
-  { name: 'Trend Home', logo: '/TREND/logo_home.png',        img: '/TREND/PNB_04_Fachada_Residencial_A_EF.webp', tag: 'ENTREGA',        date: 'Set/2028' },
-  { name: 'Yuna',       logo: '/YUNA/logo.png',              img: '/YUNA/IMG-20240704-WA0031.webp',              tag: 'ENTREGA',        date: 'Nov/2027' },
+  { name: 'Trend Nano', logo: '/TREND/logo_nano.png',        img: '/TREND/PNB_01_Fotomontagem_EF.webp',          tag: 'ENTREGA',        date: 'Nov/2026' },
+  { name: 'Trend Home', logo: '/TREND/logo_home.png',        img: '/TREND/PNB_01_Fotomontagem_EF.webp',          tag: 'ENTREGA',        date: 'Set/2028' },
+  { name: 'Yuna',       logo: '/YUNA/logo.png',              img: '/YUNA/IMG-20240704-WA0032.webp',              tag: 'ENTREGA',        date: 'Nov/2027' },
   { name: 'SHIFT',      logo: '/SHIFT/logo_shift.png',       img: '/SHIFT/kota_tgd_sil_fachada_4k.webp',         tag: 'ENTREGA',        date: 'Abr/2029' },
-  { name: 'Edition',    logo: '/EDITION/logo_edition.png',   img: '/EDITION/JAC_01_Fachada_A_EF2.webp',          tag: 'ENTREGA',        date: 'Jul/2028' },
+  { name: 'Edition',    logo: '/EDITION/logo_edition.png',   img: '/EDITION/JAC_31_Voo_Passaro_EF_v2.webp',      tag: 'ENTREGA',        date: 'Jul/2028' },
   { name: 'Synthè',     logo: '/SYNTHE/logo.png',            img: '/SYNTHE/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp', tag: 'PRÉ-LANÇAMENTO', date: '' },
 ];
 
@@ -169,22 +168,32 @@ const POA_TIMELINE = [
 
 // ── SLIDE LIST ────────────────────────────────────────────────────────────────
 type Slide =
-  | { k: 'cover' }
   | { k: 'numbers' }
+  | { k: 'cover' }
   | { k: 'poa' }
   | { k: 'mosaic' }
   | { k: 'product'; p: ProductData }
-  | { k: 'planta';  p: ProductData };
+  | { k: 'planta';  p: ProductData }
+  | { k: 'meta1intro' }
+  | { k: 'meta1car' }
+  | { k: 'meta2intro' }
+  | { k: 'meta2car' }
+  | { k: 'contracapa' };
 
 const SLIDES: Slide[] = [
-  { k: 'cover' },
   { k: 'numbers' },
+  { k: 'cover' },
   { k: 'poa' },
   { k: 'mosaic' },
   ...PRODUCTS.flatMap(p => [
     { k: 'product' as const, p },
     { k: 'planta'  as const, p },
   ]),
+  { k: 'meta1intro' },
+  { k: 'meta1car' },
+  { k: 'meta2intro' },
+  { k: 'meta2car' },
+  { k: 'contracapa' },
 ];
 
 // ── FULLSCREEN BUTTON ─────────────────────────────────────────────────────────
@@ -230,7 +239,7 @@ function SlideCover({ onFullscreen, isFullscreen }: FullscreenProps) {
         </div>
 
         <div className="flex gap-12 mt-6">
-          {[['10', 'Empreendimentos'], ['5', 'Anos de atuação'], ['1000+', 'Famílias']].map(([n, l]) => (
+          {[['10', 'Empreendimentos'], ['5', 'Anos de atuação']].map(([n, l]) => (
             <div key={l} className="text-center">
               <p className="text-4xl font-bold" style={{ color: GOLD }}>{n}</p>
               <p className="text-xs mt-1 tracking-widest uppercase" style={{ color: 'rgba(240,237,232,0.45)' }}>{l}</p>
@@ -246,10 +255,10 @@ function SlideCover({ onFullscreen, isFullscreen }: FullscreenProps) {
 
 function SlideNumbers({ onFullscreen, isFullscreen }: FullscreenProps) {
   const stats = [
-    { n: '54',    unit: 'anos',    label: 'de mercado' },
-    { n: '+50k',  unit: 'unidades',label: 'entregues' },
-    { n: '+30',   unit: 'cidades', label: 'atendidas' },
-    { n: '8',     unit: 'estados', label: 'e mais países' },
+    { n: '56',     unit: 'anos',      label: 'de mercado' },
+    { n: '529',    unit: 'projetos',  label: 'entregues' },
+    { n: '+134k',  unit: 'famílias',  label: 'moram em um Plaenge' },
+    { n: '9',      unit: 'cidades',   label: 'no Brasil e Chile' },
   ];
   return (
     <div className="relative w-full h-full flex overflow-hidden" style={{ background: BG }}>
@@ -270,7 +279,7 @@ function SlideNumbers({ onFullscreen, isFullscreen }: FullscreenProps) {
           </h2>
         </div>
         <p className="text-sm leading-relaxed" style={{ color: 'rgba(240,237,232,0.55)', maxWidth: '380px' }}>
-          Fundada em 1972 em Londrina, Paraná, a Plaenge cresceu para se tornar uma das maiores construtoras do Brasil, presente em todo o país e na América do Sul.
+          Fundado em 1970 em Londrina, Paraná, o Grupo Plaenge atua em incorporação residencial, construção civil e projetos industriais — presente em 9 cidades do Brasil e também no Chile.
         </p>
         <div className="grid grid-cols-2 gap-4">
           {stats.map(({ n, unit, label }) => (
@@ -361,7 +370,7 @@ function SlideMosaic({ onFullscreen, isFullscreen }: FullscreenProps) {
               <div className="relative h-6">
                 <Image src={item.logo} alt={item.name} fill className="object-contain object-left" style={{ filter: 'brightness(0) invert(1)' }} />
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="text-[10px] px-1.5 py-0.5 rounded font-medium" style={{
                   background: item.tag === 'PRONTO' || item.tag === 'ENTREGUE' ? 'rgba(34,197,94,0.25)' : item.tag === 'PRÉ-LANÇAMENTO' ? 'rgba(196,148,58,0.25)' : 'rgba(59,130,246,0.25)',
                   color: item.tag === 'PRONTO' || item.tag === 'ENTREGUE' ? '#4ade80' : item.tag === 'PRÉ-LANÇAMENTO' ? GOLD : '#93c5fd',
@@ -369,7 +378,13 @@ function SlideMosaic({ onFullscreen, isFullscreen }: FullscreenProps) {
                 }}>
                   {item.tag}
                 </span>
-                {item.date && <span className="text-[10px]" style={{ color: 'rgba(240,237,232,0.55)' }}>{item.date}</span>}
+                {item.date && (
+                  <span className="text-[11px] font-bold px-1.5 py-0.5 rounded" style={{
+                    background: 'rgba(196,148,58,0.2)',
+                    color: GOLD,
+                    border: `1px solid ${GOLD}44`,
+                  }}>{item.date}</span>
+                )}
               </div>
             </div>
           </div>
@@ -423,19 +438,6 @@ function SlideProduct({ p, onFullscreen, isFullscreen }: { p: ProductData } & Fu
           ))}
         </div>
 
-        {/* sorteio carro extra for Synthè */}
-        {p.extra === 'sorteio-carro' && (
-          <div className="flex items-center gap-4 mt-2 p-4 rounded-xl" style={{ background: 'rgba(196,148,58,0.12)', border: `1px solid ${GOLD}44` }}>
-            <div className="relative w-24 h-14 shrink-0">
-              <Image src="/SYNTHE/carro-meta1-mg4.webp" alt="MG4" fill className="object-contain" />
-            </div>
-            <div>
-              <p className="text-sm font-bold" style={{ color: GOLD }}>Campanha Bateu, Concorreu</p>
-              <p className="text-xs mt-0.5" style={{ color: 'rgba(240,237,232,0.55)' }}>A cada R$200k em vendas, ganhe cupons para o sorteio de um carro</p>
-            </div>
-          </div>
-        )}
-
         {/* sold progress bar */}
         {p.sold && (
           <div className="flex items-center gap-3 mt-1">
@@ -452,6 +454,30 @@ function SlideProduct({ p, onFullscreen, isFullscreen }: { p: ProductData } & Fu
 }
 
 function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & FullscreenProps) {
+  if (p.plantaHorizontal) {
+    return (
+      <div className="relative w-full h-full flex flex-col overflow-hidden" style={{ background: '#F8F6F2' }}>
+        <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+        {/* top: planta image */}
+        <div className="flex-1 relative px-8 pt-8 pb-2">
+          <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" />
+        </div>
+        {/* bottom strip */}
+        <div className="shrink-0 flex items-center justify-between px-10 py-5" style={{ background: BG }}>
+          <div className="relative h-7 w-32">
+            <Image src={p.logo} alt={p.name} fill className="object-contain object-left" style={{ filter: 'brightness(0) invert(1)' }} />
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="w-5 h-0.5" style={{ background: GOLD }} />
+            <p className="text-sm font-semibold" style={{ color: WARM }}>{p.plantaLabel}</p>
+          </div>
+          <p className="text-xs" style={{ color: 'rgba(240,237,232,0.4)' }}>{p.bairro}</p>
+          <p className="text-xs tracking-widest uppercase" style={{ color: GOLD + '66' }}>Planta</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-full flex overflow-hidden" style={{ background: '#F8F6F2' }}>
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
@@ -471,11 +497,151 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
 
       {/* right: planta image */}
       <div className="flex-1 h-full relative p-6">
-        <Image
-          src={p.plantaImg} alt={`Planta ${p.name}`}
-          fill className="object-contain p-6"
-        />
+        <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" />
       </div>
+    </div>
+  );
+}
+
+function SlideMetaIntro1({ onFullscreen, isFullscreen }: FullscreenProps) {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: BG }}>
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 70% at 30% 50%, ${GOLD}18 0%, transparent 65%)` }} />
+      <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+      <div className="relative z-10 flex flex-col justify-center px-24 max-w-5xl w-full">
+        <p className="text-xs tracking-[0.4em] uppercase mb-10 font-medium" style={{ color: GOLD }}>
+          CAMPANHA · SYNTHÈ · META 1
+        </p>
+        <div className="flex items-baseline gap-5 mb-4">
+          <span className="font-black" style={{ color: WARM, fontSize: 'clamp(8rem, 15vw, 14rem)', lineHeight: 0.85, letterSpacing: '-0.04em' }}>10</span>
+          <span className="font-light" style={{ color: 'rgba(240,237,232,0.4)', fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>unidades</span>
+        </div>
+        <div style={{ width: '70px', height: '3px', background: GOLD, marginBottom: '2rem' }} />
+        <div className="flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${GOLD}50`, background: `${GOLD}15` }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: GOLD, flexShrink: 0 }} />
+          <p className="text-base font-medium" style={{ color: 'rgba(240,237,232,0.75)', letterSpacing: '0.08em' }}>
+            PRAZO: ATÉ <span style={{ color: WARM, fontWeight: 700 }}>31/10/2026</span>
+          </p>
+        </div>
+      </div>
+      <div className="absolute bottom-8 right-10 z-10">
+        <div className="relative h-7 w-28">
+          <Image src="/SYNTHE/logo.png" alt="Synthè" fill className="object-contain object-right" style={{ filter: 'brightness(0) invert(1)', opacity: 0.35 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlideMeta1Car({ onFullscreen, isFullscreen }: FullscreenProps) {
+  return (
+    <div className="relative w-full h-full overflow-hidden" style={{ background: BG }}>
+      <div className="absolute inset-0">
+        <Image src="/SYNTHE/carro-meta1-mg4.webp" alt="MG4 XPOWER" fill
+          className="object-cover" style={{ objectPosition: 'center 40%' }} />
+      </div>
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.15) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)' }} />
+
+      <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+
+      <div className="absolute left-0 top-0 bottom-0 z-10 flex flex-col justify-center px-20 max-w-2xl">
+        <p className="text-xs tracking-[0.35em] uppercase mb-6 font-medium" style={{ color: GOLD }}>
+          METAS E PRÊMIOS · META 1
+        </p>
+        <div className="flex items-baseline gap-4 mb-3">
+          <span className="font-black" style={{ color: WARM, fontSize: 'clamp(6rem, 11vw, 10rem)', lineHeight: 0.85, letterSpacing: '-0.03em' }}>10</span>
+          <span className="font-light" style={{ color: 'rgba(240,237,232,0.55)', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>unidades</span>
+        </div>
+        <p className="font-light mb-8" style={{ color: 'rgba(240,237,232,0.6)', fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          até 31/10/2026
+        </p>
+        <div style={{ width: '56px', height: '3px', background: GOLD, marginBottom: '1.8rem' }} />
+        <p className="font-black" style={{ color: WARM, fontSize: 'clamp(2rem, 3.8vw, 3.5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
+          MG4 XPOWER
+        </p>
+        <p className="font-light mt-2" style={{ color: 'rgba(240,237,232,0.45)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)' }}>
+          Veículo elétrico · Prêmio Meta 1
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SlideMetaIntro2({ onFullscreen, isFullscreen }: FullscreenProps) {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: BG }}>
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 70% at 30% 50%, ${GOLD}18 0%, transparent 65%)` }} />
+      <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+      <div className="relative z-10 flex flex-col justify-center px-24 max-w-5xl w-full">
+        <p className="text-xs tracking-[0.4em] uppercase mb-10 font-medium" style={{ color: GOLD }}>
+          CAMPANHA · SYNTHÈ · META 2
+        </p>
+        <div className="flex items-baseline gap-5 mb-4">
+          <span className="font-black" style={{ color: WARM, fontSize: 'clamp(8rem, 15vw, 14rem)', lineHeight: 0.85, letterSpacing: '-0.04em' }}>15</span>
+          <span className="font-light" style={{ color: 'rgba(240,237,232,0.4)', fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>unidades</span>
+        </div>
+        <div style={{ width: '70px', height: '3px', background: GOLD, marginBottom: '2rem' }} />
+        <div className="flex items-center gap-4 self-start px-6 py-3 rounded-full" style={{ border: `1px solid ${GOLD}50`, background: `${GOLD}15` }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: GOLD, flexShrink: 0 }} />
+          <p className="text-base font-medium" style={{ color: 'rgba(240,237,232,0.75)', letterSpacing: '0.08em' }}>
+            PRAZO: ATÉ <span style={{ color: WARM, fontWeight: 700 }}>31/10/2026</span>
+          </p>
+        </div>
+      </div>
+      <div className="absolute bottom-8 right-10 z-10">
+        <div className="relative h-7 w-28">
+          <Image src="/SYNTHE/logo.png" alt="Synthè" fill className="object-contain object-right" style={{ filter: 'brightness(0) invert(1)', opacity: 0.35 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlideMeta2Car({ onFullscreen, isFullscreen }: FullscreenProps) {
+  return (
+    <div className="relative w-full h-full overflow-hidden" style={{ background: BG }}>
+      <div className="absolute inset-0">
+        <Image src="/SYNTHE/carro-meta2-cyberster.webp" alt="MG Cyberster" fill
+          className="object-cover" style={{ objectPosition: 'center 50%' }} />
+      </div>
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.85) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.15) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.15) 100%)' }} />
+
+      <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+
+      <div className="absolute top-0 left-0 right-0 z-10 flex items-center gap-3 px-16 pt-14">
+        <div style={{ width: '32px', height: '2px', background: GOLD }} />
+        <p className="text-xs tracking-[0.35em] uppercase font-medium" style={{ color: GOLD }}>
+          META 2 · O PRÊMIO EVOLUI
+        </p>
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 z-10 px-16 pb-14">
+        <p className="font-black" style={{ color: WARM, fontSize: 'clamp(3rem, 5.5vw, 5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+          MG CYBERSTER
+        </p>
+        <p className="font-light" style={{ color: 'rgba(240,237,232,0.55)', fontSize: 'clamp(0.9rem, 1.4vw, 1.15rem)' }}>
+          Esportivo elétrico conversível · Prêmio Meta 2 · 15 unidades até 31/10/2026
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SlideContracapa({ onFullscreen, isFullscreen }: FullscreenProps) {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: BG }}>
+      <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+      <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(ellipse 70% 50% at 50% 50%, #1a1a1a 0%, #080808 100%)' }} />
+      <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+      <div className="relative z-10 flex flex-col items-center gap-6">
+        <div className="relative" style={{ width: 'clamp(260px, 28vw, 380px)', height: 'clamp(70px, 7.5vw, 100px)' }}>
+          <Image src="/INSTITUCIONAL/logo_plaenge_vanguard_claro.webp" alt="Plaenge Vanguard" fill className="object-contain" />
+        </div>
+        <div className="h-[1px] w-16" style={{ background: `${GOLD}55` }} />
+        <p className="text-xs tracking-[0.5em] uppercase" style={{ color: `${GOLD}66` }}>Porto Alegre</p>
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}44, transparent)` }} />
     </div>
   );
 }
@@ -488,8 +654,13 @@ function RenderSlide({ slide, onFullscreen, isFullscreen }: { slide: Slide } & F
     case 'numbers': return <SlideNumbers {...props} />;
     case 'poa':     return <SlidePoa     {...props} />;
     case 'mosaic':  return <SlideMosaic  {...props} />;
-    case 'product': return <SlideProduct p={slide.p} {...props} />;
-    case 'planta':  return <SlidePlanta  p={slide.p} {...props} />;
+    case 'product':    return <SlideProduct    p={slide.p} {...props} />;
+    case 'planta':     return <SlidePlanta     p={slide.p} {...props} />;
+    case 'meta1intro': return <SlideMetaIntro1 {...props} />;
+    case 'meta1car':   return <SlideMeta1Car   {...props} />;
+    case 'meta2intro': return <SlideMetaIntro2 {...props} />;
+    case 'meta2car':   return <SlideMeta2Car   {...props} />;
+    case 'contracapa': return <SlideContracapa {...props} />;
   }
 }
 
