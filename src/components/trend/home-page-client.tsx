@@ -138,13 +138,13 @@ const plantsHome = {
 const plantsNano = {
   label: 'Nano — Studios',
   images: [
-    { src: `${P}/plantas/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp`, alt: 'Nano — Studio 01A — 32,70 m²' },
+    { src: `${P}/plantas/PNB_PB_07_Planta_Nano_Apto_01A_EF.webp`, alt: 'Nano — Studio 01A — 23,63 m²' },
     { src: `${P}/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp`, alt: 'Nano — Studio 02B — 32,06 m²' },
-    { src: `${P}/plantas/PNB_PB_09_Planta_Nano_Apto_03B_EF.webp`, alt: 'Nano — Studio 03B — 34,72 m²' },
-    { src: `${P}/plantas/PNB_PB_10_Planta_Nano_Apto_04_EF.webp`, alt: 'Nano — Studio 04 — 28,39 m²' },
-    { src: `${P}/plantas/PNB_PB_11_Planta_Nano_Apto_05_EF.webp`, alt: 'Nano — Studio 05 — 23,63 m²' },
-    { src: `${P}/plantas/PNB_PB_12_Planta_Nano_Apto_06_EF.webp`, alt: 'Nano — Studio 06 — 32,06 m²' },
-    { src: `${P}/plantas/PNB_PB_13_Planta_Nano_Apto_07_EF.webp`, alt: 'Nano — Studio 07 — 23,63 m²' },
+    { src: `${P}/plantas/PNB_PB_09_Planta_Nano_Apto_03B_EF.webp`, alt: 'Nano — Studio 03B — 28,39 m²' },
+    { src: `${P}/plantas/PNB_PB_10_Planta_Nano_Apto_04_EF.webp`, alt: 'Nano — Studio 04 — 34,72 m²' },
+    { src: `${P}/plantas/PNB_PB_11_Planta_Nano_Apto_05_EF.webp`, alt: 'Nano — Studio Terraço 05 — 53,69 m²' },
+    { src: `${P}/plantas/PNB_PB_12_Planta_Nano_Apto_06_EF.webp`, alt: 'Nano — Studio Terraço 06 — 49,85 m²' },
+    { src: `${P}/plantas/PNB_PB_13_Planta_Nano_Apto_07_EF.webp`, alt: 'Nano — Studio Terraço 07 — 49,85 m²' },
     { src: `${P}/plantas/PNB_PB_06_Planta_Rooftop_Nano_EF.webp`, alt: 'Nano — Rooftop' },
   ],
 };
