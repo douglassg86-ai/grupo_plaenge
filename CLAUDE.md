@@ -85,6 +85,19 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 - **Bug branch switch:** `key={branch}` em `<GalleryViewer>` e `<PlantsViewer>` para forçar remount ao trocar Nano ↔ Home (evita crash com índice de categoria inválido)
 - **HOME:** Torre 1 apenas · lazer no **3º Pavimento** · 3 plantas (109 m² / 77 m² / 88 m²) · sem rosa dos ventos
 
+## TREND NANO — Metragens das plantas (verificado no book)
+| Arquivo (PNB_PB_0X) | Tipo | Metragem | Finais |
+|---|---|---|---|
+| 07 — 01A | Studio | 23,63 m² | 07 a 16 |
+| 08 — 02B | Studio | 32,06 m² | 01–04 e 20–23 |
+| 09 — 03B | Studio | 28,39 m² | 06 e 17 |
+| 10 — 04  | Studio | 34,72 m² | 05 e 19 |
+| 11 — 05  | Studio Terraço | 53,69 m² | Final 18 · pav. 11°/13°/15° |
+| 12 — 06  | Studio Terraço | 49,85 m² | Final 15 · pav. 11° |
+| 13 — 07  | Studio Terraço | 49,85 m² | Final 21 · pav. 11° |
+
+Book Nano: `/Users/douglasgoncalves/Desktop/IA 22-06-26/ajustes/book trend nano.pdf` (47 páginas · plantas nas págs. 35–41)
+
 ## SYNTHÈ — Mont'Serrat
 - **Bairro:** Mont'Serrat (NÃO Petrópolis)
 - **Apostrofe em JS:** strings JS com `Mont'Serrat` DEVEM usar aspas duplas (`"Mont'Serrat"`), nunca aspas simples — a aspa simples interna quebra o parser webpack e gera Syntax Error no build Vercel
@@ -96,7 +109,7 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 - **SiteHeader:** altura via `style={{ height: '44px' }}` inline
 - **SYNTHÈ penthouse:** apenas no **18º andar** (17º = tipo padrão, sem rooftop)
 - **TREND NANO prumada:** últimos 2 dígitos do código (01–23)
-- **Books PDF em imagem:** pdftotext retorna vazio → usar `Read` tool com parâmetro `pages`
+- **Books PDF em imagem:** pdftotext retorna vazio → usar PyMuPDF (`import fitz`) para renderizar páginas como JPG e depois `Read` tool nas imagens. Exemplo: `doc=fitz.open(path); pix=page.get_pixmap(matrix=fitz.Matrix(150/72,150/72)); pix.save('page.jpg')`
 - **ImageMagick v7:** usar `magick` (não `convert`) · `openpyxl` para xlsx · `inkscape` para .ai → PNG
 - **GA4:** `G-235EYLPY74` via `next/script` strategy `afterInteractive` em `layout.tsx`
 - **Vercel deploy:** automático ~2 min após push na main
