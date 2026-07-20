@@ -98,8 +98,8 @@ const diferenciais = [
 ];
 
 const tipologias = [
-  { tipo: 'Unidade II', area: '88,68 m²', unidades: '54 unid.', detalhe: '2 Dormitórios' },
-  { tipo: 'Unidade III', area: '72,58 m²', unidades: '28 unid.', detalhe: '3 Dormitórios' },
+  { tipo: 'Unidade II', area: '88,68 m²', unidades: '54 unid.', detalhe: '3 Dormitórios' },
+  { tipo: 'Unidade III', area: '72,58 m²', unidades: '28 unid.', detalhe: '2 Dormitórios' },
   { tipo: 'Unidade I', area: '184,90 m²', unidades: '1 unid.', detalhe: 'Especial — Rooftop' },
 ];
 
