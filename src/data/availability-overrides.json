@@ -128,11 +128,18 @@
   "shift": {
     "52": "sold",
     "65": "sold",
+    "80": "sold",
     "82": "sold",
+    "83": "sold",
+    "97": "sold",
+    "98": "negotiation",
+    "111": "sold",
+    "166": "sold",
+    "167": "sold",
     "168": "sold",
     "169": "sold",
     "178": "sold",
-    "179": "available",
+    "179": "sold",
     "180": "sold",
     "181": "sold"
   }
