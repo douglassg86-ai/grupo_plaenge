@@ -1,4 +1,4 @@
-# Grupo Plaenge — Contexto do Projeto
+## Grupo Plaenge — Contexto do Projeto
 
 ## Repositório & Caminhos
 - **GitHub:** `douglassg86-ai/grupo_plaenge` · **Produção:** `grupo-plaenge.vercel.app`
@@ -20,16 +20,18 @@ src/lib/[produto]-data.ts                     ← dados das unidades (do xlsx)
 public/[PRODUTO]/                             ← imagens WebP + logo PNG  (MAIÚSCULO)
 public/[PRODUTO]/plantas/                     ← plantas WebP
 ```
+- **Exceção SHIFT:** não tem `src/app/shift/page.tsx` dedicado — a home é servida pela rota dinâmica `src/app/[slug]/page.tsx` a partir da entrada `slug: 'shift'` em `src/lib/data.ts`. Só `cliente/` e `pptcorretor/` são rotas próprias.
 
 ## Componentes shared (SEMPRE usar — nunca recriar inline)
 ```
-shared/gallery-viewer.tsx   ← GalleryViewer
-shared/plants-viewer.tsx    ← PlantsViewer
-shared/product-header.tsx   ← ProductHeader (logo + dropdown, z-[60])
-shared/payment-breakdown.tsx← PaymentBreakdown (condições no modal)
-shared/product-links.tsx    ← ProductLinks (materiais corretor + link cliente)
-ui/lightbox.tsx             ← Lightbox integrado nos viewers
-whatsapp-button.tsx         ← botão flutuante (só com cookie 'manager')
+shared/gallery-viewer.tsx             ← GalleryViewer
+shared/plants-viewer.tsx              ← PlantsViewer
+shared/product-header.tsx             ← ProductHeader (logo + dropdown, z-[60])
+shared/payment-breakdown.tsx          ← PaymentBreakdown (condições no modal)
+shared/product-links.tsx              ← ProductLinks (materiais corretor + link cliente)
+shared/implantacao-floor-selector.tsx ← seletor de pavimento sobre a implantação
+ui/lightbox.tsx                       ← Lightbox integrado nos viewers
+whatsapp-button.tsx                   ← botão flutuante (só com cookie 'manager')
 ```
 - **Sempre** `<ProductHeader>` · `<WhatsappButton>` · `<ProductLinks>` em todo home-page-client
 - `<WhatsappButton>` e `<ProductLinks>` dentro de `{!isClientePage && ...}`
@@ -75,15 +77,41 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 6. SHIFT não tem preço por unidade no `shift-data.ts` — não atualizar preços (usa `soldCodes` set inline).
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
 
-## Apresentações fullscreen — TREND DOWNTOWN
+## Apresentações fullscreen
+Existem apresentações em **4 produtos** (mais 1 institucional) — nem todos seguem o mesmo formato. Antes de criar uma nova, decida se ela é do tipo "roteiro de slides" (TREND/VERDANT, para cliente final) ou "PPT corretor" (SYNTHÈ/SHIFT/PPT-PORTIFOLIO, foco comercial/institucional).
+
+### TREND DOWNTOWN
 - **Arquivos:** `src/components/trend/presentation-mode-nano.tsx` (NANO + OFFICE, 46 slides) e `presentation-mode-home.tsx` (HOME Torre 1, 37 slides)
 - **Ativação:** botões em `src/components/trend/home-page-client.tsx` dentro de `{!isClientePage}`
 - **Identidade visual:** NANO = dark (#0A0A0A) + copper (#D4785A) + Montserrat · HOME = cream (#F5F2EE) + vermelho (#C1422A) + Raleway
-- **Slide types:** `cover | image | chapter | text | grid` — `grid` mostra todas as plantas numa tela só
+- **Slide types (`kind`):** `cover | image | chapter | text | grid` — `grid` mostra todas as plantas numa tela só
 - **`whiteBg?: boolean`** em slides `image`: quando `true`, fundo branco e texto escuro (usar em plantas e implantações com fundo branco para evitar recorte quadrado visível)
 - **Guard teclado:** `if (currentSlide < SLIDES.length - 1) onNext()` — nunca avançar além do último slide
 - **Bug branch switch:** `key={branch}` em `<GalleryViewer>` e `<PlantsViewer>` para forçar remount ao trocar Nano ↔ Home (evita crash com índice de categoria inválido)
 - **HOME:** Torre 1 apenas · lazer no **3º Pavimento** · 3 plantas (109 m² / 77 m² / 88 m²) · sem rosa dos ventos
+
+### VERDANT
+- **Arquivo:** `src/components/verdant/presentation-mode.tsx` (~63 slides)
+- **Identidade visual:** dark (#0A0A08) + verde escuro (#0F1A0F) + dourado (#B8945A)
+- **Slide types (`kind`):** `cover | image | chapter | text` — `text` aceita `stats` (cards numéricos) e `cols` (duas colunas de itens)
+- Mesmo padrão estrutural do TREND (array `SLIDES: Slide[]` tipado + componente único de render), mas sem o tipo `grid`
+
+### SYNTHÈ — PPT corretor
+- **Arquivo:** `src/components/synthe/ppt-corretor.tsx` (rota própria `src/app/synthe/pptcorretor/page.tsx`, não é botão dentro da home)
+- **Identidade visual:** dark (#1A1A1A) + vermelho (#C1422A) + creme (#F5F2EE)
+- **Slide types (`kind`):** `capa | imersiva | highlight | gallery | evento | corretores | book | cta` — voltado para argumentação comercial (evento de lançamento, prova social de corretores), não é o mesmo roteiro "produto" do TREND/VERDANT
+
+### SHIFT — PPT corretor
+- **Arquivo:** `src/components/shift/ppt-corretor.tsx` (rota própria `src/app/shift/pptcorretor/page.tsx`)
+- **Identidade visual:** dark (#0D0D0D) + terracota (#A43A25) + areia (#F0EDE8)
+- **Slide types (`kind`):** `capa | cidade | condicoes | gallery | video | cta`
+
+### PPT-PORTIFOLIO (institucional, todos os produtos)
+- **Arquivo:** `src/components/ppt-portifolio.tsx` (rota `src/app/pptportifolio/page.tsx`)
+- Apresentação institucional Plaenge cobrindo o portfólio inteiro (inclui menções a **YVY**, produto ainda sem página própria no site — só existe nesse PPT)
+- Usa paleta própria por seção (não segue a identidade de um produto específico)
+
+**Ao criar uma apresentação nova:** decidir primeiro qual dos dois formatos seguir (array `Slide[]` tipado com `kind` + render único, como TREND/VERDANT — recomendado para apresentação de produto ao cliente) e reaproveitar `GalleryViewer`/`PlantsViewer`/`Lightbox` quando fizer sentido em vez de recriar viewers de imagem.
 
 ## TREND NANO — Metragens das plantas (verificado no book)
 | Arquivo (PNB_PB_0X) | Tipo | Metragem | Finais |
