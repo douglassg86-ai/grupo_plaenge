@@ -99,11 +99,11 @@ const SLIDES: Slide[] = [
   { kind: 'chapter', theme: 'synthe', num: '03', title: 'SYNTHÈ', subtitle: "Mont'Serrat · Porto Alegre" },
 
   { kind: 'hero', theme: 'synthe', src: `${S}/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp`,
-    eyebrow: 'SYNTHÈ · PLAENGE · TGD', title: 'A última\nunidade do\npré-lançamento.', subtitle: "Mont'Serrat · Porto Alegre", position: 'center 40%' },
+    eyebrow: 'SYNTHÈ · PLAENGE · TGD', title: 'As últimas\nunidades do\npré-lançamento.', subtitle: "Mont'Serrat · Porto Alegre", position: 'center 40%' },
 
-  { kind: 'stat', theme: 'synthe', eyebrow: 'OPORTUNIDADE FINAL', value: '1', unit: 'unidade', caption: 'Última unidade ainda com valor de pré-lançamento — depois dela, a tabela sobe.' },
+  { kind: 'stat', theme: 'synthe', eyebrow: 'OPORTUNIDADE FINAL', value: 'ÚLTIMAS', unit: 'unidades', caption: 'Últimas unidades ainda com valor de pré-lançamento — depois delas, a tabela sobe.' },
 
-  { kind: 'campaign', theme: 'synthe', eyebrow: 'CAMPANHA DE CORRETORES', title: 'A campanha\ndos carros\nestá de volta.', body: 'Retomamos a disputa pelas metas — corretores voltam a competir pelos prêmios da campanha SYNTHÈ.' },
+  { kind: 'campaign', theme: 'synthe', eyebrow: 'CAMPANHA DE CORRETORES', title: 'A campanha\ndos carros\ncontinua.', body: 'A disputa pelas metas segue firme — prazo até 31/10/2026 para garantir os prêmios.' },
 
   { kind: 'car', theme: 'synthe', src: `${S}/carro-meta1-mg4.webp`,
     eyebrow: 'META 1 · PRÊMIO', title: 'MG4 XPOWER', sub: 'Veículo elétrico', position: 'center 40%' },
