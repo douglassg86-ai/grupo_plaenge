@@ -41,7 +41,6 @@ type Slide =
   | { kind: 'hero'; theme: ThemeKey; src: string; eyebrow: string; title: string; subtitle?: string; position?: string }
   | { kind: 'stat'; theme: ThemeKey; eyebrow: string; value: string; unit?: string; caption?: string }
   | { kind: 'plan'; theme: ThemeKey; src: string; eyebrow: string; title: string; caption?: string }
-  | { kind: 'diff'; theme: ThemeKey; eyebrow: string; title: string; cols: [string[], string[]] }
   | { kind: 'payment'; theme: ThemeKey; eyebrow: string; title: string; steps: { label: string; value: string; sub?: string }[]; total: string }
   | { kind: 'campaign'; theme: ThemeKey; eyebrow: string; title: string; body?: string }
   | { kind: 'car'; theme: ThemeKey; src: string; eyebrow: string; title: string; sub?: string; position?: string }
@@ -54,32 +53,20 @@ const SLIDES: Slide[] = [
   { kind: 'chapter', theme: 'verdant', num: '01', title: 'VERDANT', subtitle: 'Natureza integrada à vida · Porto Alegre' },
 
   { kind: 'hero', theme: 'verdant', src: `${V}/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp`,
-    eyebrow: 'VERDANT · PLAENGE', title: 'Um endereço\nque define\num novo padrão.', subtitle: 'Rua Eça de Queiroz, 215 · Rio Branco · Porto Alegre', position: 'center 40%' },
+    eyebrow: 'VERDANT · PLAENGE', title: 'Um endereço\nque define\num novo padrão.', subtitle: 'Rua Eça de Queiroz, 215 · Petrópolis · Porto Alegre', position: 'center 40%' },
 
   { kind: 'stat', theme: 'verdant', eyebrow: 'OPORTUNIDADE VERDANT', value: '11', unit: 'unidades', caption: 'Últimas unidades disponíveis — corra antes que acabem.' },
 
   { kind: 'stat', theme: 'verdant', eyebrow: 'CONDIÇÃO ESPECIAL', value: 'INCC', caption: 'Congelado até a entrega — o valor contratado não sofre correção pelo índice até as chaves.' },
 
-  { kind: 'diff', theme: 'verdant', eyebrow: 'DIFERENCIAIS DE ACABAMENTO', title: 'Cada detalhe\npensado com\nprecisão.',
-    cols: [
-      ['Porcelanato de grande formato nas áreas sociais', 'Revestimento cerâmico especial nos banheiros', 'Bancadas em quartzito natural nas cozinhas', 'Marcenaria planejada com painéis de MDF revestido', 'Esquadrias em alumínio de alta performance'],
-      ['Vidros duplos laminados com controle solar', 'Forro em drywall com sanca para iluminação indireta', 'Pintura texturizada premium em todas as paredes', 'Peças sanitárias e metais de linha superior', 'Piso flutuante de madeira nos dormitórios'],
-    ] },
-
-  { kind: 'diff', theme: 'verdant', eyebrow: 'DIFERENCIAIS CONSTRUTIVOS E DE ENTREGA', title: 'Tecnologia,\nsustentabilidade\ne previsibilidade.',
-    cols: [
-      ['Estrutura em concreto armado de alta resistência', 'Alvenaria em bloco cerâmico com isolamento acústico', 'Impermeabilização com garantia estendida', 'Sistema de pressurização nas escadas de emergência', 'Energia solar fotovoltaica compartilhada'],
-      ['Infraestrutura para recarga de veículos elétricos', 'Sistema de reaproveitamento de água pluvial', 'Automação residencial Smart Home Ready', 'Gerador de emergência para áreas comuns', 'Entrega prevista para abril de 2027'],
-    ] },
-
   /* ══════════════════════ TREND NANO ══════════════════════ */
   { kind: 'chapter', theme: 'nano', num: '02', title: 'TREND NANO', subtitle: 'Trend Downtown · Av. Azenha · Porto Alegre' },
 
   { kind: 'hero', theme: 'nano', src: `${T}/PNB_06_Fachada_Nano_EF.webp`,
-    eyebrow: 'TREND NANO · TREND DOWNTOWN', title: 'Studios\ncompactos.\nEntrada imediata\nno mercado.', subtitle: 'Torre Nano · Trend Downtown · Av. Azenha', position: 'center 40%' },
+    eyebrow: 'TREND NANO · TREND DOWNTOWN', title: 'Studios\ncompactos.\nEntrega em\nDEZ/26.', subtitle: 'Torre Nano · Trend Downtown · Av. Azenha', position: 'center 40%' },
 
   { kind: 'plan', theme: 'nano', src: `${T}/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp`,
-    eyebrow: 'PLANTA 02B', title: 'Studio de\n32 m² — pronto\npara investir.', caption: 'Metragem otimizada, alto potencial de locação e revenda' },
+    eyebrow: 'PLANTA 02B', title: 'Studio de\n32 m² — entrega\nem DEZ/26.', caption: 'Metragem otimizada, alto potencial de locação e revenda' },
 
   { kind: 'stat', theme: 'nano', eyebrow: 'A PARTIR DE', value: 'R$ 399.000', caption: 'Studio de 32 m² · Torre Nano · Trend Downtown' },
 
@@ -101,8 +88,6 @@ const SLIDES: Slide[] = [
   { kind: 'hero', theme: 'synthe', src: `${S}/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp`,
     eyebrow: 'SYNTHÈ · PLAENGE · TGD', title: 'As últimas\nunidades do\npré-lançamento.', subtitle: "Mont'Serrat · Porto Alegre", position: 'center 40%' },
 
-  { kind: 'stat', theme: 'synthe', eyebrow: 'OPORTUNIDADE FINAL', value: 'ÚLTIMAS', unit: 'unidades', caption: 'Últimas unidades ainda com valor de pré-lançamento — depois delas, a tabela sobe.' },
-
   { kind: 'campaign', theme: 'synthe', eyebrow: 'CAMPANHA DE CORRETORES', title: 'A campanha\ndos carros\ncontinua.', body: 'A disputa pelas metas segue firme — prazo até 31/10/2026 para garantir os prêmios.' },
 
   { kind: 'car', theme: 'synthe', src: `${S}/carro-meta1-mg4.webp`,
@@ -123,7 +108,6 @@ function slideLabel(s: Slide): string {
     case 'hero':     return `${THEMES[s.theme].label} · Apresentação`;
     case 'stat':     return `${THEMES[s.theme].label} · ${s.eyebrow}`;
     case 'plan':     return `${THEMES[s.theme].label} · Planta`;
-    case 'diff':     return `${THEMES[s.theme].label} · Diferenciais`;
     case 'payment':  return `${THEMES[s.theme].label} · Pagamento`;
     case 'campaign': return `${THEMES[s.theme].label} · Campanha`;
     case 'car':      return `${THEMES[s.theme].label} · Prêmio`;
@@ -215,7 +199,7 @@ function SlideStat({ s }: { s: Extract<Slide, { kind: 'stat' }> }) {
           {s.eyebrow}
         </p>
         <div className="op-a1 flex items-baseline gap-5">
-          <span className="op-serif" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(5rem, 13vw, 12rem)', lineHeight: 0.85, letterSpacing: '-0.03em' }}>
+          <span className="op-serif" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(5rem, 13vw, 12rem)', lineHeight: 0.85, letterSpacing: '-0.03em', whiteSpace: 'nowrap' }}>
             {s.value}
           </span>
           {s.unit && (
@@ -254,36 +238,6 @@ function SlidePlan({ s }: { s: Extract<Slide, { kind: 'plan' }> }) {
             {s.caption}
           </p>
         )}
-      </div>
-    </div>
-  );
-}
-
-function SlideDiff({ s }: { s: Extract<Slide, { kind: 'diff' }> }) {
-  const t = THEMES[s.theme];
-  return (
-    <div className="relative w-full h-full flex flex-col" style={{ background: t.bg }}>
-      <div className="px-16 pt-16 pb-8 flex-shrink-0">
-        <p className="op-sans op-a0 tracking-[0.3em] uppercase mb-4" style={{ color: t.accent, fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', fontWeight: 500 }}>
-          {s.eyebrow}
-        </p>
-        <h2 className="op-serif op-a1 whitespace-pre-line" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2.2rem, 4.2vw, 3.6rem)', lineHeight: 1.05, letterSpacing: '-0.01em' }}>
-          {s.title}
-        </h2>
-      </div>
-      <div className="flex-1 px-16 pb-14 grid grid-cols-2 gap-x-16 gap-y-4 content-center op-a2">
-        {s.cols.map((col, ci) => (
-          <div key={ci} className="flex flex-col gap-5">
-            {col.map((item, i) => (
-              <div key={i} className="flex items-start gap-4">
-                <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: t.accent, flexShrink: 0, marginTop: '0.55em' }} />
-                <p className="op-sans" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(0.95rem, 1.35vw, 1.2rem)', fontWeight: 300, lineHeight: 1.45 }}>
-                  {item}
-                </p>
-              </div>
-            ))}
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -476,7 +430,6 @@ export default function PptOportunidade() {
         {current.kind === 'hero'     && <SlideHero s={current} />}
         {current.kind === 'stat'     && <SlideStat s={current} />}
         {current.kind === 'plan'     && <SlidePlan s={current} />}
-        {current.kind === 'diff'     && <SlideDiff s={current} />}
         {current.kind === 'payment'  && <SlidePayment s={current} />}
         {current.kind === 'campaign' && <SlideCampaign s={current} />}
         {current.kind === 'car'      && <SlideCar s={current} />}
