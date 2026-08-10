@@ -56,7 +56,7 @@ const SLIDES: Slide[] = [
   { kind: 'hero', theme: 'verdant', src: `${V}/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp`,
     eyebrow: 'VERDANT · PLAENGE', title: 'Um endereço\nque define\num novo padrão.', subtitle: 'Rua Eça de Queiroz, 215 · Rio Branco · Porto Alegre', position: 'center 40%' },
 
-  { kind: 'stat', theme: 'verdant', eyebrow: 'OPORTUNIDADE VERDANT', value: '11', unit: 'unidades', caption: 'Últimas unidades disponíveis — a janela está fechando.' },
+  { kind: 'stat', theme: 'verdant', eyebrow: 'OPORTUNIDADE VERDANT', value: '11', unit: 'unidades', caption: 'Últimas unidades disponíveis — corra antes que acabem.' },
 
   { kind: 'stat', theme: 'verdant', eyebrow: 'CONDIÇÃO ESPECIAL', value: 'INCC', caption: 'Congelado até a entrega — o valor contratado não sofre correção pelo índice até as chaves.' },
 
@@ -151,15 +151,8 @@ function SlideCover({ onFullscreen, isFullscreen }: { onFullscreen: () => void; 
         <h1 className="op-serif op-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(3.2rem, 8vw, 7.5rem)', lineHeight: 0.95, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
           3 Oportunidades.
         </h1>
-        <h2 className="op-serif op-a2" style={{ color: '#D9B25C', fontWeight: 900, fontSize: 'clamp(3.2rem, 8vw, 7.5rem)', lineHeight: 0.95, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
-          Uma janela.
-        </h2>
-        <div className="op-a3 mt-10 flex items-center gap-5">
-          <div style={{ height: '1px', width: '56px', background: 'rgba(255,255,255,0.3)' }} />
-          <p className="op-sans" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
-            VERDANT · TREND NANO · SYNTHÈ
-          </p>
-          <div style={{ height: '1px', width: '56px', background: 'rgba(255,255,255,0.3)' }} />
+        <div className="op-a2 mt-12">
+          <Image src="/INSTITUCIONAL/logo_plaenge_vanguard_claro.webp" alt="Plaenge Vanguard" width={280} height={22} className="object-contain" />
         </div>
       </div>
     </div>
@@ -395,7 +388,7 @@ function SlideCta() {
       <div className="absolute inset-0 op-fade" style={{ background: 'radial-gradient(ellipse 75% 65% at 50% 45%, rgba(217,178,92,0.14) 0%, transparent 70%)' }} />
       <div className="relative z-10 flex flex-col items-center text-center px-12">
         <p className="op-sans op-a0 tracking-[0.4em] uppercase mb-10" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.8rem, 1.2vw, 1rem)' }}>
-          3 OPORTUNIDADES · JANELA CURTA
+          3 OPORTUNIDADES
         </p>
         <h2 className="op-serif op-a1" style={{ color: '#FFFFFF', fontWeight: 900, fontSize: 'clamp(2.6rem, 5.5vw, 5rem)', lineHeight: 1, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
           Fale com seu<br />gerente comercial.
