@@ -47,7 +47,7 @@ whatsapp-button.tsx                   ← botão flutuante (só com cookie 'mana
 6. **Excluir slug** do `[slug]/page.tsx` `generateStaticParams` ao criar rota dedicada
 7. **Atualizar** `src/lib/data.ts` e `src/lib/placeholder-images.json` ao adicionar produto
 8. **'use client'** deve ser sempre a primeira linha — nunca inserir imports antes
-9. **Hydration mismatch** — nunca `Math.random()` / `shuffle` no `useState` initializer; mover para `useEffect`
+9. **Hydration mismatch** — nunca `Math.random()` / `shuffle` no `useState` initializer; mover para `useEffect`. Também nunca usar `<style>{cssString}</style>` (React escapa como texto e diverge entre SSR/cliente) — usar sempre `<style dangerouslySetInnerHTML={{ __html: cssString }} />`
 10. **Route Handlers** — sempre `await` operações async antes do `return response`
 11. **Admin push rejected** — antes de push, `git pull --rebase` (admin commita diretamente no GitHub)
 12. **EDITION tem duas torres** — `'Torre Jardim Cristofel'` e `'Torre Doutor Vale'`, ambas no mesmo `edition-data.ts`. Os códigos de andar se repetem (ex. `'0701'` existe em cada torre). Ao mapear código→ID sempre filtrar por campo `tower`. Atualizar preços e disponibilidade por `id`, nunca só por código.
@@ -78,7 +78,7 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
 
 ## Apresentações fullscreen
-Existem apresentações em **4 produtos** (mais 1 institucional) — nem todos seguem o mesmo formato. Antes de criar uma nova, decida se ela é do tipo "roteiro de slides" (TREND/VERDANT, para cliente final) ou "PPT corretor" (SYNTHÈ/SHIFT/PPT-PORTIFOLIO, foco comercial/institucional).
+Existem apresentações em **5 produtos** (mais 1 institucional e 1 multi-produto) — nem todos seguem o mesmo formato. Antes de criar uma nova, decida se ela é do tipo "roteiro de slides" (TREND/VERDANT, para cliente final) ou "PPT corretor" (SYNTHÈ/SHIFT/PPT-PORTIFOLIO, foco comercial/institucional).
 
 ### TREND DOWNTOWN
 - **Arquivos:** `src/components/trend/presentation-mode-nano.tsx` (NANO + OFFICE, 46 slides) e `presentation-mode-home.tsx` (HOME Torre 1, 37 slides)
@@ -111,7 +111,16 @@ Existem apresentações em **4 produtos** (mais 1 institucional) — nem todos s
 - Apresentação institucional Plaenge cobrindo o portfólio inteiro (inclui menções a **YVY**, produto ainda sem página própria no site — só existe nesse PPT)
 - Usa paleta própria por seção (não segue a identidade de um produto específico)
 
-**Ao criar uma apresentação nova:** decidir primeiro qual dos dois formatos seguir (array `Slide[]` tipado com `kind` + render único, como TREND/VERDANT — recomendado para apresentação de produto ao cliente) e reaproveitar `GalleryViewer`/`PlantsViewer`/`Lightbox` quando fizer sentido em vez de recriar viewers de imagem.
+### PPT-OPORTUNIDADE (multi-produto, campanhas cruzadas)
+- **Arquivo:** `src/components/ppt-oportunidade.tsx` (rota `src/app/dacas_ppt_oportunidade/page.tsx`)
+- Apresentação de vendas cruzando **VERDANT + TREND NANO + SYNTHÈ** numa única campanha (usada para pautas específicas: últimas unidades, INCC congelado, retomada de campanha de corretores etc.)
+- **Padrão:** array `SLIDES: Slide[]` tipado com `kind` (`cover | chapter | hero | stat | plan | diff | payment | campaign | car | cta`) + `theme: 'verdant' | 'nano' | 'synthe' | 'neutral'` por slide, com paleta de cor por produto (`THEMES` map) para dar identidade a cada seção dentro da mesma apresentação
+- Slide `stat` é o "número gigante de impacto" (`clamp(5rem,13vw,12rem)`), reaproveitado em vários pontos (unidades restantes, preço, prazo)
+- Slide `payment` renderiza um fluxo de pagamento em cards conectados por setas — feito para condições especiais tipo "4x entrada → chaves → saldo"
+- Reaproveita fotos já existentes de outros produtos (ex. carros da campanha SYNTHÈ em `carro-meta1-mg4.webp` / `carro-meta2-cyberster.webp`) em vez de duplicar assets
+- **Modelo de referência para novas apresentações multi-produto/multi-campanha** — copiar esse padrão em vez de criar do zero
+
+**Ao criar uma apresentação nova:** decidir primeiro qual dos formatos seguir — array `Slide[]` tipado com `kind` + render único é o padrão de todas (TREND/VERDANT para produto único, PPT-OPORTUNIDADE para multi-produto) — e reaproveitar `GalleryViewer`/`PlantsViewer`/`Lightbox` quando fizer sentido em vez de recriar viewers de imagem.
 
 ## TREND NANO — Metragens das plantas (verificado no book)
 | Arquivo (PNB_PB_0X) | Tipo | Metragem | Finais |
