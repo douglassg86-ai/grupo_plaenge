@@ -1,4 +1,4 @@
-## Grupo Plaenge — Contexto do Projeto
+# Grupo Plaenge — Contexto do Projeto
 
 ## Repositório & Caminhos
 - **GitHub:** `douglassg86-ai/grupo_plaenge` · **Produção:** `grupo-plaenge.vercel.app`
