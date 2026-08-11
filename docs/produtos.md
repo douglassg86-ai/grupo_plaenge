@@ -18,7 +18,7 @@
 ['wave', 'edition', 'mood', 'orbitale', 'verdant', 'yuna', 'trend', 'synthe']
 ```
 
-## Contagem de unidades (junho/2026)
+## Contagem de unidades (agosto/2026)
 | Produto | Total | Observação |
 |---------|-------|------------|
 | MOOD | 192 | 144 (jun) + 48 (mai permuta) — permuta andares 3,7,10 |
@@ -46,13 +46,13 @@ Produtos com 1 vídeo: card full-width. Produtos com 2 vídeos: `grid md:grid-co
 
 ## Notas por produto
 
-**SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds`. Condições em `src/lib/payment-data.ts` (valores pré-calculados) + `src/components/availability-grid.tsx`. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`.
+**SHIFT:** usa `[slug]/page.tsx` (não tem home-page-client próprio). Galeria via `bannerImageIds`. Condições em `src/lib/payment-data.ts` (valores pré-calculados) + `src/components/availability-grid.tsx`. Disponibilidade via `soldUnits` + `reservedUnits` em `src/lib/data.ts`. **Fórmula dos campos (agosto/2026):** dp=total×0,025; mi=total×0,09/28; rf=total×0,045; fb=total×0,65 — soma: 5×dp + 28×mi + 3×rf + fb = total.
 
 **YUNA:** Vanguard · 14 andares · 6 prumadas. Atenção: plantas Unidade II (88,68 m²) e III (72,58 m²) estavam trocadas — corrigido jun/2026. Arquivos `04/06/07_VAN_PARECI_APTO_3_DORM` = Unidade II; `03_VAN_PARECI_APTO_2_DORM` = Unidade III.
 
 **TREND:** `homeUnits` (VS006B6) + `nanoUnits` (VS006B1) em `trend-data.ts`. Nano: prumada = últimos 2 dígitos do código (01–23). Torre 2 não lançada. Office plantas = apenas 294,88 m² e 498,95 m². Implantações integradas ao card de disponibilidade (muda com tab Home↔Nano via `onTabChange`).
 
-**SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto). Andares 3–18. **Penthouse apenas no 18º andar** (17º = tipo padrão 176,89 m², sem rooftop). Rodapé do unit-grid: "18º andar". `synthe-data.ts` gerado manualmente — 32 unidades, todos `available`, sem `price`. 14 imagens + 7 plantas.
+**SYNTHÈ:** pré-lançamento, book PDF em imagem (sem texto). Andares 3–18. **Penthouse apenas no 18º andar** (17º = tipo padrão 176,89 m², sem rooftop). Rodapé do unit-grid: "18º andar". `synthe-data.ts` gerado manualmente — 32 unidades, sem `price` (preço no modal via tabela). 14 imagens + 7 plantas. Condições de pagamento: Entrada 12,5%(5x) · Mensais 15%(31x) · Reforços 12,5%(5x) · Saldo 60%.
 
 **EDITION:** `tower` field (não `setor`) — torres "Torre Jardim Cristofel" e "Torre Doutor Vale". Botões do unit-grid exibem **código** (ex: `0501`), metragem só no modal.
 
