@@ -52,19 +52,19 @@ whatsapp-button.tsx                   ← botão flutuante (só com cookie 'mana
 11. **Admin push rejected** — antes de push, `git pull --rebase` (admin commita diretamente no GitHub)
 12. **EDITION tem duas torres** — `'Torre Jardim Cristofel'` e `'Torre Doutor Vale'`, ambas no mesmo `edition-data.ts`. Os códigos de andar se repetem (ex. `'0701'` existe em cada torre). Ao mapear código→ID sempre filtrar por campo `tower`. Atualizar preços e disponibilidade por `id`, nunca só por código.
 
-## Condições de pagamento (tabela julho/2026)
+## Condições de pagamento (tabela agosto/2026)
 | Produto | Plano |
 |---------|-------|
-| YUNA | Entrada 15%(5x) · Mensais 10%(13x) · Reforços 15%(2x) · Financiamento 60% (42%+18,3% pós) |
-| EDITION | Entrada 20%(4x) · Mensais 15%(21x) · Reforços 15%(3x) · Financiamento 50% (40%+10% pós) |
+| YUNA | Entrada 15%(5x) · Mensais 10%(11x) · Reforços 15%(2x) · Financiamento 60% (39%+20,9% pós 23x) |
+| EDITION | Entrada 20%(4x) · Mensais 15%(20x) · Reforços 15%(3x) · Financiamento 50% (pós 15x incluso) |
 | MOOD | Entrada 20%(1x) · Financiamento 80% |
 | ORBITALE | Entrada 40%(1x) · Financiamento 60% |
-| VERDANT | Entrada 15%(5x) · Mensais 10%(5x) · Reforços 10%(2x) · Financiamento 65% |
-| TREND Home | Entrada 15%(5x) · Mensais 10%(22x) · Reforços 15%(3x) · Financiamento 60% (55%+5,5% pós) |
-| TREND Nano | Entrada 14%(4x) · Mensais 12,5%(1x) · Reforços 12,5%(1x) · Financiamento 61% |
+| VERDANT | Entrada 15%(5x) · Mensais 10%(4x) · Reforços 10%(2x) · Financiamento 65% |
+| TREND Home | Entrada 15%(5x) · Mensais 10%(21x) · Reforços 15%(3x) · Financiamento 60% (54%+6,2% pós 13x) |
+| TREND Nano | Entrada 20%(4x) · Financiamento 80% |
 | WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
-| SHIFT | Entrada 12,5%(5x) · Mensais 9%(29x) · Reforços 13,5%(3x) · Financiamento 65% |
-| SYNTHÈ | Pré-lançamento — sem condições |
+| SHIFT | Entrada 12,5%(5x) · Mensais 9%(28x) · Reforços 13,5%(3x) · Financiamento 65% |
+| SYNTHÈ | Entrada 12,5%(5x) · Mensais 15%(31x) · Reforços 12,5%(5x) · Saldo 60% (58,55%+1,45% pós 3x) |
 
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 

@@ -11,7 +11,7 @@ import { PaymentBreakdown, type PaymentStep } from '@/components/shared/payment-
 
 const PAYMENT_PLAN: PaymentStep[] = [
   { label: 'Entrada',  pct: 0.125, count: 5  },
-  { label: 'Mensais',  pct: 0.15,  count: 32 },
+  { label: 'Mensais',  pct: 0.15,  count: 31 },
   { label: 'Reforços', pct: 0.125, count: 5  },
   { label: 'Saldo',    pct: 0.60,  count: 1  },
 ];
