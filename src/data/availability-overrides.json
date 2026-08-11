@@ -4,7 +4,12 @@
     "106505": "sold",
     "106511": "sold",
     "106512": "sold",
-    "106526": "sold"
+    "106526": "sold",
+    "106515": "sold",
+    "106519": "sold",
+    "106496": "sold",
+    "106498": "sold",
+    "106502": "sold"
   },
   "mood": {
     "79022": "negotiation",
@@ -13,8 +18,8 @@
     "79143": "sold",
     "79144": "sold",
     "79168": "available",
-    "79192": "available",
-    "79203": "available",
+    "79192": "sold",
+    "79203": "sold",
     "79608": "sold",
     "79609": "sold",
     "79610": "sold",
@@ -37,7 +42,8 @@
     "79646": "sold",
     "79650": "sold",
     "79652": "sold",
-    "79654": "sold"
+    "79654": "sold",
+    "79034": "sold"
   },
   "orbitale": {
     "82984": "available",
@@ -45,7 +51,10 @@
     "82992": "sold"
   },
   "synthe": {
-    "200032": "available"
+    "200032": "available",
+    "200026": "sold",
+    "200028": "sold",
+    "200030": "sold"
   },
   "trend_home": {
     "108604": "negotiation",
@@ -82,17 +91,23 @@
     "89868": "sold",
     "89950": "sold",
     "89961": "sold",
-    "89991": "available",
+    "89991": "sold",
     "89995": "available",
     "90013": "available",
     "90015": "available",
-    "90033": "available",
+    "90033": "sold",
     "90051": "available",
     "90053": "negotiation",
-    "90066": "available"
+    "90066": "available",
+    "89889": "sold",
+    "89936": "sold",
+    "89948": "sold",
+    "89975": "sold",
+    "90070": "sold",
+    "90075": "sold"
   },
   "verdant": {
-    "101463": "available",
+    "101463": "sold",
     "101464": "sold",
     "101466": "sold",
     "101468": "available",
@@ -103,8 +118,9 @@
     "101485": "sold",
     "101486": "available",
     "101492": "sold",
-    "101495": "available",
-    "101496": "negotiation"
+    "101495": "sold",
+    "101496": "sold",
+    "101462": "sold"
   },
   "yuna": {
     "103394": "sold",
@@ -118,7 +134,8 @@
     "103458": "sold",
     "103459": "sold",
     "103463": "sold",
-    "103470": "sold"
+    "103470": "sold",
+    "103443": "sold"
   },
   "wave": {
     "23": "available",
