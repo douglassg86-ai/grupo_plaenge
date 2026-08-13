@@ -2,7 +2,7 @@
 
 import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import UnitGrid from '@/components/trend/unit-grid';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
@@ -202,6 +202,71 @@ const tipologiasNano = [
   { tipo: 'Studio Terraço', area: '46,15 – 53,69 m²', detalhe: 'Studio com terraço privativo' },
 ];
 
+// ─── LANDING — tela de seleção Nano / Home ────────────────────────────────────
+function TrendLanding({ onSelect, isClientePage }: { onSelect: (b: Branch) => void; isClientePage: boolean }) {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <ProductHeader hideNav={isClientePage} />
+      <div className="flex-1 flex flex-col md:flex-row">
+
+        {/* ── NANO ── */}
+        <button
+          onClick={() => onSelect('nano')}
+          className="group flex-1 relative flex flex-col items-center justify-center gap-6 p-10 md:p-16 transition-all duration-300 min-h-[50vh] md:min-h-0"
+          style={{ background: '#0A0A0A' }}
+        >
+          <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+            style={{ background: 'radial-gradient(ellipse at 60% 40%, #D4785A 0%, transparent 65%)' }} />
+          <div className="relative z-10 flex flex-col items-center gap-5 text-center">
+            <Image src={`${P}/logo_nano.png`} alt="Downtown Nano" width={200} height={56}
+              className="brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity" />
+            <div className="space-y-1">
+              <p className="text-white/60 text-sm tracking-widest uppercase">Studios</p>
+              <p className="text-white font-display text-2xl md:text-3xl">23 a 53 m²</p>
+              <p className="text-white/50 text-xs mt-2">259 unidades · Rooftop com piscina · Cityhome</p>
+            </div>
+            <span
+              className="mt-2 px-8 py-3 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-200 group-hover:scale-105"
+              style={{ background: '#D4785A', color: '#0A0A0A' }}
+            >
+              Explorar Nano →
+            </span>
+          </div>
+          {/* divisor vertical */}
+          <div className="hidden md:block absolute right-0 top-1/4 bottom-1/4 w-px"
+            style={{ background: 'linear-gradient(to bottom, transparent, #D4785A55, transparent)' }} />
+        </button>
+
+        {/* ── HOME ── */}
+        <button
+          onClick={() => onSelect('home')}
+          className="group flex-1 relative flex flex-col items-center justify-center gap-6 p-10 md:p-16 transition-all duration-300 min-h-[50vh] md:min-h-0"
+          style={{ background: '#F5F2EE' }}
+        >
+          <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-300"
+            style={{ background: 'radial-gradient(ellipse at 40% 60%, #C1422A 0%, transparent 65%)' }} />
+          <div className="relative z-10 flex flex-col items-center gap-5 text-center">
+            <Image src={`${P}/logo_home.png`} alt="Downtown Home" width={200} height={56}
+              className="opacity-90 group-hover:opacity-100 transition-opacity" />
+            <div className="space-y-1">
+              <p className="text-[#C1422A]/70 text-sm tracking-widest uppercase">Apartamentos</p>
+              <p className="font-display text-2xl md:text-3xl" style={{ color: '#1A1410' }}>75 a 109 m²</p>
+              <p className="text-xs mt-2" style={{ color: '#1A141060' }}>100 unidades · Torre 1 lançada · 3 dormitórios</p>
+            </div>
+            <span
+              className="mt-2 px-8 py-3 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-200 group-hover:scale-105"
+              style={{ background: '#C1422A', color: '#F5F2EE' }}
+            >
+              Explorar Home →
+            </span>
+          </div>
+        </button>
+
+      </div>
+    </div>
+  );
+}
+
 // ─── SELETOR DE RAMIFICAÇÃO (Home / Nano) ─────────────────────────────────────
 function BranchSwitch({ value, onChange, floating = false }: { value: Branch; onChange: (b: Branch) => void; floating?: boolean }) {
   const options: { key: Branch; label: string }[] = [
@@ -228,14 +293,53 @@ function BranchSwitch({ value, onChange, floating = false }: { value: Branch; on
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function TrendHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
+  const [selected, setSelected] = useState<Branch | null>(null);
   const [branch, setBranch] = useState<Branch>('home');
   const [nanoSlide, setNanoSlide] = useState(0);
   const [homeSlide, setHomeSlide] = useState(0);
   const [showNano, setShowNano] = useState(false);
   const [showHome, setShowHome] = useState(false);
 
+  // Lê o parâmetro ?t= para deep-link direto ao produto
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('t') as Branch | null;
+    if (t === 'nano' || t === 'home') {
+      setSelected(t);
+      setBranch(t);
+    }
+  }, []);
+
+  const selectBranch = useCallback((b: Branch) => {
+    setSelected(b);
+    setBranch(b);
+    const url = new URL(window.location.href);
+    url.searchParams.set('t', b);
+    window.history.replaceState({}, '', url.toString());
+    window.scrollTo({ top: 0 });
+  }, []);
+
+  const changeBranch = useCallback((b: Branch) => {
+    setBranch(b);
+    const url = new URL(window.location.href);
+    url.searchParams.set('t', b);
+    window.history.replaceState({}, '', url.toString());
+  }, []);
+
+  const goToLanding = useCallback(() => {
+    setSelected(null);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('t');
+    window.history.replaceState({}, '', url.toString());
+    window.scrollTo({ top: 0 });
+  }, []);
+
   const openNano = useCallback(() => { setNanoSlide(0); setShowNano(true); }, []);
   const openHome = useCallback(() => { setHomeSlide(0); setShowHome(true); }, []);
+
+  // ── LANDING ──
+  if (selected === null) {
+    return <TrendLanding onSelect={selectBranch} isClientePage={isClientePage} />;
+  }
 
   return (
     <div className="bg-background min-h-screen">
@@ -341,14 +445,14 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
 
         {/* ── SELETOR DE RAMIFICAÇÃO — define todo o conteúdo abaixo ── */}
         <div className="bg-card rounded-2xl p-8 text-center scroll-mt-24" id="escolha-torre">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Escolha o que explorar</p>
-          <h2 className="font-display text-3xl text-foreground mb-2">Qual torre você quer ver?</h2>
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Explorar também</p>
+          <h2 className="font-display text-3xl text-foreground mb-2">Quer ver o outro produto?</h2>
           <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
             As informações abaixo (galeria, plantas, vídeos e disponibilidade) mudam conforme a sua escolha.
             O <strong>Downtown Office</strong> e o <strong>Mall</strong> aparecem junto com o <strong>Nano</strong>.
           </p>
           <div className="flex justify-center">
-            <BranchSwitch value={branch} onChange={setBranch} />
+            <BranchSwitch value={branch} onChange={changeBranch} />
           </div>
         </div>
 
@@ -531,9 +635,15 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
 
       </div>
 
-      {/* BOTÃO FLUTUANTE — trocar entre Home/Nano de qualquer seção */}
+      {/* BOTÃO FLUTUANTE — voltar à tela de seleção */}
       <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40">
-        <BranchSwitch value={branch} onChange={setBranch} floating />
+        <button
+          onClick={goToLanding}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full shadow-2xl backdrop-blur border text-sm font-semibold transition-opacity hover:opacity-80"
+          style={{ background: branch === 'nano' ? '#0A0A0A' : '#F5F2EE', color: branch === 'nano' ? '#D4785A' : '#C1422A', borderColor: branch === 'nano' ? '#D4785A40' : '#C1422A40' }}
+        >
+          ← Trocar produto
+        </button>
       </div>
 
       {/* FOOTER */}
