@@ -38,6 +38,12 @@ whatsapp-button.tsx                   ← botão flutuante (só com cookie 'mana
 - Todo home-page-client aceita `isClientePage?: boolean`
 - Sempre criar `/[produto]/cliente/page.tsx` com `isClientePage` prop
 
+## ui/ disponíveis (agosto/2026 — após limpeza)
+Apenas estes existem em `src/components/ui/`:
+`accordion` · `alert` · `alert-dialog` · `badge` · `button` · `card` · `carousel` · `collapsible` · `dialog` · `form` · `label` · `lightbox` · `progress` · `select` · `separator` · `skeleton` · `switch` · `table` · `tabs` · `toast` · `toaster` · `tooltip`
+**Removidos em ago/2026** (nunca instalar novamente sem uso confirmado): avatar · calendar · chart · checkbox · dropdown-menu · input · menubar · popover · radio-group · scroll-area · sheet · sidebar · slider · textarea
+**Também removidos:** `src/firebase/` (pasta inteira) · `src/ai/dev.ts` · `src/hooks/use-mobile.tsx` · componentes wave sem uso (community-popup, executive-contact) · aquavista-page · floating-whatsapp-button · icons
+
 ## Regras críticas
 1. **Pastas public em MAIÚSCULO** — Linux é case-sensitive no Vercel
 2. **Imagens sempre WebP** — `magick img.jpg -resize "1920x>" -quality 82 out.webp`
