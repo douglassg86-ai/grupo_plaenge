@@ -2,10 +2,10 @@
 
 ## Repositório & Caminhos
 - **GitHub:** `douglassg86-ai/grupo_plaenge` · **Produção:** `grupo-plaenge.vercel.app`
-- **Local:** `/Users/douglasgoncalves/Desktop/grupo_plaenge`
+- **Local:** `/Users/douglasgoncalves/Desktop/IA 22-06-26/grupo_plaenge`
 - **Assets fonte:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/Produtos/`
 - **Disponibilidade (xlsx):** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/DISPONIBILIDADE/`
-- **Tabelas de pagamento (PDF):** pasta `ajustes/TABELAS JULHO/` no projeto local (atualizar mensalmente)
+- **Tabelas de pagamento (PDF):** pasta `ajustes/TABELAS AGOSTO/` no projeto local (atualizar mensalmente — renomear pasta para o mês corrente)
 - **Books PDF:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/BOOKS/` (alguns dentro da pasta do produto)
 
 ## Stack
@@ -69,12 +69,12 @@ whatsapp-button.tsx                   ← botão flutuante (só com cookie 'mana
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 
 ## Atualização mensal de preços e disponibilidade
-1. PDFs das tabelas entram na pasta `ajustes/TABELAS JULHO/` (ou mês correspondente)
+1. PDFs das tabelas entram na pasta `ajustes/TABELAS AGOSTO/` (renomear para o mês corrente a cada atualização)
 2. Usar `pdfplumber` para extrair preços — formato BRL com espaços: `re.sub(r'R\$\s*','',v).replace(' ','').replace('.','').replace(',','.')` → `int(float(...))`
 3. Unidades **ausentes** do PDF = vendidas. Unidades **presentes** = disponíveis.
 4. `availability-overrides.json` é keyed por **id numérico** da unidade (não código). Sempre buscar por `id`.
 5. Ao atualizar preços linha a linha (não por replace em massa), usar o campo `id` para identificar a unidade unicamente — especialmente na EDITION onde o mesmo código existe em duas torres.
-6. SHIFT não tem preço por unidade no `shift-data.ts` — não atualizar preços (usa `soldCodes` set inline).
+6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/28` · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + 28×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`.
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
 
 ## Apresentações fullscreen
