@@ -84,6 +84,7 @@ Existem apresentações em **5 produtos** (mais 1 institucional e 1 multi-produt
 - **Arquivos:** `src/components/trend/presentation-mode-nano.tsx` (NANO + OFFICE, 46 slides) e `presentation-mode-home.tsx` (HOME Torre 1, 37 slides)
 - **Ativação:** botões em `src/components/trend/home-page-client.tsx` dentro de `{!isClientePage}`
 - **Identidade visual:** NANO = dark (#0A0A0A) + copper (#D4785A) + Montserrat · HOME = cream (#F5F2EE) + vermelho (#C1422A) + Raleway
+- **Landing de seleção (agosto/2026):** `/trend` abre tela split-screen com dois botões antes de qualquer conteúdo. Estado `selected: Branch | null` em `home-page-client.tsx` — `null` = landing, branch definido = produto. Deep-link via `?t=nano` ou `?t=home` pula a landing. Botão flutuante fixo "← Trocar produto" retorna à landing chamando `goToLanding()`. Componente `TrendLanding` renderizado no early return `if (selected === null)`. Função `selectBranch` (da landing) vs `changeBranch` (troca dentro do produto — mantém `selected` definido).
 - **Slide types (`kind`):** `cover | image | chapter | text | grid` — `grid` mostra todas as plantas numa tela só
 - **`whiteBg?: boolean`** em slides `image`: quando `true`, fundo branco e texto escuro (usar em plantas e implantações com fundo branco para evitar recorte quadrado visível)
 - **Guard teclado:** `if (currentSlide < SLIDES.length - 1) onNext()` — nunca avançar além do último slide
