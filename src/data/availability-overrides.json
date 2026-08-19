@@ -121,7 +121,7 @@
     "101462": "sold",
     "101463": "sold",
     "101464": "available",
-    "101465": "negotiation",
+    "101465": "sold",
     "101466": "sold",
     "101468": "sold",
     "101469": "available",
@@ -134,6 +134,7 @@
     "101486": "available",
     "101490": "sold",
     "101492": "available",
+    "101493": "negotiation",
     "101495": "sold",
     "101496": "sold",
     "101497": "sold"
