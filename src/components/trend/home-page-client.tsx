@@ -11,6 +11,7 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 import { TrendNanoPresentationMode } from '@/components/trend/presentation-mode-nano';
 import { TrendHomePresentationMode } from '@/components/trend/presentation-mode-home';
+import TrendOfficePpt from '@/components/trend/ppt-office';
 
 type Branch = 'home' | 'nano';
 
@@ -299,10 +300,13 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
   const [homeSlide, setHomeSlide] = useState(0);
   const [showNano, setShowNano] = useState(false);
   const [showHome, setShowHome] = useState(false);
+  const [showOfficePpt, setShowOfficePpt] = useState(false);
 
   // Lê o parâmetro ?t= para deep-link direto ao produto
   useEffect(() => {
-    const t = new URLSearchParams(window.location.search).get('t') as Branch | null;
+    const raw = new URLSearchParams(window.location.search).get('t');
+    if (raw && raw.includes('ppt_office')) { setShowOfficePpt(true); return; }
+    const t = raw as Branch | null;
     if (t === 'nano' || t === 'home') {
       setSelected(t);
       setBranch(t);
@@ -335,6 +339,11 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
 
   const openNano = useCallback(() => { setNanoSlide(0); setShowNano(true); }, []);
   const openHome = useCallback(() => { setHomeSlide(0); setShowHome(true); }, []);
+
+  // ── APRESENTAÇÃO OFFICE (deep-link ?t=nano/ppt_office) ──
+  if (showOfficePpt) {
+    return <TrendOfficePpt />;
+  }
 
   // ── LANDING ──
   if (selected === null) {
