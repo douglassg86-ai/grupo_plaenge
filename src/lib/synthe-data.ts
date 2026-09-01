@@ -14,26 +14,26 @@ export interface Unit {
 
 const _rawUnits: Unit[] = [
   // Andar 3 — Tipo A (01=176.8 / 02=180.39)
-  { id: 200001, code: '0301', type: 'Apartamento — 3 Suítes', floor: 3,  prumada: '1', area: 176.8,  price: 3177350, status: 'available' },
-  { id: 200002, code: '0302', type: 'Apartamento — 3 Suítes', floor: 3,  prumada: '2', area: 180.39, price: 3199000, status: 'available' },
+  { id: 200001, code: '0301', type: 'Apartamento — 3 Suítes', floor: 3,  prumada: '1', area: 176.8,  price: 3196740, status: 'available' },
+  { id: 200002, code: '0302', type: 'Apartamento — 3 Suítes', floor: 3,  prumada: '2', area: 180.39, price: 3218520, status: 'available' },
   // Andar 4 — Tipo B (01=180.3 / 02=176.89)
-  { id: 200003, code: '0401', type: 'Apartamento — 3 Suítes', floor: 4,  prumada: '1', area: 180.3,  price: 3219240, status: 'available' },
-  { id: 200004, code: '0402', type: 'Apartamento — 3 Suítes', floor: 4,  prumada: '2', area: 176.89, price: 3200960, status: 'available' },
+  { id: 200003, code: '0401', type: 'Apartamento — 3 Suítes', floor: 4,  prumada: '1', area: 180.3,  price: 3238880, status: 'available' },
+  { id: 200004, code: '0402', type: 'Apartamento — 3 Suítes', floor: 4,  prumada: '2', area: 176.89, price: 3220490, status: 'available' },
   // Andar 5 — Tipo A
-  { id: 200005, code: '0501', type: 'Apartamento — 3 Suítes', floor: 5,  prumada: '1', area: 176.8,  price: 3214820, status: 'available' },
-  { id: 200006, code: '0502', type: 'Apartamento — 3 Suítes', floor: 5,  prumada: '2', area: 180.39, price: 3236690, status: 'available' },
+  { id: 200005, code: '0501', type: 'Apartamento — 3 Suítes', floor: 5,  prumada: '1', area: 176.8,  price: 3234440, status: 'available' },
+  { id: 200006, code: '0502', type: 'Apartamento — 3 Suítes', floor: 5,  prumada: '2', area: 180.39, price: 3256440, status: 'available' },
   // Andar 6 — Tipo A
-  { id: 200007, code: '0601', type: 'Apartamento — 3 Suítes', floor: 6,  prumada: '1', area: 176.8,  price: 3242940, status: 'available' },
+  { id: 200007, code: '0601', type: 'Apartamento — 3 Suítes', floor: 6,  prumada: '1', area: 176.8,  price: 3262730, status: 'available' },
   { id: 200008, code: '0602', type: 'Apartamento — 3 Suítes', floor: 6,  prumada: '2', area: 180.39, price: 3242810, status: 'sold' },
   // Andar 7 — Tipo B
-  { id: 200009, code: '0701', type: 'Apartamento — 3 Suítes', floor: 7,  prumada: '1', area: 180.3,  price: 3297780, status: 'available' },
-  { id: 200010, code: '0702', type: 'Apartamento — 3 Suítes', floor: 7,  prumada: '2', area: 176.89, price: 3278990, status: 'available' },
+  { id: 200009, code: '0701', type: 'Apartamento — 3 Suítes', floor: 7,  prumada: '1', area: 180.3,  price: 3317900, status: 'available' },
+  { id: 200010, code: '0702', type: 'Apartamento — 3 Suítes', floor: 7,  prumada: '2', area: 176.89, price: 3299000, status: 'available' },
   // Andar 8 — Tipo A
-  { id: 200011, code: '0801', type: 'Apartamento — 3 Suítes', floor: 8,  prumada: '1', area: 176.8,  price: 3308460, status: 'available' },
-  { id: 200012, code: '0802', type: 'Apartamento — 3 Suítes', floor: 8,  prumada: '2', area: 180.39, price: 3330950, status: 'available' },
+  { id: 200011, code: '0801', type: 'Apartamento — 3 Suítes', floor: 8,  prumada: '1', area: 176.8,  price: 3328650, status: 'available' },
+  { id: 200012, code: '0802', type: 'Apartamento — 3 Suítes', floor: 8,  prumada: '2', area: 180.39, price: 3351270, status: 'available' },
   // Andar 9 — Tipo B
   { id: 200013, code: '0901', type: 'Apartamento — 3 Suítes', floor: 9,  prumada: '1', area: 180.3,  price: 3350160, status: 'sold' },
-  { id: 200014, code: '0902', type: 'Apartamento — 3 Suítes', floor: 9,  prumada: '2', area: 176.89, price: 3341420, status: 'available' },
+  { id: 200014, code: '0902', type: 'Apartamento — 3 Suítes', floor: 9,  prumada: '2', area: 176.89, price: 3361810, status: 'available' },
   // Andar 10 — Tipo A (ambas vendidas; valores interpolados)
   { id: 200015, code: '1001', type: 'Apartamento — 3 Suítes', floor: 10, prumada: '1', area: 176.8,  price: 3355110, status: 'sold' },
   { id: 200016, code: '1002', type: 'Apartamento — 3 Suítes', floor: 10, prumada: '2', area: 180.39, price: 3377930, status: 'sold' },
@@ -42,25 +42,25 @@ const _rawUnits: Unit[] = [
   { id: 200018, code: '1102', type: 'Apartamento — 3 Suítes', floor: 11, prumada: '2', area: 176.89, price: 3398210, status: 'sold' },
   // Andar 12 — Tipo A (ambas vendidas; valores interpolados)
   { id: 200019, code: '1201', type: 'Apartamento — 3 Suítes', floor: 12, prumada: '1', area: 176.8,  price: 3427380, status: 'sold' },
-  { id: 200020, code: '1202', type: 'Apartamento — 3 Suítes', floor: 12, prumada: '2', area: 180.39, price: 3403950, status: 'sold' },
+  { id: 200020, code: '1202', type: 'Apartamento — 3 Suítes', floor: 12, prumada: '2', area: 180.39, price: 3424720, status: 'available' },
   // Andar 13 — Tipo B (ambas vendidas; valores interpolados)
   { id: 200021, code: '1301', type: 'Apartamento — 3 Suítes', floor: 13, prumada: '1', area: 180.3,  price: 3505990, status: 'sold' },
   { id: 200022, code: '1302', type: 'Apartamento — 3 Suítes', floor: 13, prumada: '2', area: 176.89, price: 3480860, status: 'sold' },
   // Andar 14 — Tipo A
-  { id: 200023, code: '1401', type: 'Apartamento — 3 Suítes', floor: 14, prumada: '1', area: 176.8,  price: 3526940, status: 'available' },
-  { id: 200024, code: '1402', type: 'Apartamento — 3 Suítes', floor: 14, prumada: '2', area: 180.39, price: 3550970, status: 'available' },
+  { id: 200023, code: '1401', type: 'Apartamento — 3 Suítes', floor: 14, prumada: '1', area: 176.8,  price: 3548460, status: 'available' },
+  { id: 200024, code: '1402', type: 'Apartamento — 3 Suítes', floor: 14, prumada: '2', area: 180.39, price: 3572640, status: 'available' },
   // Andar 15 — Tipo B
-  { id: 200025, code: '1501', type: 'Apartamento — 3 Suítes', floor: 15, prumada: '1', area: 180.3,  price: 3611860, status: 'available' },
-  { id: 200026, code: '1502', type: 'Apartamento — 3 Suítes', floor: 15, prumada: '2', area: 176.89, price: 3563520, status: 'available' },
+  { id: 200025, code: '1501', type: 'Apartamento — 3 Suítes', floor: 15, prumada: '1', area: 180.3,  price: 3633900, status: 'available' },
+  { id: 200026, code: '1502', type: 'Apartamento — 3 Suítes', floor: 15, prumada: '2', area: 176.89, price: 3563520, status: 'sold' },
   // Andar 16 — Tipo A
-  { id: 200027, code: '1601', type: 'Apartamento — 3 Suítes', floor: 16, prumada: '1', area: 176.8,  price: 3620590, status: 'available' },
-  { id: 200028, code: '1602', type: 'Apartamento — 3 Suítes', floor: 16, prumada: '2', area: 180.39, price: 3617010, status: 'available' },
+  { id: 200027, code: '1601', type: 'Apartamento — 3 Suítes', floor: 16, prumada: '1', area: 176.8,  price: 3620590, status: 'sold' },
+  { id: 200028, code: '1602', type: 'Apartamento — 3 Suítes', floor: 16, prumada: '2', area: 180.39, price: 3617010, status: 'sold' },
   // Andar 17 — Tipo B
-  { id: 200029, code: '1701', type: 'Apartamento — 3 Suítes', floor: 17, prumada: '1', area: 180.3,  price: 3674700, status: 'available' },
-  { id: 200030, code: '1702', type: 'Apartamento — 3 Suítes', floor: 17, prumada: '2', area: 176.89, price: 3625470, status: 'available' },
+  { id: 200029, code: '1701', type: 'Apartamento — 3 Suítes', floor: 17, prumada: '1', area: 180.3,  price: 3697120, status: 'available' },
+  { id: 200030, code: '1702', type: 'Apartamento — 3 Suítes', floor: 17, prumada: '2', area: 176.89, price: 3625470, status: 'sold' },
   // Andar 18 — Penthouse
   { id: 200031, code: '1801', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 18, prumada: '1', area: 295.99, price: 4435300, status: 'sold' },
-  { id: 200032, code: '1802', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 18, prumada: '2', area: 295.99, price: 4469900, status: 'sold' },
+  { id: 200032, code: '1802', type: 'Penthouse — 3 Suítes + Rooftop Privativo', floor: 18, prumada: '2', area: 295.99, price: 4497170, status: 'available' },
 ];
 
 export const units = applyOv(_rawUnits, 'synthe')

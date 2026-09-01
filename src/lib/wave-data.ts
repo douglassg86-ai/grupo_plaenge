@@ -13,63 +13,47 @@ export interface Lot {
   }
 
 const lotData = {
-    'Quadra A': { 'A L11': { price: '527.590,00', area: '319,55', type: 'SECO' } },
-    'Quadra B': { 'B L5': { price: '459.190,00', area: '278,12', type: 'SECO' } },
+    'Quadra A': { 'A L11': { price: '530.810,00', area: '319,55', type: 'SECO' } },
+    'Quadra B': { 'B L5': { price: '462.000,00', area: '278,12', type: 'SECO' } },
     'Quadra C': {
-        'C L2': { price: '540.510,00', area: '280,20', type: 'CANTO/LAGO' },
-        'C L5': { price: '586.760,00', area: '304,18', type: 'LAGO' },
-        'C L9': { price: '532.070,00', area: '275,83', type: 'LAGO' }
+        'C L1': { price: '662.420,00', area: '341,32', type: 'CANTO/LAGO' },
+        'C L2': { price: '543.810,00', area: '280,20', type: 'CANTO/LAGO' },
+        'C L5': { price: '590.340,00', area: '304,18', type: 'LAGO' },
+        'C L9': { price: '535.320,00', area: '275,83', type: 'LAGO' }
     },
-    'Quadra D': {
-        'D L5': { price: '340.300,00', area: '243,36', type: 'JARDIM' }
-    },
+    'Quadra D': {},
     'Quadra E': {
-        'E L9':  { price: '697.880,00', area: '323,63', type: 'LAGO' },
-        'E L10': { price: '633.950,00', area: '294,33', type: 'LAGO' },
-        'E L13': { price: '579.480,00', area: '285,45', type: 'LAGO' },
-        'E L15': { price: '570.910,00', area: '281,23', type: 'LAGO' },
-        'E L18': { price: '668.870,00', area: '310,18', type: 'LAGO' },
-        'E L19': { price: '769.620,00', area: '356,90', type: 'LAGO' },
-        'E L20': { price: '683.380,00', area: '316,91', type: 'LAGO' },
-        'E L23': { price: '608.570,00', area: '296,09', type: 'LAGO' },
-        'E L24': { price: '594.510,00', area: '289,25', type: 'LAGO' }
+        'E L9':  { price: '702.140,00', area: '323,63', type: 'LAGO' },
+        'E L10': { price: '637.820,00', area: '294,33', type: 'LAGO' },
+        'E L12': { price: '574.280,00', area: '281,17', type: 'LAGO' },
+        'E L13': { price: '583.020,00', area: '285,45', type: 'LAGO' },
+        'E L15': { price: '574.400,00', area: '281,23', type: 'LAGO' },
+        'E L18': { price: '672.960,00', area: '310,18', type: 'LAGO' },
+        'E L19': { price: '774.320,00', area: '356,90', type: 'LAGO' },
+        'E L20': { price: '687.550,00', area: '316,91', type: 'LAGO' },
+        'E L23': { price: '612.290,00', area: '296,09', type: 'LAGO' },
+        'E L24': { price: '598.140,00', area: '289,25', type: 'LAGO' }
     },
     'Quadra F': {
-        'F L7':  { price: '662.450,00', area: '290,20', type: 'LAGO' },
-        'F L8':  { price: '670.750,00', area: '293,83', type: 'LAGO' },
-        'F L10': { price: '710.440,00', area: '311,22', type: 'LAGO' },
-        'F L20': { price: '529.850,00', area: '261,00', type: 'LAGO' }
+        'F L7':  { price: '666.500,00', area: '290,20', type: 'LAGO' },
+        'F L8':  { price: '674.850,00', area: '293,83', type: 'LAGO' },
+        'F L10': { price: '714.780,00', area: '311,22', type: 'LAGO' },
+        'F L20': { price: '533.090,00', area: '261,00', type: 'LAGO' }
     },
-    'Quadra G': { 'G L9': { price: '636.150,00', area: '264,06', type: 'LAGO' } },
+    'Quadra G': { 'G L9': { price: '640.040,00', area: '264,06', type: 'LAGO' } },
     'Quadra H': {
-        'H L1':  { price: '848.160,00', area: '417,80', type: 'LAGO' },
-        'H L2':  { price: '825.950,00', area: '406,86', type: 'LAGO' },
-        'H L3':  { price: '795.780,00', area: '392,00', type: 'LAGO' },
-        'H L5':  { price: '746.570,00', area: '346,21', type: 'LAGO' },
-        'H L10': { price: '593.610,00', area: '287,93', type: 'LAGO' }
+        'H L1':  { price: '853.340,00', area: '417,80', type: 'LAGO' },
+        'H L2':  { price: '830.990,00', area: '406,86', type: 'LAGO' },
+        'H L3':  { price: '800.640,00', area: '392,00', type: 'LAGO' },
+        'H L5':  { price: '751.130,00', area: '346,21', type: 'LAGO' },
+        'H L10': { price: '597.240,00', area: '287,93', type: 'LAGO' }
     },
-    'Quadra I': {
-        'I L1':  { price: '650.060,00', area: '301,45', type: 'LAGO' },
-        'I L19': { price: '535.980,00', area: '264,02', type: 'LAGO' },
-        'I L20': { price: '620.180,00', area: '305,50', type: 'LAGO' }
-    },
-    'Quadra J': { 'J L13': { price: '775.840,00', area: '339,87', type: 'LAGO' } },
-    'Quadra K': {
-        'K L20': { price: '495.660,00', area: '244,16', type: 'LAGO' },
-        'K L26': { price: '495.880,00', area: '244,27', type: 'LAGO' },
-        'K L33': { price: '578.750,00', area: '253,53', type: 'LAGO' }
-    },
+    'Quadra I': {},
+    'Quadra J': {},
+    'Quadra K': {},
     'Quadra L': {},
-    'Quadra M': {
-        'M L6': { price: '303.240,00', area: '240,00', type: 'JARDIM' }
-    },
-    'Quadra N': {
-        'N L3':  { price: '623.990,00', area: '273,35', type: 'LAGO' },
-        'N L9':  { price: '503.600,00', area: '244,27', type: 'LAGO' },
-        'N L15': { price: '502.950,00', area: '243,95', type: 'LAGO' },
-        'N L18': { price: '545.440,00', area: '268,68', type: 'CANTO/LAGO' },
-        'N L20': { price: '509.440,00', area: '267,60', type: 'CANTO/LAGO' }
-    }
+    'Quadra M': {},
+    'Quadra N': {}
 };
 
 export const blockTotals: Record<string, number> = {

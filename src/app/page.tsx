@@ -88,7 +88,9 @@ export default function Home() {
                                 <div
                                   className="w-full py-1.5 text-center text-xs font-semibold tracking-widest uppercase"
                                   style={{
-                                    background: project.deliveryLabel.startsWith('Pronto')
+                                    background: project.deliveryLabel === '100% Vendido'
+                                      ? 'rgba(220,38,38,0.90)'
+                                      : project.deliveryLabel.startsWith('Pronto')
                                       ? 'rgba(34,197,94,0.85)'
                                       : project.deliveryLabel === 'Pré-lançamento'
                                       ? 'rgba(234,179,8,0.85)'

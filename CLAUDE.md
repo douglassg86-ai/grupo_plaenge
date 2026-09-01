@@ -5,7 +5,7 @@
 - **Local:** `/Users/douglasgoncalves/Desktop/IA 22-06-26/grupo_plaenge`
 - **Assets fonte:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/Produtos/`
 - **Disponibilidade (xlsx):** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/DISPONIBILIDADE/`
-- **Tabelas de pagamento (PDF):** pasta `ajustes/TABELAS AGOSTO/` no projeto local (atualizar mensalmente — renomear pasta para o mês corrente)
+- **Tabelas de pagamento (PDF):** pasta `ajustes/TABELAS SETEMBRO/` no projeto local (atualizar mensalmente — renomear pasta para o mês corrente)
 - **Books PDF:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/BOOKS/` (alguns dentro da pasta do produto)
 
 ## Stack
@@ -58,19 +58,19 @@ Apenas estes existem em `src/components/ui/`:
 11. **Admin push rejected** — antes de push, `git pull --rebase` (admin commita diretamente no GitHub)
 12. **EDITION tem duas torres** — `'Torre Jardim Cristofel'` e `'Torre Doutor Vale'`, ambas no mesmo `edition-data.ts`. Os códigos de andar se repetem (ex. `'0701'` existe em cada torre). Ao mapear código→ID sempre filtrar por campo `tower`. Atualizar preços e disponibilidade por `id`, nunca só por código.
 
-## Condições de pagamento (tabela agosto/2026)
+## Condições de pagamento (tabela setembro/2026)
 | Produto | Plano |
 |---------|-------|
-| YUNA | Entrada 15%(5x) · Mensais 10%(11x) · Reforços 15%(2x) · Financiamento 60% (39%+20,9% pós 23x) |
-| EDITION | Entrada 20%(4x) · Mensais 15%(20x) · Reforços 15%(3x) · Financiamento 50% (pós 15x incluso) |
+| YUNA | Entrada 15%(5x) · Mensais 10%(10x) · Reforços 15%(2x) · Financiamento 60% (39%+20,9% pós 23x) |
+| EDITION | Entrada 20%(4x) · Mensais 15%(19x) · Reforços 15%(3x) · Financiamento 50% (pós 15x incluso) |
 | MOOD | Entrada 20%(1x) · Financiamento 80% |
-| ORBITALE | Entrada 40%(1x) · Financiamento 60% |
-| VERDANT | Entrada 15%(5x) · Mensais 10%(4x) · Reforços 10%(2x) · Financiamento 65% |
-| TREND Home | Entrada 15%(5x) · Mensais 10%(21x) · Reforços 15%(3x) · Financiamento 60% (54%+6,2% pós 13x) |
-| TREND Nano | Entrada 20%(4x) · Financiamento 80% |
+| ORBITALE | **100% Vendido** — sem tabela |
+| VERDANT | Entrada 15%(5x) · Mensais 10%(3x) · Reforços 10%(2x) · Financiamento 65% |
+| TREND Home | Entrada 15%(5x) · Mensais 10%(20x) · Reforços 15%(3x) · Financiamento 60% (54%+6,2% pós 13x) |
+| TREND Nano | Entrada 20%(3x) · Financiamento 80% |
 | WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
-| SHIFT | Entrada 12,5%(5x) · Mensais 9%(28x) · Reforços 13,5%(3x) · Financiamento 65% |
-| SYNTHÈ | Entrada 12,5%(5x) · Mensais 15%(31x) · Reforços 12,5%(5x) · Saldo 60% (58,55%+1,45% pós 3x) |
+| SHIFT | Entrada 12,5%(5x) · Mensais 9%(27x) · Reforços 13,5%(3x) · Financiamento 65% |
+| SYNTHÈ | Entrada 12,5%(5x) · Mensais 15%(30x) · Reforços 12,5%(5x) · Saldo 60% (58,55%+1,45% pós 3x) |
 
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 
@@ -80,7 +80,7 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 3. Unidades **ausentes** do PDF = vendidas. Unidades **presentes** = disponíveis.
 4. `availability-overrides.json` é keyed por **id numérico** da unidade (não código). Sempre buscar por `id`.
 5. Ao atualizar preços linha a linha (não por replace em massa), usar o campo `id` para identificar a unidade unicamente — especialmente na EDITION onde o mesmo código existe em duas torres.
-6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/28` · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + 28×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`.
+6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/27` · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + 27×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`.
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
 
 ## Apresentações fullscreen

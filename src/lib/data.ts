@@ -19,7 +19,7 @@ export const projects: Project[] = [
     name: 'ORBITALE',
     brand: 'Plaenge',
     slug: 'orbitale',
-    deliveryLabel: 'Pronto para morar',
+    deliveryLabel: '100% Vendido',
     description:
       'Um marco arquitetônico que redefine o horizonte da cidade. ORBITALE combina design futurista com conforto e sofisticação, oferecendo uma experiência de vida única e vistas panorâmicas espetaculares.',
     heroImageId: 'orbitale-hero',

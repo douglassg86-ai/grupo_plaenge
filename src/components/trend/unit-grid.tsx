@@ -11,13 +11,13 @@ import { PaymentBreakdown, type PaymentStep } from '@/components/shared/payment-
 
 const PLAN_HOME: PaymentStep[] = [
   { label: 'Entrada',       pct: 0.15, count: 5  },
-  { label: 'Mensais',       pct: 0.10, count: 21 },
+  { label: 'Mensais',       pct: 0.10, count: 20 },
   { label: 'Reforços',      pct: 0.15, count: 3  },
   { label: 'Financiamento', pct: 0.60, count: 1  },
 ];
 
 const PLAN_NANO: PaymentStep[] = [
-  { label: 'Entrada',       pct: 0.20, count: 4 },
+  { label: 'Entrada',       pct: 0.20, count: 3 },
   { label: 'Financiamento', pct: 0.80, count: 1 },
 ];
 

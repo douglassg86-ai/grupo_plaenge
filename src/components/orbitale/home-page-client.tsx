@@ -152,6 +152,7 @@ export default function OrbitaleHomePageClient({ isClientePage = false }: { isCl
             Petrópolis · Porto Alegre
           </p>
           <span className="inline-block mb-3 px-3 py-1 rounded-full bg-green-500/90 text-white text-xs font-semibold tracking-wide">✓ Pronto para morar</span>
+          <span className="inline-block mb-3 ml-2 px-3 py-1 rounded-full bg-red-600/90 text-white text-xs font-semibold tracking-wide">100% Vendido</span>
           <Image src="/ORBITALE/logo_orbitale.png" alt="ORBITALE" width={240} height={80}
             className="brightness-0 invert mb-4" />
           <p className="text-white/80 text-base max-w-md leading-relaxed">
@@ -303,10 +304,10 @@ export default function OrbitaleHomePageClient({ isClientePage = false }: { isCl
         {!isClientePage && (
           <>
             {/* DISPONIBILIDADE */}
-            <div className="bg-card rounded-2xl p-8 md:p-10">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Disponibilidade</p>
-              <h2 className="font-display text-3xl text-foreground mb-6">Unidades Disponíveis</h2>
-              <UnitGrid />
+            <div className="bg-card rounded-2xl p-8 md:p-10 text-center">
+              <span className="inline-block mb-4 px-4 py-2 rounded-full bg-red-600 text-white text-sm font-bold tracking-wide">100% Vendido</span>
+              <h2 className="font-display text-3xl text-foreground mb-3">Todas as Unidades Vendidas</h2>
+              <p className="text-muted-foreground max-w-lg mx-auto">O ORBITALE encerrou suas vendas. Agradecemos a confiança de todos os clientes. Conheça nosso portfólio de lançamentos disponíveis.</p>
             </div>
 
             {/* IMPLANTAÇÃO DAS UNIDADES */}
