@@ -156,11 +156,8 @@
   },
   "wave": {
     "23": "available",
-    "37": "negotiation",
     "67": "available",
-    "69": "negotiation",
-    "199": "negotiation",
-    "222": "available"
+    "69": "negotiation"
   },
   "shift": {
     "52": "sold",

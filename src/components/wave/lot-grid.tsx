@@ -85,7 +85,7 @@ export default function LotGrid({ lots, blockTotals, onLotSelect }: LotGridProps
                         <Button
                             key={lot.id}
                             onClick={() => onLotSelect(lot)}
-                            disabled={lot.status === 'sold'}
+                            disabled={lot.status === 'sold' || lot.price === 0}
                             className={cn(
                             'h-10 text-xs font-bold relative p-0',
                             {
