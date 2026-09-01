@@ -75,13 +75,16 @@ Apenas estes existem em `src/components/ui/`:
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 
 ## Atualização mensal de preços e disponibilidade
-1. PDFs das tabelas entram na pasta `ajustes/TABELAS AGOSTO/` (renomear para o mês corrente a cada atualização)
+1. PDFs das tabelas entram na pasta `ajustes/TABELAS SETEMBRO/` (renomear para o mês corrente a cada atualização)
 2. Usar `pdfplumber` para extrair preços — formato BRL com espaços: `re.sub(r'R\$\s*','',v).replace(' ','').replace('.','').replace(',','.')` → `int(float(...))`
 3. Unidades **ausentes** do PDF = vendidas. Unidades **presentes** = disponíveis.
 4. `availability-overrides.json` é keyed por **id numérico** da unidade (não código). Sempre buscar por `id`.
 5. Ao atualizar preços linha a linha (não por replace em massa), usar o campo `id` para identificar a unidade unicamente — especialmente na EDITION onde o mesmo código existe em duas torres.
 6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/27` · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + 27×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`.
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
+8. **Auditoria obrigatória pós-atualização:** cruzar PDF × dados para cada produto — usar `extract_pdf_codes()` com `re.match(r'^\d{3,4}$', c)` + `.zfill(4)` (códigos do PDF não têm zero à esquerda). Verificar: (a) unidades marcadas available mas ausentes do PDF → corrigir para sold; (b) unidades presentes no PDF mas marcadas sold nos dados → corrigir para available. Após corrigir status, revisar `availability-overrides.json` para remover overrides conflitantes ou redundantes.
+9. **ORBITALE:** 100% Vendido desde setembro/2026 — sem tabela. Página mostra card de encerramento; card na home tem ribbon vermelho (`deliveryLabel: '100% Vendido'`).
+10. **WAVE lotes vendidos:** lotes com `price: 0` (quadras sem entradas no `lotData`) devem ser desabilitados no `lot-grid.tsx` — guard `disabled={lot.status === 'sold' || lot.price === 0}`. Overrides no `availability-overrides.json` para lotes sem preço devem ser removidos.
 
 ## Apresentações fullscreen
 Existem apresentações em **5 produtos** (mais 1 institucional e 1 multi-produto) — nem todos seguem o mesmo formato. Antes de criar uma nova, decida se ela é do tipo "roteiro de slides" (TREND/VERDANT, para cliente final) ou "PPT corretor" (SYNTHÈ/SHIFT/PPT-PORTIFOLIO, foco comercial/institucional).
