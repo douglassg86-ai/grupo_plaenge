@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, Maximize, Minimize } from 'lucide-react';
 
 const DARK = '#0A0A0A';
 const ACC = '#D6876B';
-const TOTAL = 40;
+const TOTAL = 38;
 const SLIDE = (n: number) => `/TREND/ppt_office/slide-${String(n + 1).padStart(2, '0')}.webp`;
 
 export default function TrendOfficePpt() {
