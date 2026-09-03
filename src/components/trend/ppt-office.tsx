@@ -9,11 +9,36 @@ const ACC = '#D6876B';
 const TOTAL = 38;
 const SLIDE = (n: number) => `/TREND/ppt_office/slide-${String(n + 1).padStart(2, '0')}.webp`;
 
+const PASSWORD = 'plaenge.peano2026';
+const AUTH_KEY = 'tdo_ppt_auth';
+
 export default function TrendOfficePpt() {
   const [slide, setSlide] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchX = useRef<number | null>(null);
+
+  // ── acesso restrito ──
+  const [authed, setAuthed] = useState(false);
+  const [pw, setPw] = useState('');
+  const [pwErr, setPwErr] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(AUTH_KEY) === '1') setAuthed(true);
+    } catch { /* sessionStorage indisponível */ }
+  }, []);
+
+  const submitPw = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    if (pw.trim() === PASSWORD) {
+      setAuthed(true);
+      setPwErr(false);
+      try { sessionStorage.setItem(AUTH_KEY, '1'); } catch { /* ignore */ }
+    } else {
+      setPwErr(true);
+    }
+  }, [pw]);
 
   const goTo = useCallback((n: number) => {
     setSlide((prev) => {
@@ -65,6 +90,46 @@ export default function TrendOfficePpt() {
 
   // keep a small window of slides mounted for instant transitions
   const window_ = [slide - 1, slide, slide + 1, slide + 2].filter((n) => n >= 0 && n < TOTAL);
+
+  // ── tela de acesso ──
+  if (!authed) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center px-6" style={{ background: DARK }}>
+        <div className="w-full max-w-sm text-center">
+          <p className="uppercase" style={{ color: ACC, fontSize: '0.7rem', letterSpacing: '0.3em', marginBottom: 14 }}>
+            Trend&nbsp;Downtown&nbsp;Office
+          </p>
+          <h1 className="text-white" style={{ fontSize: '1.35rem', fontWeight: 300, letterSpacing: '0.02em', marginBottom: 6 }}>
+            Apresentação restrita
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', marginBottom: 26 }}>
+            Informe a senha para visualizar.
+          </p>
+          <form onSubmit={submitPw} className="flex flex-col gap-3">
+            <input
+              type="password"
+              autoFocus
+              value={pw}
+              onChange={(e) => { setPw(e.target.value); setPwErr(false); }}
+              placeholder="Senha"
+              className="w-full rounded-md px-4 py-3 text-white outline-none"
+              style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${pwErr ? '#C0603F' : 'rgba(255,255,255,0.18)'}`, letterSpacing: '0.04em' }}
+            />
+            {pwErr && (
+              <p style={{ color: '#D6876B', fontSize: '0.78rem' }}>Senha incorreta.</p>
+            )}
+            <button
+              type="submit"
+              className="w-full rounded-md px-4 py-3 transition-opacity hover:opacity-90"
+              style={{ background: ACC, color: DARK, fontWeight: 600, fontSize: '0.8rem', letterSpacing: '0.15em' }}
+            >
+              ENTRAR
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
