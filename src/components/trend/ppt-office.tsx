@@ -6,13 +6,27 @@ import { ChevronLeft, ChevronRight, Maximize, Minimize } from 'lucide-react';
 
 const DARK = '#0A0A0A';
 const ACC = '#D6876B';
-const TOTAL = 38;
-const SLIDE = (n: number) => `/TREND/ppt_office/slide-${String(n + 1).padStart(2, '0')}.webp`;
 
 const PASSWORD = 'plaenge.peano2026';
 const AUTH_KEY = 'tdo_ppt_auth';
 
-export default function TrendOfficePpt() {
+type Props = {
+  /** pasta em /public com os slides (sem barra final) */
+  dir?: string;
+  /** número de slides */
+  total?: number;
+  /** exigir senha antes de exibir */
+  gated?: boolean;
+};
+
+export default function TrendOfficePpt({
+  dir = '/TREND/ppt_office',
+  total = 38,
+  gated = true,
+}: Props = {}) {
+  const TOTAL = total;
+  const SLIDE = (n: number) => `${dir}/slide-${String(n + 1).padStart(2, '0')}.webp`;
+
   const [slide, setSlide] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +106,7 @@ export default function TrendOfficePpt() {
   const window_ = [slide - 1, slide, slide + 1, slide + 2].filter((n) => n >= 0 && n < TOTAL);
 
   // ── tela de acesso ──
-  if (!authed) {
+  if (gated && !authed) {
     return (
       <div className="fixed inset-0 flex items-center justify-center px-6" style={{ background: DARK }}>
         <div className="w-full max-w-sm text-center">
