@@ -6,6 +6,7 @@
 - **Assets fonte:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/Produtos/`
 - **Disponibilidade (xlsx):** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/DISPONIBILIDADE/`
 - **Tabelas de pagamento (PDF):** pasta `ajustes/TABELAS SETEMBRO/` no projeto local (atualizar mensalmente — renomear pasta para o mês corrente)
+- **Tabelas Google Drive (fonte prioritária):** `~/Library/CloudStorage/GoogleDrive-douglassg86@gmail.com/Meu Drive/MESA/Grupo Plaenge/COMERCIAL VA PL POA/GRUPO PLAENGE - EMPREENDIMENTOS/<PRODUTO>/Tabela/` — versão mais recente que a pasta local; usar esta quando disponível
 - **Books PDF:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/BOOKS/` (alguns dentro da pasta do produto)
 
 ## Stack
@@ -82,9 +83,10 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 5. Ao atualizar preços linha a linha (não por replace em massa), usar o campo `id` para identificar a unidade unicamente — especialmente na EDITION onde o mesmo código existe em duas torres.
 6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/27` · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + 27×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`.
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
-8. **Auditoria obrigatória pós-atualização:** cruzar PDF × dados para cada produto — usar `extract_pdf_codes()` com `re.match(r'^\d{3,4}$', c)` + `.zfill(4)` (códigos do PDF não têm zero à esquerda). Verificar: (a) unidades marcadas available mas ausentes do PDF → corrigir para sold; (b) unidades presentes no PDF mas marcadas sold nos dados → corrigir para available. Após corrigir status, revisar `availability-overrides.json` para remover overrides conflitantes ou redundantes.
-9. **ORBITALE:** 100% Vendido desde setembro/2026 — sem tabela. Página mostra card de encerramento; card na home tem ribbon vermelho (`deliveryLabel: '100% Vendido'`).
-10. **WAVE lotes vendidos:** lotes com `price: 0` (quadras sem entradas no `lotData`) devem ser desabilitados no `lot-grid.tsx` — guard `disabled={lot.status === 'sold' || lot.price === 0}`. Overrides no `availability-overrides.json` para lotes sem preço devem ser removidos.
+8. **Fonte prioritária:** sempre usar a tabela do Google Drive (caminho acima) se disponível — pode ser versão mais recente que a pasta local. Caso o usuário compartilhe um PDF direto, usar este como verdade absoluta e auditar vs. dados do site.
+9. **Auditoria obrigatória pós-atualização:** cruzar PDF × dados para cada produto — usar `extract_pdf_codes()` com `re.match(r'^\d{3,4}$', c)` + `.zfill(4)` (códigos do PDF não têm zero à esquerda). Verificar: (a) unidades marcadas available mas ausentes do PDF → corrigir para sold; (b) unidades presentes no PDF mas marcadas sold nos dados → corrigir para available. Após corrigir status, revisar `availability-overrides.json` para remover overrides conflitantes ou redundantes. Unidades com status `negotiation` na base e override `available` contam como disponíveis — verificar também seus preços.
+10. **ORBITALE:** 100% Vendido desde setembro/2026 — sem tabela. Página mostra card de encerramento; card na home tem ribbon vermelho (`deliveryLabel: '100% Vendido'`).
+11. **WAVE lotes vendidos:** lotes com `price: 0` (quadras sem entradas no `lotData`) devem ser desabilitados no `lot-grid.tsx` — guard `disabled={lot.status === 'sold' || lot.price === 0}`. Overrides no `availability-overrides.json` para lotes sem preço devem ser removidos.
 
 ## Apresentações fullscreen
 Existem apresentações em **5 produtos** (mais 1 institucional e 1 multi-produto) — nem todos seguem o mesmo formato. Antes de criar uma nova, decida se ela é do tipo "roteiro de slides" (TREND/VERDANT, para cliente final) ou "PPT corretor" (SYNTHÈ/SHIFT/PPT-PORTIFOLIO, foco comercial/institucional).
