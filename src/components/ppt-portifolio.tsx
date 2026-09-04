@@ -632,72 +632,100 @@ function SlideMoodCampanha({ onFullscreen, isFullscreen }: FullscreenProps) {
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#080808' }}>
       <style>{`
         @keyframes moodBikeIn {
-          0%   { opacity: 0; transform: translateX(80px) scale(0.95); }
+          0%   { opacity: 0; transform: translateX(120px) scale(0.88); }
           100% { opacity: 1; transform: translateX(0) scale(1); }
         }
         @keyframes moodTextUp {
-          0%   { opacity: 0; transform: translateY(30px); }
+          0%   { opacity: 0; transform: translateY(28px); }
           100% { opacity: 1; transform: translateY(0); }
         }
-        @keyframes moodElemFloat {
+        @keyframes moodSealIn {
+          0%   { opacity: 0; transform: scale(0.5) rotate(-15deg); }
+          70%  { transform: scale(1.08) rotate(3deg); }
+          100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        @keyframes moodSealFloat {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50%       { transform: translateY(-12px) rotate(2deg); }
+          50%       { transform: translateY(-8px) rotate(4deg); }
         }
         @keyframes moodLineIn {
           0%   { transform: scaleX(0); transform-origin: left; }
           100% { transform: scaleX(1); transform-origin: left; }
         }
+        @keyframes moodGlow {
+          0%, 100% { opacity: 0.55; }
+          50%       { opacity: 0.8; }
+        }
       `}</style>
 
-      {/* Background gradient */}
-      <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 90% 70% at 20% 60%, rgba(196,148,58,0.08) 0%, transparent 60%), #080808'
+      {/* Fundo: glow dourado sutil no centro-direita */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 65% 80% at 75% 50%, rgba(196,148,58,0.13) 0%, transparent 65%), #080808',
+        animation: 'moodGlow 4s ease-in-out infinite',
       }} />
 
-      {/* Elementos decorativos (esquerda, fundo) */}
-      <div
-        className="absolute left-0 bottom-0 w-[45%] h-[80%] pointer-events-none"
-        style={{ opacity: 0.12, animation: 'moodElemFloat 6s ease-in-out infinite' }}
-      >
-        <Image src="/MOOD/campanha_elementos01.png" alt="" fill className="object-contain object-left-bottom" />
-      </div>
+      {/* Linha gold topo */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none" style={{
+        background: `linear-gradient(90deg, transparent 0%, ${GOLD} 35%, transparent 100%)`
+      }} />
 
-      {/* Elementos 2 (canto sup direito, decorativo) */}
+      {/* ─── BIKE (PNG transparente) — hero visual ─── */}
       <div
-        className="absolute right-0 top-0 w-[30%] h-[50%] pointer-events-none"
-        style={{ opacity: 0.1, animation: 'moodElemFloat 7s ease-in-out 1s infinite' }}
-      >
-        <Image src="/MOOD/campanha_elementos02.png" alt="" fill className="object-contain object-right-top" />
-      </div>
-
-      {/* KV bike — lado direito */}
-      <div
-        className="absolute right-0 top-0 bottom-0 w-[58%]"
-        style={{ animation: 'moodBikeIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both' }}
+        className="absolute right-[-4%] bottom-0 h-[92%]"
+        style={{
+          width: '58%',
+          animation: 'moodBikeIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both',
+        }}
       >
         <Image
-          src="/MOOD/campanha_bike_kv.png"
-          alt="Campanha Bicicleta"
+          src="/MOOD/campanha_bike_eletrica.png"
+          alt="Bicicleta Elétrica"
           fill
           className="object-contain"
-          style={{ objectPosition: 'right center' }}
+          style={{ objectPosition: 'right bottom' }}
         />
       </div>
 
-      {/* Gradiente de fusão esquerda */}
+      {/* Selo / elemento 1 — canto superior direito */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: '8%', right: '6%',
+          width: 'clamp(80px, 10vw, 130px)',
+          height: 'clamp(80px, 10vw, 130px)',
+          animation: 'moodSealIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both, moodSealFloat 5s ease-in-out 1.8s infinite',
+        }}
+      >
+        <Image src="/MOOD/campanha_elementos01.png" alt="" fill className="object-contain" />
+      </div>
+
+      {/* Selo / elemento 2 — área central inferior direita */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: '10%', right: '30%',
+          width: 'clamp(60px, 8vw, 110px)',
+          height: 'clamp(60px, 8vw, 110px)',
+          animation: 'moodSealIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s both, moodSealFloat 6s ease-in-out 2s infinite',
+        }}
+      >
+        <Image src="/MOOD/campanha_elementos02.png" alt="" fill className="object-contain" />
+      </div>
+
+      {/* Gradiente de fusão texto/bike */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'linear-gradient(to right, rgba(8,8,8,1) 0%, rgba(8,8,8,0.95) 30%, rgba(8,8,8,0.7) 45%, rgba(8,8,8,0.1) 65%, transparent 80%)'
+        background: 'linear-gradient(to right, rgba(8,8,8,1) 0%, rgba(8,8,8,0.97) 32%, rgba(8,8,8,0.6) 48%, rgba(8,8,8,0.05) 65%)'
       }} />
 
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
 
-      {/* Conteúdo esquerda */}
-      <div className="absolute left-0 top-0 bottom-0 w-[52%] flex flex-col justify-center pl-16 pr-8 gap-5">
+      {/* ─── CONTEÚDO ESQUERDA ─── */}
+      <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-center pl-16 pr-6 gap-4" style={{ width: '48%' }}>
 
         {/* Logo Mood */}
         <div
-          className="relative h-10 w-40"
-          style={{ animation: 'moodTextUp 0.6s ease-out 0.4s both' }}
+          className="relative"
+          style={{ height: '2.6rem', width: '10rem', animation: 'moodTextUp 0.55s ease-out 0.35s both' }}
         >
           <Image
             src="/MOOD/logo_mood.png"
@@ -710,60 +738,66 @@ function SlideMoodCampanha({ onFullscreen, isFullscreen }: FullscreenProps) {
 
         {/* Label campanha */}
         <p
-          className="text-sm font-medium tracking-[0.35em] uppercase"
-          style={{ color: GOLD, animation: 'moodTextUp 0.6s ease-out 0.55s both' }}
+          className="text-sm font-semibold tracking-[0.35em] uppercase"
+          style={{ color: GOLD, animation: 'moodTextUp 0.55s ease-out 0.5s both' }}
         >
           Campanha · Setembro 2026
         </p>
 
-        {/* Headline */}
-        <div style={{ animation: 'moodTextUp 0.7s ease-out 0.65s both' }}>
+        {/* Headline principal */}
+        <div style={{ animation: 'moodTextUp 0.65s ease-out 0.6s both', lineHeight: 0.9 }}>
           <p
-            className="font-black leading-none"
-            style={{ color: WARM, fontSize: 'clamp(3.2rem, 6vw, 6rem)', letterSpacing: '-0.04em' }}
+            className="font-black"
+            style={{ color: WARM, fontSize: 'clamp(2.8rem, 5.5vw, 5.5rem)', letterSpacing: '-0.04em', lineHeight: 0.95 }}
           >
-            BIKE
+            UM MOOD
           </p>
           <p
-            className="font-black leading-none"
-            style={{ color: GOLD, fontSize: 'clamp(3.2rem, 6vw, 6rem)', letterSpacing: '-0.04em' }}
+            className="font-black"
+            style={{ color: WARM, fontSize: 'clamp(2.8rem, 5.5vw, 5.5rem)', letterSpacing: '-0.04em', lineHeight: 0.95 }}
           >
-            ELÉTRICA
+            PARA VIVER.
+          </p>
+          <p
+            className="font-black mt-1"
+            style={{ color: GOLD, fontSize: 'clamp(2.2rem, 4.2vw, 4rem)', letterSpacing: '-0.03em', lineHeight: 1 }}
+          >
+            UMA BIKE ELÉTRICA
+          </p>
+          <p
+            className="font-black"
+            style={{ color: GOLD, fontSize: 'clamp(2.2rem, 4.2vw, 4rem)', letterSpacing: '-0.03em', lineHeight: 1 }}
+          >
+            PARA EXPLORAR.
           </p>
         </div>
 
-        {/* Linha gold */}
+        {/* Linha gold animada */}
         <div
           style={{
             width: '72px', height: '3px', background: GOLD,
-            animation: 'moodLineIn 0.5s ease-out 1s both',
+            animation: 'moodLineIn 0.5s ease-out 0.95s both',
           }}
         />
 
         {/* Descrição */}
         <p
           className="text-base leading-relaxed"
-          style={{ color: 'rgba(240,237,232,0.7)', maxWidth: '360px', animation: 'moodTextUp 0.6s ease-out 1.05s both' }}
+          style={{ color: 'rgba(240,237,232,0.65)', maxWidth: '340px', animation: 'moodTextUp 0.55s ease-out 1s both' }}
         >
-          Na compra de uma unidade do Mood Central Parque, você concorre a uma bicicleta elétrica de alto padrão. Oferta por tempo limitado — consulte condições.
+          Compre seu studio no Mood Central Parque e ganhe uma bicicleta elétrica. Oferta por tempo limitado — consulte condições.
         </p>
 
         {/* Badges */}
         <div
-          className="flex flex-wrap gap-2"
-          style={{ animation: 'moodTextUp 0.6s ease-out 1.2s both' }}
+          className="flex flex-wrap gap-2 mt-1"
+          style={{ animation: 'moodTextUp 0.55s ease-out 1.1s both' }}
         >
-          <span
-            className="text-sm font-semibold px-5 py-2 rounded-full"
-            style={{ background: GOLD, color: BG }}
-          >
+          <span className="text-sm font-semibold px-5 py-2 rounded-full" style={{ background: GOLD, color: BG }}>
             Pronto para morar ou investir
           </span>
-          <span
-            className="text-sm px-4 py-2 rounded-full"
-            style={{ background: 'rgba(240,237,232,0.1)', color: WARM, border: '1px solid rgba(240,237,232,0.2)' }}
-          >
-            R$ 299.000
+          <span className="text-sm px-4 py-2 rounded-full" style={{ background: 'rgba(240,237,232,0.1)', color: WARM, border: '1px solid rgba(240,237,232,0.2)' }}>
+            a partir de R$ 299.000
           </span>
         </div>
       </div>
