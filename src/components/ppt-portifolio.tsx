@@ -21,7 +21,6 @@ interface ProductData {
   plantaLabel: string;
   plantaHorizontal?: boolean;
   extraPlantas?: { img: string; label: string }[];
-  campaignImg?: string;
   addr: string;
   bairro: string;
   price?: string;
@@ -60,7 +59,6 @@ const PRODUCTS: ProductData[] = [
     img: '/MOOD/01_fachada-02.webp',
     plantaImg: '/MOOD/plantas/IMG_9736.webp',
     plantaLabel: 'Studio — 29 m²',
-    campaignImg: '/MOOD/campanha_bike_kv.png',
     addr: 'Rua São Josemaría Escrivá, 585',
     bairro: 'Porto Alegre',
     price: 'R$ 299.000',
@@ -87,8 +85,8 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/TREND/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp',
     plantaLabel: '2 Suítes — 77 m²',
     extraPlantas: [
-      { img: '/TREND/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp', label: '2 Suítes — Apto 01 T1A' },
-      { img: '/TREND/plantas/PNB_PB_19_Planta_Residencial_T1B_Apto_01_EF.webp', label: '2 Suítes — Apto 01 T1B' },
+      { img: '/TREND/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp', label: '2 Suítes — Torre T1A · Apto 01' },
+      { img: '/TREND/plantas/PNB_PB_23_Planta_Residencial_T2_Apto_05_EF.webp',  label: '2 Suítes — Torre T2 · Final 08' },
     ],
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
@@ -104,8 +102,8 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
     extraPlantas: [
-      { img: '/YUNA/plantas/04_VAN_PARECI_APTO_3_DORM_EF.webp', label: 'Apartamento 3 Dorms. — 80 m²' },
-      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. Opção' },
+      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção' },
+      { img: '/YUNA/plantas/04_VAN_PARECI_APTO_3_DORM_EF.webp',    label: 'Apartamento 3 Dorms. — 80 m²' },
     ],
     addr: 'Rua Felizardo Furtado, 348',
     bairro: 'Jardim Botânico · Porto Alegre',
@@ -131,9 +129,10 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/EDITION/plantas/3 suítes_146m2_ Torre Jardim Cristófel.webp',
     plantaLabel: '3 Suítes — 146 m²',
     extraPlantas: [
-      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp', label: '3 Suítes — 172 m² Torre Doutor Vale' },
-      { img: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp', label: '3 Suítes — 206 m² Torre Doutor Vale' },
-      { img: '/EDITION/plantas/4 suítes_322m2_ Torre Jardim Cristofel.webp', label: '4 Suítes — 322 m² Torre Jardim Cristófel' },
+      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
+      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel' },
+      { img: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 206 m² · Torre Doutor Vale' },
+      { img: '/EDITION/plantas/4 suítes_322m2_ Torre Jardim Cristofel.webp',  label: '4 Suítes — 322 m² · Torre Jardim Cristófel' },
     ],
     addr: 'Rua Jardim Cristófel',
     bairro: 'Moinhos de Vento · Porto Alegre',
@@ -189,6 +188,7 @@ type Slide =
   | { k: 'orbitale100' }
   | { k: 'product'; p: ProductData }
   | { k: 'planta';  p: ProductData }
+  | { k: 'moodcampanha' }
   | { k: 'meta1intro' }
   | { k: 'meta1car' }
   | { k: 'meta2intro' }
@@ -203,6 +203,7 @@ const SLIDES: Slide[] = [
   { k: 'orbitale100' },
   ...PRODUCTS.flatMap(p => [
     { k: 'product' as const, p },
+    ...(p.name === 'Mood' ? [{ k: 'moodcampanha' as const }] : []),
     { k: 'planta'  as const, p },
     ...(p.extraPlantas ?? []).map(ep => ({
       k: 'planta' as const,
@@ -535,19 +536,6 @@ function SlideProduct({ p, onFullscreen, isFullscreen }: { p: ProductData } & Fu
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.1) 100%)' }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.6) 0%, transparent 60%)' }} />
 
-      {/* campanha image overlay (Mood bike) */}
-      {p.campaignImg && (
-        <div className="absolute right-0 bottom-0 top-0 w-[45%] overflow-hidden">
-          <Image
-            src={p.campaignImg}
-            alt="Campanha"
-            fill
-            className="object-contain object-right-bottom"
-            style={{ objectPosition: 'right bottom' }}
-          />
-        </div>
-      )}
-
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
 
       <div className="absolute inset-x-0 bottom-0 px-14 pb-12 flex flex-col gap-5">
@@ -633,6 +621,151 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
 
       <div className="flex-1 h-full relative p-6">
         <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" />
+      </div>
+    </div>
+  );
+}
+
+// ── MOOD CAMPANHA BICICLETA ───────────────────────────────────────────────────
+function SlideMoodCampanha({ onFullscreen, isFullscreen }: FullscreenProps) {
+  return (
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#080808' }}>
+      <style>{`
+        @keyframes moodBikeIn {
+          0%   { opacity: 0; transform: translateX(80px) scale(0.95); }
+          100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes moodTextUp {
+          0%   { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes moodElemFloat {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50%       { transform: translateY(-12px) rotate(2deg); }
+        }
+        @keyframes moodLineIn {
+          0%   { transform: scaleX(0); transform-origin: left; }
+          100% { transform: scaleX(1); transform-origin: left; }
+        }
+      `}</style>
+
+      {/* Background gradient */}
+      <div className="absolute inset-0" style={{
+        background: 'radial-gradient(ellipse 90% 70% at 20% 60%, rgba(196,148,58,0.08) 0%, transparent 60%), #080808'
+      }} />
+
+      {/* Elementos decorativos (esquerda, fundo) */}
+      <div
+        className="absolute left-0 bottom-0 w-[45%] h-[80%] pointer-events-none"
+        style={{ opacity: 0.12, animation: 'moodElemFloat 6s ease-in-out infinite' }}
+      >
+        <Image src="/MOOD/campanha_elementos01.png" alt="" fill className="object-contain object-left-bottom" />
+      </div>
+
+      {/* Elementos 2 (canto sup direito, decorativo) */}
+      <div
+        className="absolute right-0 top-0 w-[30%] h-[50%] pointer-events-none"
+        style={{ opacity: 0.1, animation: 'moodElemFloat 7s ease-in-out 1s infinite' }}
+      >
+        <Image src="/MOOD/campanha_elementos02.png" alt="" fill className="object-contain object-right-top" />
+      </div>
+
+      {/* KV bike — lado direito */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-[58%]"
+        style={{ animation: 'moodBikeIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both' }}
+      >
+        <Image
+          src="/MOOD/campanha_bike_kv.png"
+          alt="Campanha Bicicleta"
+          fill
+          className="object-contain"
+          style={{ objectPosition: 'right center' }}
+        />
+      </div>
+
+      {/* Gradiente de fusão esquerda */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'linear-gradient(to right, rgba(8,8,8,1) 0%, rgba(8,8,8,0.95) 30%, rgba(8,8,8,0.7) 45%, rgba(8,8,8,0.1) 65%, transparent 80%)'
+      }} />
+
+      <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+
+      {/* Conteúdo esquerda */}
+      <div className="absolute left-0 top-0 bottom-0 w-[52%] flex flex-col justify-center pl-16 pr-8 gap-5">
+
+        {/* Logo Mood */}
+        <div
+          className="relative h-10 w-40"
+          style={{ animation: 'moodTextUp 0.6s ease-out 0.4s both' }}
+        >
+          <Image
+            src="/MOOD/logo_mood.png"
+            alt="Mood"
+            fill
+            className="object-contain object-left"
+            style={{ filter: 'brightness(0) invert(1)' }}
+          />
+        </div>
+
+        {/* Label campanha */}
+        <p
+          className="text-sm font-medium tracking-[0.35em] uppercase"
+          style={{ color: GOLD, animation: 'moodTextUp 0.6s ease-out 0.55s both' }}
+        >
+          Campanha · Setembro 2026
+        </p>
+
+        {/* Headline */}
+        <div style={{ animation: 'moodTextUp 0.7s ease-out 0.65s both' }}>
+          <p
+            className="font-black leading-none"
+            style={{ color: WARM, fontSize: 'clamp(3.2rem, 6vw, 6rem)', letterSpacing: '-0.04em' }}
+          >
+            BIKE
+          </p>
+          <p
+            className="font-black leading-none"
+            style={{ color: GOLD, fontSize: 'clamp(3.2rem, 6vw, 6rem)', letterSpacing: '-0.04em' }}
+          >
+            ELÉTRICA
+          </p>
+        </div>
+
+        {/* Linha gold */}
+        <div
+          style={{
+            width: '72px', height: '3px', background: GOLD,
+            animation: 'moodLineIn 0.5s ease-out 1s both',
+          }}
+        />
+
+        {/* Descrição */}
+        <p
+          className="text-base leading-relaxed"
+          style={{ color: 'rgba(240,237,232,0.7)', maxWidth: '360px', animation: 'moodTextUp 0.6s ease-out 1.05s both' }}
+        >
+          Na compra de uma unidade do Mood Central Parque, você concorre a uma bicicleta elétrica de alto padrão. Oferta por tempo limitado — consulte condições.
+        </p>
+
+        {/* Badges */}
+        <div
+          className="flex flex-wrap gap-2"
+          style={{ animation: 'moodTextUp 0.6s ease-out 1.2s both' }}
+        >
+          <span
+            className="text-sm font-semibold px-5 py-2 rounded-full"
+            style={{ background: GOLD, color: BG }}
+          >
+            Pronto para morar ou investir
+          </span>
+          <span
+            className="text-sm px-4 py-2 rounded-full"
+            style={{ background: 'rgba(240,237,232,0.1)', color: WARM, border: '1px solid rgba(240,237,232,0.2)' }}
+          >
+            R$ 299.000
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -799,10 +932,11 @@ function RenderSlide({ slide, onFullscreen, isFullscreen }: { slide: Slide } & F
     case 'numbers':     return <SlideNumbers       {...props} />;
     case 'poa':         return <SlidePoa           {...props} />;
     case 'mosaic':      return <SlideMosaic        {...props} />;
-    case 'orbitale100': return <SlideOrbitale100   {...props} />;
-    case 'product':     return <SlideProduct       p={slide.p} {...props} />;
-    case 'planta':      return <SlidePlanta        p={slide.p} {...props} />;
-    case 'meta1intro':  return <SlideMetaIntro1    {...props} />;
+    case 'orbitale100':   return <SlideOrbitale100   {...props} />;
+    case 'product':       return <SlideProduct       p={slide.p} {...props} />;
+    case 'planta':        return <SlidePlanta        p={slide.p} {...props} />;
+    case 'moodcampanha':  return <SlideMoodCampanha  {...props} />;
+    case 'meta1intro':    return <SlideMetaIntro1    {...props} />;
     case 'meta1car':    return <SlideMeta1Car      {...props} />;
     case 'meta2intro':  return <SlideMetaIntro2    {...props} />;
     case 'meta2car':    return <SlideMeta2Car      {...props} />;
