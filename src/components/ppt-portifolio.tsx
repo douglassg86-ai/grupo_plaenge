@@ -527,14 +527,48 @@ function SlideOrbitale100({ onFullscreen, isFullscreen }: FullscreenProps) {
 }
 
 function SlideProduct({ p, onFullscreen, isFullscreen }: { p: ProductData } & FullscreenProps) {
+  const isMood = p.name === 'Mood';
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: BG }}>
+      <style>{`
+        @keyframes sealBounceIn {
+          0%   { opacity: 0; transform: scale(0.4) rotate(-20deg); }
+          65%  { transform: scale(1.1) rotate(5deg); }
+          100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        @keyframes sealFloat {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50%       { transform: translateY(-10px) rotate(5deg); }
+        }
+      `}</style>
       <Image
         src={p.img} alt={p.name} fill className="object-cover"
         style={{ objectPosition: p.bgPos ?? 'center' }}
       />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.1) 100%)' }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.6) 0%, transparent 60%)' }} />
+
+      {/* Selos da campanha Mood — PRONTO e ÚLTIMAS UNIDADES */}
+      {isMood && (
+        <>
+          <div className="absolute pointer-events-none" style={{
+            top: '10%', right: '8%',
+            width: 'clamp(90px, 11vw, 145px)',
+            height: 'clamp(90px, 11vw, 145px)',
+            animation: 'sealBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both, sealFloat 5s ease-in-out 1.2s infinite',
+          }}>
+            <Image src="/MOOD/campanha_elementos01.png" alt="Pronto" fill className="object-contain" />
+          </div>
+          <div className="absolute pointer-events-none" style={{
+            top: '42%', right: '4%',
+            width: 'clamp(70px, 9vw, 120px)',
+            height: 'clamp(70px, 9vw, 120px)',
+            animation: 'sealBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s both, sealFloat 6s ease-in-out 1.5s infinite',
+          }}>
+            <Image src="/MOOD/campanha_elementos02.png" alt="Últimas unidades" fill className="object-contain" />
+          </div>
+        </>
+      )}
 
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
 
@@ -684,32 +718,6 @@ function SlideMoodCampanha({ onFullscreen, isFullscreen }: FullscreenProps) {
           className="object-contain"
           style={{ objectPosition: 'right bottom' }}
         />
-      </div>
-
-      {/* Selo / elemento 1 — canto superior direito */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          top: '8%', right: '6%',
-          width: 'clamp(80px, 10vw, 130px)',
-          height: 'clamp(80px, 10vw, 130px)',
-          animation: 'moodSealIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both, moodSealFloat 5s ease-in-out 1.8s infinite',
-        }}
-      >
-        <Image src="/MOOD/campanha_elementos01.png" alt="" fill className="object-contain" />
-      </div>
-
-      {/* Selo / elemento 2 — área central inferior direita */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          bottom: '10%', right: '30%',
-          width: 'clamp(60px, 8vw, 110px)',
-          height: 'clamp(60px, 8vw, 110px)',
-          animation: 'moodSealIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s both, moodSealFloat 6s ease-in-out 2s infinite',
-        }}
-      >
-        <Image src="/MOOD/campanha_elementos02.png" alt="" fill className="object-contain" />
       </div>
 
       {/* Gradiente de fusão texto/bike */}
