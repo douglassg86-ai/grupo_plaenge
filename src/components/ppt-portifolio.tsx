@@ -86,7 +86,7 @@ const PRODUCTS: ProductData[] = [
     plantaLabel: '2 Suítes — 77 m²',
     extraPlantas: [
       { img: '/TREND/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp', label: '2 Suítes — Torre T1A · Apto 01' },
-      { img: '/TREND/plantas/PNB_PB_23_Planta_Residencial_T2_Apto_05_EF.webp',  label: '2 Suítes — Torre T2 · Final 08' },
+      { img: '/TREND/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF.webp',  label: '2 Suítes — Torre T1B · Final 08' },
     ],
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
@@ -102,7 +102,7 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
     extraPlantas: [
-      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção' },
+      { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido' },
       { img: '/YUNA/plantas/04_VAN_PARECI_APTO_3_DORM_EF.webp',    label: 'Apartamento 3 Dorms. — 80 m²' },
     ],
     addr: 'Rua Felizardo Furtado, 348',
@@ -801,9 +801,6 @@ function SlideMoodCampanha({ onFullscreen, isFullscreen }: FullscreenProps) {
           className="flex flex-wrap gap-2 mt-1"
           style={{ animation: 'moodTextUp 0.55s ease-out 1.1s both' }}
         >
-          <span className="text-sm font-semibold px-5 py-2 rounded-full" style={{ background: GOLD, color: BG }}>
-            Pronto para morar ou investir
-          </span>
           <span className="text-sm px-4 py-2 rounded-full" style={{ background: 'rgba(240,237,232,0.1)', color: WARM, border: '1px solid rgba(240,237,232,0.2)' }}>
             a partir de R$ 299.000
           </span>
