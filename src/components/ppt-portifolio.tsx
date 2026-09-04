@@ -103,7 +103,7 @@ const PRODUCTS: ProductData[] = [
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
     extraPlantas: [
       { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido' },
-      { img: '/YUNA/plantas/04_VAN_PARECI_APTO_3_DORM_EF.webp',    label: 'Apartamento 3 Dorms. — 80 m²' },
+      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp',  label: 'Apartamento 3 Dorms. — Opção' },
     ],
     addr: 'Rua Felizardo Furtado, 348',
     bairro: 'Jardim Botânico · Porto Alegre',
