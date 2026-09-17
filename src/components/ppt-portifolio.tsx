@@ -49,8 +49,8 @@ const PRODUCTS: ProductData[] = [
     plantaLabel: 'Planta Tipo — 145 m²',
     addr: 'Rua Eça de Queiroz, 215',
     bairro: 'Porto Alegre',
-    price: 'R$ 2.160.000',
-    badges: ['Parcelas fixas', 'Últimas unidades', 'Ref. unidade 405'],
+    price: 'R$ 2.099.000',
+    badges: ['Parcelas fixas', 'Últimas unidades', 'Ref. unidade 301'],
     delivery: 'Entrega Abril 2027',
   },
   {
