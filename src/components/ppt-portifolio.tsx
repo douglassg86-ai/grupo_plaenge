@@ -218,16 +218,16 @@ function FsBtn({ onFullscreen, isFullscreen }: FullscreenProps) {
 function SlideCover({ onFullscreen, isFullscreen }: FullscreenProps) {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden" style={{ background: BG }}>
-      {/* Foto aérea noturna de Porto Alegre */}
+      {/* Central de Decorados Plaenge POA — foto noturna */}
       <Image
-        src="/SHIFT/cidade_book_p8_0.webp"
-        alt="Porto Alegre"
+        src="/INSTITUCIONAL/central_decorados_noturna.webp"
+        alt="Central de Decorados Plaenge Porto Alegre"
         fill
         className="object-cover"
-        style={{ objectPosition: 'center 30%', opacity: 0.45 }}
+        style={{ objectPosition: 'center 40%', opacity: 0.55 }}
       />
       {/* lâmina escura para legibilidade */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.55) 50%, rgba(8,8,8,0.4) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.6) 50%, rgba(8,8,8,0.45) 100%)' }} />
       <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
 
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
@@ -272,9 +272,9 @@ function SlideNumbers({ onFullscreen, isFullscreen }: FullscreenProps) {
   return (
     <div className="relative w-full h-full flex overflow-hidden" style={{ background: BG }}>
       <div className="relative w-1/2 h-full overflow-hidden">
-        <Image src="/INSTITUCIONAL/grafismo.webp" alt="Grupo Plaenge" fill className="object-cover opacity-40" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(8,8,8,0) 60%, rgba(8,8,8,1) 100%)' }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 50%)' }} />
+        <Image src="/INSTITUCIONAL/central_decorados_noturna.webp" alt="Central de Decorados Plaenge" fill className="object-cover" style={{ objectPosition: 'center 35%', opacity: 0.7 }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(8,8,8,0) 55%, rgba(8,8,8,1) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.75) 0%, transparent 50%)' }} />
       </div>
 
       <div className="w-1/2 h-full flex flex-col justify-center px-12 gap-6">
