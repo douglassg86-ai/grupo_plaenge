@@ -79,22 +79,6 @@ const PRODUCTS: ProductData[] = [
     delivery: 'Entrega Dez/2026 · Primeira Fase',
   },
   {
-    name: 'Trend Home',
-    logo: '/TREND/logo_home.png',
-    img: '/TREND/PNB_04_Fachada_Residencial_A_EF.webp',
-    plantaImg: '/TREND/plantas/PNB_PB_18_Planta_Residencial_T1A_Apto_04_EF_2.webp',
-    plantaLabel: '2 Suítes — 77 m²',
-    extraPlantas: [
-      { img: '/TREND/plantas/PNB_PB_16_Planta_Residencial_T1A_Apto_01_EF.webp', label: '2 Suítes — Torre T1A · Apto 01' },
-      { img: '/TREND/plantas/PNB_PB_20_Planta_Residencial_T1B_Apto_02_EF.webp',  label: '2 Suítes — Torre T1B · Final 08' },
-    ],
-    addr: 'Rua General Lima e Silva, 1462',
-    bairro: 'Centro Histórico · Porto Alegre',
-    price: 'R$ 939.000',
-    badges: ['Grande oportunidade', 'Ref. unidade 302'],
-    delivery: '',
-  },
-  {
     name: 'Yuna',
     logo: '/YUNA/logo.png',
     img: '/YUNA/IMG-20240704-WA0032.webp',
@@ -154,12 +138,11 @@ const PRODUCTS: ProductData[] = [
 
 // ── MOSAIC DATA ───────────────────────────────────────────────────────────────
 const MOSAIC: MosaicItem[] = [
-  { name: 'YVY',        logo: '/YVY/logo_yvy.png',          img: '/YVY/IMG_9127.webp',                               tag: 'ENTREGUE',       date: 'Mar/2024' },
+  { name: 'YVY',        logo: '/YVY/logo_yvy.png',          img: '/YVY/IMG_9127.webp',                               tag: 'ENTREGUE',       date: 'Mar/2024',  sold100: true },
   { name: 'Orbitale',   logo: '/ORBITALE/logo_orbitale.png', img: '/ORBITALE/01_FACHADA-02.webp',                     tag: 'PRONTO',         date: '',          sold100: true },
   { name: 'Verdant',    logo: '/VERDANT/logo_verdant.png',   img: '/VERDANT/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp', tag: 'ENTREGA',        date: 'Abr/2027',  badge2: 'Últimas unidades' },
   { name: 'Mood',       logo: '/MOOD/logo_mood.png',         img: '/MOOD/01_fachada-02.webp',                         tag: 'PRONTO',         date: '',          badge2: 'Últimas unidades' },
   { name: 'Trend Nano', logo: '/TREND/logo_nano.png',        img: '/TREND/PNB_01_Fotomontagem_EF.webp',               tag: 'ENTREGA',        date: 'Dez/2026' },
-  { name: 'Trend Home', logo: '/TREND/logo_home.png',        img: '/TREND/PNB_01_Fotomontagem_EF.webp',               tag: 'ENTREGA',        date: 'Set/2028' },
   { name: 'Yuna',       logo: '/YUNA/logo.png',              img: '/YUNA/IMG-20240704-WA0032.webp',                   tag: 'ENTREGA',        date: 'Nov/2027' },
   { name: 'SHIFT',      logo: '/SHIFT/logo_shift.png',       img: '/SHIFT/kota_tgd_sil_fachada_4k.webp',              tag: 'ENTREGA',        date: 'Abr/2029',  badge2: 'Últimas unidades' },
   { name: 'Edition',    logo: '/EDITION/logo_edition.png',   img: '/EDITION/JAC_31_Voo_Passaro_EF_v2.webp',           tag: 'ENTREGA',        date: 'Jul/2028' },
@@ -174,7 +157,6 @@ const POA_TIMELINE = [
   { name: 'Verdant',               addr: 'R. Eça de Queiroz, 215',              tag: 'Entrega Abr/2027' },
   { name: 'Yuna Jardim Botânico',  addr: 'R. Felizardo Furtado, 348',           tag: 'Entrega Nov/2027' },
   { name: 'Edition Moinhos',       addr: 'R. Jardim Cristófel · Moinhos',       tag: 'Entrega Jul/2028' },
-  { name: 'Trend Downtown Home',   addr: 'R. General Lima e Silva, 1462',       tag: 'Entrega Set/2028' },
   { name: 'SHIFT',                 addr: 'Silva Jardim c/ R. 24 de Outubro',    tag: 'Entrega Abr/2029' },
   { name: 'Synthè',                addr: "R. Pedro Ivo, 550 · Mont'Serrat",     tag: 'Pré-lançamento' },
 ];
@@ -236,7 +218,16 @@ function FsBtn({ onFullscreen, isFullscreen }: FullscreenProps) {
 function SlideCover({ onFullscreen, isFullscreen }: FullscreenProps) {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden" style={{ background: BG }}>
-      <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, #1a1a1a 0%, #080808 100%)' }} />
+      {/* Foto aérea noturna de Porto Alegre */}
+      <Image
+        src="/SHIFT/cidade_book_p8_0.webp"
+        alt="Porto Alegre"
+        fill
+        className="object-cover"
+        style={{ objectPosition: 'center 30%', opacity: 0.45 }}
+      />
+      {/* lâmina escura para legibilidade */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.55) 50%, rgba(8,8,8,0.4) 100%)' }} />
       <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
 
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
@@ -252,12 +243,12 @@ function SlideCover({ onFullscreen, isFullscreen }: FullscreenProps) {
             Porto Alegre
           </h1>
           <p className="text-xl" style={{ color: 'rgba(240,237,232,0.55)', letterSpacing: '0.06em' }}>
-            5 anos · 10 empreendimentos
+            5 anos · 9 empreendimentos
           </p>
         </div>
 
         <div className="flex gap-12 mt-6">
-          {[['10', 'Empreendimentos'], ['5', 'Anos de atuação']].map(([n, l]) => (
+          {[['9', 'Empreendimentos'], ['5', 'Anos de atuação']].map(([n, l]) => (
             <div key={l} className="text-center">
               <p className="font-bold" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', color: GOLD }}>{n}</p>
               <p className="text-sm mt-1 tracking-widest uppercase" style={{ color: 'rgba(240,237,232,0.45)' }}>{l}</p>
@@ -325,7 +316,7 @@ function SlidePoa({ onFullscreen, isFullscreen }: FullscreenProps) {
         </div>
         <div className="flex gap-8">
           <div>
-            <p className="font-bold" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', color: GOLD }}>10</p>
+            <p className="font-bold" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', color: GOLD }}>9</p>
             <p className="text-sm tracking-widest uppercase mt-1" style={{ color: 'rgba(240,237,232,0.45)' }}>Lançamentos</p>
           </div>
           <div>
@@ -379,9 +370,9 @@ function SlideMosaic({ onFullscreen, isFullscreen }: FullscreenProps) {
         <Image src="/INSTITUCIONAL/logo_plaenge_vanguard_claro.webp" alt="logo" width={160} height={42} className="object-contain opacity-70" />
       </div>
 
-      <div className="flex-1 grid grid-cols-5 grid-rows-2">
-        {MOSAIC.map((item) => (
-          <div key={item.name} className="relative overflow-hidden group">
+      <div className="flex-1 grid grid-cols-5" style={{ gridTemplateRows: 'repeat(2, 1fr)' }}>
+        {MOSAIC.map((item, idx) => (
+          <div key={item.name} className="relative overflow-hidden group" style={idx === MOSAIC.length - 1 && MOSAIC.length % 5 !== 0 ? { gridColumn: `span ${5 - (MOSAIC.length - 1) % 5}` } : undefined}>
             <Image src={item.img} alt={item.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%)' }} />
 
@@ -432,15 +423,11 @@ function SlideMosaic({ onFullscreen, isFullscreen }: FullscreenProps) {
   );
 }
 
-// ── ORBITALE 100% VENDIDO — slide especial com animação de pano ────────────────
+// ── ORBITALE 100% VENDIDO ─────────────────────────────────────────────────────
 function SlideOrbitale100({ onFullscreen, isFullscreen }: FullscreenProps) {
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#080808' }}>
-      <style>{`
-        @keyframes curtainDrop {
-          0%   { transform: scaleY(0); }
-          100% { transform: scaleY(1); }
-        }
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeInUp {
           0%   { opacity: 0; transform: translateY(40px); }
           100% { opacity: 1; transform: translateY(0); }
@@ -449,54 +436,46 @@ function SlideOrbitale100({ onFullscreen, isFullscreen }: FullscreenProps) {
           0%   { opacity: 0; }
           100% { opacity: 1; }
         }
-      `}</style>
+      ` }} />
 
-      {/* fachada ao fundo */}
+      {/* fachada ao fundo com opacidade visível */}
       <Image
         src="/ORBITALE/01_FACHADA-02.webp"
         alt="Orbitale"
         fill
         className="object-cover"
-        style={{ opacity: 0.18 }}
+        style={{ opacity: 0.55 }}
       />
 
-      {/* pano vermelho se desdobrando de cima */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(180deg, #b91c1c 0%, #dc2626 60%, #ef4444 100%)',
-          transformOrigin: 'top',
-          animation: 'curtainDrop 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
-        }}
-      />
+      {/* lâmina escura para legibilidade */}
+      <div className="absolute inset-0" style={{ background: 'rgba(8,8,8,0.72)' }} />
+
+      {/* acento vermelho sutil no topo */}
+      <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #dc2626, transparent)' }} />
 
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
 
       {/* conteúdo */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10 gap-2">
-        <div
-          style={{
-            animation: 'fadeInUp 0.7s ease-out 0.9s both',
-          }}
-        >
+        <div style={{ animation: 'fadeInUp 0.7s ease-out 0.2s both' }}>
           <p
             className="font-black text-center leading-none"
             style={{
-              color: 'rgba(255,255,255,0.95)',
+              color: '#ef4444',
               fontSize: 'clamp(7rem, 18vw, 18rem)',
               letterSpacing: '-0.04em',
-              textShadow: '0 8px 40px rgba(0,0,0,0.4)',
+              textShadow: '0 8px 60px rgba(220,38,38,0.5)',
             }}
           >
             100%
           </p>
           <p
-            className="font-black text-center leading-none tracking-widest"
+            className="font-black text-center leading-none"
             style={{
-              color: 'rgba(255,255,255,0.95)',
+              color: 'rgba(255,255,255,0.92)',
               fontSize: 'clamp(3rem, 8vw, 8rem)',
               letterSpacing: '0.18em',
-              textShadow: '0 4px 20px rgba(0,0,0,0.3)',
+              textShadow: '0 4px 20px rgba(0,0,0,0.6)',
             }}
           >
             VENDIDO
@@ -505,19 +484,19 @@ function SlideOrbitale100({ onFullscreen, isFullscreen }: FullscreenProps) {
 
         <div
           className="flex flex-col items-center gap-3 mt-8"
-          style={{ animation: 'fadeInSub 0.6s ease-out 1.5s both' }}
+          style={{ animation: 'fadeInSub 0.6s ease-out 0.8s both' }}
         >
-          <div className="h-[1px] w-24" style={{ background: 'rgba(255,255,255,0.4)' }} />
+          <div className="h-[1px] w-24" style={{ background: 'rgba(239,68,68,0.5)' }} />
           <div className="relative h-8 w-44">
             <Image
               src="/ORBITALE/logo_orbitale.png"
               alt="Orbitale"
               fill
               className="object-contain"
-              style={{ filter: 'brightness(0) invert(1)', opacity: 0.75 }}
+              style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }}
             />
           </div>
-          <p className="text-base tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.55)' }}>
+          <p className="text-base tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.45)' }}>
             Petrópolis · Porto Alegre
           </p>
         </div>
