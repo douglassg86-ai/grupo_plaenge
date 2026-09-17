@@ -15,20 +15,33 @@ import TrendOfficePpt from '@/components/trend/ppt-office';
 
 type Branch = 'home' | 'nano';
 
+const B = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
+
 const LINKS_CONFIG_HOME = {
-  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/trend-nano-set26.pdf',
-  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/trend-nano.pdf',
-  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/trend-nano-fotos.zip',
-  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/trend-nano-e-office-trend-downtown-i-vi-deo.mp4',
+  tabela: `${B}/tabelas/trend-nano-set26.pdf`,
+  book: `${B}/books/trend-nano.pdf`,
+  imagens: `${B}/fotos/trend-nano-fotos.zip`,
+  videos: [
+    { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo.mp4`,       title: 'Vídeo Principal' },
+    { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo-whats.mp4`, title: 'WhatsApp' },
+    { url: `${B}/videos/trend-nano-e-office-trenddowntown-jun2025.mp4`,          title: 'Jun 2025' },
+    { url: `${B}/videos/trend-nano-e-office-decorado-trenddowntown.mp4`,         title: 'Decorado' },
+  ],
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
   clienteSlug: 'trend',
 };
 
 const LINKS_CONFIG_NANO = {
-  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/trend-home-set26.pdf',
-  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/trend-home.pdf',
-  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/trend-home-fotos.zip',
-  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/trend-home-trend-home.mp4',
+  tabela: `${B}/tabelas/trend-home-set26.pdf`,
+  book: `${B}/books/trend-home.pdf`,
+  imagens: `${B}/fotos/trend-home-fotos.zip`,
+  videos: [
+    { url: `${B}/videos/trend-home-trend-home.mp4`,          title: 'Trend Home' },
+    { url: `${B}/videos/trend-home-trend.mp4`,               title: 'Trend' },
+    { url: `${B}/videos/trend-home-vi-deo-1-novo-trend.mp4`, title: 'Novo Trend — 1' },
+    { url: `${B}/videos/trend-home-vi-deo-2-novo-trend.mp4`, title: 'Novo Trend — 2' },
+    { url: `${B}/videos/trend-home-vi-deo-3-novo-trend.mp4`, title: 'Novo Trend — 3' },
+  ],
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
   clienteSlug: 'trend',
 };
@@ -555,7 +568,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
             Galeria — Downtown {branch === 'home' ? 'Home' : 'Nano'}
           </p>
-          <GalleryViewer key={`gallery-${branch}`} categories={galleryByBranch[branch]} />
+          <GalleryViewer key={`gallery-${branch}`} categories={galleryByBranch[branch]} zipUrl={branch === 'home' ? LINKS_CONFIG_HOME.imagens : LINKS_CONFIG_NANO.imagens} />
         </div>
 
         {/* PLANTAS */}

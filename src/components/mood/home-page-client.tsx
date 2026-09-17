@@ -12,7 +12,14 @@ const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/mood-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/mood.pdf',
   imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/mood-fotos.zip',
-  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-produto-mood-central-parque.mp4',
+  videos: [
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-produto-mood-central-parque.mp4', title: 'Vídeo Produto' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-mood-pronto.mp4',                 title: 'Mood Pronto' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-mood-pronto-vertical.mp4',        title: 'Pronto — Vertical' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-mood-pronto-quadrado.mp4',        title: 'Pronto — Quadrado' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-decorado-mood-i-decorado.mp4',   title: 'Decorado' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-decorado-mood-i-decorado-whats.mp4', title: 'Decorado (WhatsApp)' },
+  ],
   site: 'https://www.vanguard.com.br/porto-alegre/mood-central-parque',
   clienteSlug: 'mood',
 };
@@ -52,6 +59,25 @@ const galleryCategories = [
       { src: '/MOOD/04_partyroom-04.webp', alt: 'Party Room — 3' },
       { src: '/MOOD/05_gourmet-01.webp', alt: 'Gourmet' },
       { src: '/MOOD/06_pub-01.webp', alt: 'Pub' },
+    ],
+  },
+  {
+    label: 'Decorado',
+    images: [
+      { src: '/MOOD/decorado/IMG_7235.webp', alt: 'Decorado 1' },
+      { src: '/MOOD/decorado/IMG_7237.webp', alt: 'Decorado 2' },
+      { src: '/MOOD/decorado/IMG_7238.webp', alt: 'Decorado 3' },
+      { src: '/MOOD/decorado/IMG_7240-HDR.webp', alt: 'Decorado 4' },
+      { src: '/MOOD/decorado/IMG_7242.webp', alt: 'Decorado 5' },
+      { src: '/MOOD/decorado/IMG_7243.webp', alt: 'Decorado 6' },
+      { src: '/MOOD/decorado/IMG_7244.webp', alt: 'Decorado 7' },
+      { src: '/MOOD/decorado/IMG_7246.webp', alt: 'Decorado 8' },
+      { src: '/MOOD/decorado/IMG_7250.webp', alt: 'Decorado 9' },
+      { src: '/MOOD/decorado/IMG_7253.webp', alt: 'Decorado 10' },
+      { src: '/MOOD/decorado/IMG_7254.webp', alt: 'Decorado 11' },
+      { src: '/MOOD/decorado/IMG_7255.webp', alt: 'Decorado 12' },
+      { src: '/MOOD/decorado/IMG_7258.webp', alt: 'Decorado 13' },
+      { src: '/MOOD/decorado/IMG_7259.webp', alt: 'Decorado 14' },
     ],
   },
 ];
@@ -199,7 +225,7 @@ export default function MoodHomePageClient({ isClientePage = false }: { isClient
         <div className="bg-card rounded-2xl p-8 md:p-10">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Galeria</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Imagens do Empreendimento</h2>
-          <GalleryViewer categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} zipUrl={LINKS_CONFIG.imagens} />
         </div>
 
         {/* PLANTAS */}

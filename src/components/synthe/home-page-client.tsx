@@ -17,7 +17,13 @@ const LINKS_CONFIG = {
   plantas:       'https://drive.google.com/open?id=1WLV6OkYCJRBoeKZGakO1Mvupy_0cdhgC&usp=drive_fs',
   fotosDecorado: 'https://drive.google.com/open?id=1cUR5dU96rq85x5pyEMsN693EjHeu2Miw&usp=drive_fs',
   reels:         'https://drive.google.com/open?id=16p4XzKKraSWvwPGLsuJ7Wig07xhE7_ZS&usp=drive_fs',
-  video:         'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe.mp4',
+  videos: [
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe.mp4',              title: 'Vídeo Principal' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe-1920x646.mp4',     title: 'Banner 1920×646' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe-whats.mp4',        title: 'WhatsApp' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe-teaser.mp4',       title: 'Teaser' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe-convite.mp4',      title: 'Convite' },
+  ],
   clienteSlug:   'synthe',
 };
 
@@ -277,7 +283,7 @@ export default function SyntheHomePageClient({ isClientePage = false }: { isClie
         {/* GALERIA */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Galeria</p>
-          <GalleryViewer categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} zipUrl={LINKS_CONFIG.imagens} />
         </div>
 
         {/* PLANTAS */}

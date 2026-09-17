@@ -13,7 +13,11 @@ const LINKS_CONFIG = {
   tabela: 'https://drive.google.com/open?id=1vnAEpjzQ_v_JKR6wCMzeX05vQ2edE-5v&usp=drive_fs',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/orbitale.pdf',
   imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/orbitale-fotos.zip',
-  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/orbitale-vi-deo-produto-vi-deo-i-orbitale.mp4',
+  videos: [
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/orbitale-vi-deo-produto-vi-deo-i-orbitale.mp4',        title: 'Vídeo Produto' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/orbitale-vi-deo-decorado-decorado-i-orbitale.mp4',     title: 'Decorado' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/orbitale-videos-entrega.mp4',                          title: 'Entrega Orbitale' },
+  ],
   site: 'https://www.plaenge.com.br/porto-alegre/orbitale',
   clienteSlug: 'orbitale',
 };
@@ -70,7 +74,7 @@ const galleryCategories = [
   {
     label: 'Decorado',
     images: Array.from({ length: 23 }, (_, i) => ({
-      src: `/ORBITALE/Decorado Orbitale-${i + 1}.webp`,
+      src: `/ORBITALE/decorado/Decorado Orbitale-${i + 1}.webp`,
       alt: `Apartamento Decorado — ${i + 1}`,
     })),
   },
@@ -239,7 +243,7 @@ export default function OrbitaleHomePageClient({ isClientePage = false }: { isCl
         <div className="bg-card rounded-2xl p-8 md:p-10">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Galeria</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Imagens do Empreendimento</h2>
-          <GalleryViewer categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} zipUrl={LINKS_CONFIG.imagens} />
         </div>
 
         {/* PLANTAS */}

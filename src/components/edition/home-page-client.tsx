@@ -8,11 +8,23 @@ import { PlantsViewer } from '@/components/shared/plants-viewer';
 import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
+const B = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
 const LINKS_CONFIG = {
-  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/edition-set26.pdf',
-  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/edition.pdf',
-  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/edition-fotos.zip',
-  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/edition-videos-decoradoedition-baixa.mp4',
+  tabela: `${B}/tabelas/edition-set26.pdf`,
+  book:   `${B}/books/edition.pdf`,
+  imagens:`${B}/fotos/edition-fotos.zip`,
+  videos: [
+    { url: `${B}/videos/edition-videos-arquitetura-atemporal.mp4`,    title: 'Arquitetura Atemporal' },
+    { url: `${B}/videos/edition-videos-refugio-de-elegancia.mp4`,     title: 'Refúgio de Elegância' },
+    { url: `${B}/videos/edition-videos-assinatura-internacional.mp4`, title: 'Assinatura Internacional' },
+    { url: `${B}/videos/edition-videos-oasis-urbano.mp4`,             title: 'Oasis Urbano' },
+    { url: `${B}/videos/edition-videos-linhas-que-conectam.mp4`,      title: 'Linhas que Conectam' },
+    { url: `${B}/videos/edition-videos-lw-design-group.mp4`,          title: 'LW Design Group' },
+    { url: `${B}/videos/edition-videos-lw-cristofel-poa-2.mp4`,       title: 'LW Cristofel POA 2' },
+    { url: `${B}/videos/edition-videos-lw-cristofel-poa.mp4`,         title: 'LW Cristofel POA' },
+    { url: `${B}/videos/edition-videos-jardim-cristofel.mp4`,         title: 'Jardim Cristofel' },
+    { url: `${B}/videos/edition-videos-decoradoedition-baixa.mp4`,    title: 'Decorado Edition' },
+  ],
   site: 'https://www.plaenge.com.br/porto-alegre/edition',
   clienteSlug: 'edition',
 };
@@ -64,6 +76,13 @@ const galleryCategories = [
       { src: '/EDITION/JAC_23_Kids_EF.webp', alt: 'Espaço Kids' },
       { src: '/EDITION/JAC_14_Playground_EF_v2.webp', alt: 'Playground' },
     ],
+  },
+  {
+    label: 'Decorado',
+    images: Array.from({ length: 56 }, (_, i) => ({
+      src: `/EDITION/decorado/araupp_plaenge_edition_decorado_${String(i + 1).padStart(3, '0')}.webp`,
+      alt: `Apartamento Decorado — ${i + 1}`,
+    })),
   },
 ];
 
@@ -230,7 +249,7 @@ export default function EditionHomePageClient({ isClientePage = false }: { isCli
         <div className="bg-card rounded-2xl p-8 md:p-10">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Galeria</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Imagens do Empreendimento</h2>
-          <GalleryViewer categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} zipUrl={LINKS_CONFIG.imagens} />
         </div>
 
         {/* ── PLANTAS ── */}

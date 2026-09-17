@@ -13,7 +13,10 @@ const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/yuna-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/yuna.pdf',
   imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/yuna-fotos.zip',
-  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/yuna-video-yuna.mp4',
+  videos: [
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/yuna-video-yuna.mp4',              title: 'Vídeo Principal' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/yuna-video-decoradoyuna-baixa.mp4', title: 'Decorado' },
+  ],
   site: 'https://www.vanguard.com.br/porto-alegre/yuna',
   clienteSlug: 'yuna',
 };
@@ -209,7 +212,7 @@ export default function YunaHomePageClient({ isClientePage = false }: { isClient
         {/* GALERIA */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Galeria</p>
-          <GalleryViewer categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} zipUrl={LINKS_CONFIG.imagens} />
         </div>
 
         {/* PLANTAS */}

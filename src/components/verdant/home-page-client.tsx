@@ -15,7 +15,10 @@ const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/verdant-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/verdant.pdf',
   imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/verdant-fotos.zip',
-  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/verdant-video-verdant.mp4',
+  videos: [
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/verdant-video-verdant.mp4',                        title: 'Vídeo Principal' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/verdant-video-verdant-pro-ximo-da-sua-natureza.mp4', title: 'Próximo da Sua Natureza' },
+  ],
   site: 'https://www.plaenge.com.br/porto-alegre/verdant',
   clienteSlug: 'verdant',
 };
@@ -76,7 +79,7 @@ const galleryCategories = [
   {
     label: 'Decorado',
     images: Array.from({ length: 34 }, (_, i) => ({
-      src: `${P}/Decorado Verdant - final-${i + 1}.webp`,
+      src: `${P}/decorado/Decorado Verdant - final-${i + 1}.webp`,
       alt: `Apartamento Decorado — ${i + 1}`,
     })),
   },
@@ -337,7 +340,7 @@ export default function VerdantHomePageClient({ isClientePage = false }: { isCli
         <div className="bg-card rounded-2xl p-8 md:p-10">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Galeria</p>
           <h2 className="font-display text-3xl text-foreground mb-6">Imagens do Empreendimento</h2>
-          <GalleryViewer categories={galleryCategories} />
+          <GalleryViewer categories={galleryCategories} zipUrl={LINKS_CONFIG.imagens} />
         </div>
 
         {/* PLANTAS */}
