@@ -11,9 +11,9 @@ import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/yuna-set26.pdf',
-  book: 'https://drive.google.com/open?id=1z2VaBjxZ0oCWFU-7F9R-IJNhopOijY5t&usp=drive_fs',
-  imagens: 'https://drive.google.com/open?id=1z0m41I9WZ5rSDVuu0mQ-TXuIvqZjpVr_&usp=drive_fs',
-  video: 'https://drive.google.com/open?id=1CTC8Vm9x8GOJPGlisLou5bBAlc8499CP&usp=drive_fs',
+  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/yuna.pdf',
+  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/yuna-fotos.zip',
+  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/yuna-video-yuna.mp4',
   site: 'https://www.vanguard.com.br/porto-alegre/yuna',
   clienteSlug: 'yuna',
 };

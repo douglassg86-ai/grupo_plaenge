@@ -11,9 +11,9 @@ import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
   tabela: 'https://drive.google.com/open?id=1vnAEpjzQ_v_JKR6wCMzeX05vQ2edE-5v&usp=drive_fs',
-  book: 'https://drive.google.com/open?id=1uod7_DSMEXLRxPdG3c05A7R1IY-s8JU-&usp=drive_fs',
-  imagens: 'https://drive.google.com/open?id=1u2OAOTqkXnzOSGfpPn795Zq8YdQm9a-P&usp=drive_fs',
-  video: 'https://drive.google.com/open?id=10iaj8CDHPhWNzzk0UcBHX89djjIRFEbA&usp=drive_fs',
+  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/orbitale.pdf',
+  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/orbitale-fotos.zip',
+  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/orbitale-vi-deo-produto-vi-deo-i-orbitale.mp4',
   site: 'https://www.plaenge.com.br/porto-alegre/orbitale',
   clienteSlug: 'orbitale',
 };

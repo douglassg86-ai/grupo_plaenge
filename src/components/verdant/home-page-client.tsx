@@ -13,9 +13,9 @@ import { Presentation } from 'lucide-react';
 
 const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/verdant-set26.pdf',
-  book: 'https://drive.google.com/open?id=1ZBwEkEJG8ui7PtUBnL6y-y_7Vh4q8LSn&usp=drive_fs',
-  imagens: 'https://drive.google.com/open?id=1CP7sEt_EOrBCzQD5VkkJ5r24a7JDLYdA&usp=drive_fs',
-  video: 'https://drive.google.com/open?id=1D7XWAvWjEPDOmDvQfifRER4uJfOPu4zT&usp=drive_fs',
+  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/verdant.pdf',
+  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/verdant-fotos.zip',
+  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/verdant-video-verdant.mp4',
   site: 'https://www.plaenge.com.br/porto-alegre/verdant',
   clienteSlug: 'verdant',
 };

@@ -12,12 +12,12 @@ import { ConvitePopup } from '@/components/synthe/convite-popup';
 
 const LINKS_CONFIG = {
   tabela:        'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/synthe-set26.pdf',
-  book:          'https://drive.google.com/open?id=1netjJDKzSz8VPgROc3ZoMloFPSv07O7m&usp=drive_fs',
-  imagens:       'https://drive.google.com/open?id=1Q6LpU-LPMwxZtdbbHb7E3XX1u24UD3o0&usp=drive_fs',
+  book:          'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/synthe.pdf',
+  imagens:       'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/synthe-fotos.zip',
   plantas:       'https://drive.google.com/open?id=1WLV6OkYCJRBoeKZGakO1Mvupy_0cdhgC&usp=drive_fs',
   fotosDecorado: 'https://drive.google.com/open?id=1cUR5dU96rq85x5pyEMsN693EjHeu2Miw&usp=drive_fs',
   reels:         'https://drive.google.com/open?id=16p4XzKKraSWvwPGLsuJ7Wig07xhE7_ZS&usp=drive_fs',
-  video:         'https://drive.google.com/open?id=1V88BFKdVAGjAcMPyECIg0t1_4SCNPmr7&usp=drive_fs',
+  video:         'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe.mp4',
   clienteSlug:   'synthe',
 };
 

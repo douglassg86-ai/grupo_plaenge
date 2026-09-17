@@ -18,8 +18,8 @@ type Branch = 'home' | 'nano';
 const LINKS_CONFIG_HOME = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/trend-nano-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/trend-nano.pdf',
-  imagens: 'https://drive.google.com/open?id=1CV3co7QlKcGEiMsi3Dh7MnKl8iyhAj0r&usp=drive_fs',
-  video: 'https://drive.google.com/open?id=16iawguHLDXUfXT5RZ4s0Xf7CS22O62R6&usp=drive_fs',
+  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/trend-nano-fotos.zip',
+  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/trend-nano-e-office-trend-downtown-i-vi-deo.mp4',
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
   clienteSlug: 'trend',
 };
@@ -27,8 +27,8 @@ const LINKS_CONFIG_HOME = {
 const LINKS_CONFIG_NANO = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/trend-home-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/trend-home.pdf',
-  imagens: 'https://drive.google.com/open?id=13y8QvHGc2bSYlulvRV_ei1-wvWV7uB5j&usp=drive_fs',
-  video: 'https://drive.google.com/open?id=18V3yEpa0DGiQyuGrlEyFMCqsaaRgveSj&usp=drive_fs',
+  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/trend-home-fotos.zip',
+  video: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/trend-home-trend-home.mp4',
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
   clienteSlug: 'trend',
 };
