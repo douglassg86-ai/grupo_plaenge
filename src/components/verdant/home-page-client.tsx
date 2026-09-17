@@ -12,7 +12,7 @@ import { VerdantPresentationMode, PRESENTATION_TOTAL } from '@/components/verdan
 import { Presentation } from 'lucide-react';
 
 const LINKS_CONFIG = {
-  tabela: 'https://drive.google.com/open?id=1CG5_uGw-yuIlvkW7Bo7BedIs0TdSYlKo&usp=drive_fs',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/verdant-set26.pdf',
   book: 'https://drive.google.com/open?id=1ZBwEkEJG8ui7PtUBnL6y-y_7Vh4q8LSn&usp=drive_fs',
   imagens: 'https://drive.google.com/open?id=1CP7sEt_EOrBCzQD5VkkJ5r24a7JDLYdA&usp=drive_fs',
   video: 'https://drive.google.com/open?id=1D7XWAvWjEPDOmDvQfifRER4uJfOPu4zT&usp=drive_fs',

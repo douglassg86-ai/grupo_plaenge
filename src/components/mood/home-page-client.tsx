@@ -9,7 +9,7 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
-  tabela: 'https://drive.google.com/open?id=101EC73ix9MdLjeJTPISFeEVGDSCxI9cN&usp=drive_fs',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/mood-set26.pdf',
   book: 'https://drive.google.com/open?id=1yocb7t9xrJ2c8ZnZO4_Uk5iuPIlKBCfB&usp=drive_fs',
   imagens: 'https://drive.google.com/open?id=15_JHvpNbXhCivMx-VCxzrw_pVlQDqcKI&usp=drive_fs',
   video: 'https://drive.google.com/open?id=100Gm6XqzG26Os5f3-PSavwy0IyySYLwP&usp=drive_fs',

@@ -16,8 +16,8 @@ import TrendOfficePpt from '@/components/trend/ppt-office';
 type Branch = 'home' | 'nano';
 
 const LINKS_CONFIG_HOME = {
-  tabela: 'https://drive.google.com/open?id=189bZDWO-qzrbkZEcBm8V3f2BMRwXDqgH&usp=drive_fs',
-  book: 'https://drive.google.com/open?id=1BHx3p4Aqs00v6BlDPTsofWbFy69yNOUT&usp=drive_fs',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/trend-nano-set26.pdf',
+  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/trend-nano.pdf',
   imagens: 'https://drive.google.com/open?id=1CV3co7QlKcGEiMsi3Dh7MnKl8iyhAj0r&usp=drive_fs',
   video: 'https://drive.google.com/open?id=16iawguHLDXUfXT5RZ4s0Xf7CS22O62R6&usp=drive_fs',
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
@@ -25,8 +25,8 @@ const LINKS_CONFIG_HOME = {
 };
 
 const LINKS_CONFIG_NANO = {
-  tabela: 'https://drive.google.com/open?id=1pCBQNsu6bhzl2HM8yGB85paefW_Eb2Ip&usp=drive_fs',
-  book: 'https://drive.google.com/open?id=1p-pZFIkjEH7bG2AUwMKoouyTa7dUhXQy&usp=drive_fs',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/trend-home-set26.pdf',
+  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/trend-home.pdf',
   imagens: 'https://drive.google.com/open?id=13y8QvHGc2bSYlulvRV_ei1-wvWV7uB5j&usp=drive_fs',
   video: 'https://drive.google.com/open?id=18V3yEpa0DGiQyuGrlEyFMCqsaaRgveSj&usp=drive_fs',
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',

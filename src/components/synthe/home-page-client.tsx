@@ -11,7 +11,7 @@ import { ProductLinks } from '@/components/shared/product-links';
 import { ConvitePopup } from '@/components/synthe/convite-popup';
 
 const LINKS_CONFIG = {
-  tabela:        'https://drive.google.com/open?id=1EloA34inI_S0FGE03BY9QVaKpZTJerww&usp=drive_fs',
+  tabela:        'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/synthe-set26.pdf',
   book:          'https://drive.google.com/open?id=1netjJDKzSz8VPgROc3ZoMloFPSv07O7m&usp=drive_fs',
   imagens:       'https://drive.google.com/open?id=1Q6LpU-LPMwxZtdbbHb7E3XX1u24UD3o0&usp=drive_fs',
   plantas:       'https://drive.google.com/open?id=1WLV6OkYCJRBoeKZGakO1Mvupy_0cdhgC&usp=drive_fs',

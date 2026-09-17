@@ -9,7 +9,7 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
-  tabela: 'https://drive.google.com/drive/folders/1Ey98X-SIT-kwBUIuGhkafnp0ZXq2s0YC?usp=drive_link',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/edition-set26.pdf',
   book: 'https://drive.google.com/open?id=1uDMviQSVcHl4kuZNyRk6FeXrmD8XAyo2&usp=drive_fs',
   imagens: 'https://drive.google.com/open?id=1wD-EyEmjFMNgkZRy9mYtXy8cJnwTcWvw&usp=drive_fs',
   video: 'https://drive.google.com/open?id=13rWA803iFNJTfIg0CKCqNCM-UPBpYU7O&usp=drive_fs',

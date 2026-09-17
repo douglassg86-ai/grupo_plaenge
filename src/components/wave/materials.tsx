@@ -10,7 +10,7 @@ const materials = [
   { icon: Book, title: "E-book", href: "https://drive.google.com/drive/folders/1npd5w-pWCDPZvaxTA7lsj7sVhsEwOyW3" },
   { icon: Video, title: "Vídeo", href: "https://drive.google.com/drive/folders/1YXSzq2fPxCAtvr6DF3AWVaNj5ZzpCskz" },
   { icon: Images, title: "Fotos", href: "https://drive.google.com/drive/folders/1eSqcVsMhR_JkP9KV9FsDhegpWoSlC0r2" },
-  { icon: Table, title: "Tabela", href: "https://drive.google.com/drive/folders/1nd2otVKNq2jOPfO9i-JlOHSPXc64b6rT" },
+  { icon: Table, title: "Tabela", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/wave-set26.pdf" },
   { icon: Megaphone, title: "Materiais Promocionais", href: "https://drive.google.com/drive/folders/1IRHdPxpfZMnccssVzboPFiFtblHOcXIr" },
   { icon: Book, title: "ADM Condomínio", href: "https://drive.google.com/drive/folders/1UfPI9c6zqQIdxbiXxIfnT1P3X0LBkJpk" },
   { icon: Globe, title: "Site Oficial", href: "https://www.vanguard.com.br/porto-alegre/wave" },
