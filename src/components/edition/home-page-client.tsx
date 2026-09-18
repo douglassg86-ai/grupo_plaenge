@@ -12,7 +12,7 @@ const B = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
 const LINKS_CONFIG = {
   tabela: `${B}/tabelas/edition-set26.pdf`,
   book:   `${B}/books/edition.pdf`,
-  imagens:`${B}/fotos/edition-fotos.zip`,
+
   videos: [
     { url: `${B}/videos/edition-videos-arquitetura-atemporal.mp4`,    title: 'Arquitetura Atemporal' },
     { url: `${B}/videos/edition-videos-refugio-de-elegancia.mp4`,     title: 'Refúgio de Elegância' },

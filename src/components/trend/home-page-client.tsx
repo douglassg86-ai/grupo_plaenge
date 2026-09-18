@@ -20,7 +20,7 @@ const B = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
 const LINKS_CONFIG_HOME = {
   tabela: `${B}/tabelas/trend-nano-set26.pdf`,
   book: `${B}/books/trend-nano.pdf`,
-  imagens: `${B}/fotos/trend-nano-fotos.zip`,
+
   videos: [
     { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo.mp4`,       title: 'Vídeo Principal' },
     { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo-whats.mp4`, title: 'WhatsApp' },
@@ -34,7 +34,7 @@ const LINKS_CONFIG_HOME = {
 const LINKS_CONFIG_NANO = {
   tabela: `${B}/tabelas/trend-home-set26.pdf`,
   book: `${B}/books/trend-home.pdf`,
-  imagens: `${B}/fotos/trend-home-fotos.zip`,
+
   videos: [
     { url: `${B}/videos/trend-home-trend-home.mp4`,          title: 'Trend Home' },
     { url: `${B}/videos/trend-home-trend.mp4`,               title: 'Trend' },

@@ -14,7 +14,7 @@ import { Presentation } from 'lucide-react';
 const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/verdant-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/verdant.pdf',
-  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/verdant-fotos.zip',
+
   videos: [
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/verdant-video-verdant.mp4',                        title: 'Vídeo Principal' },
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/verdant-video-verdant-pro-ximo-da-sua-natureza.mp4', title: 'Próximo da Sua Natureza' },

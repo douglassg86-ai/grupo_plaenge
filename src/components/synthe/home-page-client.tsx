@@ -13,7 +13,7 @@ import { ConvitePopup } from '@/components/synthe/convite-popup';
 const LINKS_CONFIG = {
   tabela:        'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/synthe-set26.pdf',
   book:          'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/synthe.pdf',
-  imagens:       'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/synthe-fotos.zip',
+
   plantas:       'https://drive.google.com/open?id=1WLV6OkYCJRBoeKZGakO1Mvupy_0cdhgC&usp=drive_fs',
   fotosDecorado: 'https://drive.google.com/open?id=1cUR5dU96rq85x5pyEMsN693EjHeu2Miw&usp=drive_fs',
   reels:         'https://drive.google.com/open?id=16p4XzKKraSWvwPGLsuJ7Wig07xhE7_ZS&usp=drive_fs',

@@ -12,7 +12,7 @@ import { ProductLinks } from '@/components/shared/product-links';
 const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/yuna-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/yuna.pdf',
-  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/yuna-fotos.zip',
+
   videos: [
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/yuna-video-yuna.mp4',              title: 'Vídeo Principal' },
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/yuna-video-decoradoyuna-baixa.mp4', title: 'Decorado' },

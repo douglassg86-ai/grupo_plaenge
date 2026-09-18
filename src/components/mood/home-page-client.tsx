@@ -11,7 +11,7 @@ import { ProductLinks } from '@/components/shared/product-links';
 const LINKS_CONFIG = {
   tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/mood-set26.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/mood.pdf',
-  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/mood-fotos.zip',
+
   videos: [
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-produto-mood-central-parque.mp4', title: 'Vídeo Produto' },
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/mood-vi-deo-mood-pronto.mp4',                 title: 'Mood Pronto' },

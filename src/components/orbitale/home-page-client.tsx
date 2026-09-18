@@ -12,7 +12,7 @@ import { ProductLinks } from '@/components/shared/product-links';
 const LINKS_CONFIG = {
   tabela: 'https://drive.google.com/open?id=1vnAEpjzQ_v_JKR6wCMzeX05vQ2edE-5v&usp=drive_fs',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/orbitale.pdf',
-  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/orbitale-fotos.zip',
+
   videos: [
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/orbitale-vi-deo-produto-vi-deo-i-orbitale.mp4',        title: 'Vídeo Produto' },
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/orbitale-vi-deo-decorado-decorado-i-orbitale.mp4',     title: 'Decorado' },
