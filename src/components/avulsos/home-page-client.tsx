@@ -55,9 +55,9 @@ const MARQUES = {
   torre: '—',
   area: '166,48 m² privativo · 209,80 m² total',
   tipologia: 'Apartamento de alto padrão',
-  vagas: '1 vaga dupla (Box 20)',
-  condominio: '—',
-  nota: 'Imóvel desocupado. Documentação completa disponível.',
+  vagas: '2 vagas (1 por convenção + 1 escriturada)',
+  condominio: 'R$ 2.400,00 / mês',
+  nota: 'Imóvel desocupado. Móveis fixos inclusos.',
   preco: 'R$ 1.900.000',
   status: 'Desocupado',
   video: `${BLOB}/videos/avulsos-marques-pombal-video.mp4`,
@@ -112,17 +112,71 @@ function StatusBadge({ status }: { status: string }) {
 
 // ─── Property Card ────────────────────────────────────────────────────────────
 
+type ManagerType = { slug: string; name: string; phone: string; photo: string; proposalUrl: string };
+
+function InterestButton({ manager }: { manager: ManagerType | null }) {
+  const btnStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '12px 24px',
+    borderRadius: '8px',
+    fontSize: '13px',
+    fontWeight: 700,
+    letterSpacing: '0.04em',
+    transition: 'opacity 0.2s',
+    textDecoration: 'none',
+  };
+
+  if (manager) {
+    return (
+      <a
+        href={`https://wa.me/${manager.phone}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ ...btnStyle, background: '#D4AF37', color: '#0A0A0A' }}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.099.546 4.07 1.5 5.781L0 24l6.336-1.654A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.523-5.173-1.432l-.371-.22-3.763.982.998-3.649-.241-.379A9.946 9.946 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Tenho interesse
+      </a>
+    );
+  }
+
+  return (
+    <span style={{
+      ...btnStyle,
+      background: 'rgba(255,255,255,0.06)',
+      color: '#9CA3AF',
+      border: '1px solid rgba(255,255,255,0.12)',
+      cursor: 'default',
+      fontSize: '12px',
+    }}>
+      Fale com o seu GPI Plaenge/Vanguard
+    </span>
+  );
+}
+
 function PropertySection({
   property,
   reverse = false,
   isClientePage,
+  manager,
 }: {
   property: typeof PARADOR;
   reverse?: boolean;
   isClientePage?: boolean;
+  manager: ManagerType | null;
 }) {
   const [videoOpen, setVideoOpen] = useState(false);
   const hasVideo = 'video' in property && !!property.video;
+
+  // ESC key closes the video modal
+  useEffect(() => {
+    if (!videoOpen) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setVideoOpen(false); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [videoOpen]);
 
   return (
     <section
@@ -241,31 +295,9 @@ function PropertySection({
             {property.nota}
           </p>
 
-          {!isClientePage && (
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              <a
-                href="https://wa.me/5551999999999"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  background: '#D4AF37',
-                  color: '#0A0A0A',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                  textDecoration: 'none',
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                Tenho interesse
-              </a>
-            </div>
-          )}
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <InterestButton manager={isClientePage ? null : manager} />
+          </div>
         </div>
       </div>
 
@@ -281,23 +313,29 @@ function PropertySection({
           }}
         >
           <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: '900px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '12px' }}>
+              <button
+                onClick={() => setVideoOpen(false)}
+                style={{
+                  background: 'rgba(255,255,255,0.12)', border: 'none',
+                  color: '#fff', borderRadius: '50%', width: '36px', height: '36px',
+                  cursor: 'pointer', fontSize: '18px', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center',
+                }}
+                title="Fechar (ESC)"
+              >
+                ×
+              </button>
+            </div>
             <video
               src={(property as typeof MARQUES).video}
               controls
               autoPlay
               style={{ width: '100%', borderRadius: '12px', background: '#000' }}
             />
-            <button
-              onClick={() => setVideoOpen(false)}
-              style={{
-                marginTop: '16px',
-                background: 'none', border: '1px solid rgba(255,255,255,0.2)',
-                color: '#fff', borderRadius: '8px', padding: '8px 20px',
-                cursor: 'pointer', fontSize: '13px',
-              }}
-            >
-              Fechar
-            </button>
+            <p style={{ textAlign: 'center', marginTop: '10px', fontSize: '11px', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em' }}>
+              pressione ESC para fechar
+            </p>
           </div>
         </div>
       )}
@@ -489,10 +527,10 @@ export default function AvulsosHomePageClient({ isClientePage }: { isClientePage
       <HeroBanner />
 
       <SectionDivider number="01" label="Parador 2447 · Ipanema" />
-      <PropertySection property={PARADOR} isClientePage={isClientePage} />
+      <PropertySection property={PARADOR} isClientePage={isClientePage} manager={manager} />
 
       <SectionDivider number="02" label="Ilha Florida · Moinhos de Vento" />
-      <PropertySection property={MARQUES} reverse isClientePage={isClientePage} />
+      <PropertySection property={MARQUES} reverse isClientePage={isClientePage} manager={manager} />
 
       {/* ProductLinks — materiais e link do cliente para GPIs */}
       {!isClientePage && (
