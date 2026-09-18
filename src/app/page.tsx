@@ -116,6 +116,46 @@ export default function Home() {
                 </div>
               </div>
             ))}
+
+            {/* Seção AVULSOS — fora das bandeiras Plaenge / Vanguard */}
+            <div className="mt-4 mb-4">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.3), transparent)' }} />
+                <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: '#9CA3AF' }}>Oportunidades Avulsas</span>
+                <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.3), transparent)' }} />
+              </div>
+
+              <Link href="/avulsos" className="group block max-w-2xl mx-auto">
+                <Card className="w-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2" style={{ background: '#0A0A0A', border: '1px solid rgba(212,175,55,0.25)' }}>
+                  <CardContent className="p-0 relative h-72">
+                    <Image
+                      src="/AVULSOS/parador/parador_05.webp"
+                      alt="Imóveis Avulsos"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      style={{ objectPosition: 'center 50%', opacity: 0.75 }}
+                    />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.2) 100%)' }} />
+                    {/* Ribbon dourado */}
+                    <div className="absolute top-0 left-0 right-0">
+                      <div
+                        className="w-full py-1.5 text-center text-xs font-semibold tracking-widest uppercase"
+                        style={{ background: 'rgba(212,175,55,0.85)', color: '#0A0A0A', letterSpacing: '0.18em' }}
+                      >
+                        Oportunidade Exclusiva
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 p-6 text-white">
+                      <span className="inline-block mb-2 px-2.5 py-0.5 rounded text-xs font-semibold" style={{ background: 'rgba(212,175,55,0.2)', color: '#D4AF37', border: '1px solid rgba(212,175,55,0.4)' }}>
+                        Dação em Pagamento
+                      </span>
+                      <h4 className="font-headline text-2xl font-bold">IMÓVEIS AVULSOS</h4>
+                      <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>2 apartamentos de alto padrão · Porto Alegre</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
           </div>
         </section>
       </main>

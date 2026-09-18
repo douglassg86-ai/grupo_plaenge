@@ -14,8 +14,12 @@ export async function GET(
     return NextResponse.redirect(new URL('/', req.url))
   }
 
+  // Determine destination — ?to=avulsos sends directly to /avulsos
+  const to = req.nextUrl.searchParams.get('to')
+  const dest = to === 'avulsos' ? '/avulsos' : '/'
+
   // Build redirect response first
-  const response = NextResponse.redirect(new URL('/', req.url))
+  const response = NextResponse.redirect(new URL(dest, req.url))
 
   // Track visit — must await before returning (serverless terminates after response)
   await trackEvent(manager.slug, 'visit').catch(() => {})

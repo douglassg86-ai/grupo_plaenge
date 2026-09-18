@@ -1,12 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ProductHeader } from '@/components/shared/product-header';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
+import { ProductLinks } from '@/components/shared/product-links';
 import { WhatsappButton } from '@/components/whatsapp-button';
+import { useManager, trackClick } from '@/lib/use-manager';
 
 const BLOB = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
+
+const LINKS_CONFIG = {
+  videos: [
+    { url: `${BLOB}/videos/avulsos-marques-pombal-video.mp4`, title: 'Vídeo — Ilha Florida 501' },
+  ],
+  clienteSlug: 'avulsos',
+};
 
 // ─── Dados dos imóveis ────────────────────────────────────────────────────────
 
@@ -458,6 +467,12 @@ function SectionDivider({ number, label }: { number: string; label: string }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function AvulsosHomePageClient({ isClientePage }: { isClientePage?: boolean }) {
+  const manager = useManager();
+
+  useEffect(() => {
+    if (manager) trackClick(manager.slug, 'AVULSOS');
+  }, [manager]);
+
   return (
     <div style={{ background: '#0A0A0A', minHeight: '100vh', color: '#F9FAFB' }}>
       <style dangerouslySetInnerHTML={{ __html: `
@@ -478,6 +493,13 @@ export default function AvulsosHomePageClient({ isClientePage }: { isClientePage
 
       <SectionDivider number="02" label="Ilha Florida · Moinhos de Vento" />
       <PropertySection property={MARQUES} reverse isClientePage={isClientePage} />
+
+      {/* ProductLinks — materiais e link do cliente para GPIs */}
+      {!isClientePage && (
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px 0' }}>
+          <ProductLinks config={LINKS_CONFIG} />
+        </div>
+      )}
 
       {/* Footer minimalista */}
       <footer style={{
