@@ -6,12 +6,67 @@ function applyOv(units: Unit[], key: string): Unit[] {
   return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
 }
 
+export type VagaTipo = 'S' | 'D' | 'SE' | 'DE';
+export interface Vaga { num: number; tipo: VagaTipo; }
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number; price: number;
   status: 'available' | 'sold' | 'negotiation';
   setor: string;
+  vagas?: Vaga[];
 }
+
+const VAGAS: Record<string, Vaga[]> = {
+  '0201': [{ num: 83, tipo: 'DE' }],
+  '0202': [{ num: 86, tipo: 'DE' }],
+  '0203': [{ num: 68, tipo: 'DE' }],
+  '0204': [{ num: 73, tipo: 'DE' }],
+  '0301': [{ num: 35, tipo: 'DE' }],
+  '0302': [{ num: 36, tipo: 'DE' }],
+  '0303': [{ num: 23, tipo: 'DE' }],
+  '0304': [{ num: 69, tipo: 'DE' }],
+  '0401': [{ num: 44, tipo: 'SE' }, { num: 45, tipo: 'S' }],
+  '0402': [{ num: 85, tipo: 'DE' }],
+  '0403': [{ num: 26, tipo: 'DE' }],
+  '0404': [{ num: 29, tipo: 'DE' }],
+  '0501': [{ num: 32, tipo: 'DE' }],
+  '0502': [{ num: 89, tipo: 'DE' }],
+  '0503': [{ num: 63, tipo: 'DE' }],
+  '0504': [{ num: 28, tipo: 'DE' }],
+  '0601': [{ num: 82, tipo: 'DE' }],
+  '0602': [{ num: 49, tipo: 'SE' }, { num: 50, tipo: 'S' }],
+  '0603': [{ num: 20, tipo: 'SE' }, { num: 21, tipo: 'S' }],
+  '0604': [{ num: 42, tipo: 'SE' }, { num: 43, tipo: 'S' }],
+  '0701': [{ num: 46, tipo: 'SE' }, { num: 47, tipo: 'S' }],
+  '0702': [{ num: 56, tipo: 'SE' }, { num: 57, tipo: 'S' }],
+  '0703': [{ num: 60, tipo: 'SE' }, { num: 80, tipo: 'S' }],
+  '0704': [{ num: 1, tipo: 'SE' }, { num: 6, tipo: 'S' }],
+  '0801': [{ num: 52, tipo: 'SE' }, { num: 53, tipo: 'S' }],
+  '0802': [{ num: 64, tipo: 'SE' }, { num: 61, tipo: 'S' }],
+  '0803': [{ num: 58, tipo: 'SE' }, { num: 59, tipo: 'S' }],
+  '0804': [{ num: 2, tipo: 'SE' }, { num: 3, tipo: 'S' }],
+  '0902': [{ num: 10, tipo: 'SE' }, { num: 11, tipo: 'S' }],
+  '0903': [{ num: 18, tipo: 'SE' }, { num: 19, tipo: 'S' }],
+  '0904': [{ num: 4, tipo: 'SE' }, { num: 5, tipo: 'S' }],
+  '1002': [{ num: 13, tipo: 'SE' }, { num: 14, tipo: 'S' }],
+  '1003': [{ num: 66, tipo: 'DE' }, { num: 65, tipo: 'S' }],
+  '1004': [{ num: 7, tipo: 'SE' }, { num: 8, tipo: 'S' }],
+  '1101': [{ num: 24, tipo: 'DE' }, { num: 25, tipo: 'S' }],
+  '1102': [{ num: 84, tipo: 'DE' }, { num: 55, tipo: 'S' }],
+  '1103': [{ num: 34, tipo: 'DE' }, { num: 12, tipo: 'S' }],
+  '1104': [{ num: 72, tipo: 'DE' }, { num: 48, tipo: 'S' }],
+  '1201': [{ num: 16, tipo: 'SE' }, { num: 17, tipo: 'S' }],
+  '1203': [{ num: 27, tipo: 'DE' }, { num: 15, tipo: 'S' }],
+  '1204': [{ num: 30, tipo: 'DE' }, { num: 9, tipo: 'S' }],
+  '1301': [{ num: 38, tipo: 'DE' }, { num: 37, tipo: 'S' }],
+  '1303': [{ num: 70, tipo: 'DE' }, { num: 54, tipo: 'S' }],
+  '1304': [{ num: 71, tipo: 'DE' }, { num: 51, tipo: 'S' }],
+  '1401': [{ num: 33, tipo: 'DE' }, { num: 39, tipo: 'S' }],
+  '1402': [{ num: 41, tipo: 'DE' }, { num: 40, tipo: 'S' }],
+  '1403': [{ num: 81, tipo: 'DE' }, { num: 67, tipo: 'S' }],
+  '1404': [{ num: 76, tipo: 'DE' }, { num: 75, tipo: 'S' }],
+};
 
 const _rawUnits: Unit[] = [
   { id: 101460, code: '0201', type: 'UNIDADE I — 197,73 m²', floor: 2, prumada: '1', area: 197.73, price: 2987220, status: 'available', setor: 'Torre' },
@@ -70,5 +125,5 @@ const _rawUnits: Unit[] = [
   { id: 101459, code: '0104', type: 'UNIDADE GARDEN - CASA — 366,35 m²', floor: 0, prumada: '4', area: 366.35, price: 5671390, status: 'sold', setor: 'Casas' },
 ];
 
-export const units = applyOv(_rawUnits, 'verdant')
+export const units = applyOv(_rawUnits, 'verdant').map(u => ({ ...u, vagas: VAGAS[u.code] ?? [] }))
 export const setores = ['Torre', 'Casas'] as const;

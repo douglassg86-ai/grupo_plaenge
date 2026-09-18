@@ -143,6 +143,19 @@ export default function UnitGrid() {
                   </div>
                 ))}
               </div>
+              {selected.vagas && selected.vagas.length > 0 && (
+                <div className="pt-1">
+                  <p className="text-muted-foreground text-xs mb-1.5">Vagas de Garagem</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selected.vagas.map(v => (
+                      <span key={v.num} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-muted text-xs font-medium">
+                        <span className="text-muted-foreground">#{v.num}</span>
+                        <span className="text-foreground">{{ S: 'Simples', D: 'Dupla', SE: 'Simples c/ elétrico', DE: 'Dupla c/ elétrico' }[v.tipo]}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
               <PaymentBreakdown price={selected.price} plan={PAYMENT_PLAN} />
               {manager && (
                 <Button className="w-full mt-2" onClick={() => {

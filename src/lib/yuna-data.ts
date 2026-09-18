@@ -6,11 +6,101 @@ function applyOv(units: Unit[], key: string): Unit[] {
   return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
 }
 
+export type VagaTipo = 'S' | 'D' | 'SE' | 'DE';
+export interface Vaga { num: number; tipo: VagaTipo; }
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number; price: number;
   status: 'available' | 'sold' | 'negotiation';
+  vagas?: Vaga[];
 }
+
+const VAGAS: Record<string, Vaga[]> = {
+  '0201': [{ num: 92, tipo: 'D' }],
+  '0202': [{ num: 90, tipo: 'D' }],
+  '0203': [{ num: 78, tipo: 'S' }],
+  '0204': [{ num: 88, tipo: 'S' }, { num: 89, tipo: 'S' }],
+  '0205': [{ num: 77, tipo: 'S' }],
+  '0301': [{ num: 16, tipo: 'D' }],
+  '0302': [{ num: 19, tipo: 'D' }],
+  '0303': [{ num: 80, tipo: 'S' }],
+  '0304': [{ num: 63, tipo: 'D' }],
+  '0305': [{ num: 91, tipo: 'D' }],
+  '0306': [{ num: 79, tipo: 'S' }],
+  '0401': [{ num: 21, tipo: 'D' }],
+  '0402': [{ num: 13, tipo: 'D' }],
+  '0403': [{ num: 82, tipo: 'S' }],
+  '0404': [{ num: 62, tipo: 'D' }],
+  '0405': [{ num: 2, tipo: 'D' }],
+  '0406': [{ num: 84, tipo: 'S' }],
+  '0501': [{ num: 22, tipo: 'D' }],
+  '0502': [{ num: 27, tipo: 'D' }],
+  '0503': [{ num: 81, tipo: 'S' }],
+  '0504': [{ num: 5, tipo: 'D' }],
+  '0505': [{ num: 10, tipo: 'D' }],
+  '0506': [{ num: 58, tipo: 'S' }],
+  '0601': [{ num: 25, tipo: 'D' }],
+  '0602': [{ num: 26, tipo: 'D' }],
+  '0603': [{ num: 29, tipo: 'S' }],
+  '0604': [{ num: 57, tipo: 'D' }],
+  '0605': [{ num: 54, tipo: 'D' }],
+  '0606': [{ num: 85, tipo: 'S' }],
+  '0701': [{ num: 18, tipo: 'D' }],
+  '0702': [{ num: 20, tipo: 'D' }],
+  '0703': [{ num: 64, tipo: 'S' }],
+  '0704': [{ num: 1, tipo: 'D' }],
+  '0705': [{ num: 3, tipo: 'D' }],
+  '0706': [{ num: 87, tipo: 'S' }],
+  '0801': [{ num: 24, tipo: 'D' }],
+  '0802': [{ num: 23, tipo: 'D' }],
+  '0803': [{ num: 28, tipo: 'S' }],
+  '0804': [{ num: 4, tipo: 'D' }],
+  '0805': [{ num: 11, tipo: 'D' }],
+  '0806': [{ num: 83, tipo: 'S' }],
+  '0901': [{ num: 15, tipo: 'D' }],
+  '0902': [{ num: 17, tipo: 'D' }],
+  '0903': [{ num: 86, tipo: 'S' }],
+  '0904': [{ num: 7, tipo: 'D' }],
+  '0905': [{ num: 6, tipo: 'D' }],
+  '0906': [{ num: 69, tipo: 'S' }],
+  '1001': [{ num: 14, tipo: 'D' }],
+  '1002': [{ num: 12, tipo: 'D' }],
+  '1003': [{ num: 30, tipo: 'S' }],
+  '1004': [{ num: 9, tipo: 'D' }],
+  '1005': [{ num: 8, tipo: 'D' }],
+  '1006': [{ num: 45, tipo: 'S' }],
+  '1101': [{ num: 52, tipo: 'D' }],
+  '1102': [{ num: 53, tipo: 'D' }],
+  '1103': [{ num: 99, tipo: 'D' }],
+  '1104': [{ num: 55, tipo: 'D' }],
+  '1105': [{ num: 56, tipo: 'D' }],
+  '1106': [{ num: 50, tipo: 'S' }],
+  '1201': [{ num: 59, tipo: 'S' }, { num: 60, tipo: 'S' }],
+  '1202': [{ num: 46, tipo: 'S' }, { num: 47, tipo: 'S' }],
+  '1203': [{ num: 75, tipo: 'S' }],
+  '1204': [{ num: 51, tipo: 'D' }],
+  '1205': [{ num: 41, tipo: 'S' }, { num: 42, tipo: 'S' }],
+  '1206': [{ num: 100, tipo: 'D' }],
+  '1301': [{ num: 65, tipo: 'S' }, { num: 66, tipo: 'S' }],
+  '1302': [{ num: 43, tipo: 'S' }, { num: 44, tipo: 'S' }],
+  '1303': [{ num: 97, tipo: 'D' }],
+  '1304': [{ num: 39, tipo: 'S' }, { num: 40, tipo: 'S' }],
+  '1305': [{ num: 61, tipo: 'S' }, { num: 74, tipo: 'S' }],
+  '1306': [{ num: 98, tipo: 'D' }],
+  '1401': [{ num: 31, tipo: 'S' }, { num: 32, tipo: 'S' }],
+  '1402': [{ num: 33, tipo: 'S' }, { num: 34, tipo: 'S' }],
+  '1403': [{ num: 95, tipo: 'D' }],
+  '1404': [{ num: 35, tipo: 'S' }, { num: 36, tipo: 'S' }],
+  '1405': [{ num: 37, tipo: 'S' }, { num: 38, tipo: 'S' }],
+  '1406': [{ num: 96, tipo: 'D' }],
+  '1501': [{ num: 72, tipo: 'S' }, { num: 73, tipo: 'S' }],
+  '1502': [{ num: 70, tipo: 'S' }, { num: 71, tipo: 'S' }],
+  '1503': [{ num: 93, tipo: 'D' }],
+  '1504': [{ num: 48, tipo: 'S' }, { num: 49, tipo: 'S' }],
+  '1505': [{ num: 67, tipo: 'S' }, { num: 68, tipo: 'S' }],
+  '1506': [{ num: 94, tipo: 'D' }],
+};
 
 const _rawUnits: Unit[] = [
   { id: 103388, code: '0201', type: 'UNIDADE II — 88,68 m²', floor: 1, prumada: '1', area: 88.68, price: 1288220, status: 'available' },
@@ -98,4 +188,4 @@ const _rawUnits: Unit[] = [
   { id: 103470, code: '1506', type: 'UNIDADE III — 72,58 m²', floor: 14, prumada: '6', area: 72.58, price: 1196960, status: 'sold' },
 ];
 
-export const units = applyOv(_rawUnits, 'yuna')
+export const units = applyOv(_rawUnits, 'yuna').map(u => ({ ...u, vagas: VAGAS[u.code] ?? [] }))

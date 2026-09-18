@@ -6,11 +6,118 @@ function applyOv(units: Unit[], key: string): Unit[] {
   return units.map(u => ({ ...u, status: m[String(u.id)] ?? u.status }))
 }
 
+export type VagaTipo = 'S' | 'D' | 'SE' | 'DE';
+export interface Vaga { num: number; tipo: VagaTipo; }
+
 export interface Unit {
   id: number; code: string; type: string; floor: number;
   prumada: string; area: number; price: number;
   status: 'available' | 'sold' | 'negotiation';
+  vagas?: Vaga[];
 }
+
+const HOME_VAGAS: Record<string, Vaga[]> = {
+  '0301': [{ num: 171, tipo: 'D' }],
+  '0302': [{ num: 97, tipo: 'S' }],
+  '0303': [{ num: 96, tipo: 'S' }],
+  '0304': [{ num: 17, tipo: 'D' }],
+  '0401': [{ num: 130, tipo: 'D' }],
+  '0402': [{ num: 73, tipo: 'S' }],
+  '0403': [{ num: 72, tipo: 'S' }],
+  '0404': [{ num: 15, tipo: 'D' }],
+  '0405': [{ num: 16, tipo: 'D' }],
+  '0406': [{ num: 99, tipo: 'S' }],
+  '0407': [{ num: 98, tipo: 'S' }],
+  '0408': [{ num: 170, tipo: 'D' }],
+  '0501': [{ num: 128, tipo: 'D' }],
+  '0502': [{ num: 29, tipo: 'S' }],
+  '0503': [{ num: 75, tipo: 'S' }],
+  '0504': [{ num: 13, tipo: 'D' }],
+  '0505': [{ num: 14, tipo: 'D' }],
+  '0506': [{ num: 74, tipo: 'S' }],
+  '0507': [{ num: 71, tipo: 'S' }],
+  '0508': [{ num: 129, tipo: 'D' }],
+  '0601': [{ num: 126, tipo: 'D' }],
+  '0602': [{ num: 67, tipo: 'S' }],
+  '0603': [{ num: 77, tipo: 'S' }],
+  '0604': [{ num: 11, tipo: 'D' }],
+  '0605': [{ num: 12, tipo: 'D' }],
+  '0606': [{ num: 76, tipo: 'S' }],
+  '0607': [{ num: 68, tipo: 'S' }],
+  '0608': [{ num: 127, tipo: 'D' }],
+  '0701': [{ num: 124, tipo: 'D' }],
+  '0702': [{ num: 66, tipo: 'S' }],
+  '0703': [{ num: 31, tipo: 'S' }],
+  '0704': [{ num: 9, tipo: 'D' }],
+  '0705': [{ num: 10, tipo: 'D' }],
+  '0706': [{ num: 28, tipo: 'S' }],
+  '0707': [{ num: 30, tipo: 'S' }],
+  '0708': [{ num: 125, tipo: 'D' }],
+  '0801': [{ num: 122, tipo: 'D' }],
+  '0802': [{ num: 32, tipo: 'S' }],
+  '0803': [{ num: 65, tipo: 'S' }],
+  '0804': [{ num: 6, tipo: 'D' }],
+  '0805': [{ num: 4, tipo: 'D' }],
+  '0806': [{ num: 79, tipo: 'S' }],
+  '0807': [{ num: 78, tipo: 'S' }],
+  '0808': [{ num: 123, tipo: 'D' }],
+  '0901': [{ num: 120, tipo: 'D' }],
+  '0902': [{ num: 34, tipo: 'S' }],
+  '0903': [{ num: 80, tipo: 'S' }],
+  '0904': [{ num: 7, tipo: 'D' }],
+  '0905': [{ num: 8, tipo: 'D' }],
+  '0906': [{ num: 64, tipo: 'S' }],
+  '0907': [{ num: 33, tipo: 'S' }],
+  '0908': [{ num: 121, tipo: 'D' }],
+  '1001': [{ num: 69, tipo: 'D' }],
+  '1002': [{ num: 62, tipo: 'S' }],
+  '1003': [{ num: 35, tipo: 'S' }],
+  '1004': [{ num: 57, tipo: 'S' }, { num: 58, tipo: 'S' }],
+  '1005': [{ num: 87, tipo: 'S' }, { num: 86, tipo: 'S' }],
+  '1006': [{ num: 81, tipo: 'S' }],
+  '1007': [{ num: 63, tipo: 'S' }],
+  '1008': [{ num: 70, tipo: 'D' }],
+  '1101': [{ num: 26, tipo: 'D' }],
+  '1102': [{ num: 36, tipo: 'S' }],
+  '1103': [{ num: 61, tipo: 'S' }],
+  '1104': [{ num: 90, tipo: 'S' }, { num: 89, tipo: 'S' }],
+  '1105': [{ num: 40, tipo: 'S' }, { num: 39, tipo: 'S' }],
+  '1106': [{ num: 83, tipo: 'S' }],
+  '1107': [{ num: 82, tipo: 'S' }],
+  '1108': [{ num: 27, tipo: 'D' }],
+  '1201': [{ num: 24, tipo: 'D' }],
+  '1202': [{ num: 85, tipo: 'S' }],
+  '1203': [{ num: 84, tipo: 'S' }],
+  '1204': [{ num: 43, tipo: 'S' }, { num: 42, tipo: 'S' }],
+  '1205': [{ num: 54, tipo: 'S' }, { num: 55, tipo: 'S' }],
+  '1206': [{ num: 60, tipo: 'S' }],
+  '1207': [{ num: 37, tipo: 'S' }],
+  '1208': [{ num: 25, tipo: 'D' }],
+  '1301': [{ num: 22, tipo: 'D' }],
+  '1302': [{ num: 56, tipo: 'S' }],
+  '1303': [{ num: 41, tipo: 'S' }],
+  '1304': [{ num: 51, tipo: 'S' }, { num: 52, tipo: 'S' }],
+  '1305': [{ num: 93, tipo: 'S' }, { num: 92, tipo: 'S' }],
+  '1306': [{ num: 38, tipo: 'S' }],
+  '1307': [{ num: 59, tipo: 'S' }],
+  '1308': [{ num: 23, tipo: 'D' }],
+  '1401': [{ num: 20, tipo: 'D' }],
+  '1402': [{ num: 44, tipo: 'S' }],
+  '1403': [{ num: 53, tipo: 'S' }],
+  '1404': [{ num: 95, tipo: 'S' }, { num: 94, tipo: 'S' }],
+  '1405': [{ num: 46, tipo: 'S' }, { num: 45, tipo: 'S' }],
+  '1406': [{ num: 91, tipo: 'S' }],
+  '1407': [{ num: 88, tipo: 'S' }],
+  '1408': [{ num: 21, tipo: 'D' }],
+  '1501': [{ num: 18, tipo: 'D' }],
+  '1502': [{ num: 5, tipo: 'S' }],
+  '1503': [{ num: 3, tipo: 'S' }],
+  '1504': [{ num: 48, tipo: 'S' }, { num: 47, tipo: 'S' }],
+  '1505': [{ num: 49, tipo: 'S' }, { num: 50, tipo: 'S' }],
+  '1506': [{ num: 2, tipo: 'S' }],
+  '1507': [{ num: 1, tipo: 'S' }],
+  '1508': [{ num: 19, tipo: 'D' }],
+};
 
 const _rawHomeUnits: Unit[] = [
   { id: 108598, code: '0301', type: 'UNIDADE — 88,84 m²', floor: 3, prumada: '1', area: 88.84, price: 1324500, status: 'available' },
@@ -115,7 +222,7 @@ const _rawHomeUnits: Unit[] = [
   { id: 108697, code: '1508', type: 'UNIDADE — 88,84 m²', floor: 15, prumada: '8', area: 88.84, price: 1505080, status: 'sold' },
 ];
 
-export const homeUnits = applyOv(_rawHomeUnits, 'trend_home')
+export const homeUnits = applyOv(_rawHomeUnits, 'trend_home').map(u => ({ ...u, vagas: HOME_VAGAS[u.code] ?? [] }))
 
 const _rawNanoUnits: Unit[] = [
   { id: 89822, code: '0301', type: 'UNIDADE I — 32,70 m²', floor: 3, prumada: '01', area: 32.7, price: 576080, status: 'sold' },
