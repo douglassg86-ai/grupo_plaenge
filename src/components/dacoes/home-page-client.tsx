@@ -30,7 +30,7 @@ const PARADOR = {
       {
         label: 'Galeria',
         images: Array.from({ length: 39 }, (_, i) => ({
-          src: `/AVULSOS/parador/parador_${String(i + 1).padStart(2, '0')}.webp`,
+          src: `/DACOES/parador/parador_${String(i + 1).padStart(2, '0')}.webp`,
           alt: `Parador 2447 — foto ${i + 1}`,
         })),
       },
@@ -58,7 +58,7 @@ const MARQUES = {
       {
         label: 'Galeria',
         images: Array.from({ length: 28 }, (_, i) => ({
-          src: `/AVULSOS/marques/marques_${String(i + 1).padStart(2, '0')}.webp`,
+          src: `/DACOES/marques/marques_${String(i + 1).padStart(2, '0')}.webp`,
           alt: `Ilha Florida 501 — foto ${i + 1}`,
         })),
       },
@@ -342,7 +342,7 @@ function HeroBanner() {
     <section style={{ position: 'relative', height: '100vh', minHeight: '600px', maxHeight: '900px', overflow: 'hidden' }}>
       {/* Background: primeira imagem do Parador como hero */}
       <Image
-        src="/AVULSOS/parador/parador_01.webp"
+        src="/DACOES/parador/parador_01.webp"
         alt="Imóveis Avulsos"
         fill
         priority
@@ -398,7 +398,7 @@ function HeroBanner() {
           lineHeight: 1,
           marginBottom: '28px',
         }}>
-          AVULSOS
+          DAÇÕES
         </h1>
 
         <p style={{
@@ -496,11 +496,11 @@ function SectionDivider({ number, label }: { number: string; label: string }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function AvulsosHomePageClient({ isClientePage }: { isClientePage?: boolean }) {
+export default function DacoesHomePageClient({ isClientePage }: { isClientePage?: boolean }) {
   const manager = useManager();
 
   useEffect(() => {
-    if (manager) trackClick(manager.slug, 'AVULSOS');
+    if (manager) trackClick(manager.slug, 'DAÇÕES');
   }, [manager]);
 
   return (
@@ -538,7 +538,7 @@ export default function AvulsosHomePageClient({ isClientePage }: { isClientePage
           style={{ opacity: 0.5, margin: '0 auto 12px' }}
         />
         <p style={{ fontSize: '12px', color: '#4B5563' }}>
-          Imóveis avulsos · Grupo Plaenge · Porto Alegre / RS
+          Dações · Grupo Plaenge · Porto Alegre / RS
         </p>
       </footer>
 

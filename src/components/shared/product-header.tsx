@@ -82,6 +82,19 @@ export function ProductHeader({ hideNav = false }: { hideNav?: boolean }) {
                       ))}
                   </div>
                 ))}
+                {/* Dações — fora das bandeiras */}
+                <div className="border-t border-gray-100 mt-1">
+                  <p className="px-4 pt-3 pb-1 text-xs font-bold uppercase tracking-widest" style={{ color: '#B8965A' }}>
+                    Dações
+                  </p>
+                  <Link
+                    href="/dacoes"
+                    onClick={() => setOpen(false)}
+                    className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/5 hover:text-primary transition-colors"
+                  >
+                    Imóveis em Dação
+                  </Link>
+                </div>
               </div>
             </>
           )}

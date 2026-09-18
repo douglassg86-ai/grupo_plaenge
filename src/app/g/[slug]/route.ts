@@ -14,9 +14,9 @@ export async function GET(
     return NextResponse.redirect(new URL('/', req.url))
   }
 
-  // Determine destination — ?to=avulsos sends directly to /avulsos
+  // Determine destination — ?to=dacoes sends directly to /dacoes
   const to = req.nextUrl.searchParams.get('to')
-  const dest = to === 'avulsos' ? '/avulsos' : '/'
+  const dest = to === 'dacoes' ? '/dacoes' : '/'
 
   // Build redirect response first
   const response = NextResponse.redirect(new URL(dest, req.url))
