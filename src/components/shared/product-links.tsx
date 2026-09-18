@@ -52,6 +52,44 @@ function LinkButton({ href, icon: Icon, label, variant = 'outline', onClick }: {
   );
 }
 
+async function downloadVideo(url: string, title: string) {
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = `${title}.mp4`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(blobUrl);
+  } catch {
+    window.open(url, '_blank');
+  }
+}
+
+function DownloadButton({ url, title }: { url: string; title: string }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = async () => {
+    setLoading(true);
+    await downloadVideo(url, title);
+    setLoading(false);
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={loading}
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-60"
+    >
+      <Download className="w-3 h-3" />
+      {loading ? 'Baixando…' : 'Baixar'}
+    </button>
+  );
+}
+
 function VideoGalleryModal({ videos, onClose }: { videos: VideoItem[]; onClose: () => void }) {
   return (
     <div
@@ -90,13 +128,7 @@ function VideoGalleryModal({ videos, onClose }: { videos: VideoItem[]; onClose: 
                 >
                   <Play className="w-3 h-3" /> Assistir
                 </a>
-                <a
-                  href={v.url}
-                  download
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                >
-                  <Download className="w-3 h-3" /> Baixar
-                </a>
+                <DownloadButton url={v.url} title={v.title} />
               </div>
             </div>
           ))}
