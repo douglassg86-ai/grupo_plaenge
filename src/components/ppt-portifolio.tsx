@@ -531,17 +531,17 @@ function SlideProduct({ p, onFullscreen, isFullscreen }: { p: ProductData } & Fu
       {isMood && (
         <>
           <div className="absolute pointer-events-none" style={{
-            top: '10%', right: '8%',
-            width: 'clamp(90px, 11vw, 145px)',
-            height: 'clamp(90px, 11vw, 145px)',
+            top: '8%', left: '6%',
+            width: 'clamp(130px, 15vw, 200px)',
+            height: 'clamp(130px, 15vw, 200px)',
             animation: 'sealBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both, sealFloat 5s ease-in-out 1.2s infinite',
           }}>
             <Image src="/MOOD/campanha_elementos01.png" alt="Pronto" fill className="object-contain" />
           </div>
           <div className="absolute pointer-events-none" style={{
-            top: '42%', right: '4%',
-            width: 'clamp(70px, 9vw, 120px)',
-            height: 'clamp(70px, 9vw, 120px)',
+            top: '38%', left: '4%',
+            width: 'clamp(110px, 13vw, 180px)',
+            height: 'clamp(110px, 13vw, 180px)',
             animation: 'sealBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s both, sealFloat 6s ease-in-out 1.5s infinite',
           }}>
             <Image src="/MOOD/campanha_elementos02.png" alt="Últimas unidades" fill className="object-contain" />
