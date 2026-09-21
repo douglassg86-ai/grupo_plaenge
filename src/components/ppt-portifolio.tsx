@@ -20,7 +20,8 @@ interface ProductData {
   plantaImg: string;
   plantaLabel: string;
   plantaHorizontal?: boolean;
-  extraPlantas?: { img: string; label: string }[];
+  extraPlantas?: { img: string; label: string; solarOrientation?: string }[];
+  solarOrientation?: string;
   addr: string;
   bairro: string;
   price?: string;
@@ -46,7 +47,14 @@ const PRODUCTS: ProductData[] = [
     logo: '/VERDANT/logo_verdant.png',
     img: '/VERDANT/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp',
     plantaImg: '/VERDANT/plantas/©VISTA_05_PLB_UNIDADE_APTO_TIPO_01_FINAL.webp',
-    plantaLabel: 'Planta Tipo — 145 m²',
+    plantaLabel: 'Apartamento Tipo — 145 m²',
+    solarOrientation: 'Noroeste',
+    extraPlantas: [
+      { img: '/VERDANT/plantas/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp', label: 'Duplex — Pavimento Inferior', solarOrientation: 'Noroeste' },
+      { img: '/VERDANT/plantas/©VISTA_09_PLB_UNIDADE_APTO_DUPLEX_SUPERIOR_FINAL.webp', label: 'Duplex — Pavimento Superior', solarOrientation: 'Noroeste' },
+      { img: '/VERDANT/plantas/©VISTA_10_PLB_UNIDADE_APTO_COBERTURA_INFERIOR_FINAL_sem banheira.webp', label: 'Cobertura — Pavimento Inferior', solarOrientation: 'Noroeste' },
+      { img: '/VERDANT/plantas/©VISTA_11_PLB_UNIDADE_APTO_COBERTURA_SUPERIOR_FINAL.webp', label: 'Cobertura — Pavimento Superior', solarOrientation: 'Noroeste' },
+    ],
     addr: 'Rua Eça de Queiroz, 215',
     bairro: 'Porto Alegre',
     price: 'R$ 2.099.000',
@@ -59,6 +67,7 @@ const PRODUCTS: ProductData[] = [
     img: '/MOOD/01_fachada-02.webp',
     plantaImg: '/MOOD/plantas/IMG_9736.webp',
     plantaLabel: 'Studio — 29 m²',
+    solarOrientation: 'Norte',
     addr: 'Rua São Josemaría Escrivá, 585',
     bairro: 'Porto Alegre',
     price: 'R$ 299.000',
@@ -72,10 +81,11 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/TREND/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp',
     plantaLabel: 'Studio 02B — 32,06 m²',
     plantaHorizontal: true,
+    solarOrientation: 'Nordeste',
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
     price: 'a partir de R$ 399.000',
-    badges: ['Fluxo 20/80', 'Parcelas fixas'],
+    badges: ['Fluxo 20/80', 'Parcelas fixas até a entrega', 'Em breve: decorado na torre'],
     delivery: 'Entrega Dez/2026 · Primeira Fase',
   },
   {
@@ -85,13 +95,14 @@ const PRODUCTS: ProductData[] = [
     bgPos: '45% center',
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
+    solarOrientation: 'Norte',
     extraPlantas: [
-      { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido' },
-      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp',  label: 'Apartamento 3 Dorms. — Opção' },
+      { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido', solarOrientation: 'Norte' },
+      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção', solarOrientation: 'Norte' },
     ],
     addr: 'Rua Felizardo Furtado, 348',
     bairro: 'Jardim Botânico · Porto Alegre',
-    price: 'R$ 739.990',
+    price: 'a partir de R$ 966.000 · 88 m²',
     badges: ['Fluxo 20/80', 'Ref. unidade 205'],
     delivery: 'Entrega Novembro 2027',
   },
@@ -101,8 +112,10 @@ const PRODUCTS: ProductData[] = [
     img: '/SHIFT/kota_tgd_sil_fachada_4k.webp',
     plantaImg: '/SHIFT/plantas_shift3.png',
     plantaLabel: 'Studio — 25 m²',
+    solarOrientation: 'Noroeste',
     addr: 'Silva Jardim c/ Rua 24 de Outubro',
     bairro: 'Moinhos de Vento · Porto Alegre',
+    price: 'a partir de R$ 389.000',
     badges: ['Últimas unidades'],
     delivery: 'Entrega Abril 2029',
   },
@@ -112,11 +125,12 @@ const PRODUCTS: ProductData[] = [
     img: '/EDITION/JAC_01_Fachada_A_EF2.webp',
     plantaImg: '/EDITION/plantas/3 suítes_146m2_ Torre Jardim Cristófel.webp',
     plantaLabel: '3 Suítes — 146 m²',
+    solarOrientation: 'Noroeste',
     extraPlantas: [
-      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
-      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel' },
-      { img: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 206 m² · Torre Doutor Vale' },
-      { img: '/EDITION/plantas/4 suítes_322m2_ Torre Jardim Cristofel.webp',  label: '4 Suítes — 322 m² · Torre Jardim Cristófel' },
+      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale', solarOrientation: 'Norte' },
+      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel', solarOrientation: 'Noroeste' },
+      { img: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 206 m² · Torre Doutor Vale', solarOrientation: 'Norte' },
+      { img: '/EDITION/plantas/4 suítes_322m2_ Torre Jardim Cristofel.webp',  label: '4 Suítes — 322 m² · Torre Jardim Cristófel', solarOrientation: 'Noroeste' },
     ],
     addr: 'Rua Jardim Cristófel',
     bairro: 'Moinhos de Vento · Porto Alegre',
@@ -129,6 +143,7 @@ const PRODUCTS: ProductData[] = [
     img: '/SYNTHE/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp',
     plantaImg: '/SYNTHE/plantas/©VISTA_01_PLB_APARTAMENTO_TIPO_01_PADRAO_R03_COTAS_FINAL.webp',
     plantaLabel: 'Planta Tipo',
+    solarOrientation: 'Nordeste',
     addr: 'Rua Pedro Ivo, 550',
     bairro: "Mont'Serrat · Porto Alegre",
     badges: ['Últimas oportunidades para concorrer aos carros'],
@@ -147,18 +162,20 @@ const MOSAIC: MosaicItem[] = [
   { name: 'SHIFT',      logo: '/SHIFT/logo_shift.png',       img: '/SHIFT/kota_tgd_sil_fachada_4k.webp',              tag: 'ENTREGA',        date: 'Abr/2029',  badge2: 'Últimas unidades' },
   { name: 'Edition',    logo: '/EDITION/logo_edition.png',   img: '/EDITION/JAC_31_Voo_Passaro_EF_v2.webp',           tag: 'ENTREGA',        date: 'Jul/2028' },
   { name: 'Synthè',     logo: '/SYNTHE/logo.png',            img: '/SYNTHE/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp',  tag: 'PRÉ-LANÇAMENTO', date: '' },
+  { name: 'Wave',       logo: '',                            img: '/WAVE/wave_pordosol.jpg',                          tag: 'PRONTO',         date: '' },
 ];
 
 const POA_TIMELINE = [
   { name: 'YVY',                   addr: 'Lindoia',                              tag: 'Entregue Mar/2024 · 100% vendido' },
   { name: 'Orbitale',              addr: 'R. Regente, 152 · Petrópolis',         tag: '100% Vendido' },
+  { name: 'Wave Home Resort',      addr: 'Av. José Bruno Klein, 879 · Xangri-lá', tag: 'Pronto para construir' },
   { name: 'Mood Central Parque',   addr: 'R. São Josemaría Escrivá, 585',        tag: 'Pronto para morar' },
   { name: 'Trend Downtown Nano',   addr: 'R. General Lima e Silva, 1462',        tag: 'Entrega Dez/2026' },
-  { name: 'Verdant',               addr: 'R. Eça de Queiroz, 215',              tag: 'Entrega Abr/2027' },
-  { name: 'Yuna Jardim Botânico',  addr: 'R. Felizardo Furtado, 348',           tag: 'Entrega Nov/2027' },
-  { name: 'Edition Moinhos',       addr: 'R. Jardim Cristófel · Moinhos',       tag: 'Entrega Jul/2028' },
-  { name: 'SHIFT',                 addr: 'Silva Jardim c/ R. 24 de Outubro',    tag: 'Entrega Abr/2029' },
-  { name: 'Synthè',                addr: "R. Pedro Ivo, 550 · Mont'Serrat",     tag: 'Pré-lançamento' },
+  { name: 'Verdant',               addr: 'R. Eça de Queiroz, 215',               tag: 'Entrega Abr/2027' },
+  { name: 'Yuna Jardim Botânico',  addr: 'R. Felizardo Furtado, 348',            tag: 'Entrega Nov/2027' },
+  { name: 'Edition Moinhos',       addr: 'R. Jardim Cristófel · Moinhos',        tag: 'Entrega Jul/2028' },
+  { name: 'SHIFT',                 addr: 'Silva Jardim c/ R. 24 de Outubro',     tag: 'Entrega Abr/2029' },
+  { name: 'Synthè',                addr: "R. Pedro Ivo, 550 · Mont'Serrat",      tag: 'Pré-lançamento' },
 ];
 
 // ── SLIDE LIST ────────────────────────────────────────────────────────────────
@@ -178,7 +195,6 @@ type Slide =
   | { k: 'contracapa' };
 
 const SLIDES: Slide[] = [
-  { k: 'numbers' },
   { k: 'cover' },
   { k: 'poa' },
   { k: 'mosaic' },
@@ -189,7 +205,7 @@ const SLIDES: Slide[] = [
     { k: 'planta'  as const, p },
     ...(p.extraPlantas ?? []).map(ep => ({
       k: 'planta' as const,
-      p: { ...p, plantaImg: ep.img, plantaLabel: ep.label } as ProductData,
+      p: { ...p, plantaImg: ep.img, plantaLabel: ep.label, solarOrientation: ep.solarOrientation ?? p.solarOrientation } as ProductData,
     })),
   ]),
   { k: 'meta1intro' },
@@ -243,12 +259,12 @@ function SlideCover({ onFullscreen, isFullscreen }: FullscreenProps) {
             Porto Alegre
           </h1>
           <p className="text-xl" style={{ color: 'rgba(240,237,232,0.55)', letterSpacing: '0.06em' }}>
-            5 anos · 9 empreendimentos
+            5 anos · 10 empreendimentos
           </p>
         </div>
 
         <div className="flex gap-12 mt-6">
-          {[['9', 'Empreendimentos'], ['5', 'Anos de atuação']].map(([n, l]) => (
+          {[['10', 'Empreendimentos'], ['5', 'Anos de atuação']].map(([n, l]) => (
             <div key={l} className="text-center">
               <p className="font-bold" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', color: GOLD }}>{n}</p>
               <p className="text-sm mt-1 tracking-widest uppercase" style={{ color: 'rgba(240,237,232,0.45)' }}>{l}</p>
@@ -316,7 +332,7 @@ function SlidePoa({ onFullscreen, isFullscreen }: FullscreenProps) {
         </div>
         <div className="flex gap-8">
           <div>
-            <p className="font-bold" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', color: GOLD }}>9</p>
+            <p className="font-bold" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', color: GOLD }}>10</p>
             <p className="text-sm tracking-widest uppercase mt-1" style={{ color: 'rgba(240,237,232,0.45)' }}>Lançamentos</p>
           </div>
           <div>
@@ -388,7 +404,11 @@ function SlideMosaic({ onFullscreen, isFullscreen }: FullscreenProps) {
 
             <div className="absolute inset-x-0 bottom-0 p-3 flex flex-col gap-1.5">
               <div className="relative h-7">
-                <Image src={item.logo} alt={item.name} fill className="object-contain object-left" style={{ filter: 'brightness(0) invert(1)' }} />
+                {item.logo ? (
+                  <Image src={item.logo} alt={item.name} fill className="object-contain object-left" style={{ filter: 'brightness(0) invert(1)' }} />
+                ) : (
+                  <p className="text-sm font-bold tracking-widest uppercase" style={{ color: WARM }}>{item.name}</p>
+                )}
               </div>
               <div className="flex items-center gap-1.5 flex-wrap">
                 {!item.sold100 && (
@@ -609,6 +629,12 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
             <div className="w-5 h-0.5" style={{ background: GOLD }} />
             <p className="text-base font-semibold" style={{ color: WARM }}>{p.plantaLabel}</p>
           </div>
+          {p.solarOrientation && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs" style={{ color: 'rgba(240,237,232,0.4)' }}>☀ Orientação</span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: `${GOLD}22`, color: GOLD, border: `1px solid ${GOLD}44` }}>{p.solarOrientation}</span>
+            </div>
+          )}
           <p className="text-sm" style={{ color: 'rgba(240,237,232,0.4)' }}>{p.bairro}</p>
           <p className="text-sm tracking-widest uppercase" style={{ color: GOLD + '66' }}>Planta</p>
         </div>
@@ -628,6 +654,12 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
           <div className="w-8 h-0.5" style={{ background: GOLD }} />
           <p className="text-base font-semibold leading-tight" style={{ color: WARM }}>{p.plantaLabel}</p>
           <p className="text-sm leading-relaxed" style={{ color: 'rgba(240,237,232,0.45)' }}>{p.addr}<br />{p.bairro}</p>
+          {p.solarOrientation && (
+            <div className="flex items-center gap-2 pt-1">
+              <span className="text-xs" style={{ color: 'rgba(240,237,232,0.35)' }}>☀</span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: `${GOLD}22`, color: GOLD, border: `1px solid ${GOLD}44` }}>{p.solarOrientation}</span>
+            </div>
+          )}
         </div>
         <p className="text-sm tracking-widest uppercase" style={{ color: GOLD + '66' }}>Planta</p>
       </div>
