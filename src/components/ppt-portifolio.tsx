@@ -20,8 +20,7 @@ interface ProductData {
   plantaImg: string;
   plantaLabel: string;
   plantaHorizontal?: boolean;
-  extraPlantas?: { img: string; label: string; solarOrientation?: string }[];
-  solarOrientation?: string;
+  extraPlantas?: { img: string; label: string }[];
   addr: string;
   bairro: string;
   price?: string;
@@ -48,12 +47,11 @@ const PRODUCTS: ProductData[] = [
     img: '/VERDANT/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp',
     plantaImg: '/VERDANT/plantas/©VISTA_05_PLB_UNIDADE_APTO_TIPO_01_FINAL.webp',
     plantaLabel: 'Apartamento Tipo — 145 m²',
-    solarOrientation: 'Noroeste',
     extraPlantas: [
-      { img: '/VERDANT/plantas/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp', label: 'Duplex — Pavimento Inferior', solarOrientation: 'Noroeste' },
-      { img: '/VERDANT/plantas/©VISTA_09_PLB_UNIDADE_APTO_DUPLEX_SUPERIOR_FINAL.webp', label: 'Duplex — Pavimento Superior', solarOrientation: 'Noroeste' },
-      { img: '/VERDANT/plantas/©VISTA_10_PLB_UNIDADE_APTO_COBERTURA_INFERIOR_FINAL_sem banheira.webp', label: 'Cobertura — Pavimento Inferior', solarOrientation: 'Noroeste' },
-      { img: '/VERDANT/plantas/©VISTA_11_PLB_UNIDADE_APTO_COBERTURA_SUPERIOR_FINAL.webp', label: 'Cobertura — Pavimento Superior', solarOrientation: 'Noroeste' },
+      { img: '/VERDANT/plantas/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp', label: 'Duplex — Pavimento Inferior' },
+      { img: '/VERDANT/plantas/©VISTA_09_PLB_UNIDADE_APTO_DUPLEX_SUPERIOR_FINAL.webp', label: 'Duplex — Pavimento Superior' },
+      { img: '/VERDANT/plantas/©VISTA_10_PLB_UNIDADE_APTO_COBERTURA_INFERIOR_FINAL_sem banheira.webp', label: 'Cobertura — Pavimento Inferior' },
+      { img: '/VERDANT/plantas/©VISTA_11_PLB_UNIDADE_APTO_COBERTURA_SUPERIOR_FINAL.webp', label: 'Cobertura — Pavimento Superior' },
     ],
     addr: 'Rua Eça de Queiroz, 215',
     bairro: 'Porto Alegre',
@@ -67,7 +65,6 @@ const PRODUCTS: ProductData[] = [
     img: '/MOOD/01_fachada-02.webp',
     plantaImg: '/MOOD/plantas/IMG_9736.webp',
     plantaLabel: 'Studio — 29 m²',
-    solarOrientation: 'Norte',
     addr: 'Rua São Josemaría Escrivá, 585',
     bairro: 'Porto Alegre',
     price: 'R$ 299.000',
@@ -81,7 +78,6 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/TREND/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp',
     plantaLabel: 'Studio 02B — 32,06 m²',
     plantaHorizontal: true,
-    solarOrientation: 'Nordeste',
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
     price: 'a partir de R$ 399.000',
@@ -95,10 +91,9 @@ const PRODUCTS: ProductData[] = [
     bgPos: '45% center',
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
-    solarOrientation: 'Norte',
     extraPlantas: [
-      { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido', solarOrientation: 'Norte' },
-      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção', solarOrientation: 'Norte' },
+      { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido' },
+      { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção' },
     ],
     addr: 'Rua Felizardo Furtado, 348',
     bairro: 'Jardim Botânico · Porto Alegre',
@@ -112,7 +107,6 @@ const PRODUCTS: ProductData[] = [
     img: '/SHIFT/kota_tgd_sil_fachada_4k.webp',
     plantaImg: '/SHIFT/plantas_shift3.png',
     plantaLabel: 'Studio — 25 m²',
-    solarOrientation: 'Noroeste',
     addr: 'Silva Jardim c/ Rua 24 de Outubro',
     bairro: 'Moinhos de Vento · Porto Alegre',
     price: 'a partir de R$ 389.000',
@@ -125,12 +119,11 @@ const PRODUCTS: ProductData[] = [
     img: '/EDITION/JAC_01_Fachada_A_EF2.webp',
     plantaImg: '/EDITION/plantas/3 suítes_146m2_ Torre Jardim Cristófel.webp',
     plantaLabel: '3 Suítes — 146 m²',
-    solarOrientation: 'Noroeste',
     extraPlantas: [
-      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale', solarOrientation: 'Norte' },
-      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel', solarOrientation: 'Noroeste' },
-      { img: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 206 m² · Torre Doutor Vale', solarOrientation: 'Norte' },
-      { img: '/EDITION/plantas/4 suítes_322m2_ Torre Jardim Cristofel.webp',  label: '4 Suítes — 322 m² · Torre Jardim Cristófel', solarOrientation: 'Noroeste' },
+      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
+      { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel' },
+      { img: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 206 m² · Torre Doutor Vale' },
+      { img: '/EDITION/plantas/4 suítes_322m2_ Torre Jardim Cristofel.webp',  label: '4 Suítes — 322 m² · Torre Jardim Cristófel' },
     ],
     addr: 'Rua Jardim Cristófel',
     bairro: 'Moinhos de Vento · Porto Alegre',
@@ -143,7 +136,6 @@ const PRODUCTS: ProductData[] = [
     img: '/SYNTHE/©VISTA_02_EXT_FACHADA_DIURNA_FINAL.webp',
     plantaImg: '/SYNTHE/plantas/©VISTA_01_PLB_APARTAMENTO_TIPO_01_PADRAO_R03_COTAS_FINAL.webp',
     plantaLabel: 'Planta Tipo',
-    solarOrientation: 'Nordeste',
     addr: 'Rua Pedro Ivo, 550',
     bairro: "Mont'Serrat · Porto Alegre",
     badges: ['Últimas oportunidades para concorrer aos carros'],
@@ -205,7 +197,7 @@ const SLIDES: Slide[] = [
     { k: 'planta'  as const, p },
     ...(p.extraPlantas ?? []).map(ep => ({
       k: 'planta' as const,
-      p: { ...p, plantaImg: ep.img, plantaLabel: ep.label, solarOrientation: ep.solarOrientation ?? p.solarOrientation } as ProductData,
+      p: { ...p, plantaImg: ep.img, plantaLabel: ep.label } as ProductData,
     })),
   ]),
   { k: 'meta1intro' },
@@ -629,12 +621,6 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
             <div className="w-5 h-0.5" style={{ background: GOLD }} />
             <p className="text-base font-semibold" style={{ color: WARM }}>{p.plantaLabel}</p>
           </div>
-          {p.solarOrientation && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs" style={{ color: 'rgba(240,237,232,0.4)' }}>☀ Orientação</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: `${GOLD}22`, color: GOLD, border: `1px solid ${GOLD}44` }}>{p.solarOrientation}</span>
-            </div>
-          )}
           <p className="text-sm" style={{ color: 'rgba(240,237,232,0.4)' }}>{p.bairro}</p>
           <p className="text-sm tracking-widest uppercase" style={{ color: GOLD + '66' }}>Planta</p>
         </div>
@@ -654,12 +640,6 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
           <div className="w-8 h-0.5" style={{ background: GOLD }} />
           <p className="text-base font-semibold leading-tight" style={{ color: WARM }}>{p.plantaLabel}</p>
           <p className="text-sm leading-relaxed" style={{ color: 'rgba(240,237,232,0.45)' }}>{p.addr}<br />{p.bairro}</p>
-          {p.solarOrientation && (
-            <div className="flex items-center gap-2 pt-1">
-              <span className="text-xs" style={{ color: 'rgba(240,237,232,0.35)' }}>☀</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: `${GOLD}22`, color: GOLD, border: `1px solid ${GOLD}44` }}>{p.solarOrientation}</span>
-            </div>
-          )}
         </div>
         <p className="text-sm tracking-widest uppercase" style={{ color: GOLD + '66' }}>Planta</p>
       </div>
