@@ -21,6 +21,7 @@ interface ProductData {
   plantaLabel: string;
   plantaHorizontal?: boolean;
   extraPlantas?: { img: string; label: string }[];
+  implantacaoImg?: string;
   addr: string;
   bairro: string;
   price?: string;
@@ -47,6 +48,7 @@ const PRODUCTS: ProductData[] = [
     img: '/VERDANT/©VISTA_01_EXT_FACHADA_DIURNA_FINAL.webp',
     plantaImg: '/VERDANT/plantas/©VISTA_05_PLB_UNIDADE_APTO_TIPO_01_FINAL.webp',
     plantaLabel: 'Apartamento Tipo — 145 m²',
+    implantacaoImg: '/VERDANT/implantacoes/verdant-implantacao.jpg',
     extraPlantas: [
       { img: '/VERDANT/plantas/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp', label: 'Duplex — Pavimento Inferior' },
       { img: '/VERDANT/plantas/©VISTA_09_PLB_UNIDADE_APTO_DUPLEX_SUPERIOR_FINAL.webp', label: 'Duplex — Pavimento Superior' },
@@ -65,6 +67,7 @@ const PRODUCTS: ProductData[] = [
     img: '/MOOD/01_fachada-02.webp',
     plantaImg: '/MOOD/plantas/IMG_9736.webp',
     plantaLabel: 'Studio — 29 m²',
+    implantacaoImg: '/MOOD/implantacoes/mood.png',
     addr: 'Rua São Josemaría Escrivá, 585',
     bairro: 'Porto Alegre',
     price: 'R$ 299.000',
@@ -78,6 +81,7 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/TREND/plantas/PNB_PB_08_Planta_Nano_Apto_02B_EF.webp',
     plantaLabel: 'Studio 02B — 32,06 m²',
     plantaHorizontal: true,
+    implantacaoImg: '/TREND/implantacoes-nano/nano-03.jpg',
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
     price: 'a partir de R$ 399.000',
@@ -91,6 +95,7 @@ const PRODUCTS: ProductData[] = [
     bgPos: '45% center',
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
+    implantacaoImg: '/YUNA/implantacoes/yuna-01.png',
     extraPlantas: [
       { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido' },
       { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção' },
@@ -107,6 +112,7 @@ const PRODUCTS: ProductData[] = [
     img: '/SHIFT/kota_tgd_sil_fachada_4k.webp',
     plantaImg: '/SHIFT/plantas_shift3.png',
     plantaLabel: 'Studio — 25 m²',
+    implantacaoImg: '/SHIFT/cpavimentos-01.png',
     addr: 'Silva Jardim c/ Rua 24 de Outubro',
     bairro: 'Moinhos de Vento · Porto Alegre',
     price: 'a partir de R$ 389.000',
@@ -119,6 +125,7 @@ const PRODUCTS: ProductData[] = [
     img: '/EDITION/JAC_01_Fachada_A_EF2.webp',
     plantaImg: '/EDITION/plantas/3 suítes_146m2_ Torre Jardim Cristófel.webp',
     plantaLabel: '3 Suítes — 146 m²',
+    implantacaoImg: '/EDITION/implantacoes/edition.png',
     extraPlantas: [
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel' },
@@ -612,6 +619,11 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
         <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
         <div className="flex-1 relative px-8 pt-8 pb-2">
           <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" />
+          {p.implantacaoImg && (
+            <div className="absolute bottom-4 right-4 w-28 h-28 rounded-lg overflow-hidden shadow-lg" style={{ border: `1px solid ${GOLD}44` }}>
+              <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
+            </div>
+          )}
         </div>
         <div className="shrink-0 flex items-center justify-between px-10 py-5" style={{ background: BG }}>
           <div className="relative h-8 w-36">
@@ -646,6 +658,11 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
 
       <div className="flex-1 h-full relative p-6">
         <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" />
+        {p.implantacaoImg && (
+          <div className="absolute bottom-6 right-6 w-28 h-28 rounded-lg overflow-hidden shadow-lg" style={{ border: `1px solid ${GOLD}44` }}>
+            <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
+          </div>
+        )}
       </div>
     </div>
   );
