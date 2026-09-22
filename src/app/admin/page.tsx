@@ -334,24 +334,7 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Contador vídeo convite SYNTHÈ */}
-      {adminView === 'gestores' && videoViews !== null && (
-        <div className="px-6 py-3 border-b border-gray-800">
-          <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">📹 Convite SYNTHÈ — Sábado 11/07</p>
-          <div className="flex gap-4">
-            <div className="bg-gray-800 rounded-xl px-5 py-3 text-center min-w-[100px]">
-              <p className="text-2xl font-bold text-white">{videoViews.total}</p>
-              <p className="text-xs text-gray-400 mt-0.5">visualizações totais</p>
-            </div>
-            <div className="bg-gray-800 rounded-xl px-5 py-3 text-center min-w-[100px]">
-              <p className="text-2xl font-bold text-green-400">{videoViews.today}</p>
-              <p className="text-xs text-gray-400 mt-0.5">hoje</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Shared date range picker — shown in gestores and interesse */}
+{/* Shared date range picker — shown in gestores and interesse */}
       {(adminView === 'gestores' || adminView === 'interesse') && (
         <div className="px-6 pt-4 pb-3 border-b border-gray-800 flex flex-wrap items-center gap-3">
           <span className="text-sm text-gray-400">Período:</span>
