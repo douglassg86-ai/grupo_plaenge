@@ -24,6 +24,7 @@ interface ProductData {
   implantacaoImg?: string;
   implantacaoPos?: 'bottom-right' | 'top-left' | 'top-right' | 'bottom-left';
   plantaObjectPos?: string;
+  mapUrl?: string;
   addr: string;
   bairro: string;
   price?: string;
@@ -53,6 +54,7 @@ const PRODUCTS: ProductData[] = [
     implantacaoImg: '/VERDANT/implantacoes/verdant-implantacao.jpg',
     implantacaoPos: 'top-left',
     plantaObjectPos: 'right center',
+    mapUrl: 'https://maps.google.com/maps?q=Rua+Eça+de+Queiroz,+215,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     extraPlantas: [
       { img: '/VERDANT/plantas/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp', label: 'Duplex — Pavimento Inferior' },
       { img: '/VERDANT/plantas/©VISTA_09_PLB_UNIDADE_APTO_DUPLEX_SUPERIOR_FINAL.webp', label: 'Duplex — Pavimento Superior' },
@@ -72,6 +74,7 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/MOOD/plantas/IMG_9736.webp',
     plantaLabel: 'Studio — 29 m²',
     implantacaoImg: '/MOOD/implantacoes/mood.png',
+    mapUrl: 'https://maps.google.com/maps?q=Rua+São+Josemaría+Escrivá,+585,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     addr: 'Rua São Josemaría Escrivá, 585',
     bairro: 'Porto Alegre',
     price: 'R$ 299.000',
@@ -86,6 +89,7 @@ const PRODUCTS: ProductData[] = [
     plantaLabel: 'Studio 02B — 32,06 m²',
     plantaHorizontal: true,
     implantacaoImg: '/TREND/implantacoes-nano/nano-03.jpg',
+    mapUrl: 'https://maps.google.com/maps?q=Rua+General+Lima+e+Silva,+1462,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     addr: 'Rua General Lima e Silva, 1462',
     bairro: 'Centro Histórico · Porto Alegre',
     price: 'a partir de R$ 399.000',
@@ -100,6 +104,7 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
     implantacaoImg: '/YUNA/implantacoes/yuna-01.png',
+    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3454.0!2d-51.1988!3d-30.0438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x951979c0e3cc1dbd%3A0x1!2sR.+Felizardo+Furtado%2C+348+-+Jardim+Bot%C3%A2nico%2C+Porto+Alegre+-+RS!5e0!3m2!1spt-BR!2sbr!4v1234567890',
     extraPlantas: [
       { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido' },
       { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção' },
@@ -117,6 +122,7 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/SHIFT/plantas_shift3.png',
     plantaLabel: 'Studio — 25 m²',
     implantacaoImg: '/SHIFT/cpavimentos-01.png',
+    mapUrl: 'https://maps.google.com/maps?q=Rua+Silva+Jardim+c/+Rua+24+de+Outubro,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     addr: 'Silva Jardim c/ Rua 24 de Outubro',
     bairro: 'Moinhos de Vento · Porto Alegre',
     price: 'a partir de R$ 389.000',
@@ -132,6 +138,7 @@ const PRODUCTS: ProductData[] = [
     implantacaoImg: '/EDITION/implantacoes/edition.png',
     implantacaoPos: 'top-left',
     plantaObjectPos: 'center bottom',
+    mapUrl: 'https://maps.google.com/maps?q=Rua+Jardim+Cristofel,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     extraPlantas: [
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel' },
@@ -191,6 +198,7 @@ type Slide =
   | { k: 'mosaic' }
   | { k: 'orbitale100' }
   | { k: 'product'; p: ProductData }
+  | { k: 'mapa';    p: ProductData }
   | { k: 'planta';  p: ProductData }
   | { k: 'moodcampanha' }
   | { k: 'meta1intro' }
@@ -207,6 +215,7 @@ const SLIDES: Slide[] = [
   ...PRODUCTS.flatMap(p => [
     { k: 'product' as const, p },
     ...(p.name === 'Mood' ? [{ k: 'moodcampanha' as const }] : []),
+    ...(p.mapUrl ? [{ k: 'mapa' as const, p }] : []),
     { k: 'planta'  as const, p },
     ...(p.extraPlantas ?? []).map(ep => ({
       k: 'planta' as const,
@@ -618,6 +627,35 @@ function SlideProduct({ p, onFullscreen, isFullscreen }: { p: ProductData } & Fu
   );
 }
 
+// ── SLIDE MAPA ────────────────────────────────────────────────────────────────
+function SlideMapa({ p, onFullscreen, isFullscreen }: { p: ProductData } & FullscreenProps) {
+  return (
+    <div className="relative w-full h-full flex overflow-hidden" style={{ background: BG }}>
+      <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
+      <div className="w-[22%] h-full flex flex-col justify-between py-10 px-8" style={{ background: BG }}>
+        <div className="relative h-9 w-36">
+          <Image src={p.logo} alt={p.name} fill className="object-contain object-left" style={{ filter: 'brightness(0) invert(1)' }} />
+        </div>
+        <div className="space-y-3">
+          <div className="w-8 h-0.5" style={{ background: GOLD }} />
+          <p className="text-base font-semibold leading-tight" style={{ color: WARM }}>{p.addr}</p>
+          <p className="text-sm leading-relaxed" style={{ color: 'rgba(240,237,232,0.45)' }}>{p.bairro}</p>
+        </div>
+        <p className="text-sm tracking-widest uppercase" style={{ color: GOLD + '66' }}>Localização</p>
+      </div>
+      <div className="flex-1 h-full relative">
+        <iframe
+          src={p.mapUrl}
+          className="w-full h-full border-0"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title={`Mapa ${p.name}`}
+        />
+      </div>
+    </div>
+  );
+}
+
 function implantacaoStyle(pos?: string): React.CSSProperties {
   switch (pos) {
     case 'top-left':    return { top: '1rem', left: '1rem' };
@@ -627,6 +665,43 @@ function implantacaoStyle(pos?: string): React.CSSProperties {
   }
 }
 
+function ImplantacaoThumb({ img, pos }: { img: string; pos?: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="absolute w-56 rounded-lg overflow-hidden shadow-lg group"
+        style={{ ...implantacaoStyle(pos), border: `1px solid ${GOLD}44`, height: '14rem' }}
+      >
+        <Image src={img} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-1.5 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: `${BG}cc` }}>
+          <span className="text-xs font-medium tracking-wide" style={{ color: GOLD }}>Clique para ampliar</span>
+        </div>
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-1" style={{ background: `${BG}88` }}>
+          <span className="text-[10px] tracking-wide" style={{ color: 'rgba(240,237,232,0.55)' }}>Clique para ampliar</span>
+        </div>
+      </button>
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ background: 'rgba(0,0,0,0.85)' }}
+          onClick={() => setOpen(false)}
+        >
+          <div className="relative w-[80vw] h-[80vh] rounded-xl overflow-hidden shadow-2xl" style={{ background: '#fff' }} onClick={e => e.stopPropagation()}>
+            <Image src={img} alt="Implantação ampliada" fill className="object-contain p-4" />
+            <button
+              className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+              style={{ background: BG, color: WARM }}
+              onClick={() => setOpen(false)}
+            >✕</button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & FullscreenProps) {
   if (p.plantaHorizontal) {
     return (
@@ -634,11 +709,7 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
         <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
         <div className="flex-1 relative px-8 pt-8 pb-2">
           <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" style={p.plantaObjectPos ? { objectPosition: p.plantaObjectPos } : undefined} />
-          {p.implantacaoImg && (
-            <div className="absolute w-56 h-56 rounded-lg overflow-hidden shadow-lg" style={{ ...implantacaoStyle(p.implantacaoPos), border: `1px solid ${GOLD}44` }}>
-              <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
-            </div>
-          )}
+          {p.implantacaoImg && <ImplantacaoThumb img={p.implantacaoImg} pos={p.implantacaoPos} />}
         </div>
         <div className="shrink-0 flex items-center justify-between px-10 py-5" style={{ background: BG }}>
           <div className="relative h-8 w-36">
@@ -673,11 +744,7 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
 
       <div className="flex-1 h-full relative p-6">
         <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" style={p.plantaObjectPos ? { objectPosition: p.plantaObjectPos } : undefined} />
-        {p.implantacaoImg && (
-          <div className="absolute w-56 h-56 rounded-lg overflow-hidden shadow-lg" style={{ ...implantacaoStyle(p.implantacaoPos), border: `1px solid ${GOLD}44` }}>
-            <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
-          </div>
-        )}
+        {p.implantacaoImg && <ImplantacaoThumb img={p.implantacaoImg} pos={p.implantacaoPos} />}
       </div>
     </div>
   );
@@ -996,6 +1063,7 @@ function RenderSlide({ slide, onFullscreen, isFullscreen }: { slide: Slide } & F
     case 'mosaic':      return <SlideMosaic        {...props} />;
     case 'orbitale100':   return <SlideOrbitale100   {...props} />;
     case 'product':       return <SlideProduct       p={slide.p} {...props} />;
+    case 'mapa':          return <SlideMapa          p={slide.p} {...props} />;
     case 'planta':        return <SlidePlanta        p={slide.p} {...props} />;
     case 'moodcampanha':  return <SlideMoodCampanha  {...props} />;
     case 'meta1intro':    return <SlideMetaIntro1    {...props} />;
