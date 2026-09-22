@@ -620,7 +620,7 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
         <div className="flex-1 relative px-8 pt-8 pb-2">
           <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" />
           {p.implantacaoImg && (
-            <div className="absolute bottom-4 right-4 w-28 h-28 rounded-lg overflow-hidden shadow-lg" style={{ border: `1px solid ${GOLD}44` }}>
+            <div className="absolute bottom-4 right-4 w-56 h-56 rounded-lg overflow-hidden shadow-lg" style={{ border: `1px solid ${GOLD}44` }}>
               <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
             </div>
           )}
@@ -659,7 +659,7 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
       <div className="flex-1 h-full relative p-6">
         <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" />
         {p.implantacaoImg && (
-          <div className="absolute bottom-6 right-6 w-28 h-28 rounded-lg overflow-hidden shadow-lg" style={{ border: `1px solid ${GOLD}44` }}>
+          <div className="absolute bottom-6 right-6 w-56 h-56 rounded-lg overflow-hidden shadow-lg" style={{ border: `1px solid ${GOLD}44` }}>
             <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
           </div>
         )}
