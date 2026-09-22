@@ -13,7 +13,7 @@
   },
   "mood": {
     "79034": "sold",
-    "79046": "negotiation",
+    "79046": "sold",
     "79047": "negotiation",
     "79048": "sold",
     "79052": "sold",
@@ -118,6 +118,7 @@
     "90013": "available",
     "90015": "available",
     "90033": "available",
+    "90037": "sold",
     "90051": "available",
     "90053": "sold",
     "90066": "available",
