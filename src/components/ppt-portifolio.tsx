@@ -187,8 +187,8 @@ type Slide =
   | { k: 'contracapa' };
 
 const SLIDES: Slide[] = [
-  { k: 'cover' },
   { k: 'numbers' },
+  { k: 'cover' },
   { k: 'mosaic' },
   { k: 'orbitale100' },
   ...PRODUCTS.flatMap(p => [
