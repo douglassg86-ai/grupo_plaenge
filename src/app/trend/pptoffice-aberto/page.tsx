@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function TrendPptOfficeAbertoPage() {
-  return <TrendOfficePpt dir="/TREND/ppt_office_aberto" total={38} gated={false} />;
+  return <TrendOfficePpt dir="/TREND/ppt_office_aberto" total={39} gated={false} />;
 }
