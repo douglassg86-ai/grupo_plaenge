@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAnalytics } from '@/lib/redis'
+import { getAnalytics, getDacoesClicks } from '@/lib/redis'
 import { managers } from '@/lib/managers'
 
 export async function POST(req: NextRequest) {
@@ -11,14 +11,17 @@ export async function POST(req: NextRequest) {
   const end = endDate ?? new Date().toISOString().slice(0, 10)
   const start = startDate ?? new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10)
 
-  const data = await Promise.all(
-    managers.map(async m => ({
-      slug: m.slug,
-      name: m.name,
-      photo: m.photo,
-      ...(await getAnalytics(m.slug, start, end)),
-    }))
-  )
+  const [data, dacoes] = await Promise.all([
+    Promise.all(
+      managers.map(async m => ({
+        slug: m.slug,
+        name: m.name,
+        photo: m.photo,
+        ...(await getAnalytics(m.slug, start, end)),
+      }))
+    ),
+    getDacoesClicks(start, end),
+  ])
 
-  return NextResponse.json({ data })
+  return NextResponse.json({ data, dacoes })
 }

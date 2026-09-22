@@ -98,6 +98,35 @@ export async function getTopUnits(
   return result
 }
 
+export const DACOES_IDS = ['parador', 'marques'] as const
+export type DacaoId = typeof DACOES_IDS[number]
+
+export async function trackDacaoClick(dacaoId: DacaoId) {
+  const r = getRedis()
+  if (!r) return
+  const day = todayKey()
+  await Promise.all([
+    r.incr(`dacao:click:${dacaoId}:${day}`),
+    r.incr(`dacao:click:${dacaoId}:total`),
+    r.incr(`dacao:click:total:${day}`),
+    r.incr(`dacao:click:total`),
+  ])
+}
+
+export async function getDacoesClicks(startDate: string, endDate: string): Promise<{ total: number; byDacao: Record<DacaoId, number> }> {
+  const r = getRedis()
+  if (!r) return { total: 0, byDacao: { parador: 0, marques: 0 } }
+  const dates = dateRange(startDate, endDate)
+  const keys = DACOES_IDS.flatMap(id => dates.map(d => `dacao:click:${id}:${d}`))
+  const values = keys.length > 0 ? await r.mget<number[]>(...keys) : []
+  const byDacao = {} as Record<DacaoId, number>
+  DACOES_IDS.forEach((id, i) => {
+    byDacao[id] = dates.reduce((sum, _, di) => sum + (values[i * dates.length + di] ?? 0), 0)
+  })
+  const total = (Object.values(byDacao) as number[]).reduce((a, b) => a + b, 0)
+  return { total, byDacao }
+}
+
 export async function getAnalytics(slug: string, startDate: string, endDate: string) {
   const r = getRedis()
   if (!r) return { visits: 0, clicks: 0, daily: [] as { date: string; visits: number; clicks: number }[], byProduct: {} as Record<string, number> }

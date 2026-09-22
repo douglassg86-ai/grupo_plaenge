@@ -86,6 +86,7 @@ export default function AdminPage() {
     byProduct: Record<string, number>
   }[]>([])
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
+  const [dacoesData, setDacoesData] = useState<{ total: number; byDacao: Record<string, number> } | null>(null)
 
   const loadAnalytics = useCallback(async (start: string, end: string) => {
     const pw = sessionStorage.getItem('admin_password') || ''
@@ -96,8 +97,9 @@ export default function AdminPage() {
       body: JSON.stringify({ password: pw, startDate: start, endDate: end }),
     })
     if (res.ok) {
-      const { data } = await res.json()
+      const { data, dacoes } = await res.json()
       setAnalyticsData(data)
+      if (dacoes) setDacoesData(dacoes)
     }
     setAnalyticsLoading(false)
   }, [])
@@ -312,6 +314,25 @@ export default function AdminPage() {
           </button>
         ))}
       </div>
+
+      {/* Contador cliques Dações */}
+      {adminView === 'gestores' && dacoesData !== null && (
+        <div className="px-6 py-3 border-b border-gray-800">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">🏠 Dações — Interesse no período</p>
+          <div className="flex gap-3 flex-wrap">
+            <div className="bg-gray-800 rounded-xl px-5 py-3 text-center min-w-[100px]">
+              <p className="text-2xl font-bold text-amber-400">{dacoesData.total}</p>
+              <p className="text-xs text-gray-400 mt-0.5">total de cliques</p>
+            </div>
+            {Object.entries(dacoesData.byDacao).map(([id, count]) => (
+              <div key={id} className="bg-gray-800 rounded-xl px-5 py-3 text-center min-w-[110px]">
+                <p className="text-2xl font-bold text-white">{count as number}</p>
+                <p className="text-xs text-gray-400 mt-0.5 capitalize">{id}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Contador vídeo convite SYNTHÈ */}
       {adminView === 'gestores' && videoViews !== null && (
