@@ -23,6 +23,7 @@ interface ProductData {
   extraPlantas?: { img: string; label: string }[];
   implantacaoImg?: string;
   implantacaoPos?: 'bottom-right' | 'top-left' | 'top-right' | 'bottom-left';
+  plantaObjectPos?: string;
   addr: string;
   bairro: string;
   price?: string;
@@ -51,6 +52,7 @@ const PRODUCTS: ProductData[] = [
     plantaLabel: 'Apartamento Tipo — 145 m²',
     implantacaoImg: '/VERDANT/implantacoes/verdant-implantacao.jpg',
     implantacaoPos: 'top-left',
+    plantaObjectPos: 'right center',
     extraPlantas: [
       { img: '/VERDANT/plantas/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp', label: 'Duplex — Pavimento Inferior' },
       { img: '/VERDANT/plantas/©VISTA_09_PLB_UNIDADE_APTO_DUPLEX_SUPERIOR_FINAL.webp', label: 'Duplex — Pavimento Superior' },
@@ -129,6 +131,7 @@ const PRODUCTS: ProductData[] = [
     plantaLabel: '3 Suítes — 146 m²',
     implantacaoImg: '/EDITION/implantacoes/edition.png',
     implantacaoPos: 'top-left',
+    plantaObjectPos: 'center bottom',
     extraPlantas: [
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel' },
@@ -630,7 +633,7 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
       <div className="relative w-full h-full flex flex-col overflow-hidden" style={{ background: '#F8F6F2' }}>
         <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
         <div className="flex-1 relative px-8 pt-8 pb-2">
-          <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" />
+          <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" style={p.plantaObjectPos ? { objectPosition: p.plantaObjectPos } : undefined} />
           {p.implantacaoImg && (
             <div className="absolute w-56 h-56 rounded-lg overflow-hidden shadow-lg" style={{ ...implantacaoStyle(p.implantacaoPos), border: `1px solid ${GOLD}44` }}>
               <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
@@ -669,7 +672,7 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
       </div>
 
       <div className="flex-1 h-full relative p-6">
-        <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" />
+        <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" style={p.plantaObjectPos ? { objectPosition: p.plantaObjectPos } : undefined} />
         {p.implantacaoImg && (
           <div className="absolute w-56 h-56 rounded-lg overflow-hidden shadow-lg" style={{ ...implantacaoStyle(p.implantacaoPos), border: `1px solid ${GOLD}44` }}>
             <Image src={p.implantacaoImg} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
