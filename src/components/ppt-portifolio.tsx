@@ -1108,11 +1108,11 @@ export default function PptPortifolio() {
 
   return (
     <div className="w-screen h-screen flex flex-col overflow-hidden" style={{ background: BG }}>
-      {/* Pré-carregamento dos mapas em background */}
-      <div aria-hidden style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', opacity: 0, pointerEvents: 'none' }}>
+      {/* Pré-carregamento dos mapas — fora da tela mas com dimensões reais para o browser carregar */}
+      <div aria-hidden style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none' }}>
         {SLIDES.filter(s => s.k === 'mapa').map((s, i) => (
           s.k === 'mapa' && s.p.mapUrl ? (
-            <iframe key={i} src={s.p.mapUrl} title={`preload-map-${i}`} loading="eager" referrerPolicy="no-referrer-when-downgrade" />
+            <iframe key={i} src={s.p.mapUrl} title={`preload-map-${i}`} loading="eager" referrerPolicy="no-referrer-when-downgrade" style={{ width: 400, height: 300, border: 0 }} />
           ) : null
         ))}
       </div>
