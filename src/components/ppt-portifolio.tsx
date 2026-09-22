@@ -22,8 +22,6 @@ interface ProductData {
   plantaHorizontal?: boolean;
   extraPlantas?: { img: string; label: string }[];
   implantacaoImg?: string;
-  implantacaoPos?: 'bottom-right' | 'top-left' | 'top-right' | 'bottom-left';
-  plantaObjectPos?: string;
   mapUrl?: string;
   addr: string;
   bairro: string;
@@ -52,8 +50,6 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/VERDANT/plantas/©VISTA_05_PLB_UNIDADE_APTO_TIPO_01_FINAL.webp',
     plantaLabel: 'Apartamento Tipo — 145 m²',
     implantacaoImg: '/VERDANT/implantacoes/verdant-implantacao.jpg',
-    implantacaoPos: 'top-left',
-    plantaObjectPos: 'right center',
     mapUrl: 'https://maps.google.com/maps?q=Rua+Eça+de+Queiroz,+215,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     extraPlantas: [
       { img: '/VERDANT/plantas/©VISTA_08_PLB_UNIDADE_APTO_DUPLEX_INFERIOR_FINAL.webp', label: 'Duplex — Pavimento Inferior' },
@@ -136,8 +132,6 @@ const PRODUCTS: ProductData[] = [
     plantaImg: '/EDITION/plantas/3 suítes_146m2_ Torre Jardim Cristófel.webp',
     plantaLabel: '3 Suítes — 146 m²',
     implantacaoImg: '/EDITION/implantacoes/edition.png',
-    implantacaoPos: 'top-left',
-    plantaObjectPos: 'center bottom',
     mapUrl: 'https://maps.google.com/maps?q=Rua+Jardim+Cristofel,+215,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     extraPlantas: [
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
@@ -656,30 +650,19 @@ function SlideMapa({ p, onFullscreen, isFullscreen }: { p: ProductData } & Fulls
   );
 }
 
-function implantacaoStyle(pos?: string): React.CSSProperties {
-  switch (pos) {
-    case 'top-left':    return { top: '1rem', left: '1rem' };
-    case 'top-right':   return { top: '1rem', right: '1rem' };
-    case 'bottom-left': return { bottom: '1rem', left: '1rem' };
-    default:            return { bottom: '1rem', right: '1rem' };
-  }
-}
 
-function ImplantacaoThumb({ img, pos }: { img: string; pos?: string }) {
+function ImplantacaoThumb({ img }: { img: string }) {
   const [open, setOpen] = useState(false);
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className="absolute w-56 rounded-lg overflow-hidden shadow-lg group"
-        style={{ ...implantacaoStyle(pos), border: `1px solid ${GOLD}44`, height: '14rem' }}
+        className="relative w-full rounded-lg overflow-hidden group shrink-0"
+        style={{ aspectRatio: '4/3', border: `1px solid ${GOLD}33` }}
       >
-        <Image src={img} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.92)' }} />
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-1.5 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: `${BG}cc` }}>
-          <span className="text-xs font-medium tracking-wide" style={{ color: GOLD }}>Clique para ampliar</span>
-        </div>
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-1" style={{ background: `${BG}88` }}>
-          <span className="text-[10px] tracking-wide" style={{ color: 'rgba(240,237,232,0.55)' }}>Clique para ampliar</span>
+        <Image src={img} alt="Implantação" fill className="object-contain" style={{ background: 'rgba(255,255,255,0.94)' }} />
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-1" style={{ background: `${BG}99` }}>
+          <span className="text-[10px] tracking-wide" style={{ color: 'rgba(240,237,232,0.6)' }}>Clique para ampliar</span>
         </div>
       </button>
       {open && (
@@ -705,22 +688,24 @@ function ImplantacaoThumb({ img, pos }: { img: string; pos?: string }) {
 function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & FullscreenProps) {
   if (p.plantaHorizontal) {
     return (
-      <div className="relative w-full h-full flex flex-col overflow-hidden" style={{ background: '#F8F6F2' }}>
+      <div className="relative w-full h-full flex overflow-hidden" style={{ background: '#F8F6F2' }}>
         <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
-        <div className="flex-1 relative px-8 pt-8 pb-2">
-          <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" style={p.plantaObjectPos ? { objectPosition: p.plantaObjectPos } : undefined} />
-          {p.implantacaoImg && <ImplantacaoThumb img={p.implantacaoImg} pos={p.implantacaoPos} />}
-        </div>
-        <div className="shrink-0 flex items-center justify-between px-10 py-5" style={{ background: BG }}>
-          <div className="relative h-8 w-36">
+        {/* Sidebar esquerda — logo + implantação */}
+        <div className="w-[22%] h-full flex flex-col py-10 px-8 gap-5" style={{ background: BG }}>
+          <div className="relative h-8 w-36 shrink-0">
             <Image src={p.logo} alt={p.name} fill className="object-contain object-left" style={{ filter: 'brightness(0) invert(1)' }} />
           </div>
-          <div className="flex items-center gap-4">
+          {p.implantacaoImg && <ImplantacaoThumb img={p.implantacaoImg} />}
+          <div className="flex-1" />
+          <div className="space-y-2">
             <div className="w-5 h-0.5" style={{ background: GOLD }} />
-            <p className="text-base font-semibold" style={{ color: WARM }}>{p.plantaLabel}</p>
+            <p className="text-sm font-semibold leading-tight" style={{ color: WARM }}>{p.plantaLabel}</p>
+            <p className="text-xs leading-relaxed" style={{ color: 'rgba(240,237,232,0.4)' }}>{p.bairro}</p>
           </div>
-          <p className="text-sm" style={{ color: 'rgba(240,237,232,0.4)' }}>{p.bairro}</p>
           <p className="text-sm tracking-widest uppercase" style={{ color: GOLD + '66' }}>Planta</p>
+        </div>
+        <div className="flex-1 h-full relative">
+          <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-8" />
         </div>
       </div>
     );
@@ -730,10 +715,12 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
     <div className="relative w-full h-full flex overflow-hidden" style={{ background: '#F8F6F2' }}>
       <FsBtn onFullscreen={onFullscreen} isFullscreen={isFullscreen} />
 
-      <div className="w-[22%] h-full flex flex-col justify-between py-10 px-8" style={{ background: BG }}>
-        <div className="relative h-9 w-36">
+      <div className="w-[22%] h-full flex flex-col py-10 px-8 gap-5" style={{ background: BG }}>
+        <div className="relative h-9 w-36 shrink-0">
           <Image src={p.logo} alt={p.name} fill className="object-contain object-left" style={{ filter: 'brightness(0) invert(1)' }} />
         </div>
+        {p.implantacaoImg && <ImplantacaoThumb img={p.implantacaoImg} />}
+        <div className="flex-1" />
         <div className="space-y-3">
           <div className="w-8 h-0.5" style={{ background: GOLD }} />
           <p className="text-base font-semibold leading-tight" style={{ color: WARM }}>{p.plantaLabel}</p>
@@ -742,9 +729,8 @@ function SlidePlanta({ p, onFullscreen, isFullscreen }: { p: ProductData } & Ful
         <p className="text-sm tracking-widest uppercase" style={{ color: GOLD + '66' }}>Planta</p>
       </div>
 
-      <div className="flex-1 h-full relative p-6">
-        <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" style={p.plantaObjectPos ? { objectPosition: p.plantaObjectPos } : undefined} />
-        {p.implantacaoImg && <ImplantacaoThumb img={p.implantacaoImg} pos={p.implantacaoPos} />}
+      <div className="flex-1 h-full relative">
+        <Image src={p.plantaImg} alt={`Planta ${p.name}`} fill className="object-contain p-6" />
       </div>
     </div>
   );
