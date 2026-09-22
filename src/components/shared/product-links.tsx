@@ -13,6 +13,7 @@ export interface VideoItem {
 export interface ProductLinksConfig {
   tabela?: string;
   book?: string;
+  bookHorizontal?: string;
   imagens?: string;
   plantas?: string;
   fotosDecorado?: string;
@@ -184,6 +185,9 @@ export function ProductLinks({ config }: { config: ProductLinksConfig }) {
           )}
           {config.book && (
             <LinkButton href={config.book} icon={BookOpen} label="Book" />
+          )}
+          {config.bookHorizontal && (
+            <LinkButton href={config.bookHorizontal} icon={BookOpen} label="Book Horizontal" />
           )}
           {config.imagens && (
             <LinkButton href={config.imagens} icon={ImageIcon} label="Imagens (ZIP)" />
