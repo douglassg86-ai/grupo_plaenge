@@ -18,20 +18,6 @@ type Branch = 'home' | 'nano';
 const B = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
 
 const LINKS_CONFIG_HOME = {
-  tabela: `${B}/tabelas/trend-nano-set26.pdf`,
-  book: `${B}/books/trend-nano.pdf`,
-
-  videos: [
-    { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo.mp4`,       title: 'Vídeo Principal' },
-    { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo-whats.mp4`, title: 'WhatsApp' },
-    { url: `${B}/videos/trend-nano-e-office-trenddowntown-jun2025.mp4`,          title: 'Jun 2025' },
-    { url: `${B}/videos/trend-nano-e-office-decorado-trenddowntown.mp4`,         title: 'Decorado' },
-  ],
-  site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
-  clienteSlug: 'trend',
-};
-
-const LINKS_CONFIG_NANO = {
   tabela: `${B}/tabelas/trend-home-set26.pdf`,
   book: `${B}/books/trend-home.pdf`,
 
@@ -41,6 +27,20 @@ const LINKS_CONFIG_NANO = {
     { url: `${B}/videos/trend-home-vi-deo-1-novo-trend.mp4`, title: 'Novo Trend — 1' },
     { url: `${B}/videos/trend-home-vi-deo-2-novo-trend.mp4`, title: 'Novo Trend — 2' },
     { url: `${B}/videos/trend-home-vi-deo-3-novo-trend.mp4`, title: 'Novo Trend — 3' },
+  ],
+  site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
+  clienteSlug: 'trend',
+};
+
+const LINKS_CONFIG_NANO = {
+  tabela: `${B}/tabelas/trend-nano-set26.pdf`,
+  book: `${B}/books/trend-nano.pdf`,
+
+  videos: [
+    { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo.mp4`,       title: 'Vídeo Principal' },
+    { url: `${B}/videos/trend-nano-e-office-trend-downtown-i-vi-deo-whats.mp4`, title: 'WhatsApp' },
+    { url: `${B}/videos/trend-nano-e-office-trenddowntown-jun2025.mp4`,          title: 'Jun 2025' },
+    { url: `${B}/videos/trend-nano-e-office-decorado-trenddowntown.mp4`,         title: 'Decorado' },
   ],
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
   clienteSlug: 'trend',
