@@ -20,7 +20,7 @@ interface ProductData {
   plantaImg: string;
   plantaLabel: string;
   plantaHorizontal?: boolean;
-  extraPlantas?: { img: string; label: string }[];
+  extraPlantas?: { img: string; label: string; implantacaoImg?: string }[];
   implantacaoImg?: string;
   mapUrl?: string;
   addr: string;
@@ -99,10 +99,10 @@ const PRODUCTS: ProductData[] = [
     bgPos: '45% center',
     plantaImg: '/YUNA/plantas/03_VAN_PARECI_APTO_2_DORM_Ef.webp',
     plantaLabel: 'Apartamento 2 Dorms. c/Suíte — 72 m²',
-    implantacaoImg: '/YUNA/implantacoes/yuna-01.png',
+    implantacaoImg: '/YUNA/implantacoes/yuna-03.png',
     mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3454.0!2d-51.1988!3d-30.0438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x951979c0e3cc1dbd%3A0x1!2sR.+Felizardo+Furtado%2C+348+-+Jardim+Bot%C3%A2nico%2C+Porto+Alegre+-+RS!5e0!3m2!1spt-BR!2sbr!4v1234567890',
     extraPlantas: [
-      { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido' },
+      { img: '/YUNA/plantas/07_VAN_PARECI_APTO_3_DORM_OP_LIVING_EF_COTAS.webp', label: 'Apartamento 3 Dorms. — Living Estendido', implantacaoImg: '/YUNA/implantacoes/yuna-02.png' },
       { img: '/YUNA/plantas/06_VAN_PARECI_APTO_3_DORM_OP_EF.webp', label: 'Apartamento 3 Dorms. — Opção' },
     ],
     addr: 'Rua Felizardo Furtado, 348',
@@ -213,7 +213,7 @@ const SLIDES: Slide[] = [
     { k: 'planta'  as const, p },
     ...(p.extraPlantas ?? []).map(ep => ({
       k: 'planta' as const,
-      p: { ...p, plantaImg: ep.img, plantaLabel: ep.label } as ProductData,
+      p: { ...p, plantaImg: ep.img, plantaLabel: ep.label, ...(ep.implantacaoImg ? { implantacaoImg: ep.implantacaoImg } : {}) } as ProductData,
     })),
   ]),
   { k: 'meta1intro' },
