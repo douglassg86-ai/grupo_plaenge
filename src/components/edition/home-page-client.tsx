@@ -233,7 +233,6 @@ export default function EditionHomePageClient({ isClientePage = false }: { isCli
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { label: 'Área privativa', value: '146 – 545 m²' },
-              { label: 'Vagas', value: '2 a 4' },
               { label: 'Unidades', value: '48' },
               { label: 'Torres', value: '2' },
             ].map(({ label, value }) => (
