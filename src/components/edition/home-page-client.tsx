@@ -291,7 +291,7 @@ export default function EditionHomePageClient({ isClientePage = false }: { isCli
             </p>
             <div className="rounded-xl overflow-hidden border" style={{ height: '280px' }}>
               <iframe
-                src="https://maps.google.com/maps?q=Rua+Jardim+Cristofel,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=Rua+Jardim+Cristofel,+215,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

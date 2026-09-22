@@ -138,14 +138,14 @@ const PRODUCTS: ProductData[] = [
     implantacaoImg: '/EDITION/implantacoes/edition.png',
     implantacaoPos: 'top-left',
     plantaObjectPos: 'center bottom',
-    mapUrl: 'https://maps.google.com/maps?q=Rua+Jardim+Cristofel,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
+    mapUrl: 'https://maps.google.com/maps?q=Rua+Jardim+Cristofel,+215,+Porto+Alegre&t=&z=15&ie=UTF8&iwloc=&output=embed',
     extraPlantas: [
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 172 m² · Torre Doutor Vale' },
       { img: '/EDITION/plantas/3 suítes_172m2_ Torre Jardim Cristofel.webp',  label: '3 Suítes — 172 m² · Torre Jardim Cristófel' },
       { img: '/EDITION/plantas/3 suítes_206m2_ Torre Doutor Vale.webp',       label: '3 Suítes — 206 m² · Torre Doutor Vale' },
       { img: '/EDITION/plantas/4 suítes_322m2_ Torre Jardim Cristofel.webp',  label: '4 Suítes — 322 m² · Torre Jardim Cristófel' },
     ],
-    addr: 'Rua Jardim Cristófel',
+    addr: 'Rua Jardim Cristófel, 215',
     bairro: 'Moinhos de Vento · Porto Alegre',
     badges: ['Grande oportunidade — consulte condições'],
     delivery: 'Entrega Julho 2028',
@@ -1108,6 +1108,14 @@ export default function PptPortifolio() {
 
   return (
     <div className="w-screen h-screen flex flex-col overflow-hidden" style={{ background: BG }}>
+      {/* Pré-carregamento dos mapas em background */}
+      <div aria-hidden style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', opacity: 0, pointerEvents: 'none' }}>
+        {SLIDES.filter(s => s.k === 'mapa').map((s, i) => (
+          s.k === 'mapa' && s.p.mapUrl ? (
+            <iframe key={i} src={s.p.mapUrl} title={`preload-map-${i}`} loading="eager" referrerPolicy="no-referrer-when-downgrade" />
+          ) : null
+        ))}
+      </div>
       <div className="flex-1 relative overflow-hidden">
         <RenderSlide
           slide={SLIDES[current]}
