@@ -548,7 +548,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
             </div>
             <div className="rounded-xl overflow-hidden border" style={{ height: '280px' }}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.5!2d-51.2185!3d-30.0478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x951979c0!2sAv.+Azenha%2C+Porto+Alegre+-+RS!5e0!3m2!1spt-BR!2sbr!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.8!2d-51.2146876!3d-30.0449623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x951978509334686f%3A0x4a9ac3321ed11062!2sAv.+da+Azenha%2C+123+-+Azenha%2C+Porto+Alegre+-+RS!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
                 width="100%" height="280" style={{ border: 0 }} allowFullScreen loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade" title="Localização Trend Downtown"
               />
