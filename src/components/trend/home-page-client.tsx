@@ -10,10 +10,9 @@ import { ImplantacaoFloorSelector } from '@/components/shared/implantacao-floor-
 import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 import { TrendNanoPresentationMode } from '@/components/trend/presentation-mode-nano';
-import { TrendHomePresentationMode } from '@/components/trend/presentation-mode-home';
 import TrendOfficePpt from '@/components/trend/ppt-office';
 
-type Branch = 'home' | 'nano';
+type Branch = 'nano';
 
 const B = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
 
@@ -307,60 +306,21 @@ function BranchSwitch({ value, onChange, floating = false }: { value: Branch; on
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function TrendHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
-  const [selected, setSelected] = useState<Branch | null>(null);
-  const [branch, setBranch] = useState<Branch>('home');
+  const branch: Branch = 'nano';
   const [nanoSlide, setNanoSlide] = useState(0);
-  const [homeSlide, setHomeSlide] = useState(0);
   const [showNano, setShowNano] = useState(false);
-  const [showHome, setShowHome] = useState(false);
   const [showOfficePpt, setShowOfficePpt] = useState(false);
 
-  // Lê o parâmetro ?t= para deep-link direto ao produto
   useEffect(() => {
     const raw = new URLSearchParams(window.location.search).get('t');
     if (raw && raw.includes('ppt_office')) { setShowOfficePpt(true); return; }
-    const t = raw as Branch | null;
-    if (t === 'nano' || t === 'home') {
-      setSelected(t);
-      setBranch(t);
-    }
-  }, []);
-
-  const selectBranch = useCallback((b: Branch) => {
-    setSelected(b);
-    setBranch(b);
-    const url = new URL(window.location.href);
-    url.searchParams.set('t', b);
-    window.history.replaceState({}, '', url.toString());
-    window.scrollTo({ top: 0 });
-  }, []);
-
-  const changeBranch = useCallback((b: Branch) => {
-    setBranch(b);
-    const url = new URL(window.location.href);
-    url.searchParams.set('t', b);
-    window.history.replaceState({}, '', url.toString());
-  }, []);
-
-  const goToLanding = useCallback(() => {
-    setSelected(null);
-    const url = new URL(window.location.href);
-    url.searchParams.delete('t');
-    window.history.replaceState({}, '', url.toString());
-    window.scrollTo({ top: 0 });
   }, []);
 
   const openNano = useCallback(() => { setNanoSlide(0); setShowNano(true); }, []);
-  const openHome = useCallback(() => { setHomeSlide(0); setShowHome(true); }, []);
 
-  // ── APRESENTAÇÃO OFFICE (deep-link ?t=nano/ppt_office) ──
+  // ── APRESENTAÇÃO OFFICE (deep-link ?t=ppt_office) ──
   if (showOfficePpt) {
     return <TrendOfficePpt />;
-  }
-
-  // ── LANDING ──
-  if (selected === null) {
-    return <TrendLanding onSelect={selectBranch} isClientePage={isClientePage} />;
   }
 
   return (
@@ -465,80 +425,40 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           </div>
         </div>
 
-        {/* ── SELETOR DE RAMIFICAÇÃO — define todo o conteúdo abaixo ── */}
-        <div className="bg-card rounded-2xl p-8 text-center scroll-mt-24" id="escolha-torre">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">Explorar também</p>
-          <h2 className="font-display text-3xl text-foreground mb-2">Quer ver o outro produto?</h2>
-          <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
-            As informações abaixo (galeria, plantas, vídeos e disponibilidade) mudam conforme a sua escolha.
-            O <strong>Downtown Office</strong> e o <strong>Mall</strong> aparecem junto com o <strong>Nano</strong>.
-          </p>
-          <div className="flex justify-center">
-            <BranchSwitch value={branch} onChange={changeBranch} />
-          </div>
-        </div>
-
-        {/* ── MATERIAIS (corretor) — logo após o Sobre/seleção ── */}
+        {/* ── MATERIAIS (corretor) — logo após o Sobre ── */}
         {!isClientePage && (
-          <ProductLinks config={branch === 'home' ? LINKS_CONFIG_HOME : LINKS_CONFIG_NANO} />
+          <ProductLinks config={LINKS_CONFIG_NANO} />
         )}
 
-        {/* ── BOTÕES DE APRESENTAÇÃO ── */}
+        {/* ── BOTÃO DE APRESENTAÇÃO ── */}
         {!isClientePage && (
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={openNano}
-              className="flex-1 rounded-xl py-3 px-6 text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 active:scale-95"
-              style={{ background: '#0A0A0A', color: '#D4785A', border: '1px solid rgba(212,120,90,0.3)' }}
-            >
-              ▶ Apresentação — Nano + Office
-            </button>
-            <button
-              onClick={openHome}
-              className="flex-1 rounded-xl py-3 px-6 text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 active:scale-95"
-              style={{ background: '#F5F2EE', color: '#C1422A', border: '1px solid rgba(193,66,42,0.3)' }}
-            >
-              ▶ Apresentação — Downtown Home
-            </button>
-          </div>
+          <button
+            onClick={openNano}
+            className="w-full rounded-xl py-3 px-6 text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 active:scale-95"
+            style={{ background: '#0A0A0A', color: '#D4785A', border: '1px solid rgba(212,120,90,0.3)' }}
+          >
+            ▶ Apresentação — Nano + Office
+          </button>
         )}
 
         {/* DETALHE DA TORRE SELECIONADA */}
         <div className="bg-card rounded-2xl p-8">
           <div className="grid md:grid-cols-2 gap-10 items-start">
-            {branch === 'home' ? (
-              <div>
-                <Image src={`${P}/logo_home.png`} alt="Downtown Home" width={180} height={50} className="mb-4" />
-                <p className="text-muted-foreground leading-relaxed mb-5">
-                  As plantas do Trend Downtown Home foram projetadas para unir conforto e funcionalidade.
-                  Com arquitetura inteligente, cada detalhe maximiza o aproveitamento do espaço e da vida.
-                  Torre 1 disponível para venda. Torre 2 é futuro lançamento — sem informações disponíveis no momento.
-                </p>
-                <ul className="space-y-2">
-                  {homeDiferenciais.map((d, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="text-primary font-bold mt-0.5">✓</span>{d}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <div>
-                <Image src={`${P}/logo_nano.png`} alt="Downtown Nano" width={180} height={50} className="mb-4" />
-                <p className="text-muted-foreground leading-relaxed mb-5">
-                  A torre Downtown Nano é o lugar ideal para quem busca uma vida dinâmica, conectada e inteligente.
-                  Studios projetados para atender a todas as necessidades com eficiência, rooftop gourmet com piscina
-                  e a opção de gestão inteligente pela Cityhome. Integrada ao Downtown Office e ao Mall do complexo.
-                </p>
-                <ul className="space-y-2">
-                  {nanoDiferenciais.map((d, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="text-primary font-bold mt-0.5">✓</span>{d}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div>
+              <Image src={`${P}/logo_nano.png`} alt="Downtown Nano" width={180} height={50} className="mb-4" />
+              <p className="text-muted-foreground leading-relaxed mb-5">
+                A torre Downtown Nano é o lugar ideal para quem busca uma vida dinâmica, conectada e inteligente.
+                Studios projetados para atender a todas as necessidades com eficiência, rooftop gourmet com piscina
+                e a opção de gestão inteligente pela Cityhome. Integrada ao Downtown Office e ao Mall do complexo.
+              </p>
+              <ul className="space-y-2">
+                {nanoDiferenciais.map((d, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary font-bold mt-0.5">✓</span>{d}
+                  </li>
+                ))}
+              </ul>
+            </div>
             <div>
               <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-4">Tipologias</p>
               <table className="w-full text-sm">
@@ -550,7 +470,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
                   </tr>
                 </thead>
                 <tbody>
-                  {(branch === 'home' ? tipologiasHome : tipologiasNano).map((t, i) => (
+                  {tipologiasNano.map((t, i) => (
                     <tr key={i} className="border-b last:border-0">
                       <td className="py-2.5 font-medium text-foreground">{t.tipo}</td>
                       <td className="py-2.5 text-muted-foreground">{t.area}</td>
@@ -566,17 +486,17 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
         {/* GALERIA */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
-            Galeria — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+            Galeria — Downtown Nano
           </p>
-          <GalleryViewer key={`gallery-${branch}`} categories={galleryByBranch[branch]} zipUrl={branch === 'home' ? LINKS_CONFIG_HOME.imagens : LINKS_CONFIG_NANO.imagens} />
+          <GalleryViewer key="gallery-nano" categories={galleryByBranch['nano']} zipUrl={LINKS_CONFIG_NANO.imagens} />
         </div>
 
         {/* PLANTAS */}
         <div className="bg-card rounded-2xl p-8">
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
-            Plantas — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+            Plantas — Downtown Nano
           </p>
-          <PlantsViewer key={`plants-${branch}`} categories={plantsByBranch[branch]} />
+          <PlantsViewer key="plants-nano" categories={plantsByBranch['nano']} />
         </div>
 
         {/* VÍDEOS — apenas TREND NANO */}
@@ -640,32 +560,18 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           /* DISPONIBILIDADE + IMPLANTAÇÃO (segue a torre selecionada) */
           <div className="bg-card rounded-2xl p-8 space-y-8">
             <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary text-center">
-              Disponibilidade — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+              Disponibilidade — Downtown Nano
             </p>
             <UnitGrid activeTab={branch} />
             <div className="border-t pt-8">
               <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">
-                Implantação das Unidades — Downtown {branch === 'home' ? 'Home' : 'Nano'}
+                Implantação das Unidades — Downtown Nano
               </p>
-              {branch === 'home'
-                ? <PlantsViewer categories={[{ label: 'Implantação', images: homeImplantacaoImages }]} />
-                : <ImplantacaoFloorSelector floors={nanoFloorPlans} />
-              }
+              <ImplantacaoFloorSelector floors={nanoFloorPlans} />
             </div>
           </div>
         )}
 
-      </div>
-
-      {/* BOTÃO FLUTUANTE — voltar à tela de seleção */}
-      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40">
-        <button
-          onClick={goToLanding}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full shadow-2xl backdrop-blur border text-sm font-semibold transition-opacity hover:opacity-80"
-          style={{ background: branch === 'nano' ? '#0A0A0A' : '#F5F2EE', color: branch === 'nano' ? '#D4785A' : '#C1422A', borderColor: branch === 'nano' ? '#D4785A40' : '#C1422A40' }}
-        >
-          ← Trocar produto
-        </button>
       </div>
 
       {/* FOOTER */}
@@ -682,14 +588,6 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           onClose={() => setShowNano(false)}
           onPrev={() => setNanoSlide(s => Math.max(0, s - 1))}
           onNext={() => setNanoSlide(s => s + 1)}
-        />
-      )}
-      {showHome && (
-        <TrendHomePresentationMode
-          currentSlide={homeSlide}
-          onClose={() => setShowHome(false)}
-          onPrev={() => setHomeSlide(s => Math.max(0, s - 1))}
-          onNext={() => setHomeSlide(s => s + 1)}
         />
       )}
 
