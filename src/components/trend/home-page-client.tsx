@@ -405,7 +405,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Componentes do Complexo</p>
           <div className="grid md:grid-cols-4 gap-4">
             {[
-              { title: 'Downtown Home', desc: 'Torre 1 lançada · 100 unid. · 3 dormitórios · 75–109 m² · Torre 2: futuro lançamento', img: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`, logo: `${P}/logo_home.png` },
+              { title: 'Futuro Lançamento Torres 3 e 4', desc: 'Torres residenciais em breve', img: `${P}/PNB_04_Fachada_Residencial_A_EF.webp`, logo: null },
               { title: 'Downtown Nano', desc: '259 studios · 23–53 m² · Rooftop com piscina · Gestão Cityhome', img: `${P}/PNB_06_Fachada_Nano_EF.webp`, logo: `${P}/logo_nano.png` },
               { title: 'Downtown Office', desc: '82 salas comerciais · 31–498 m² · 5º e 6º pavimentos', img: `${P}/PNB_07_Fachada_Office_EF.webp`, logo: null },
               { title: 'Mall', desc: '22 lojas · Av. João Pessoa e Rua Gen. Lima e Silva · Acesso direto', img: `${P}/PNB_08_Mall_Acesso_EF.webp`, logo: null },
