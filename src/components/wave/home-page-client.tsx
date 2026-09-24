@@ -1,7 +1,7 @@
 'use client';
 
 import { WhatsappButton } from '@/components/whatsapp-button'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { lots, blockTotals } from '@/lib/wave-data';
 import LotGrid from '@/components/wave/lot-grid';
@@ -16,6 +16,9 @@ interface HomePageClientProps {
 }
 
 export default function HomePageClient({ isSharePage = false }: HomePageClientProps) {
+  useEffect(() => {
+    fetch('/api/track-product-visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'WAVE' }) })
+  }, [])
   const [selectedLot, setSelectedLot] = useState<Lot | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

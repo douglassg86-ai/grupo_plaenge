@@ -2,7 +2,7 @@
 
 import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UnitGrid from '@/components/verdant/unit-grid';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
@@ -21,6 +21,7 @@ const LINKS_CONFIG = {
   ],
   site: 'https://www.plaenge.com.br/porto-alegre/verdant',
   clienteSlug: 'verdant',
+  product: 'VERDANT',
 };
 
 const P = '/VERDANT'; // base path
@@ -225,6 +226,9 @@ function Plants({ categories }: { categories: typeof plantCategories }) {
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function VerdantHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
+  useEffect(() => {
+    fetch('/api/track-product-visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'VERDANT' }) })
+  }, [])
   const [presentationSlide, setPresentationSlide] = useState<number | null>(null);
 
   return (

@@ -43,6 +43,7 @@ const LINKS_CONFIG_NANO = {
   ],
   site: 'https://www.vanguard.com.br/porto-alegre/trend-downtown',
   clienteSlug: 'trend',
+  product: 'TREND NANO',
 };
 
 const P = '/TREND';
@@ -310,6 +311,10 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
   const [nanoSlide, setNanoSlide] = useState(0);
   const [showNano, setShowNano] = useState(false);
   const [showOfficePpt, setShowOfficePpt] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/track-product-visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'TREND NANO' }) })
+  }, [])
 
   useEffect(() => {
     const raw = new URLSearchParams(window.location.search).get('t');

@@ -2,6 +2,7 @@
 
 import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
+import { useEffect } from 'react';
 import UnitGrid from '@/components/mood/unit-grid';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
@@ -22,6 +23,7 @@ const LINKS_CONFIG = {
   ],
   site: 'https://www.vanguard.com.br/porto-alegre/mood-central-parque',
   clienteSlug: 'mood',
+  product: 'MOOD',
 };
 
 // ─── GALLERY ─────────────────────────────────────────────────────────────────
@@ -124,6 +126,9 @@ const tipologias = [
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function MoodHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
+  useEffect(() => {
+    fetch('/api/track-product-visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'MOOD' }) })
+  }, [])
   return (
     <div className="bg-background min-h-screen">
       {/* HEADER */}

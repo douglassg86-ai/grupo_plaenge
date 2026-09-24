@@ -127,6 +127,77 @@ export async function getDacoesClicks(startDate: string, endDate: string): Promi
   return { total, byDacao }
 }
 
+// ── PRODUCT VISIT TRACKING ──
+
+const ALL_PRODUCTS = ['EDITION','MOOD','ORBITALE','SHIFT','SYNTHE','TREND HOME','TREND NANO','VERDANT','WAVE','YUNA']
+
+export async function trackProductVisit(product: string) {
+  const r = getRedis()
+  if (!r) return
+  const day = todayKey()
+  await Promise.all([
+    r.incr(`product:visit:${product}:${day}`),
+    r.incr(`product:visit:${product}:total`),
+  ])
+}
+
+export async function getProductVisits(startDate: string, endDate: string): Promise<{ product: string; visits: number }[]> {
+  const r = getRedis()
+  if (!r) return []
+  const dates = dateRange(startDate, endDate)
+  const keys = ALL_PRODUCTS.flatMap(p => dates.map(d => `product:visit:${p}:${d}`))
+  const values = keys.length > 0 ? await r.mget<number[]>(...keys) : []
+  return ALL_PRODUCTS
+    .map((product, pi) => ({
+      product,
+      visits: dates.reduce((sum, _, di) => sum + (values[pi * dates.length + di] ?? 0), 0),
+    }))
+    .filter(p => p.visits > 0)
+    .sort((a, b) => b.visits - a.visits)
+}
+
+// ── CONTENT CLICK TRACKING ──
+
+const PRODUCT_CONTENT_KEYS: Record<string, { contentType: string; label: string }[]> = {
+  'YUNA':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'book-horizontal'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'acesso',label:'apresentacao-ppt'},{ contentType:'visita',label:'link-cliente'}],
+  'EDITION':    [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'acesso',label:'tour-virtual'},{ contentType:'visita',label:'link-cliente'}],
+  'TREND NANO': [{ contentType:'acesso',label:'apresentacao-nano'},{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'video',label:'video-empreendimento'},{ contentType:'video',label:'video-decorado'},{ contentType:'visita',label:'link-cliente'}],
+  'VERDANT':    [{ contentType:'acesso',label:'apresentacao-verdant'},{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
+  'SHIFT':      [{ contentType:'acesso',label:'ppt-corretor'},{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
+  'SYNTHE':     [{ contentType:'acesso',label:'ppt-corretor'},{ contentType:'download',label:'book-pdf'},{ contentType:'video',label:'video-evento'},{ contentType:'visita',label:'link-cliente'}],
+  'MOOD':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
+  'ORBITALE':   [{ contentType:'download',label:'book-pdf'},{ contentType:'visita',label:'link-cliente'}],
+  'WAVE':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
+}
+
+export async function trackContentClick(product: string, contentType: string, label: string) {
+  const r = getRedis()
+  if (!r) return
+  const day = todayKey()
+  const base = `content:click:${product}:${contentType}:${label}`
+  await Promise.all([r.incr(`${base}:${day}`), r.incr(`${base}:total`)])
+}
+
+export async function getProductContentClicks(
+  product: string, startDate: string, endDate: string
+): Promise<{ contentType: string; label: string; count: number }[]> {
+  const r = getRedis()
+  if (!r) return []
+  const items = PRODUCT_CONTENT_KEYS[product] ?? []
+  if (items.length === 0) return []
+  const dates = dateRange(startDate, endDate)
+  const keys = items.flatMap(ci => dates.map(d => `content:click:${product}:${ci.contentType}:${ci.label}:${d}`))
+  const values = keys.length > 0 ? await r.mget<number[]>(...keys) : []
+  return items
+    .map((ci, ii) => ({
+      contentType: ci.contentType,
+      label: ci.label,
+      count: dates.reduce((sum, _, di) => sum + (values[ii * dates.length + di] ?? 0), 0),
+    }))
+    .filter(c => c.count > 0)
+    .sort((a, b) => b.count - a.count)
+}
+
 export async function getAnalytics(slug: string, startDate: string, endDate: string) {
   const r = getRedis()
   if (!r) return { visits: 0, clicks: 0, daily: [] as { date: string; visits: number; clicks: number }[], byProduct: {} as Record<string, number> }

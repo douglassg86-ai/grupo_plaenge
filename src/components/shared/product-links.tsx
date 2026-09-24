@@ -11,6 +11,7 @@ export interface VideoItem {
 }
 
 export interface ProductLinksConfig {
+  product?: string;
   tabela?: string;
   book?: string;
   bookHorizontal?: string;
@@ -22,6 +23,15 @@ export interface ProductLinksConfig {
   videos?: VideoItem[];
   site?: string;
   clienteSlug: string;
+}
+
+function trackContent(product: string | undefined, contentType: string, label: string) {
+  if (!product) return
+  fetch('/api/track-content', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ product, contentType, label }),
+  })
 }
 
 function LinkButton({ href, icon: Icon, label, variant = 'outline', onClick }: {
@@ -181,13 +191,13 @@ export function ProductLinks({ config }: { config: ProductLinksConfig }) {
         <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6">Materiais & Links</p>
         <div className="flex flex-wrap gap-3">
           {config.tabela && (
-            <LinkButton href={config.tabela} icon={Table2} label="Tabela de Preços" />
+            <LinkButton icon={Table2} label="Tabela de Preços" onClick={() => { trackContent(config.product, 'download', 'tabela-pagamento'); window.open(config.tabela, '_blank') }} />
           )}
           {config.book && (
-            <LinkButton href={config.book} icon={BookOpen} label="Book" />
+            <LinkButton icon={BookOpen} label="Book" onClick={() => { trackContent(config.product, 'download', 'book-pdf'); window.open(config.book, '_blank') }} />
           )}
           {config.bookHorizontal && (
-            <LinkButton href={config.bookHorizontal} icon={BookOpen} label="Book Horizontal" />
+            <LinkButton icon={BookOpen} label="Book Horizontal" onClick={() => { trackContent(config.product, 'download', 'book-horizontal'); window.open(config.bookHorizontal, '_blank') }} />
           )}
           {config.imagens && (
             <LinkButton href={config.imagens} icon={ImageIcon} label="Imagens (ZIP)" />
@@ -199,23 +209,23 @@ export function ProductLinks({ config }: { config: ProductLinksConfig }) {
             <LinkButton href={config.fotosDecorado} icon={Camera} label="Fotos Decorado" />
           )}
           {config.reels && (
-            <LinkButton href={config.reels} icon={Video} label="Reels" />
+            <LinkButton icon={Video} label="Reels" onClick={() => { trackContent(config.product, 'video', 'reels'); window.open(config.reels, '_blank') }} />
           )}
           {videoList.length === 1 && (
-            <LinkButton href={videoList[0].url} icon={Video} label="Vídeo" />
+            <LinkButton icon={Video} label="Vídeo" onClick={() => { trackContent(config.product, 'video', 'video-empreendimento'); window.open(videoList[0].url, '_blank') }} />
           )}
           {videoList.length > 1 && (
             <LinkButton
               icon={Video}
               label={`Vídeos (${videoList.length})`}
-              onClick={() => setVideoModalOpen(true)}
+              onClick={() => { trackContent(config.product, 'video', 'video-empreendimento'); setVideoModalOpen(true) }}
             />
           )}
           {config.site && (
-            <LinkButton href={config.site} icon={Globe} label="Site Oficial" />
+            <LinkButton icon={Globe} label="Site Oficial" onClick={() => { trackContent(config.product, 'acesso', 'site-oficial'); window.open(config.site, '_blank') }} />
           )}
           <button
-            onClick={handleCopyClienteLink}
+            onClick={() => { trackContent(config.product, 'visita', 'link-cliente'); handleCopyClienteLink() }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
           >
             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}

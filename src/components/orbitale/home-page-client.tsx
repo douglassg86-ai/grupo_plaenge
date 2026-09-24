@@ -2,7 +2,7 @@
 
 import { WhatsappButton } from '@/components/whatsapp-button'
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UnitGrid from '@/components/orbitale/unit-grid';
 import { GalleryViewer } from '@/components/shared/gallery-viewer';
 import { PlantsViewer } from '@/components/shared/plants-viewer';
@@ -20,6 +20,7 @@ const LINKS_CONFIG = {
   ],
   site: 'https://www.plaenge.com.br/porto-alegre/orbitale',
   clienteSlug: 'orbitale',
+  product: 'ORBITALE',
 };
 
 // ─── GALLERY ─────────────────────────────────────────────────────────────────
@@ -140,6 +141,9 @@ const tipologias = [
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function OrbitaleHomePageClient({ isClientePage = false }: { isClientePage?: boolean }) {
+  useEffect(() => {
+    fetch('/api/track-product-visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product: 'ORBITALE' }) })
+  }, [])
   return (
     <div className="bg-background min-h-screen">
       {/* HEADER */}
