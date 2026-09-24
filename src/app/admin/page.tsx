@@ -373,109 +373,359 @@ export default function AdminPage() {
 
       {/* Analytics dashboard */}
       {adminView === 'gestores' && (
-        <div className="px-6 py-4 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">Painel Gestores</h2>
+        <div className="px-5 py-5 space-y-5">
+
+          {/* refresh */}
+          <div className="flex justify-end">
             <button onClick={() => loadAnalytics(dateStart, dateEnd)}
-              className="px-3 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-lg text-sm transition-colors">
+              className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 rounded-lg text-xs transition-colors">
               ↻ Atualizar
             </button>
           </div>
 
           {analyticsLoading ? (
-            <div className="text-gray-500 text-sm py-8 text-center">Carregando...</div>
+            <div className="text-zinc-500 text-sm py-12 text-center">Carregando...</div>
           ) : (<>
 
-          {/* KPI tiles */}
+          {/* ── 1. VISÃO GERAL DA EQUIPE ── */}
           {analyticsData.length > 0 && (() => {
             const totalVisits = analyticsData.reduce((s, m) => s + m.daily.reduce((a, d) => a + d.visits, 0), 0)
             const totalClicks = analyticsData.reduce((s, m) => s + m.daily.reduce((a, d) => a + d.clicks, 0), 0)
             const avgConv = totalVisits > 0 ? ((totalClicks / totalVisits) * 100).toFixed(1) : '0'
-            const peakManager = analyticsData.reduce((best, m) => {
-              const v = m.daily.reduce((a, d) => a + d.visits, 0)
-              return v > best.v ? { name: m.name, v } : best
-            }, { name: '—', v: 0 })
-            return (
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                {[
-                  { label: 'Visitas totais', value: totalVisits, color: 'text-blue-400', bg: 'bg-blue-900/20 border-blue-800/30' },
-                  { label: 'Cliques WA', value: totalClicks, color: 'text-green-400', bg: 'bg-green-900/20 border-green-800/30' },
-                  { label: 'Conversão média', value: `${avgConv}%`, color: 'text-amber-400', bg: 'bg-amber-900/20 border-amber-800/30' },
-                  { label: 'Maior audiência', value: peakManager.name, color: 'text-teal-400', bg: 'bg-teal-900/20 border-teal-800/30' },
-                ].map(kpi => (
-                  <div key={kpi.label} className={`rounded-xl p-4 border ${kpi.bg}`}>
-                    <p className={`text-2xl font-bold tabular-nums ${kpi.color}`}>{kpi.value}</p>
-                    <p className="text-xs text-gray-500 mt-1">{kpi.label}</p>
-                  </div>
-                ))}
-              </div>
-            )
-          })()}
-
-          {/* Aggregate chart */}
-          {analyticsData.length > 0 && (() => {
+            const peakEntry = analyticsData.reduce((best, m) => {
+              let pk = { v: 0, date: '' }
+              m.daily.forEach(d => { if (d.visits > pk.v) pk = { v: d.visits, date: d.date } })
+              return pk.v > best.v ? pk : best
+            }, { v: 0, date: '' })
             const allDates = analyticsData[0]?.daily.map(d => d.date) ?? []
             const aggDaily = allDates.map((date, i) => ({
               date,
               visits: analyticsData.reduce((s, m) => s + (m.daily[i]?.visits ?? 0), 0),
               clicks: analyticsData.reduce((s, m) => s + (m.daily[i]?.clicks ?? 0), 0),
             }))
-            const maxVal = Math.max(...aggDaily.map(d => d.visits), 1)
+            const maxAgg = Math.max(...aggDaily.map(d => d.visits), 1)
             return (
-              <div className="bg-gray-900 rounded-xl p-4 border border-gray-800">
-                <p className="text-xs text-gray-500 uppercase tracking-widest mb-3">Atividade agregada — todos os gestores</p>
-                <div className="flex items-end gap-px" style={{ height: 64 }}>
-                  {aggDaily.slice(-30).map(d => (
-                    <div key={d.date} className="flex-1 flex flex-col justify-end gap-px" title={`${d.date}: ${d.visits} visitas, ${d.clicks} cliques`}>
-                      <div className="bg-green-600 rounded-sm" style={{ height: `${d.clicks > 0 ? Math.max((d.clicks / maxVal) * 64, 2) : 0}px` }} />
-                      <div className="bg-blue-600 rounded-sm" style={{ height: `${d.visits > 0 ? Math.max((d.visits / maxVal) * 64, 2) : 0}px` }} />
-                    </div>
-                  ))}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Visão Geral da Equipe</p>
                 </div>
-                <div className="flex gap-4 mt-2 text-xs text-gray-600">
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 bg-blue-600 rounded-sm inline-block"/>Visitas</span>
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 bg-green-600 rounded-sm inline-block"/>Cliques WA</span>
+                {/* KPI row */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-3">
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 relative overflow-hidden" style={{ boxShadow: 'inset 0 0 40px rgba(96,165,250,0.04)' }}>
+                    <p className="text-[10px] font-medium text-zinc-600 uppercase tracking-[0.08em] mb-1.5">Total Visitas</p>
+                    <p className="text-[1.75rem] font-extrabold text-blue-400 tabular-nums leading-none">{totalVisits.toLocaleString('pt-BR')}</p>
+                  </div>
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 relative overflow-hidden" style={{ boxShadow: 'inset 0 0 40px rgba(74,222,128,0.04)' }}>
+                    <p className="text-[10px] font-medium text-zinc-600 uppercase tracking-[0.08em] mb-1.5">Cliques WhatsApp</p>
+                    <p className="text-[1.75rem] font-extrabold text-green-400 tabular-nums leading-none">{totalClicks.toLocaleString('pt-BR')}</p>
+                  </div>
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 relative overflow-hidden" style={{ boxShadow: 'inset 0 0 40px rgba(251,191,36,0.04)' }}>
+                    <p className="text-[10px] font-medium text-zinc-600 uppercase tracking-[0.08em] mb-1.5">Conversão Média</p>
+                    <p className="text-[1.75rem] font-extrabold text-amber-400 tabular-nums leading-none">{avgConv}%</p>
+                  </div>
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 relative overflow-hidden" style={{ boxShadow: 'inset 0 0 40px rgba(45,212,191,0.04)' }}>
+                    <p className="text-[10px] font-medium text-zinc-600 uppercase tracking-[0.08em] mb-1.5">Pico do Período</p>
+                    <p className="text-[1.75rem] font-extrabold text-teal-400 tabular-nums leading-none">{peakEntry.v}</p>
+                    {peakEntry.date && <p className="text-[11px] text-zinc-500 mt-1">visitas em {peakEntry.date.slice(5).split('-').reverse().join('/')}</p>}
+                  </div>
+                </div>
+                {/* Aggregate chart */}
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-[13px] font-semibold text-zinc-100">Atividade diária — equipe completa</p>
+                    <div className="flex gap-3">
+                      <div className="flex items-center gap-1.5 text-[11px] text-zinc-500"><span className="w-2 h-2 rounded-sm inline-block bg-blue-400"/><span>Visitas</span></div>
+                      <div className="flex items-center gap-1.5 text-[11px] text-zinc-500"><span className="w-2 h-2 rounded-sm inline-block bg-green-400"/><span>Cliques WA</span></div>
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-px" style={{ height: 80 }}>
+                    {aggDaily.slice(-30).map(d => (
+                      <div key={d.date} className="flex-1 flex flex-col justify-end gap-px" title={`${d.date}: ${d.visits} vis., ${d.clicks} WA`}>
+                        <div className="rounded-sm" style={{ height: `${d.clicks > 0 ? Math.max((d.clicks / maxAgg) * 80, 2) : 0}px`, background: 'rgba(74,222,128,0.8)' }} />
+                        <div className="rounded-sm" style={{ height: `${d.visits > 0 ? Math.max((d.visits / maxAgg) * 80, 2) : 0}px`, background: 'rgba(96,165,250,0.55)' }} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )
           })()}
 
-          {/* Visitas por empreendimento */}
-          {productVisitsData.length > 0 && (
-            <div className="bg-gray-900 rounded-xl p-4 border border-gray-800">
-              <p className="text-xs text-gray-500 uppercase tracking-widest mb-3">Visitas por empreendimento</p>
-              <div className="space-y-2">
-                {productVisitsData.map((pv, i) => {
-                  const max = productVisitsData[0]?.visits ?? 1
-                  const pct = Math.round((pv.visits / max) * 100)
-                  const expandKey = `pv-${pv.product}`
-                  const isOpen = expandedProducts.has(expandKey)
-                  const contentItems = contentByProduct[pv.product] ?? []
-                  return (
-                    <div key={pv.product}>
-                      <div
-                        className={`flex items-center gap-3 cursor-pointer py-1 rounded px-1 transition-colors ${contentItems.length > 0 ? 'hover:bg-gray-800/60' : ''}`}
-                        onClick={() => contentItems.length > 0 && toggleProductExpand(expandKey)}
-                      >
-                        <span className="text-xs text-gray-500 tabular-nums w-4 text-right">{i + 1}</span>
-                        <span className="text-xs font-medium text-gray-300 w-24 shrink-0">{pv.product}</span>
-                        <div className="flex-1 bg-gray-800 rounded h-4 overflow-hidden">
-                          <div className="h-full bg-blue-600 rounded transition-all" style={{ width: `${pct}%` }} />
-                        </div>
-                        <span className="text-xs font-semibold text-blue-400 tabular-nums w-8 text-right">{pv.visits}</span>
-                        {contentItems.length > 0 && (
-                          <span className="text-gray-500 text-xs w-4">{isOpen ? '▾' : '›'}</span>
-                        )}
-                      </div>
-                      {isOpen && contentItems.length > 0 && (
-                        <div className="ml-8 mt-1 mb-2 space-y-1 pl-3 border-l border-gray-700">
-                          {contentItems.map(ci => (
-                            <div key={`${ci.contentType}:${ci.label}`} className="flex items-center gap-2">
-                              <span className={`text-xs w-16 shrink-0 font-mono ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-gray-400'}`}>{ci.contentType}</span>
-                              <span className="text-xs text-gray-500 flex-1 truncate">{ci.label}</span>
-                              <span className="text-xs font-semibold text-gray-300 tabular-nums">{ci.count}</span>
+          {/* ── 2. VISITAS POR EMPREENDIMENTO ── */}
+          {productVisitsData.length > 0 && (() => {
+            const PROD_COLORS: Record<string, string> = {
+              'YUNA': '#f59e0b', 'EDITION': '#3b82f6', 'TREND NANO': '#8b5cf6',
+              'VERDANT': '#10b981', 'SHIFT': '#ec4899', 'MOOD': '#f97316',
+              'SYNTHE': '#ef4444', 'WAVE': '#06b6d4', 'ORBITALE': '#a78bfa',
+              'TREND HOME': '#64748b',
+            }
+            const totalPV = productVisitsData.reduce((s, p) => s + p.visits, 0)
+            const maxPV = productVisitsData[0]?.visits ?? 1
+            return (
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Visitas por Empreendimento</p>
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-green-400/10 text-green-400 tracking-wide">NOVO</span>
+                </div>
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <p className="text-[13px] font-semibold text-zinc-100">Páginas de produto — todas as origens</p>
+                      <p className="text-[11px] text-zinc-600 mt-0.5">inclui acesso direto, links de gestores e busca orgânica</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xl font-extrabold text-zinc-100 tabular-nums tracking-tight">{totalPV.toLocaleString('pt-BR')}</p>
+                      <p className="text-[11px] text-zinc-600">total de visitas</p>
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    {productVisitsData.map(pv => {
+                      const barW = Math.round((pv.visits / maxPV) * 100)
+                      const pct = Math.round((pv.visits / totalPV) * 100)
+                      const color = PROD_COLORS[pv.product] ?? '#60a5fa'
+                      const expandKey = `pv-${pv.product}`
+                      const isOpen = expandedProducts.has(expandKey)
+                      const contentItems = contentByProduct[pv.product] ?? []
+                      return (
+                        <div key={pv.product}>
+                          <div
+                            className={`flex items-center gap-2 rounded-md px-1 py-1 transition-colors ${contentItems.length > 0 ? 'cursor-pointer hover:bg-white/[0.03]' : ''}`}
+                            onClick={() => contentItems.length > 0 && toggleProductExpand(expandKey)}
+                          >
+                            {contentItems.length > 0
+                              ? <span className="text-zinc-500 text-[10px] w-3 transition-transform" style={{ display:'inline-block', transform: isOpen ? 'rotate(90deg)' : 'none' }}>›</span>
+                              : <span className="text-zinc-700 text-[10px] w-3">·</span>}
+                            <span className="text-[11px] font-semibold text-zinc-400 w-20 shrink-0">{pv.product}</span>
+                            <div className="flex-1 rounded" style={{ background: '#27272a', height: 20, overflow: 'hidden' }}>
+                              <div style={{ width: `${barW}%`, height: '100%', background: color + '99', borderRadius: 4, display: 'flex', alignItems: 'center', paddingLeft: 8 }}>
+                                <span className="text-[11px] font-bold tabular-nums" style={{ color: 'rgba(255,255,255,0.85)' }}>{pv.visits}</span>
+                              </div>
                             </div>
-                          ))}
+                            <span className="text-[11px] text-zinc-600 tabular-nums w-8 text-right">{pct}%</span>
+                          </div>
+                          {isOpen && contentItems.length > 0 && (
+                            <div className="ml-5 mb-2 mt-0.5 pl-3 border-l border-zinc-700 space-y-1">
+                              {contentItems.map(ci => (
+                                <div key={`${ci.contentType}:${ci.label}`} className="flex items-center gap-2 bg-zinc-800/60 rounded-md px-2 py-1.5">
+                                  <span className={`text-[11px] font-mono w-14 shrink-0 ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-zinc-400'}`}>{ci.contentType}</span>
+                                  <span className="text-[11px] text-zinc-500 flex-1 truncate">{ci.label}</span>
+                                  <span className={`text-[11px] font-bold tabular-nums ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-zinc-300'}`}>{ci.count}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* ── 3. RANKING ── */}
+          {analyticsData.length > 0 && (() => {
+            const ranked = [...analyticsData]
+              .map(m => {
+                const pv = m.daily.reduce((s, d) => s + d.visits, 0)
+                const pc = m.daily.reduce((s, d) => s + d.clicks, 0)
+                const conv = pv > 0 ? ((pc / pv) * 100).toFixed(1) : '0.0'
+                const topProd = m.byProduct ? Object.entries(m.byProduct).sort((a, b) => b[1] - a[1])[0]?.[0] ?? '—' : '—'
+                return { ...m, pv, pc, conv, topProd }
+              })
+              .sort((a, b) => b.pc - a.pc)
+            const convColors = ['rgba(74,222,128,0.15)', 'rgba(74,222,128,0.10)', 'rgba(251,191,36,0.12)', 'rgba(161,161,170,0.12)', 'rgba(248,113,113,0.12)']
+            const convTextColors = ['#4ade80', '#86efac', '#fbbf24', '#a1a1aa', '#f87171']
+            return (
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600 mb-3">Ranking do Período</p>
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr>
+                        {['#','Gestor','Visitas','Cliques WA','Conversão','Top Produto'].map((h, i) => (
+                          <th key={h} className={`text-[10px] font-semibold tracking-[0.1em] uppercase text-zinc-600 py-2.5 border-b border-zinc-800 ${i === 0 ? 'pl-4 pr-2 text-left' : i === 1 ? 'text-left pl-2' : 'text-right pr-3'}`}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ranked.map((m, i) => (
+                        <tr key={m.slug} className="border-b border-zinc-800/60 last:border-0">
+                          <td className="pl-4 pr-2 py-2.5 text-[11px] font-bold text-zinc-600 tabular-nums">{i + 1}</td>
+                          <td className="pl-2 py-2.5">
+                            <div className="flex items-center gap-2">
+                              <div className="relative w-7 h-7 rounded-full overflow-hidden shrink-0 border border-zinc-700">
+                                <Image src={m.photo} alt={m.name} fill className="object-cover" />
+                              </div>
+                              <div>
+                                <p className="text-[13px] font-semibold text-zinc-100 leading-none">{m.name}</p>
+                                <p className="text-[10px] text-zinc-600 mt-0.5">/g/{m.slug}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="pr-3 py-2.5 text-right text-[13px] font-medium text-blue-400 tabular-nums">{m.pv}</td>
+                          <td className="pr-3 py-2.5 text-right text-[13px] font-medium text-green-400 tabular-nums">{m.pc}</td>
+                          <td className="pr-3 py-2.5 text-right">
+                            <span className="text-[11px] font-bold tabular-nums px-2 py-1 rounded-full" style={{ background: convColors[i] ?? convColors[3], color: convTextColors[i] ?? convTextColors[3] }}>{m.conv}%</span>
+                          </td>
+                          <td className="pr-3 py-2.5 text-right text-[11px] text-zinc-500">{m.topProd}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* ── 4. DAÇÕES ── */}
+          {dacoesData !== null && (() => {
+            const dacEntries = Object.entries(dacoesData.byDacao) as [string, number][]
+            const dacMax = Math.max(...dacEntries.map(e => e[1]), 1)
+            return (
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600 mb-3">Dações — Interesse no Período</p>
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <p className="text-[13px] font-semibold text-zinc-100">Total de cliques em Interesse</p>
+                      <p className="text-[11px] text-zinc-600 mt-0.5">Parador + Marquês · período selecionado</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[1.5rem] font-extrabold text-amber-400 tabular-nums leading-none">{dacoesData.total}</p>
+                      <p className="text-[11px] text-zinc-600 mt-0.5">cliques totais</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {dacEntries.map(([id, count]) => {
+                      const pct = dacoesData.total > 0 ? Math.round((count / dacoesData.total) * 100) : 0
+                      return (
+                        <div key={id} className="flex items-center gap-2.5">
+                          <span className="text-[11px] font-semibold text-zinc-500 w-16 shrink-0 capitalize">{id}</span>
+                          <div className="flex-1 rounded" style={{ background: '#27272a', height: 20, overflow: 'hidden' }}>
+                            <div style={{ width: `${Math.round((count / dacMax) * 100)}%`, height: '100%', background: id === 'parador' ? '#b45309' : '#6b7280', borderRadius: 4, display: 'flex', alignItems: 'center', paddingLeft: 8 }}>
+                              <span className="text-[11px] font-bold text-white tabular-nums">{count}</span>
+                            </div>
+                          </div>
+                          <span className="text-[11px] text-zinc-600 tabular-nums w-8 text-right">{pct}%</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* ── 5. DETALHE POR GESTOR ── */}
+          {analyticsData.length > 0 && (
+            <div>
+              <div className="mb-3">
+                <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600 inline">Detalhe por Gestor</p>
+                <span className="text-[11px] text-violet-400 ml-2 normal-case tracking-normal font-normal">— clique em qualquer produto para ver o conteúdo detalhado</span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                {analyticsData.map(m => {
+                  const pv = m.daily.reduce((s, d) => s + d.visits, 0)
+                  const pc = m.daily.reduce((s, d) => s + d.clicks, 0)
+                  const conv = pv > 0 ? ((pc / pv) * 100).toFixed(1) : '0.0'
+                  const maxDay = Math.max(...m.daily.map(d => d.visits), 1)
+                  const peakIdx = m.daily.reduce((bi, d, i) => d.visits > (m.daily[bi]?.visits ?? 0) ? i : bi, 0)
+                  const peakDate = m.daily[peakIdx]?.date?.slice(5).split('-').reverse().join('/') ?? ''
+                  const peakV = m.daily[peakIdx]?.visits ?? 0
+                  const byProductEntries = m.byProduct ? Object.entries(m.byProduct).sort((a, b) => b[1] - a[1]) : []
+                  const maxProd = byProductEntries[0]?.[1] ?? 1
+                  return (
+                    <div key={m.slug} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                      {/* header */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-zinc-700">
+                          <Image src={m.photo} alt={m.name} fill className="object-cover" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[15px] font-bold text-zinc-100 leading-none">{m.name}</p>
+                          <p className="text-[11px] text-zinc-600 mt-0.5 truncate">grupo-plaenge.vercel.app/g/{m.slug}</p>
+                        </div>
+                      </div>
+                      {/* stats */}
+                      <div className="grid grid-cols-3 gap-2 mb-4">
+                        <div className="text-center">
+                          <p className="text-[1.375rem] font-extrabold text-blue-400 tabular-nums leading-none">{pv}</p>
+                          <p className="text-[9px] text-zinc-600 uppercase tracking-[0.07em] mt-1">Visitas</p>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-[1.375rem] font-extrabold text-green-400 tabular-nums leading-none">{pc}</p>
+                          <p className="text-[9px] text-zinc-600 uppercase tracking-[0.07em] mt-1">Cliques WA</p>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-[1.375rem] font-extrabold text-amber-400 tabular-nums leading-none">{conv}%</p>
+                          <p className="text-[9px] text-zinc-600 uppercase tracking-[0.07em] mt-1">Conversão</p>
+                        </div>
+                      </div>
+                      {/* peak + legend */}
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[11px] text-amber-400">⚡ Pico: {peakDate} — {peakV} visitas</p>
+                        <div className="flex items-center gap-2 text-[10px] text-zinc-600">
+                          <span className="w-2 h-2 rounded-sm inline-block" style={{ background: 'rgba(96,165,250,0.55)' }}/>Visitas
+                          <span className="w-2 h-2 rounded-sm inline-block bg-green-400"/>WA
+                        </div>
+                      </div>
+                      {/* chart */}
+                      <div className="flex items-end gap-px mb-3" style={{ height: 64 }}>
+                        {m.daily.slice(-30).map((d, i) => (
+                          <div key={d.date} className="flex-1 flex flex-col justify-end gap-px" title={`${d.date}: ${d.visits} vis., ${d.clicks} WA`}>
+                            <div className="rounded-sm" style={{ height: `${d.clicks > 0 ? Math.max((d.clicks / maxDay) * 64, 2) : 0}px`, background: 'rgba(74,222,128,0.85)' }} />
+                            <div className="rounded-sm" style={{ height: `${d.visits > 0 ? Math.max((d.visits / maxDay) * 64, 2) : 0}px`, background: i === peakIdx ? '#60a5fa' : 'rgba(96,165,250,0.45)' }} />
+                          </div>
+                        ))}
+                      </div>
+                      {/* products */}
+                      {byProductEntries.length > 0 && (
+                        <div className="border-t border-zinc-800 pt-3">
+                          <p className="text-[9px] font-semibold tracking-[0.1em] uppercase text-zinc-600 mb-2">Produto que gerou o clique · clique para ver conteúdo</p>
+                          <div className="space-y-1">
+                            {byProductEntries.map(([prod, count]) => {
+                              const expandKey = `${m.slug}-${prod}`
+                              const isOpen = expandedProducts.has(expandKey)
+                              const contentItems = contentByProduct[prod] ?? []
+                              const barW = Math.round((count / maxProd) * 100)
+                              const pct = pc > 0 ? Math.round((count / pc) * 100) : 0
+                              return (
+                                <div key={prod}>
+                                  <div
+                                    className={`flex items-center gap-1.5 rounded-md px-0.5 py-1 transition-colors ${contentItems.length > 0 ? 'cursor-pointer hover:bg-white/[0.04]' : ''}`}
+                                    onClick={() => contentItems.length > 0 && toggleProductExpand(expandKey)}
+                                  >
+                                    <span className="text-zinc-600 text-[10px] w-3.5 text-center transition-transform inline-block" style={{ transform: isOpen ? 'rotate(90deg)' : 'none' }}>
+                                      {contentItems.length > 0 ? '›' : '·'}
+                                    </span>
+                                    <span className="text-[11px] text-zinc-400 w-[68px] shrink-0">{prod}</span>
+                                    <div className="flex-1 rounded" style={{ background: '#27272a', height: 14, overflow: 'hidden' }}>
+                                      <div style={{ width: `${barW}%`, height: '100%', background: '#4ade8066', borderRadius: 3, display: 'flex', alignItems: 'center', paddingLeft: 5 }}>
+                                        <span className="text-[9px] font-bold tabular-nums" style={{ color: 'rgba(255,255,255,0.7)' }}>{count}</span>
+                                      </div>
+                                    </div>
+                                    <span className="text-[11px] text-zinc-600 tabular-nums w-7 text-right">{pct}%</span>
+                                  </div>
+                                  {isOpen && contentItems.length > 0 && (
+                                    <div className="ml-5 mt-1 mb-2 pl-2.5 border-l border-zinc-700 space-y-1">
+                                      {contentItems.map(ci => (
+                                        <div key={`${ci.contentType}:${ci.label}`} className="flex items-center gap-2 bg-zinc-800/60 rounded-md px-2 py-1.5">
+                                          <span className={`text-[10px] font-mono w-14 shrink-0 ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-zinc-400'}`}>{ci.contentType}</span>
+                                          <span className="text-[11px] text-zinc-500 flex-1 truncate">{ci.label}</span>
+                                          <div className="w-12 h-1.5 rounded-full bg-zinc-700 overflow-hidden shrink-0">
+                                            <div className="h-full rounded-full" style={{ width: `${Math.round((ci.count / (contentItems[0]?.count || 1)) * 100)}%`, background: CONTENT_TYPE_COLOR[ci.contentType]?.replace('text-','') ?? '#60a5fa' }} />
+                                          </div>
+                                          <span className={`text-[11px] font-bold tabular-nums w-5 text-right ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-zinc-300'}`}>{ci.count}</span>
+                                          <span className="text-[9px] text-zinc-600 w-10 text-right uppercase tracking-wide">{ci.contentType}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              )
+                            })}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -485,150 +735,13 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* Ranking table */}
-          {analyticsData.length > 0 && (
-            <div className="bg-gray-900 rounded-xl p-4 border border-gray-800">
-              <p className="text-xs text-gray-500 uppercase tracking-widest mb-3">Ranking gestores</p>
-              <div className="space-y-1">
-                {[...analyticsData]
-                  .map(m => ({ ...m, pv: m.daily.reduce((s, d) => s + d.visits, 0), pc: m.daily.reduce((s, d) => s + d.clicks, 0) }))
-                  .sort((a, b) => b.pv - a.pv)
-                  .map((m, i) => {
-                    const conv = m.pv > 0 ? ((m.pc / m.pv) * 100).toFixed(0) : '0'
-                    return (
-                      <div key={m.slug} className="flex items-center gap-3 py-1.5 border-b border-gray-800/60 last:border-0">
-                        <span className="text-xs text-gray-600 tabular-nums w-4">{i + 1}</span>
-                        <div className="relative w-7 h-7 rounded-full overflow-hidden shrink-0 border border-gray-700">
-                          <Image src={m.photo} alt={m.name} fill className="object-cover" />
-                        </div>
-                        <span className="text-sm text-gray-300 flex-1">{m.name}</span>
-                        <span className="text-xs text-blue-400 tabular-nums w-12 text-right">{m.pv} vis.</span>
-                        <span className="text-xs text-green-400 tabular-nums w-12 text-right">{m.pc} WA</span>
-                        <span className="text-xs text-amber-400 tabular-nums w-10 text-right">{conv}%</span>
-                      </div>
-                    )
-                  })}
-              </div>
-            </div>
-          )}
-
-          {/* Manager cards */}
-          <div className="space-y-4">
-            {analyticsData.map(m => {
-              const periodVisits = m.daily.reduce((s, d) => s + d.visits, 0)
-              const periodClicks = m.daily.reduce((s, d) => s + d.clicks, 0)
-              const conversion = periodVisits > 0 ? ((periodClicks / periodVisits) * 100).toFixed(1) : '0'
-              const maxVisits = Math.max(...m.daily.map(d => d.visits), 1)
-              const byProductEntries = m.byProduct ? Object.entries(m.byProduct).sort((a, b) => b[1] - a[1]) : []
-              const maxProduct = byProductEntries[0]?.[1] ?? 1
-              return (
-                <div key={m.slug} className="bg-gray-900 rounded-xl p-4 border border-gray-800">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-gray-700">
-                      <Image src={m.photo} alt={m.name} fill className="object-cover" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold">{m.name}</p>
-                      <p className="text-xs text-gray-500 font-mono">grupo-plaenge.vercel.app/g/{m.slug}</p>
-                    </div>
-                    <div className="flex gap-4 text-center">
-                      <div>
-                        <p className="text-2xl font-bold text-blue-400 tabular-nums">{periodVisits}</p>
-                        <p className="text-xs text-gray-500">Visitas</p>
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold text-green-400 tabular-nums">{periodClicks}</p>
-                        <p className="text-xs text-gray-500">Cliques WA</p>
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold text-amber-400 tabular-nums">{conversion}%</p>
-                        <p className="text-xs text-gray-500">Conversão</p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Mini bar chart */}
-                  <div className="flex items-end gap-px" style={{ height: 48 }}>
-                    {m.daily.slice(-30).map(d => (
-                      <div key={d.date} className="flex-1 flex flex-col justify-end gap-px" title={`${d.date}: ${d.visits} visitas, ${d.clicks} cliques`}>
-                        <div className="bg-green-600 rounded-sm" style={{ height: `${d.clicks > 0 ? Math.max((d.clicks / maxVisits) * 48, 2) : 0}px` }} />
-                        <div className="bg-blue-600 rounded-sm" style={{ height: `${d.visits > 0 ? Math.max((d.visits / maxVisits) * 48, 2) : 0}px` }} />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex gap-4 mt-1 text-xs text-gray-600">
-                    <span className="flex items-center gap-1"><span className="w-2 h-2 bg-blue-600 rounded-sm inline-block"/>Visitas</span>
-                    <span className="flex items-center gap-1"><span className="w-2 h-2 bg-green-600 rounded-sm inline-block"/>Cliques WA</span>
-                  </div>
-                  {byProductEntries.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-gray-800">
-                      <p className="text-xs text-gray-500 mb-2 uppercase tracking-widest">Produto que gerou o clique no WhatsApp</p>
-                      <div className="space-y-1.5">
-                        {byProductEntries.map(([prod, count]) => {
-                          const expandKey = `${m.slug}-${prod}`
-                          const isOpen = expandedProducts.has(expandKey)
-                          const contentItems = contentByProduct[prod] ?? []
-                          return (
-                            <div key={prod}>
-                              <div
-                                className={`flex items-center gap-2 rounded px-1 py-0.5 transition-colors ${contentItems.length > 0 ? 'cursor-pointer hover:bg-gray-800/60' : ''}`}
-                                onClick={() => contentItems.length > 0 && toggleProductExpand(expandKey)}
-                              >
-                                <span className="text-xs text-gray-400 w-24 shrink-0 font-medium">{prod}</span>
-                                <div className="flex-1 bg-gray-800 rounded h-4 overflow-hidden">
-                                  <div className="h-full bg-green-700 rounded transition-all" style={{ width: `${Math.round((count / maxProduct) * 100)}%` }} />
-                                </div>
-                                <span className="text-xs font-semibold text-green-400 tabular-nums w-5 text-right">{count}</span>
-                                {contentItems.length > 0 && (
-                                  <span className="text-gray-500 text-xs w-4">{isOpen ? '▾' : '›'}</span>
-                                )}
-                              </div>
-                              {isOpen && contentItems.length > 0 && (
-                                <div className="ml-2 mt-1 mb-1 pl-3 border-l border-gray-700 space-y-0.5">
-                                  {contentItems.map(ci => (
-                                    <div key={`${ci.contentType}:${ci.label}`} className="flex items-center gap-2">
-                                      <span className={`text-xs w-14 shrink-0 font-mono ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-gray-400'}`}>{ci.contentType}</span>
-                                      <span className="text-xs text-gray-500 flex-1 truncate">{ci.label}</span>
-                                      <span className="text-xs font-semibold text-gray-300 tabular-nums">{ci.count}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-            {analyticsData.length === 0 && (
-              <p className="text-gray-500 text-sm text-center py-8">Nenhum dado ainda. Compartilhe os links para começar a rastrear.</p>
-            )}
-          </div>
-
-          {/* Dações card */}
-          {dacoesData !== null && (
-            <div className="bg-gray-900 rounded-xl p-4 border border-amber-800/30 bg-amber-900/10">
-              <p className="text-xs text-gray-500 uppercase tracking-widest mb-3">🏠 Dações — Interesse no período</p>
-              <div className="flex gap-3 flex-wrap">
-                <div className="rounded-xl px-5 py-3 text-center min-w-[100px] bg-gray-800/50">
-                  <p className="text-2xl font-bold text-amber-400 tabular-nums">{dacoesData.total}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">total de cliques</p>
-                </div>
-                {Object.entries(dacoesData.byDacao).map(([id, count]) => (
-                  <div key={id} className="bg-gray-800/50 rounded-xl px-5 py-3 text-center min-w-[110px]">
-                    <p className="text-2xl font-bold text-white tabular-nums">{count as number}</p>
-                    <p className="text-xs text-gray-400 mt-0.5 capitalize">{id}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {analyticsData.length === 0 && (
+            <p className="text-zinc-500 text-sm text-center py-8">Nenhum dado ainda. Compartilhe os links para começar a rastrear.</p>
           )}
 
           {/* Links dos gestores */}
-          <div className="bg-gray-900 rounded-xl p-4 border border-gray-800">
-            <p className="font-semibold mb-3 text-sm text-gray-300">Links para compartilhar</p>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            <p className="text-[11px] font-semibold text-zinc-400 mb-3 uppercase tracking-widest">Links para compartilhar</p>
             <div className="space-y-2">
               {[
                 { slug: 'jardim',  name: 'Jardim' },
@@ -638,8 +751,8 @@ export default function AdminPage() {
                 { slug: 'nishi',   name: 'Nishi' },
               ].map(m => (
                 <div key={m.slug} className="flex items-center justify-between py-1">
-                  <span className="text-sm text-gray-400">{m.name}</span>
-                  <code className="text-xs bg-gray-800 px-2 py-1 rounded text-blue-300 select-all">
+                  <span className="text-sm text-zinc-400">{m.name}</span>
+                  <code className="text-xs bg-zinc-800 px-2 py-1 rounded text-blue-300 select-all">
                     grupo-plaenge.vercel.app/g/{m.slug}
                   </code>
                 </div>
