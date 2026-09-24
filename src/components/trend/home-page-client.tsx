@@ -528,7 +528,7 @@ export default function TrendHomePageClient({ isClientePage = false }: { isClien
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6 text-center">Localização</p>
           <div className="grid md:grid-cols-2 gap-8 items-start">
             <div className="space-y-3 text-sm">
-              <p className="font-medium text-foreground">Av. Azenha / Rua General Lima e Silva · Cidade Baixa · Porto Alegre — RS</p>
+              <p className="font-medium text-foreground">Av. Azenha, 123 · Cidade Baixa · Porto Alegre — RS</p>
               <p className="text-muted-foreground">
                 Entre a João Pessoa e a Lima e Silva, no coração da Cidade Baixa. Próximo ao Parque Farroupilha (Redenção),
                 UFRGS, Zaffari Lima e Silva, Shopping Praia de Belas, Auditório Araújo Vianna, Gasômetro e a Orla do Guaíba.
