@@ -1,7 +1,56 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
+
+// ── Chart component (Chart.js via canvas) ──────────────────────────────────
+type DailyPoint = { date: string; visits: number; clicks: number }
+
+function DailyChart({ daily, color, height = 64 }: { daily: DailyPoint[]; color: string; height?: number }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    if (!canvasRef.current || daily.length === 0) return
+    let ChartJS: typeof import('chart.js').Chart | null = null
+    let instance: import('chart.js').Chart | null = null
+    import('chart.js').then(({ Chart, registerables }) => {
+      Chart.register(...registerables)
+      ChartJS = Chart
+      if (!canvasRef.current) return
+      const peakIdx = daily.reduce((bi, d, i) => d.visits > daily[bi].visits ? i : bi, 0)
+      const barColors = daily.map((_, i) =>
+        i === peakIdx ? color : (color.length === 7 ? color + '66' : color.slice(0, 7) + '66')
+      )
+      const labels = daily.map(d => {
+        const [, mm, dd] = d.date.split('-')
+        return `${dd}/${mm}`
+      })
+      instance = new Chart(canvasRef.current, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Cliques WA', data: daily.map(d => d.clicks), backgroundColor: 'rgba(74,222,128,0.85)', borderRadius: 2, order: 1 },
+            { label: 'Visitas',    data: daily.map(d => d.visits), backgroundColor: barColors, borderRadius: 2, order: 2 },
+          ],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { backgroundColor: '#18181b', borderColor: '#27272a', borderWidth: 1, titleColor: '#a1a1aa', bodyColor: '#fafafa', titleFont: { size: 9 }, bodyFont: { size: 10 } },
+          },
+          scales: {
+            x: { stacked: false, ticks: { color: '#3f3f46', font: { size: 7 }, maxTicksLimit: 7 }, grid: { color: '#1f1f23' } },
+            y: { stacked: false, ticks: { color: '#3f3f46', font: { size: 8 }, maxTicksLimit: 3 }, grid: { color: '#1f1f23' } },
+          },
+        },
+      })
+    })
+    return () => { instance?.destroy() }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [daily, color])
+  return <canvas ref={canvasRef} style={{ width: '100%', height: `${height}px`, display: 'block' }} />
+}
 import { units as editionUnits, towers as editionTowers } from '@/lib/edition-data'
 import { units as moodUnits } from '@/lib/mood-data'
 import { units as orbitaleUnits } from '@/lib/orbitale-data'
@@ -438,13 +487,8 @@ export default function AdminPage() {
                       <div className="flex items-center gap-1.5 text-[11px] text-zinc-500"><span className="w-2 h-2 rounded-sm inline-block bg-green-400"/><span>Cliques WA</span></div>
                     </div>
                   </div>
-                  <div className="flex items-end gap-px" style={{ height: 80 }}>
-                    {aggDaily.slice(-30).map(d => (
-                      <div key={d.date} className="flex-1 flex flex-col justify-end gap-px" title={`${d.date}: ${d.visits} vis., ${d.clicks} WA`}>
-                        <div className="rounded-sm" style={{ height: `${d.clicks > 0 ? Math.max((d.clicks / maxAgg) * 80, 2) : 0}px`, background: 'rgba(74,222,128,0.8)' }} />
-                        <div className="rounded-sm" style={{ height: `${d.visits > 0 ? Math.max((d.visits / maxAgg) * 80, 2) : 0}px`, background: 'rgba(96,165,250,0.55)' }} />
-                      </div>
-                    ))}
+                  <div style={{ height: 90 }}>
+                    <DailyChart daily={aggDaily} color="#60a5fa" height={90} />
                   </div>
                 </div>
               </div>
@@ -629,10 +673,12 @@ export default function AdminPage() {
                   const pv = m.daily.reduce((s, d) => s + d.visits, 0)
                   const pc = m.daily.reduce((s, d) => s + d.clicks, 0)
                   const conv = pv > 0 ? ((pc / pv) * 100).toFixed(1) : '0.0'
-                  const maxDay = Math.max(...m.daily.map(d => d.visits), 1)
-                  const peakIdx = m.daily.reduce((bi, d, i) => d.visits > (m.daily[bi]?.visits ?? 0) ? i : bi, 0)
-                  const peakDate = m.daily[peakIdx]?.date?.slice(5).split('-').reverse().join('/') ?? ''
-                  const peakV = m.daily[peakIdx]?.visits ?? 0
+                  const daily30 = m.daily.slice(-30)
+                  const peakIdx30 = daily30.reduce((bi, d, i) => d.visits > (daily30[bi]?.visits ?? 0) ? i : bi, 0)
+                  const peakDate = (() => { const p = daily30[peakIdx30]?.date ?? ''; const [, mm, dd] = p.split('-'); return p ? `${dd}/${mm}` : '' })()
+                  const peakV = daily30[peakIdx30]?.visits ?? 0
+                  const MGMT_COLORS: Record<string, string> = { jardim: '#3b82f6', raffael: '#8b5cf6', renato: '#10b981', charles: '#f59e0b', nishi: '#ec4899' }
+                  const mColor = MGMT_COLORS[m.slug] ?? '#60a5fa'
                   const byProductEntries = m.byProduct ? Object.entries(m.byProduct).sort((a, b) => b[1] - a[1]) : []
                   const maxProd = byProductEntries[0]?.[1] ?? 1
                   return (
@@ -663,21 +709,16 @@ export default function AdminPage() {
                         </div>
                       </div>
                       {/* peak + legend */}
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-1.5">
                         <p className="text-[11px] text-amber-400">⚡ Pico: {peakDate} — {peakV} visitas</p>
                         <div className="flex items-center gap-2 text-[10px] text-zinc-600">
-                          <span className="w-2 h-2 rounded-sm inline-block" style={{ background: 'rgba(96,165,250,0.55)' }}/>Visitas
+                          <span className="w-2 h-2 rounded-sm inline-block" style={{ background: mColor + '66' }}/>Visitas
                           <span className="w-2 h-2 rounded-sm inline-block bg-green-400"/>WA
                         </div>
                       </div>
-                      {/* chart */}
-                      <div className="flex items-end gap-px mb-3" style={{ height: 64 }}>
-                        {m.daily.slice(-30).map((d, i) => (
-                          <div key={d.date} className="flex-1 flex flex-col justify-end gap-px" title={`${d.date}: ${d.visits} vis., ${d.clicks} WA`}>
-                            <div className="rounded-sm" style={{ height: `${d.clicks > 0 ? Math.max((d.clicks / maxDay) * 64, 2) : 0}px`, background: 'rgba(74,222,128,0.85)' }} />
-                            <div className="rounded-sm" style={{ height: `${d.visits > 0 ? Math.max((d.visits / maxDay) * 64, 2) : 0}px`, background: i === peakIdx ? '#60a5fa' : 'rgba(96,165,250,0.45)' }} />
-                          </div>
-                        ))}
+                      {/* chart — Chart.js canvas with date labels on X-axis */}
+                      <div className="mb-3" style={{ height: 80 }}>
+                        <DailyChart daily={daily30} color={mColor} height={80} />
                       </div>
                       {/* products */}
                       {byProductEntries.length > 0 && (
@@ -690,15 +731,14 @@ export default function AdminPage() {
                               const contentItems = contentByProduct[prod] ?? []
                               const barW = Math.round((count / maxProd) * 100)
                               const pct = pc > 0 ? Math.round((count / pc) * 100) : 0
+                              const CONTENT_TYPE_HEX: Record<string, string> = { download: '#60a5fa', acesso: '#a78bfa', video: '#f87171', visita: '#4ade80' }
                               return (
                                 <div key={prod}>
                                   <div
-                                    className={`flex items-center gap-1.5 rounded-md px-0.5 py-1 transition-colors ${contentItems.length > 0 ? 'cursor-pointer hover:bg-white/[0.04]' : ''}`}
-                                    onClick={() => contentItems.length > 0 && toggleProductExpand(expandKey)}
+                                    className="flex items-center gap-1.5 rounded-md px-0.5 py-1 cursor-pointer transition-colors hover:bg-white/[0.04]"
+                                    onClick={() => toggleProductExpand(expandKey)}
                                   >
-                                    <span className="text-zinc-600 text-[10px] w-3.5 text-center transition-transform inline-block" style={{ transform: isOpen ? 'rotate(90deg)' : 'none' }}>
-                                      {contentItems.length > 0 ? '›' : '·'}
-                                    </span>
+                                    <span className="text-zinc-500 text-[11px] w-3.5 text-center flex-shrink-0 transition-transform inline-block select-none" style={{ transform: isOpen ? 'rotate(90deg)' : 'none' }}>›</span>
                                     <span className="text-[11px] text-zinc-400 w-[68px] shrink-0">{prod}</span>
                                     <div className="flex-1 rounded" style={{ background: '#27272a', height: 14, overflow: 'hidden' }}>
                                       <div style={{ width: `${barW}%`, height: '100%', background: '#4ade8066', borderRadius: 3, display: 'flex', alignItems: 'center', paddingLeft: 5 }}>
@@ -707,19 +747,26 @@ export default function AdminPage() {
                                     </div>
                                     <span className="text-[11px] text-zinc-600 tabular-nums w-7 text-right">{pct}%</span>
                                   </div>
-                                  {isOpen && contentItems.length > 0 && (
-                                    <div className="ml-5 mt-1 mb-2 pl-2.5 border-l border-zinc-700 space-y-1">
-                                      {contentItems.map(ci => (
-                                        <div key={`${ci.contentType}:${ci.label}`} className="flex items-center gap-2 bg-zinc-800/60 rounded-md px-2 py-1.5">
-                                          <span className={`text-[10px] font-mono w-14 shrink-0 ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-zinc-400'}`}>{ci.contentType}</span>
-                                          <span className="text-[11px] text-zinc-500 flex-1 truncate">{ci.label}</span>
-                                          <div className="w-12 h-1.5 rounded-full bg-zinc-700 overflow-hidden shrink-0">
-                                            <div className="h-full rounded-full" style={{ width: `${Math.round((ci.count / (contentItems[0]?.count || 1)) * 100)}%`, background: CONTENT_TYPE_COLOR[ci.contentType]?.replace('text-','') ?? '#60a5fa' }} />
-                                          </div>
-                                          <span className={`text-[11px] font-bold tabular-nums w-5 text-right ${CONTENT_TYPE_COLOR[ci.contentType] ?? 'text-zinc-300'}`}>{ci.count}</span>
-                                          <span className="text-[9px] text-zinc-600 w-10 text-right uppercase tracking-wide">{ci.contentType}</span>
-                                        </div>
-                                      ))}
+                                  {isOpen && (
+                                    <div className="ml-5 mt-0.5 mb-2 pl-2.5 border-l border-zinc-700 space-y-1">
+                                      {contentItems.length === 0
+                                        ? <p className="text-[10px] text-zinc-600 italic py-1 px-2">Sem eventos de conteúdo registrados para este produto.</p>
+                                        : contentItems.map(ci => {
+                                            const maxCi = contentItems[0]?.count || 1
+                                            const ciPct = Math.round((ci.count / maxCi) * 100)
+                                            const ciColor = CONTENT_TYPE_HEX[ci.contentType] ?? '#a1a1aa'
+                                            return (
+                                              <div key={`${ci.contentType}:${ci.label}`} className="flex items-center gap-2 rounded-md px-2 py-1.5" style={{ background: '#1f1f23' }}>
+                                                <span className="text-[11px] flex-1 truncate" style={{ color: '#a1a1aa' }}>{ci.label}</span>
+                                                <div className="w-12 h-1.5 rounded-full overflow-hidden shrink-0" style={{ background: '#27272a' }}>
+                                                  <div className="h-full rounded-full" style={{ width: `${ciPct}%`, background: ciColor }} />
+                                                </div>
+                                                <span className="text-[11px] font-bold tabular-nums w-5 text-right" style={{ color: ciColor }}>{ci.count}</span>
+                                                <span className="text-[9px] w-10 text-right uppercase tracking-wide" style={{ color: '#52525b' }}>{ci.contentType}</span>
+                                              </div>
+                                            )
+                                          })
+                                      }
                                     </div>
                                   )}
                                 </div>
