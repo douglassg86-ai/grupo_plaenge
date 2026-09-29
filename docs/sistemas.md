@@ -54,8 +54,12 @@ Links: `grupo-plaenge.vercel.app/g/{slug}`
 ### Apresentação para investidores (`/admin` → aba Investidores)
 - A rota `/investidores` é encaminhada (rewrite em `next.config.js`) ao projeto Vercel **plaenge-investidores**, que guarda a apresentação atrás de senha. O conteúdo não fica neste repositório.
 - Eventos: `POST /api/investidores/track` com `{ event: 'acesso' | 'tela-de-senha' | 'senha-incorreta', vid? }` — chamado pela apresentação e pela tela de senha dela. `vid` = id aleatório do navegador (localStorage `inv_vid`), só para contar pessoas únicas.
-- Painel: `POST /api/investidores/analytics` (senha do admin) → `getInvestorAnalytics()` em `src/lib/redis.ts`.
+- Engajamento: `POST /api/investidores/track` com `{ event: 'engajamento', slides: [{ i, t, p, seen, sec }], zooms: [{ k, c }] }` — a apresentação envia a cada minuto e ao sair só o que mudou (slide visto 1× por acesso; segundos com a aba visível, parando após 2 min sem interação; plantas ampliadas). A rota valida tudo (≤ 40 slides, `sec` ≤ 600, `p` ∈ códigos conhecidos, chave de planta `[A-Za-z0-9_]`).
+- Perfil anônimo: no `acesso`, a rota lê os cabeçalhos da Vercel `x-vercel-ip-city`/`-country-region`/`-country` e o user-agent e só incrementa contagens do dia — nada é guardado por pessoa, nem o IP.
+- Painel: `POST /api/investidores/analytics` (senha do admin) → `getInvestorAnalytics()` + `getInvestorProfile()` em `src/lib/redis.ts`.
 - Chaves: contagens em `content:click:INVESTIDORES:{acesso:apresentacao | visita:tela-de-senha | visita:senha-incorreta}:{YYYY-MM-DD|total}`; pessoas únicas em HyperLogLog `inv:uv:{acesso|tela-de-senha}:{YYYY-MM-DD|total}`; último acesso em `inv:last-access`.
+- Chaves do perfil (hashes por dia UTC): `inv:geo:{dia}` ("Cidade · UF"), `inv:device:{dia}` (Computador/Celular/Tablet), `inv:os:{dia}`, `inv:hour:{dia}` (0–23, Brasília), `inv:wd:{dia}` (0 = domingo); engajamento em `inv:eng:seen:{slide}:{dia}`, `inv:eng:sec:{slide}:{dia}`, `inv:eng:zoom:{dia}`.
+- Títulos dos slides (`inv:eng:meta`, "código|título") e legendas das plantas (`inv:eng:zoommeta`) vêm da própria apresentação e ficam só no Redis — o painel monta nomes de empreendimento a partir deles. **Não escrever nomes, metragens ou preços da apresentação neste repositório (é público).**
 
 ## Hero da Home — Slideshow
 

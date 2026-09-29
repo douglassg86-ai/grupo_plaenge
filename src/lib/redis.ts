@@ -214,7 +214,37 @@ const INVESTOR_CONTENT: Record<InvestorEvent, string> = {
   'senha-incorreta': 'content:click:INVESTIDORES:visita:senha-incorreta',
 }
 
-export async function trackInvestorEvent(event: InvestorEvent, visitorId?: string) {
+// Contexto de cada acesso: cabeçalhos de geolocalização da Vercel e user-agent.
+// Só entram em contagens agregadas por dia — nada é guardado por pessoa, nem o IP.
+export type InvestorContext = { ua?: string; city?: string; region?: string; country?: string }
+
+function deviceOf(ua: string): { device: string; os: string } {
+  const device = /iPad|Tablet|PlayBook|Silk|Android(?!.*Mobile)/i.test(ua) ? 'Tablet'
+    : /Mobi|iPhone|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(ua) ? 'Celular' : 'Computador'
+  const os = /iPhone|iPad|iPod/i.test(ua) ? 'iOS' : /Android/i.test(ua) ? 'Android' : /Windows/i.test(ua) ? 'Windows'
+    : /Macintosh|Mac OS X/i.test(ua) ? 'macOS' : /CrOS/i.test(ua) ? 'ChromeOS' : /Linux/i.test(ua) ? 'Linux' : 'Outro'
+  return { device, os }
+}
+
+function placeOf(ctx: InvestorContext): string {
+  let city = ctx.city ?? ''
+  try { city = decodeURIComponent(city) } catch { /* mantém como veio */ }
+  if (!city) return 'Não identificada'
+  const parts = [city.slice(0, 60)]
+  if (ctx.region) parts.push(ctx.region.slice(0, 10))
+  if (ctx.country && ctx.country !== 'BR') parts.push(ctx.country.slice(0, 4))
+  return parts.join(' · ')
+}
+
+/** Hora (0–23) e dia da semana (0 = domingo) no horário de Brasília. */
+function brasiliaNow(): { hour: number; weekday: number } {
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Sao_Paulo', hour: 'numeric', hourCycle: 'h23', weekday: 'short' }).formatToParts(new Date())
+  const hour = Number(parts.find(p => p.type === 'hour')?.value ?? 0) % 24
+  const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.find(p => p.type === 'weekday')?.value ?? 'Sun')
+  return { hour, weekday: Math.max(0, weekday) }
+}
+
+export async function trackInvestorEvent(event: InvestorEvent, visitorId?: string, ctx?: InvestorContext) {
   const r = getRedis()
   if (!r) return
   const day = todayKey()
@@ -222,8 +252,109 @@ export async function trackInvestorEvent(event: InvestorEvent, visitorId?: strin
   if (visitorId && event !== 'senha-incorreta') {
     ops.push(r.pfadd(`inv:uv:${event}:${day}`, visitorId), r.pfadd(`inv:uv:${event}:total`, visitorId))
   }
-  if (event === 'acesso') ops.push(r.set('inv:last-access', new Date().toISOString()))
+  if (event === 'acesso') {
+    ops.push(r.set('inv:last-access', new Date().toISOString()))
+    if (ctx) {
+      const { device, os } = deviceOf(ctx.ua ?? '')
+      const { hour, weekday } = brasiliaNow()
+      ops.push(
+        r.hincrby(`inv:geo:${day}`, placeOf(ctx), 1),
+        r.hincrby(`inv:device:${day}`, device, 1),
+        r.hincrby(`inv:os:${day}`, os, 1),
+        r.hincrby(`inv:hour:${day}`, String(hour), 1),
+        r.hincrby(`inv:wd:${day}`, String(weekday), 1),
+      )
+    }
+  }
   await Promise.all(ops)
+}
+
+// Engajamento: a apresentação envia só o que mudou desde o último envio. Títulos de
+// slide e legendas de planta vêm da própria apresentação e ficam só no Redis
+// (inv:eng:meta / inv:eng:zoommeta) — este repositório é público.
+export type EngagementSlide = { i: number; t: string; p: string; seen: boolean; sec: number }
+export type EngagementZoom = { k: string; c: string }
+
+export async function trackInvestorEngagement(slides: EngagementSlide[], zooms: EngagementZoom[]) {
+  const r = getRedis()
+  if (!r || slides.length + zooms.length === 0) return
+  const day = todayKey()
+  const p = r.pipeline()
+  for (const s of slides) {
+    p.hset('inv:eng:meta', { [String(s.i)]: `${s.p}|${s.t}` })
+    if (s.seen) p.incr(`inv:eng:seen:${s.i}:${day}`)
+    if (s.sec > 0) p.incrby(`inv:eng:sec:${s.i}:${day}`, s.sec)
+  }
+  for (const z of zooms) {
+    if (z.c) p.hset('inv:eng:zoommeta', { [z.k]: z.c })
+    p.hincrby(`inv:eng:zoom:${day}`, z.k, 1)
+  }
+  await p.exec()
+}
+
+export type InvestorProfile = {
+  geo: { name: string; count: number }[]
+  device: { name: string; count: number }[]
+  os: { name: string; count: number }[]
+  hour: number[]      // 24 posições, horário de Brasília
+  weekday: number[]   // 7 posições, 0 = domingo
+  slides: { i: number; title: string; product: string; seen: number; sec: number }[]
+  zooms: { name: string; count: number }[]
+}
+
+export async function getInvestorProfile(startDate: string, endDate: string): Promise<InvestorProfile> {
+  const empty: InvestorProfile = { geo: [], device: [], os: [], hour: Array(24).fill(0), weekday: Array(7).fill(0), slides: [], zooms: [] }
+  const r = getRedis()
+  if (!r) return empty
+  const start = startDate < INVESTOR_TRACKING_START ? INVESTOR_TRACKING_START : startDate
+  const dates = start <= endDate ? dateRange(start, endDate) : []
+  if (dates.length === 0) return empty
+
+  const HASHES = ['geo', 'device', 'os', 'hour', 'wd', 'eng:zoom'] as const
+  const p = r.pipeline()
+  HASHES.forEach(h => dates.forEach(d => p.hgetall(`inv:${h}:${d}`)))
+  p.hgetall('inv:eng:meta')
+  p.hgetall('inv:eng:zoommeta')
+  const res = await p.exec<(Record<string, unknown> | null)[]>()
+
+  const sumHash = (hIdx: number) => {
+    const acc: Record<string, number> = {}
+    for (let k = 0; k < dates.length; k++) {
+      const h = res[hIdx * dates.length + k]
+      if (h) for (const [f, v] of Object.entries(h)) acc[f] = (acc[f] ?? 0) + Number(v)
+    }
+    return acc
+  }
+  const ranked = (o: Record<string, number>) => Object.entries(o).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count)
+  const hourAcc = sumHash(3), wdAcc = sumHash(4)
+
+  const meta = (res[HASHES.length * dates.length] ?? {}) as Record<string, unknown>
+  const zoomMeta = (res[HASHES.length * dates.length + 1] ?? {}) as Record<string, unknown>
+  const idx =Object.keys(meta).map(Number).filter(n => n > 0).sort((a, b) => a - b)
+  let slides: InvestorProfile['slides'] = []
+  if (idx.length) {
+    const keys = idx.flatMap(i => dates.flatMap(d => [`inv:eng:seen:${i}:${d}`, `inv:eng:sec:${i}:${d}`]))
+    const vals = await r.mget<(number | null)[]>(...keys)
+    slides = idx.map((i, si) => {
+      let seen = 0, sec = 0
+      for (let k = 0; k < dates.length; k++) {
+        const base = (si * dates.length + k) * 2
+        seen += Number(vals[base] ?? 0); sec += Number(vals[base + 1] ?? 0)
+      }
+      const [product = '', ...rest] = String(meta[String(i)] ?? '').split('|')
+      return { i, title: rest.join('|'), product, seen, sec }
+    })
+  }
+
+  return {
+    geo: ranked(sumHash(0)),
+    device: ranked(sumHash(1)),
+    os: ranked(sumHash(2)),
+    hour: Array.from({ length: 24 }, (_, h) => hourAcc[String(h)] ?? 0),
+    weekday: Array.from({ length: 7 }, (_, w) => wdAcc[String(w)] ?? 0),
+    slides,
+    zooms: ranked(sumHash(5)).map(z => ({ name: String(zoomMeta[z.name] ?? z.name), count: z.count })),
+  }
 }
 
 export type InvestorDay = { date: string; acessos: number; pessoas: number; telas: number; erros: number }

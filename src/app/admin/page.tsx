@@ -53,6 +53,67 @@ function DailyChart({ daily, color, height = 64, names = { visits: 'Visitas', cl
   }, [daily, color, names.visits, names.clicks])
   return <canvas ref={canvasRef} style={{ width: '100%', height: `${height}px`, display: 'block' }} />
 }
+
+// ── Lista com barras e mini-histograma (aba Investidores) ──────────────────
+type Ranked = { name: string; count: number }
+
+// No celular a barra vai para a linha de baixo, para o rótulo não ser espremido.
+function BarList({ items, color, total, emptyText, max = 8, format, unit = 'acessos', labelWidth = 'sm:w-44', valueWidth = 'sm:w-28' }: {
+  items: Ranked[]; color: string; total?: number; emptyText: string; max?: number
+  format?: (n: number) => string; unit?: string; labelWidth?: string; valueWidth?: string
+}) {
+  if (items.length === 0) return <p className="text-zinc-600 text-sm py-2">{emptyText}</p>
+  const shown = items.slice(0, max), rest = items.slice(max)
+  const top = Math.max(1, ...shown.map(i => i.count))
+  return (
+    <div className="space-y-2 sm:space-y-1.5">
+      {shown.map(it => {
+        const fill = <div className="h-full rounded" style={{ width: `${Math.max(3, Math.round((it.count / top) * 100))}%`, background: color }} />
+        return (
+          <div key={it.name} className="text-sm">
+            <div className="flex items-center gap-3">
+              <span className={`min-w-0 flex-1 sm:flex-none ${labelWidth} truncate text-zinc-300`} title={it.name}>{it.name}</span>
+              <div className="hidden sm:block flex-1 bg-zinc-800/80 rounded h-4 overflow-hidden">{fill}</div>
+              <span className={`shrink-0 ${valueWidth} text-right tabular-nums text-zinc-300 whitespace-nowrap`}>
+                {format ? format(it.count) : it.count.toLocaleString('pt-BR')}
+                {total ? <span className="text-zinc-600 text-xs"> · {Math.round((it.count / total) * 100)}%</span> : null}
+              </span>
+            </div>
+            <div className="sm:hidden mt-1 bg-zinc-800/80 rounded h-2 overflow-hidden">{fill}</div>
+          </div>
+        )
+      })}
+      {rest.length > 0 && (
+        <p className="text-[11px] text-zinc-600 pt-1">+ {rest.length} outros ({rest.reduce((s, i) => s + i.count, 0).toLocaleString('pt-BR')} {unit})</p>
+      )}
+    </div>
+  )
+}
+
+function MiniColumns({ values, labels, color, height = 72 }: { values: number[]; labels: string[]; color: string; height?: number }) {
+  const top = Math.max(1, ...values)
+  return (
+    <div>
+      <div className="flex items-end gap-[3px]" style={{ height }}>
+        {values.map((v, i) => (
+          <div key={i} className="flex-1 rounded-t" title={`${labels[i] || i}: ${v}`}
+            style={{ height: `${v ? Math.max(6, (v / top) * 100) : 3}%`, background: v ? color : '#27272a' }} />
+        ))}
+      </div>
+      <div className="flex gap-[3px] mt-1">
+        {labels.map((l, i) => <span key={i} className="flex-1 text-center text-[9px] text-zinc-600">{l}</span>)}
+      </div>
+    </div>
+  )
+}
+
+function fmtDuration(totalSec: number): string {
+  const s = Math.round(totalSec)
+  if (s < 60) return `${s} s`
+  const m = Math.floor(s / 60), r = s % 60
+  if (m < 60) return r ? `${m} min ${String(r).padStart(2, '0')} s` : `${m} min`
+  return `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')} min`
+}
 import { units as editionUnits, towers as editionTowers } from '@/lib/edition-data'
 import { units as moodUnits } from '@/lib/mood-data'
 import { units as orbitaleUnits } from '@/lib/orbitale-data'
@@ -212,6 +273,12 @@ export default function AdminPage() {
     period: { acessos: number; pessoas: number; telas: number; pessoasTela: number; erros: number }
     allTime: { acessos: number; pessoas: number }
     lastAccess: string | null
+    profile?: {
+      geo: Ranked[]; device: Ranked[]; os: Ranked[]
+      hour: number[]; weekday: number[]
+      slides: { i: number; title: string; product: string; seen: number; sec: number }[]
+      zooms: Ranked[]
+    }
   }
   const [invData, setInvData] = useState<InvestorData | null>(null)
   const [invLoading, setInvLoading] = useState(false)
@@ -908,8 +975,130 @@ export default function AdminPage() {
                 <span>Desde {fmtDay(since)}: <b className="text-zinc-200 tabular-nums">{allTime.acessos.toLocaleString('pt-BR')}</b> acessos · <b className="text-zinc-200 tabular-nums">{allTime.pessoas.toLocaleString('pt-BR')}</b> pessoas</span>
                 <span>Último acesso: <b className="text-zinc-200">{last ?? '—'}</b></span>
               </div>
+
+              {invData.profile && (() => {
+                const pr = invData.profile
+                const sl = pr.slides
+                type Sl = typeof sl[number]
+                const firstProd = sl.findIndex(s => s.product)
+                const lastProd = firstProd < 0 ? -1 : sl.length - 1 - [...sl].reverse().findIndex(s => s.product)
+                const secOf = (f: (s: Sl, k: number) => boolean) => sl.filter(f).reduce((a, s) => a + s.sec, 0)
+                // Empreendimentos e seus nomes vêm dos títulos dos slides gravados pela própria
+                // apresentação ("Nome · Seção") — nada da apresentação fica neste código público.
+                const prods = [...new Set(sl.map(s => s.product).filter(Boolean))]
+                const prodName = (c: string) => sl.find(s => s.product === c && s.title)?.title.split(' · ')[0] || c
+                const PROD_COLORS = ['#c4b5fd', '#a78bfa', '#7c3aed', '#6d28d9']
+                const sections: Ranked[] = [
+                  { name: 'Abertura institucional', count: secOf((s, k) => !s.product && (firstProd < 0 || k < firstProd)) },
+                  ...prods.map(c => ({ name: prodName(c), count: secOf(s => s.product === c) })),
+                  { name: 'Resumo e encerramento', count: secOf((s, k) => !s.product && firstProd >= 0 && k > lastProd) },
+                ].filter(x => x.count > 0)
+                const totalSec = sl.reduce((a, s) => a + s.sec, 0)
+                const base = Math.max(p.acessos, 1)
+                const reach = (f: (s: Sl) => boolean) => { const s = sl.find(f); return s ? Math.min(100, Math.round((s.seen / base) * 100)) : null }
+                const resumo = reach(s => /Resumo/i.test(s.title))
+                const precos = prods.map(c => ({ name: prodName(c), v: reach(s => s.product === c && /Condição/i.test(s.title)) }))
+                const totalZooms = pr.zooms.reduce((a, z) => a + z.count, 0)
+                const geoTotal = pr.geo.reduce((a, g) => a + g.count, 0)
+                const devTotal = pr.device.reduce((a, d) => a + d.count, 0)
+                const hasTime = pr.hour.some(v => v > 0)
+                const peakHour = pr.hour.reduce((bi, v, i) => (v > pr.hour[bi] ? i : bi), 0)
+                const WD = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+                const peakWd = pr.weekday.reduce((bi, v, i) => (v > pr.weekday[bi] ? i : bi), 0)
+                const card = 'bg-zinc-900 border border-zinc-800 rounded-xl p-4'
+                const title = 'text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600 mb-3'
+                const mini = 'bg-zinc-950/40 border border-zinc-800 rounded-lg p-3'
+                const sub = 'text-xs text-zinc-500 mb-2'
+                return (<>
+                  {/* Engajamento */}
+                  <div className={card}>
+                    <p className={title}>Engajamento</p>
+                    {sl.length === 0 ? (
+                      <p className="text-zinc-600 text-sm py-2">Ainda sem dados de engajamento no período — eles aparecem conforme os investidores navegam pela apresentação.</p>
+                    ) : (<>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-5">
+                        <div className={mini}>
+                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">Tempo médio por acesso</p>
+                          <p className="text-xl font-bold text-violet-300 tabular-nums">{fmtDuration(totalSec / base)}</p>
+                          <p className="text-[11px] text-zinc-600 mt-0.5">com a apresentação aberta e em uso</p>
+                        </div>
+                        <div className={mini}>
+                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">Chegaram ao resumo</p>
+                          <p className="text-xl font-bold text-green-300 tabular-nums">{resumo === null ? '—' : `${resumo}%`}</p>
+                          <p className="text-[11px] text-zinc-600 mt-0.5">dos acessos viram o slide final de valores</p>
+                        </div>
+                        <div className={mini}>
+                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">Viram o quadro de preços</p>
+                          <div className="space-y-0.5 mt-1">
+                            {precos.map(x => (
+                              <p key={x.name} className="text-sm text-zinc-300 flex justify-between"><span>{x.name}</span><b className="tabular-nums text-amber-300">{x.v === null ? '—' : `${x.v}%`}</b></p>
+                            ))}
+                          </div>
+                        </div>
+                        <div className={mini}>
+                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">Plantas ampliadas</p>
+                          <p className="text-xl font-bold text-sky-300 tabular-nums">{totalZooms.toLocaleString('pt-BR')}</p>
+                          <p className="text-[11px] text-zinc-600 mt-0.5">cliques para ver planta ou implantação</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                          <p className={sub}>Tempo por empreendimento (soma do período)</p>
+                          <BarList items={sections} color="#a78bfa" format={fmtDuration} emptyText="Sem tempo registrado ainda." labelWidth="sm:w-52" max={6} />
+                        </div>
+                        <div>
+                          <p className={sub}>Plantas e implantações ampliadas</p>
+                          <BarList items={pr.zooms} color="#38bdf8" emptyText="Nenhuma planta ampliada no período." unit="ampliações" labelWidth="sm:w-64 xl:w-80" valueWidth="sm:w-10" />
+                        </div>
+                      </div>
+                      <details className="mt-5">
+                        <summary className="text-xs text-zinc-400 cursor-pointer select-none hover:text-zinc-200">Alcance e tempo médio por slide</summary>
+                        <div className="mt-3 space-y-1">
+                          {sl.map(s => {
+                            const pct = Math.min(100, Math.round((s.seen / base) * 100))
+                            const fill = <div className="h-full rounded" style={{ width: `${Math.max(2, pct)}%`, background: s.product ? PROD_COLORS[prods.indexOf(s.product) % PROD_COLORS.length] : '#52525b' }} />
+                            return (
+                              <div key={s.i} className="text-xs">
+                                <div className="flex items-center gap-3">
+                                  <span className="w-6 shrink-0 text-right text-zinc-600 tabular-nums">{String(s.i).padStart(2, '0')}</span>
+                                  <span className="min-w-0 flex-1 sm:flex-none sm:w-72 truncate text-zinc-300" title={s.title}>{s.title || `Slide ${s.i}`}</span>
+                                  <div className="hidden sm:block flex-1 bg-zinc-800/80 rounded h-3 overflow-hidden">{fill}</div>
+                                  <span className="shrink-0 sm:w-48 text-right tabular-nums text-zinc-400 whitespace-nowrap">{pct}% · {s.seen ? fmtDuration(s.sec / s.seen) : '—'}<span className="hidden sm:inline"> por visita</span></span>
+                                </div>
+                                <div className="sm:hidden mt-1 ml-9 bg-zinc-800/80 rounded h-1.5 overflow-hidden">{fill}</div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </details>
+                    </>)}
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+                    {/* Localização */}
+                    <div className={card}>
+                      <p className={title}>De onde acessam</p>
+                      <BarList items={pr.geo} color="#34d399" total={geoTotal} emptyText="Sem acessos com localização no período." unit="acessos" max={10} />
+                    </div>
+                    {/* Dispositivo e horário */}
+                    <div className={card}>
+                      <p className={title}>Dispositivo e horário</p>
+                      <BarList items={pr.device} color="#fbbf24" total={devTotal} emptyText="Sem acessos no período." max={3} labelWidth="sm:w-28" />
+                      {pr.os.length > 0 && (
+                        <p className="text-[11px] text-zinc-500 mt-2">Sistemas: {pr.os.map(o => `${o.name} ${o.count}`).join(' · ')}</p>
+                      )}
+                      <p className={`${sub} mt-4`}>Hora do acesso (Brasília){hasTime ? ` · pico às ${peakHour}h` : ''}</p>
+                      <MiniColumns values={pr.hour} labels={pr.hour.map((_, h) => (h % 3 === 0 ? `${h}h` : ''))} color="#fbbf24" />
+                      <p className={`${sub} mt-4`}>Dia da semana{hasTime ? ` · mais acessos ${['no domingo', 'na segunda', 'na terça', 'na quarta', 'na quinta', 'na sexta', 'no sábado'][peakWd]}` : ''}</p>
+                      <MiniColumns values={pr.weekday} labels={WD} color="#fbbf24" height={48} />
+                    </div>
+                  </div>
+                </>)
+              })()}
+
               <p className="text-[11px] text-zinc-600 leading-relaxed">
-                Pessoas = navegadores diferentes (o mesmo investidor no celular e no computador conta como 2). Os primeiros acessos, anteriores à contagem de pessoas, aparecem só em Acessos. Dias em horário UTC, como no restante do painel.
+                Pessoas = navegadores diferentes (o mesmo investidor no celular e no computador conta como 2). Os primeiros acessos, anteriores à contagem de pessoas e do perfil, aparecem só em Acessos — por isso percentuais do início podem ficar abaixo do real.
+                Localização aproximada pelo provedor de internet, sem guardar IP (em redes de celular pode indicar a cidade da operadora). O tempo só conta com a apresentação visível e para após 2 minutos sem interação. Dias em horário UTC, como no restante do painel; hora e dia da semana em horário de Brasília.
               </p>
             </>)
           })()}

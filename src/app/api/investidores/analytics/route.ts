@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getInvestorAnalytics } from '@/lib/redis'
+import { getInvestorAnalytics, getInvestorProfile } from '@/lib/redis'
 
 export async function POST(req: NextRequest) {
   const { password, startDate, endDate } = await req.json()
@@ -8,5 +8,6 @@ export async function POST(req: NextRequest) {
   }
   const end = endDate ?? new Date().toISOString().slice(0, 10)
   const start = startDate ?? new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10)
-  return NextResponse.json(await getInvestorAnalytics(start, end))
+  const [analytics, profile] = await Promise.all([getInvestorAnalytics(start, end), getInvestorProfile(start, end)])
+  return NextResponse.json({ ...analytics, profile })
 }
