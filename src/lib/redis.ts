@@ -168,6 +168,7 @@ const PRODUCT_CONTENT_KEYS: Record<string, { contentType: string; label: string 
   'MOOD':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
   'ORBITALE':   [{ contentType:'download',label:'book-pdf'},{ contentType:'visita',label:'link-cliente'}],
   'WAVE':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
+  'INVESTIDORES': [{ contentType:'acesso',label:'apresentacao'},{ contentType:'visita',label:'tela-de-senha'}],
 }
 
 export async function trackContentClick(product: string, contentType: string, label: string) {
