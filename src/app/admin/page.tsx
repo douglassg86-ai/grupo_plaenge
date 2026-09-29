@@ -1,21 +1,23 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import Image from 'next/image'
 
 // ── Chart component (Chart.js via canvas) ──────────────────────────────────
 type DailyPoint = { date: string; visits: number; clicks: number }
 
-function DailyChart({ daily, color, height = 64 }: { daily: DailyPoint[]; color: string; height?: number }) {
+function DailyChart({ daily, color, height = 64, names = { visits: 'Visitas', clicks: 'Cliques WA' } }: { daily: DailyPoint[]; color: string; height?: number; names?: { visits: string; clicks: string } }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
     if (!canvasRef.current || daily.length === 0) return
     let ChartJS: typeof import('chart.js').Chart | null = null
     let instance: import('chart.js').Chart | null = null
+    let cancelled = false   // o import é assíncrono: evita desenhar duas vezes no mesmo canvas
     import('chart.js').then(({ Chart, registerables }) => {
+      if (cancelled || !canvasRef.current) return
       Chart.register(...registerables)
       ChartJS = Chart
-      if (!canvasRef.current) return
+      Chart.getChart(canvasRef.current)?.destroy()
       const peakIdx = daily.reduce((bi, d, i) => d.visits > daily[bi].visits ? i : bi, 0)
       const barColors = daily.map((_, i) =>
         i === peakIdx ? color : (color.length === 7 ? color + '66' : color.slice(0, 7) + '66')
@@ -29,8 +31,8 @@ function DailyChart({ daily, color, height = 64 }: { daily: DailyPoint[]; color:
         data: {
           labels,
           datasets: [
-            { label: 'Cliques WA', data: daily.map(d => d.clicks), backgroundColor: 'rgba(74,222,128,0.85)', borderRadius: 2, order: 1 },
-            { label: 'Visitas',    data: daily.map(d => d.visits), backgroundColor: barColors, borderRadius: 2, order: 2 },
+            { label: names.clicks, data: daily.map(d => d.clicks), backgroundColor: 'rgba(74,222,128,0.85)', borderRadius: 2, order: 1 },
+            { label: names.visits, data: daily.map(d => d.visits), backgroundColor: barColors, borderRadius: 2, order: 2 },
           ],
         },
         options: {
@@ -46,9 +48,9 @@ function DailyChart({ daily, color, height = 64 }: { daily: DailyPoint[]; color:
         },
       })
     })
-    return () => { instance?.destroy() }
+    return () => { cancelled = true; instance?.destroy() }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [daily, color])
+  }, [daily, color, names.visits, names.clicks])
   return <canvas ref={canvasRef} style={{ width: '100%', height: `${height}px`, display: 'block' }} />
 }
 import { units as editionUnits, towers as editionTowers } from '@/lib/edition-data'
@@ -110,7 +112,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false)
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState('')
-  const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores' | 'interesse'>('disponibilidade')
+  const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores' | 'interesse' | 'investidores'>('disponibilidade')
   const [activeProduct, setActiveProduct] = useState(PRODUCTS[0].key)
   const [activeTower, setActiveTower] = useState(editionTowers[0])
   const [overrides, setOverrides] = useState<OverridesMap>(rawOverrides as OverridesMap)
@@ -202,6 +204,38 @@ export default function AdminPage() {
   useEffect(() => {
     if (authed && adminView === 'interesse') loadInterest(interestProduct, dateStart, dateEnd)
   }, [authed, adminView, interestProduct, dateStart, dateEnd, loadInterest])
+
+  // Investidores — apresentação /investidores
+  type InvestorData = {
+    since: string
+    daily: { date: string; acessos: number; pessoas: number; telas: number; erros: number }[]
+    period: { acessos: number; pessoas: number; telas: number; pessoasTela: number; erros: number }
+    allTime: { acessos: number; pessoas: number }
+    lastAccess: string | null
+  }
+  const [invData, setInvData] = useState<InvestorData | null>(null)
+  const [invLoading, setInvLoading] = useState(false)
+
+  const loadInvestors = useCallback(async (start: string, end: string) => {
+    const pw = sessionStorage.getItem('admin_password') || ''
+    setInvLoading(true)
+    const res = await fetch('/api/investidores/analytics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw, startDate: start, endDate: end }),
+    })
+    if (res.ok) setInvData(await res.json())
+    setInvLoading(false)
+  }, [])
+
+  useEffect(() => {
+    if (authed && adminView === 'investidores') loadInvestors(dateStart, dateEnd)
+  }, [authed, adminView, dateStart, dateEnd, loadInvestors])
+
+  const invChartDaily = useMemo(
+    () => (invData?.daily ?? []).map(d => ({ date: d.date, visits: d.acessos, clicks: d.pessoas })),
+    [invData]
+  )
 
   useEffect(() => {
     if (sessionStorage.getItem('admin_authed') === '1') setAuthed(true)
@@ -376,6 +410,7 @@ export default function AdminPage() {
           { key: 'disponibilidade', label: '📋 Disponibilidade' },
           { key: 'gestores',        label: '📊 Gestores' },
           { key: 'interesse',       label: '🎯 Interesse' },
+          { key: 'investidores',    label: '💼 Investidores' },
         ] as const).map(v => (
           <button key={v.key} onClick={() => setAdminView(v.key)}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${adminView === v.key ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
@@ -384,8 +419,8 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {/* Shared date range picker — shown in gestores and interesse */}
-      {(adminView === 'gestores' || adminView === 'interesse') && (
+      {/* Shared date range picker — shown in gestores, interesse and investidores */}
+      {(adminView === 'gestores' || adminView === 'interesse' || adminView === 'investidores') && (
         <div className="px-6 pt-4 pb-3 border-b border-gray-800 flex flex-wrap items-center gap-3">
           <span className="text-sm text-gray-400">Período:</span>
           <div className="flex items-center gap-2">
@@ -810,6 +845,76 @@ export default function AdminPage() {
         </div>
       )}
 
+
+      {/* Investidores — apresentação /investidores */}
+      {adminView === 'investidores' && (
+        <div className="px-5 py-5 space-y-5">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Apresentação para investidores</p>
+              <p className="text-sm text-zinc-400 mt-1">
+                Seleção Porto Alegre · <a href="/investidores" target="_blank" rel="noopener" className="text-violet-300 hover:underline">/investidores</a> · acesso com senha
+              </p>
+            </div>
+            <button onClick={() => loadInvestors(dateStart, dateEnd)}
+              className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 rounded-lg text-xs transition-colors">
+              ↻ Atualizar
+            </button>
+          </div>
+
+          {invLoading || !invData ? (
+            <div className="text-zinc-500 text-sm py-12 text-center">Carregando...</div>
+          ) : (() => {
+            const { period: p, allTime, lastAccess, since } = invData
+            const fmtDay = (iso: string) => iso.slice(0, 10).split('-').reverse().join('/')
+            const last = lastAccess
+              ? new Date(lastAccess).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+              : null
+            const tiles = [
+              { label: 'Acessos', value: p.acessos, color: 'text-violet-400', glow: '167,139,250', note: 'vezes que a apresentação foi aberta' },
+              { label: 'Pessoas', value: p.pessoas, color: 'text-green-400', glow: '74,222,128', note: 'navegadores diferentes que abriram' },
+              { label: 'Tela de senha', value: p.pessoasTela, color: 'text-blue-400', glow: '96,165,250', note: 'navegadores que chegaram ao login' },
+              { label: 'Senhas incorretas', value: p.erros, color: 'text-amber-400', glow: '251,191,36', note: 'tentativas com a senha errada' },
+            ]
+            return (<>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {tiles.map(t => (
+                  <div key={t.label} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 relative overflow-hidden" style={{ boxShadow: `inset 0 0 40px rgba(${t.glow},0.04)` }}>
+                    <p className="text-[10px] font-medium text-zinc-600 uppercase tracking-[0.08em] mb-1.5">{t.label}</p>
+                    <p className={`text-[1.75rem] font-extrabold ${t.color} tabular-nums leading-none`}>{t.value.toLocaleString('pt-BR')}</p>
+                    <p className="text-[11px] text-zinc-500 mt-1.5">{t.note}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Por dia</p>
+                  <div className="flex items-center gap-4 text-[11px] text-zinc-500">
+                    <span className="flex items-center gap-1.5"><i className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: '#a78bfa' }} />Acessos</span>
+                    <span className="flex items-center gap-1.5"><i className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: 'rgba(74,222,128,0.85)' }} />Pessoas</span>
+                  </div>
+                </div>
+                {p.acessos + p.telas === 0 ? (
+                  <div className="text-zinc-500 text-sm py-10 text-center">Nenhum acesso registrado no período.</div>
+                ) : (
+                  <div style={{ height: 150 }}>
+                    <DailyChart daily={invChartDaily} color="#a78bfa" height={150} names={{ visits: 'Acessos', clicks: 'Pessoas' }} />
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-400 flex flex-wrap gap-x-6 gap-y-1">
+                <span>Desde {fmtDay(since)}: <b className="text-zinc-200 tabular-nums">{allTime.acessos.toLocaleString('pt-BR')}</b> acessos · <b className="text-zinc-200 tabular-nums">{allTime.pessoas.toLocaleString('pt-BR')}</b> pessoas</span>
+                <span>Último acesso: <b className="text-zinc-200">{last ?? '—'}</b></span>
+              </div>
+              <p className="text-[11px] text-zinc-600 leading-relaxed">
+                Pessoas = navegadores diferentes (o mesmo investidor no celular e no computador conta como 2). Os primeiros acessos, anteriores à contagem de pessoas, aparecem só em Acessos. Dias em horário UTC, como no restante do painel.
+              </p>
+            </>)
+          })()}
+        </div>
+      )}
 
       {/* Interesse — mapa de cliques por unidade */}
       {adminView === 'interesse' && (

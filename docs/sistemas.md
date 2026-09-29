@@ -51,6 +51,12 @@ Links: `grupo-plaenge.vercel.app/g/{slug}`
 - Redis (Upstash): `UPSTASH_REDIS_KV_REST_API_URL` + `UPSTASH_REDIS_KV_REST_API_TOKEN` (`src/lib/redis.ts`)
 - Chaves: `manager:{slug}:visit:{YYYY-MM-DD}` · `manager:{slug}:click:{YYYY-MM-DD}`
 
+### Apresentação para investidores (`/admin` → aba Investidores)
+- A rota `/investidores` é encaminhada (rewrite em `next.config.js`) ao projeto Vercel **plaenge-investidores**, que guarda a apresentação atrás de senha. O conteúdo não fica neste repositório.
+- Eventos: `POST /api/investidores/track` com `{ event: 'acesso' | 'tela-de-senha' | 'senha-incorreta', vid? }` — chamado pela apresentação e pela tela de senha dela. `vid` = id aleatório do navegador (localStorage `inv_vid`), só para contar pessoas únicas.
+- Painel: `POST /api/investidores/analytics` (senha do admin) → `getInvestorAnalytics()` em `src/lib/redis.ts`.
+- Chaves: contagens em `content:click:INVESTIDORES:{acesso:apresentacao | visita:tela-de-senha | visita:senha-incorreta}:{YYYY-MM-DD|total}`; pessoas únicas em HyperLogLog `inv:uv:{acesso|tela-de-senha}:{YYYY-MM-DD|total}`; último acesso em `inv:last-access`.
+
 ## Hero da Home — Slideshow
 
 - **Componente:** `src/components/home-hero-slideshow.tsx`

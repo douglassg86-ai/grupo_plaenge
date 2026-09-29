@@ -168,7 +168,7 @@ const PRODUCT_CONTENT_KEYS: Record<string, { contentType: string; label: string 
   'MOOD':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
   'ORBITALE':   [{ contentType:'download',label:'book-pdf'},{ contentType:'visita',label:'link-cliente'}],
   'WAVE':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
-  'INVESTIDORES': [{ contentType:'acesso',label:'apresentacao'},{ contentType:'visita',label:'tela-de-senha'}],
+  'INVESTIDORES': [{ contentType:'acesso',label:'apresentacao'},{ contentType:'visita',label:'tela-de-senha'},{ contentType:'visita',label:'senha-incorreta'}],
 }
 
 export async function trackContentClick(product: string, contentType: string, label: string) {
@@ -197,6 +197,84 @@ export async function getProductContentClicks(
     }))
     .filter(c => c.count > 0)
     .sort((a, b) => b.count - a.count)
+}
+
+// ── APRESENTAÇÃO PARA INVESTIDORES (/investidores) ──
+// Contagens usam as mesmas chaves de conteúdo (content:click:INVESTIDORES:…), que já
+// gravam desde o lançamento. Pessoas únicas = navegadores, por um id aleatório que a
+// página guarda no localStorage (HyperLogLog: inv:uv:{evento}:{dia|total}).
+
+export const INVESTOR_TRACKING_START = '2026-09-29'
+export const INVESTOR_EVENTS = ['acesso', 'tela-de-senha', 'senha-incorreta'] as const
+export type InvestorEvent = typeof INVESTOR_EVENTS[number]
+
+const INVESTOR_CONTENT: Record<InvestorEvent, string> = {
+  'acesso': 'content:click:INVESTIDORES:acesso:apresentacao',
+  'tela-de-senha': 'content:click:INVESTIDORES:visita:tela-de-senha',
+  'senha-incorreta': 'content:click:INVESTIDORES:visita:senha-incorreta',
+}
+
+export async function trackInvestorEvent(event: InvestorEvent, visitorId?: string) {
+  const r = getRedis()
+  if (!r) return
+  const day = todayKey()
+  const ops: Promise<unknown>[] = [r.incr(`${INVESTOR_CONTENT[event]}:${day}`), r.incr(`${INVESTOR_CONTENT[event]}:total`)]
+  if (visitorId && event !== 'senha-incorreta') {
+    ops.push(r.pfadd(`inv:uv:${event}:${day}`, visitorId), r.pfadd(`inv:uv:${event}:total`, visitorId))
+  }
+  if (event === 'acesso') ops.push(r.set('inv:last-access', new Date().toISOString()))
+  await Promise.all(ops)
+}
+
+export type InvestorDay = { date: string; acessos: number; pessoas: number; telas: number; erros: number }
+
+export async function getInvestorAnalytics(startDate: string, endDate: string) {
+  const empty = {
+    since: INVESTOR_TRACKING_START,
+    daily: [] as InvestorDay[],
+    period: { acessos: 0, pessoas: 0, telas: 0, pessoasTela: 0, erros: 0 },
+    allTime: { acessos: 0, pessoas: 0 },
+    lastAccess: null as string | null,
+  }
+  const r = getRedis()
+  if (!r) return empty
+  const start = startDate < INVESTOR_TRACKING_START ? INVESTOR_TRACKING_START : startDate
+  const dates = start <= endDate ? dateRange(start, endDate) : []
+  if (dates.length === 0) return empty
+
+  const countKeys = (['acesso', 'tela-de-senha', 'senha-incorreta'] as const).flatMap(ev => dates.map(d => `${INVESTOR_CONTENT[ev]}:${d}`))
+  const counts = await r.mget<(number | null)[]>(...countKeys)
+  const at = (evIdx: number, dayIdx: number) => Number(counts[evIdx * dates.length + dayIdx] ?? 0)
+
+  const accKeys = dates.map(d => `inv:uv:acesso:${d}`)
+  const telaKeys = dates.map(d => `inv:uv:tela-de-senha:${d}`)
+  const p = r.pipeline()
+  accKeys.forEach(k => p.pfcount(k))
+  p.pfcount(accKeys[0], ...accKeys.slice(1))    // união do período = pessoas únicas
+  p.pfcount(telaKeys[0], ...telaKeys.slice(1))
+  p.get(`${INVESTOR_CONTENT['acesso']}:total`)
+  p.pfcount('inv:uv:acesso:total')
+  p.get('inv:last-access')
+  const res = await p.exec<unknown[]>()
+  const perDay = res.slice(0, dates.length).map(Number)
+  const [pessoasPeriodo, pessoasTela, acessosTotal, pessoasTotal, lastAccess] = res.slice(dates.length)
+
+  const daily: InvestorDay[] = dates.map((date, i) => ({
+    date, acessos: at(0, i), pessoas: perDay[i] || 0, telas: at(1, i), erros: at(2, i),
+  }))
+  return {
+    since: INVESTOR_TRACKING_START,
+    daily,
+    period: {
+      acessos: daily.reduce((s, d) => s + d.acessos, 0),
+      pessoas: Number(pessoasPeriodo) || 0,
+      telas: daily.reduce((s, d) => s + d.telas, 0),
+      pessoasTela: Number(pessoasTela) || 0,
+      erros: daily.reduce((s, d) => s + d.erros, 0),
+    },
+    allTime: { acessos: Number(acessosTotal) || 0, pessoas: Number(pessoasTotal) || 0 },
+    lastAccess: typeof lastAccess === 'string' ? lastAccess : null,
+  }
 }
 
 export async function getAnalytics(slug: string, startDate: string, endDate: string) {
