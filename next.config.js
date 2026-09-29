@@ -27,6 +27,17 @@ const nextConfig = {
       },
     ],
   },
+  // /investidores: apresentação restrita (senha validada no servidor) hospedada no
+  // projeto Vercel "plaenge-investidores". O conteúdo não fica neste repositório.
+  async rewrites() {
+    const INVESTIDORES = 'https://plaenge-investidores.vercel.app';
+    return {
+      beforeFiles: [
+        { source: '/investidores', destination: `${INVESTIDORES}/investidores` },
+        { source: '/investidores/:path*', destination: `${INVESTIDORES}/investidores/:path*` },
+      ],
+    };
+  },
 };
 
 module.exports = nextConfig;
