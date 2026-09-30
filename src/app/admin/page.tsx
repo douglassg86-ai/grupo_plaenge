@@ -190,6 +190,19 @@ export default function AdminPage() {
     return d.toISOString().slice(0, 10)
   })
   const [dateEnd, setDateEnd] = useState(() => new Date().toISOString().slice(0, 10))
+  // Aba do admin aberta de um dia para o outro: a data final acompanha "hoje" (UTC, como as
+  // chaves do Redis), a menos que o usuário tenha escolhido um fim no passado.
+  const endTouched = useRef(false)
+  useEffect(() => {
+    const bump = () => {
+      if (document.visibilityState !== 'visible' || endTouched.current) return
+      const today = new Date().toISOString().slice(0, 10)
+      setDateEnd(prev => (prev < today ? today : prev))
+    }
+    document.addEventListener('visibilitychange', bump)
+    window.addEventListener('focus', bump)
+    return () => { document.removeEventListener('visibilitychange', bump); window.removeEventListener('focus', bump) }
+  }, [])
 
   // Gestores analytics state
   const [analyticsData, setAnalyticsData] = useState<{
@@ -284,6 +297,8 @@ export default function AdminPage() {
   const [invData, setInvData] = useState<InvestorData | null>(null)
   const [invLoading, setInvLoading] = useState(false)
   const [invDeck, setInvDeck] = useState<InvestorDeck>('g1')
+  const [invTotals, setInvTotals] = useState<Partial<Record<InvestorDeck, { acessos: number; telas: number }>>>({})
+  const [invUpdatedAt, setInvUpdatedAt] = useState<Date | null>(null)
   const invReq = useRef(0) // descarta respostas antigas ao trocar de grupo/período rápido
 
   const loadInvestors = useCallback(async (deck: InvestorDeck, start: string, end: string) => {
@@ -291,14 +306,20 @@ export default function AdminPage() {
     const req = ++invReq.current
     setInvLoading(true)
     setInvData(null)
-    const res = await fetch('/api/investidores/analytics', {
+    // Grupo escolhido completo; os demais só com os totais (para os botões mostrarem movimento)
+    const call = (d: InvestorDeck, summary: boolean) => fetch('/api/investidores/analytics', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: pw, startDate: start, endDate: end, deck }),
-    })
-    const data = res.ok ? await res.json() : null
+      body: JSON.stringify({ password: pw, startDate: start, endDate: end, deck: d, summary }),
+    }).then(r => (r.ok ? r.json() : null)).catch(() => null)
+    const ids = [deck, ...INVESTOR_DECK_IDS.filter(d => d !== deck)]
+    const results = await Promise.all(ids.map((d, i) => call(d, i > 0)))
     if (req !== invReq.current) return
-    setInvData(data)
+    const totals: Partial<Record<InvestorDeck, { acessos: number; telas: number }>> = {}
+    ids.forEach((d, i) => { const r = results[i]; if (r?.period) totals[d] = { acessos: r.period.acessos, telas: r.period.pessoasTela } })
+    setInvTotals(totals)
+    setInvData(results[0])
+    setInvUpdatedAt(new Date())
     setInvLoading(false)
   }, [])
 
@@ -503,7 +524,7 @@ export default function AdminPage() {
               className="bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg border border-gray-700 focus:outline-none focus:border-gray-500" />
             <span className="text-gray-500 text-sm">até</span>
             <input type="date" value={dateEnd} min={dateStart} max={new Date().toISOString().slice(0,10)}
-              onChange={e => setDateEnd(e.target.value)}
+              onChange={e => { endTouched.current = e.target.value < new Date().toISOString().slice(0, 10); setDateEnd(e.target.value) }}
               className="bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg border border-gray-700 focus:outline-none focus:border-gray-500" />
           </div>
           {[
@@ -515,12 +536,14 @@ export default function AdminPage() {
             <button key={days} onClick={() => {
               const end = new Date().toISOString().slice(0, 10)
               const start = new Date(Date.now() - (days - 1) * 86400000).toISOString().slice(0, 10)
+              endTouched.current = false
               setDateStart(start); setDateEnd(end)
             }} className="px-3 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-lg text-sm transition-colors">
               {label}
             </button>
           ))}
           <button onClick={() => {
+            endTouched.current = false
             setDateStart('2025-01-01')
             setDateEnd(new Date().toISOString().slice(0, 10))
           }} className="px-3 py-1 bg-violet-900/50 hover:bg-violet-800/60 text-violet-300 border border-violet-700/50 rounded-lg text-sm transition-colors">
@@ -927,21 +950,34 @@ export default function AdminPage() {
             <div>
               <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Apresentação para investidores</p>
               <div className="flex gap-1.5 mt-2 flex-wrap">
-                {INVESTOR_DECK_IDS.map(id => (
-                  <button key={id} onClick={() => setInvDeck(id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${invDeck === id ? 'bg-violet-500/20 text-violet-200 ring-1 ring-violet-400/40' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'}`}>
-                    {INVESTOR_DECKS[id].label}
-                  </button>
-                ))}
+                {INVESTOR_DECK_IDS.map(id => {
+                  const t = invTotals[id]
+                  return (
+                    <button key={id} onClick={() => setInvDeck(id)} title={t ? `${t.acessos} acessos e ${t.telas} na tela de senha no período` : undefined}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${invDeck === id ? 'bg-violet-500/20 text-violet-200 ring-1 ring-violet-400/40' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'}`}>
+                      {INVESTOR_DECKS[id].label}
+                      {t && <span className="ml-1.5 tabular-nums opacity-70">· {t.acessos} {t.acessos === 1 ? 'acesso' : 'acessos'}</span>}
+                    </button>
+                  )
+                })}
               </div>
               <p className="text-sm text-zinc-400 mt-2">
                 Seleção Porto Alegre · <a href={INVESTOR_DECKS[invDeck].path} target="_blank" rel="noopener" className="text-violet-300 hover:underline">{INVESTOR_DECKS[invDeck].path}</a> · acesso com senha
               </p>
             </div>
-            <button onClick={() => loadInvestors(invDeck, dateStart, dateEnd)}
-              className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 rounded-lg text-xs transition-colors">
-              ↻ Atualizar
-            </button>
+            <div className="flex items-center gap-2.5">
+              {invUpdatedAt && (
+                <span className="text-[11px] text-zinc-600">atualizado às {invUpdatedAt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+              )}
+              <button onClick={() => {
+                const today = new Date().toISOString().slice(0, 10)
+                if (!endTouched.current && dateEnd < today) setDateEnd(today) // o efeito recarrega
+                else loadInvestors(invDeck, dateStart, dateEnd)
+              }}
+                className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 rounded-lg text-xs transition-colors">
+                ↻ Atualizar
+              </button>
+            </div>
           </div>
 
           {invLoading || !invData ? (
