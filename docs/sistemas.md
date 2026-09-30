@@ -51,15 +51,17 @@ Links: `grupo-plaenge.vercel.app/g/{slug}`
 - Redis (Upstash): `UPSTASH_REDIS_KV_REST_API_URL` + `UPSTASH_REDIS_KV_REST_API_TOKEN` (`src/lib/redis.ts`)
 - Chaves: `manager:{slug}:visit:{YYYY-MM-DD}` · `manager:{slug}:click:{YYYY-MM-DD}`
 
-### Apresentação para investidores (`/admin` → aba Investidores)
-- A rota `/investidores` é encaminhada (rewrite em `next.config.js`) ao projeto Vercel **plaenge-investidores**, que guarda a apresentação atrás de senha. O conteúdo não fica neste repositório.
+### Apresentações para investidores (`/admin` → aba Investidores)
+- As rotas `/investidores` (grupo 1) e `/investidores2` (grupo 2) são encaminhadas (rewrite em `next.config.js`) ao projeto Vercel **plaenge-investidores**, que guarda cada apresentação atrás de senha (a mesma para os dois grupos, login separado). O conteúdo não fica neste repositório.
+- Grupos em `src/lib/investor-decks.ts` (rota, rótulo, `product` das chaves de conteúdo, `prefix` das demais chaves, data de início). Grupo novo = nova entrada lá + rewrite + `deck` no data.js da apresentação. O grupo 1 usa as chaves originais (`INVESTIDORES`, `inv:`) — não renomear.
+- Todo POST de rastreamento leva `deck` (`g1`, `g2`…); sem ele conta no grupo 1. O painel tem um seletor de grupo e manda `deck` para `/api/investidores/analytics`.
 - Eventos: `POST /api/investidores/track` com `{ event: 'acesso' | 'tela-de-senha' | 'senha-incorreta', vid? }` — chamado pela apresentação e pela tela de senha dela. `vid` = id aleatório do navegador (localStorage `inv_vid`), só para contar pessoas únicas.
 - Engajamento: `POST /api/investidores/track` com `{ event: 'engajamento', slides: [{ i, t, p, seen, sec }], zooms: [{ k, c }] }` — a apresentação envia a cada minuto e ao sair só o que mudou (slide visto 1× por acesso; segundos com a aba visível, parando após 2 min sem interação; plantas ampliadas). A rota valida tudo (≤ 40 slides, `sec` ≤ 600, `p` ∈ códigos conhecidos, chave de planta `[A-Za-z0-9_]`).
 - Perfil anônimo: no `acesso`, a rota lê os cabeçalhos da Vercel `x-vercel-ip-city`/`-country-region`/`-country` e o user-agent e só incrementa contagens do dia — nada é guardado por pessoa, nem o IP.
 - Painel: `POST /api/investidores/analytics` (senha do admin) → `getInvestorAnalytics()` + `getInvestorProfile()` em `src/lib/redis.ts`.
-- Chaves: contagens em `content:click:INVESTIDORES:{acesso:apresentacao | visita:tela-de-senha | visita:senha-incorreta}:{YYYY-MM-DD|total}`; pessoas únicas em HyperLogLog `inv:uv:{acesso|tela-de-senha}:{YYYY-MM-DD|total}`; último acesso em `inv:last-access`.
-- Chaves do perfil (hashes por dia UTC): `inv:geo:{dia}` ("Cidade · UF"), `inv:device:{dia}` (Computador/Celular/Tablet), `inv:os:{dia}`, `inv:hour:{dia}` (0–23, Brasília), `inv:wd:{dia}` (0 = domingo); engajamento em `inv:eng:seen:{slide}:{dia}`, `inv:eng:sec:{slide}:{dia}`, `inv:eng:zoom:{dia}`.
-- Títulos dos slides (`inv:eng:meta`, "código|título") e legendas das plantas (`inv:eng:zoommeta`) vêm da própria apresentação e ficam só no Redis — o painel monta nomes de empreendimento a partir deles. **Não escrever nomes, metragens ou preços da apresentação neste repositório (é público).**
+- Chaves (grupo 1 → `INVESTIDORES`/`inv`; grupo 2 → `INVESTIDORES 2`/`inv2`): contagens em `content:click:{product}:{acesso:apresentacao | visita:tela-de-senha | visita:senha-incorreta}:{YYYY-MM-DD|total}`; pessoas únicas em HyperLogLog `{prefix}:uv:{acesso|tela-de-senha}:{YYYY-MM-DD|total}`; último acesso em `{prefix}:last-access`.
+- Chaves do perfil (hashes por dia UTC): `{prefix}:geo:{dia}` ("Cidade · UF"), `{prefix}:device:{dia}` (Computador/Celular/Tablet), `{prefix}:os:{dia}`, `{prefix}:hour:{dia}` (0–23, Brasília), `{prefix}:wd:{dia}` (0 = domingo); engajamento em `{prefix}:eng:seen:{slide}:{dia}`, `{prefix}:eng:sec:{slide}:{dia}`, `{prefix}:eng:zoom:{dia}`.
+- Títulos dos slides (`{prefix}:eng:meta`, "código|título") e legendas das plantas (`{prefix}:eng:zoommeta`) vêm da própria apresentação e ficam só no Redis — o painel monta nomes de empreendimento a partir deles. **Não escrever nomes, metragens ou preços da apresentação neste repositório (é público).**
 
 ## Hero da Home — Slideshow
 

@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis'
+import { INVESTOR_DECKS, InvestorDeck } from './investor-decks'
 
 let redis: Redis | null = null
 
@@ -169,6 +170,7 @@ const PRODUCT_CONTENT_KEYS: Record<string, { contentType: string; label: string 
   'ORBITALE':   [{ contentType:'download',label:'book-pdf'},{ contentType:'visita',label:'link-cliente'}],
   'WAVE':       [{ contentType:'download',label:'book-pdf'},{ contentType:'download',label:'tabela-pagamento'},{ contentType:'visita',label:'link-cliente'}],
   'INVESTIDORES': [{ contentType:'acesso',label:'apresentacao'},{ contentType:'visita',label:'tela-de-senha'},{ contentType:'visita',label:'senha-incorreta'}],
+  'INVESTIDORES 2': [{ contentType:'acesso',label:'apresentacao'},{ contentType:'visita',label:'tela-de-senha'},{ contentType:'visita',label:'senha-incorreta'}],
 }
 
 export async function trackContentClick(product: string, contentType: string, label: string) {
@@ -199,20 +201,21 @@ export async function getProductContentClicks(
     .sort((a, b) => b.count - a.count)
 }
 
-// ── APRESENTAÇÃO PARA INVESTIDORES (/investidores) ──
-// Contagens usam as mesmas chaves de conteúdo (content:click:INVESTIDORES:…), que já
-// gravam desde o lançamento. Pessoas únicas = navegadores, por um id aleatório que a
-// página guarda no localStorage (HyperLogLog: inv:uv:{evento}:{dia|total}).
+// ── APRESENTAÇÕES PARA INVESTIDORES (/investidores, /investidores2 — ver investor-decks.ts) ──
+// Contagens usam as chaves de conteúdo (content:click:{product}:…), que já gravam desde o
+// lançamento. Pessoas únicas = navegadores, por um id aleatório que a página guarda no
+// localStorage (HyperLogLog: {prefix}:uv:{evento}:{dia|total}).
 
-export const INVESTOR_TRACKING_START = '2026-09-29'
 export const INVESTOR_EVENTS = ['acesso', 'tela-de-senha', 'senha-incorreta'] as const
 export type InvestorEvent = typeof INVESTOR_EVENTS[number]
 
-const INVESTOR_CONTENT: Record<InvestorEvent, string> = {
-  'acesso': 'content:click:INVESTIDORES:acesso:apresentacao',
-  'tela-de-senha': 'content:click:INVESTIDORES:visita:tela-de-senha',
-  'senha-incorreta': 'content:click:INVESTIDORES:visita:senha-incorreta',
+const INVESTOR_CONTENT_SUFFIX: Record<InvestorEvent, string> = {
+  'acesso': 'acesso:apresentacao',
+  'tela-de-senha': 'visita:tela-de-senha',
+  'senha-incorreta': 'visita:senha-incorreta',
 }
+const investorContentKey = (deck: InvestorDeck, event: InvestorEvent) =>
+  `content:click:${INVESTOR_DECKS[deck].product}:${INVESTOR_CONTENT_SUFFIX[event]}`
 
 // Contexto de cada acesso: cabeçalhos de geolocalização da Vercel e user-agent.
 // Só entram em contagens agregadas por dia — nada é guardado por pessoa, nem o IP.
@@ -244,25 +247,27 @@ function brasiliaNow(): { hour: number; weekday: number } {
   return { hour, weekday: Math.max(0, weekday) }
 }
 
-export async function trackInvestorEvent(event: InvestorEvent, visitorId?: string, ctx?: InvestorContext) {
+export async function trackInvestorEvent(deck: InvestorDeck, event: InvestorEvent, visitorId?: string, ctx?: InvestorContext) {
   const r = getRedis()
   if (!r) return
   const day = todayKey()
-  const ops: Promise<unknown>[] = [r.incr(`${INVESTOR_CONTENT[event]}:${day}`), r.incr(`${INVESTOR_CONTENT[event]}:total`)]
+  const k = INVESTOR_DECKS[deck].prefix
+  const content = investorContentKey(deck, event)
+  const ops: Promise<unknown>[] = [r.incr(`${content}:${day}`), r.incr(`${content}:total`)]
   if (visitorId && event !== 'senha-incorreta') {
-    ops.push(r.pfadd(`inv:uv:${event}:${day}`, visitorId), r.pfadd(`inv:uv:${event}:total`, visitorId))
+    ops.push(r.pfadd(`${k}:uv:${event}:${day}`, visitorId), r.pfadd(`${k}:uv:${event}:total`, visitorId))
   }
   if (event === 'acesso') {
-    ops.push(r.set('inv:last-access', new Date().toISOString()))
+    ops.push(r.set(`${k}:last-access`, new Date().toISOString()))
     if (ctx) {
       const { device, os } = deviceOf(ctx.ua ?? '')
       const { hour, weekday } = brasiliaNow()
       ops.push(
-        r.hincrby(`inv:geo:${day}`, placeOf(ctx), 1),
-        r.hincrby(`inv:device:${day}`, device, 1),
-        r.hincrby(`inv:os:${day}`, os, 1),
-        r.hincrby(`inv:hour:${day}`, String(hour), 1),
-        r.hincrby(`inv:wd:${day}`, String(weekday), 1),
+        r.hincrby(`${k}:geo:${day}`, placeOf(ctx), 1),
+        r.hincrby(`${k}:device:${day}`, device, 1),
+        r.hincrby(`${k}:os:${day}`, os, 1),
+        r.hincrby(`${k}:hour:${day}`, String(hour), 1),
+        r.hincrby(`${k}:wd:${day}`, String(weekday), 1),
       )
     }
   }
@@ -271,23 +276,24 @@ export async function trackInvestorEvent(event: InvestorEvent, visitorId?: strin
 
 // Engajamento: a apresentação envia só o que mudou desde o último envio. Títulos de
 // slide e legendas de planta vêm da própria apresentação e ficam só no Redis
-// (inv:eng:meta / inv:eng:zoommeta) — este repositório é público.
+// ({prefix}:eng:meta / {prefix}:eng:zoommeta) — este repositório é público.
 export type EngagementSlide = { i: number; t: string; p: string; seen: boolean; sec: number }
 export type EngagementZoom = { k: string; c: string }
 
-export async function trackInvestorEngagement(slides: EngagementSlide[], zooms: EngagementZoom[]) {
+export async function trackInvestorEngagement(deck: InvestorDeck, slides: EngagementSlide[], zooms: EngagementZoom[]) {
   const r = getRedis()
   if (!r || slides.length + zooms.length === 0) return
   const day = todayKey()
+  const k = INVESTOR_DECKS[deck].prefix
   const p = r.pipeline()
   for (const s of slides) {
-    p.hset('inv:eng:meta', { [String(s.i)]: `${s.p}|${s.t}` })
-    if (s.seen) p.incr(`inv:eng:seen:${s.i}:${day}`)
-    if (s.sec > 0) p.incrby(`inv:eng:sec:${s.i}:${day}`, s.sec)
+    p.hset(`${k}:eng:meta`, { [String(s.i)]: `${s.p}|${s.t}` })
+    if (s.seen) p.incr(`${k}:eng:seen:${s.i}:${day}`)
+    if (s.sec > 0) p.incrby(`${k}:eng:sec:${s.i}:${day}`, s.sec)
   }
   for (const z of zooms) {
-    if (z.c) p.hset('inv:eng:zoommeta', { [z.k]: z.c })
-    p.hincrby(`inv:eng:zoom:${day}`, z.k, 1)
+    if (z.c) p.hset(`${k}:eng:zoommeta`, { [z.k]: z.c })
+    p.hincrby(`${k}:eng:zoom:${day}`, z.k, 1)
   }
   await p.exec()
 }
@@ -302,19 +308,20 @@ export type InvestorProfile = {
   zooms: { name: string; count: number }[]
 }
 
-export async function getInvestorProfile(startDate: string, endDate: string): Promise<InvestorProfile> {
+export async function getInvestorProfile(deck: InvestorDeck, startDate: string, endDate: string): Promise<InvestorProfile> {
   const empty: InvestorProfile = { geo: [], device: [], os: [], hour: Array(24).fill(0), weekday: Array(7).fill(0), slides: [], zooms: [] }
   const r = getRedis()
   if (!r) return empty
-  const start = startDate < INVESTOR_TRACKING_START ? INVESTOR_TRACKING_START : startDate
+  const { prefix: k, since } = INVESTOR_DECKS[deck]
+  const start = startDate < since ? since : startDate
   const dates = start <= endDate ? dateRange(start, endDate) : []
   if (dates.length === 0) return empty
 
   const HASHES = ['geo', 'device', 'os', 'hour', 'wd', 'eng:zoom'] as const
   const p = r.pipeline()
-  HASHES.forEach(h => dates.forEach(d => p.hgetall(`inv:${h}:${d}`)))
-  p.hgetall('inv:eng:meta')
-  p.hgetall('inv:eng:zoommeta')
+  HASHES.forEach(h => dates.forEach(d => p.hgetall(`${k}:${h}:${d}`)))
+  p.hgetall(`${k}:eng:meta`)
+  p.hgetall(`${k}:eng:zoommeta`)
   const res = await p.exec<(Record<string, unknown> | null)[]>()
 
   const sumHash = (hIdx: number) => {
@@ -333,7 +340,7 @@ export async function getInvestorProfile(startDate: string, endDate: string): Pr
   const idx =Object.keys(meta).map(Number).filter(n => n > 0).sort((a, b) => a - b)
   let slides: InvestorProfile['slides'] = []
   if (idx.length) {
-    const keys = idx.flatMap(i => dates.flatMap(d => [`inv:eng:seen:${i}:${d}`, `inv:eng:sec:${i}:${d}`]))
+    const keys = idx.flatMap(i => dates.flatMap(d => [`${k}:eng:seen:${i}:${d}`, `${k}:eng:sec:${i}:${d}`]))
     const vals = await r.mget<(number | null)[]>(...keys)
     slides = idx.map((i, si) => {
       let seen = 0, sec = 0
@@ -359,9 +366,10 @@ export async function getInvestorProfile(startDate: string, endDate: string): Pr
 
 export type InvestorDay = { date: string; acessos: number; pessoas: number; telas: number; erros: number }
 
-export async function getInvestorAnalytics(startDate: string, endDate: string) {
+export async function getInvestorAnalytics(deck: InvestorDeck, startDate: string, endDate: string) {
+  const { prefix: k, since } = INVESTOR_DECKS[deck]
   const empty = {
-    since: INVESTOR_TRACKING_START,
+    since: since as string,
     daily: [] as InvestorDay[],
     period: { acessos: 0, pessoas: 0, telas: 0, pessoasTela: 0, erros: 0 },
     allTime: { acessos: 0, pessoas: 0 },
@@ -369,23 +377,23 @@ export async function getInvestorAnalytics(startDate: string, endDate: string) {
   }
   const r = getRedis()
   if (!r) return empty
-  const start = startDate < INVESTOR_TRACKING_START ? INVESTOR_TRACKING_START : startDate
+  const start = startDate < since ? since : startDate
   const dates = start <= endDate ? dateRange(start, endDate) : []
   if (dates.length === 0) return empty
 
-  const countKeys = (['acesso', 'tela-de-senha', 'senha-incorreta'] as const).flatMap(ev => dates.map(d => `${INVESTOR_CONTENT[ev]}:${d}`))
+  const countKeys = (['acesso', 'tela-de-senha', 'senha-incorreta'] as const).flatMap(ev => dates.map(d => `${investorContentKey(deck, ev)}:${d}`))
   const counts = await r.mget<(number | null)[]>(...countKeys)
   const at = (evIdx: number, dayIdx: number) => Number(counts[evIdx * dates.length + dayIdx] ?? 0)
 
-  const accKeys = dates.map(d => `inv:uv:acesso:${d}`)
-  const telaKeys = dates.map(d => `inv:uv:tela-de-senha:${d}`)
+  const accKeys = dates.map(d => `${k}:uv:acesso:${d}`)
+  const telaKeys = dates.map(d => `${k}:uv:tela-de-senha:${d}`)
   const p = r.pipeline()
   accKeys.forEach(k => p.pfcount(k))
   p.pfcount(accKeys[0], ...accKeys.slice(1))    // união do período = pessoas únicas
   p.pfcount(telaKeys[0], ...telaKeys.slice(1))
-  p.get(`${INVESTOR_CONTENT['acesso']}:total`)
-  p.pfcount('inv:uv:acesso:total')
-  p.get('inv:last-access')
+  p.get(`${investorContentKey(deck, 'acesso')}:total`)
+  p.pfcount(`${k}:uv:acesso:total`)
+  p.get(`${k}:last-access`)
   const res = await p.exec<unknown[]>()
   const perDay = res.slice(0, dates.length).map(Number)
   const [pessoasPeriodo, pessoasTela, acessosTotal, pessoasTotal, lastAccess] = res.slice(dates.length)
@@ -394,7 +402,7 @@ export async function getInvestorAnalytics(startDate: string, endDate: string) {
     date, acessos: at(0, i), pessoas: perDay[i] || 0, telas: at(1, i), erros: at(2, i),
   }))
   return {
-    since: INVESTOR_TRACKING_START,
+    since: since as string,
     daily,
     period: {
       acessos: daily.reduce((s, d) => s + d.acessos, 0),

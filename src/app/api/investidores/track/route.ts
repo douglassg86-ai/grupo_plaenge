@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { EngagementSlide, EngagementZoom, INVESTOR_EVENTS, InvestorEvent, trackInvestorEngagement, trackInvestorEvent } from '@/lib/redis'
+import { isInvestorDeck } from '@/lib/investor-decks'
 
-// Chamado pela apresentação (/investidores) e pela tela de senha dela.
+// Chamado pelas apresentações (/investidores, /investidores2) e pelas telas de senha delas.
+// `deck`: grupo da apresentação (g1, g2…); sem ele, conta no grupo 1.
 // `vid`: id aleatório do navegador (localStorage) — só para contar pessoas únicas.
 // Cidade/estado vêm dos cabeçalhos de geolocalização da Vercel; o IP não é guardado.
 const VID = /^[A-Za-z0-9-]{8,64}$/
@@ -29,14 +31,16 @@ function cleanZooms(raw: unknown): EngagementZoom[] {
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   if (!body || typeof body !== 'object') return NextResponse.json({ ok: false }, { status: 400 })
+  const deck = body.deck === undefined ? 'g1' : body.deck
+  if (!isInvestorDeck(deck)) return NextResponse.json({ ok: false }, { status: 400 })
   try {
     if (body.event === 'engajamento') {
-      await trackInvestorEngagement(cleanSlides(body.slides), cleanZooms(body.zooms))
+      await trackInvestorEngagement(deck, cleanSlides(body.slides), cleanZooms(body.zooms))
       return NextResponse.json({ ok: true })
     }
     const { event, vid } = body
     if (!INVESTOR_EVENTS.includes(event)) return NextResponse.json({ ok: false }, { status: 400 })
-    await trackInvestorEvent(event as InvestorEvent, typeof vid === 'string' && VID.test(vid) ? vid : undefined, {
+    await trackInvestorEvent(deck, event as InvestorEvent, typeof vid === 'string' && VID.test(vid) ? vid : undefined, {
       ua: req.headers.get('user-agent') ?? '',
       city: req.headers.get('x-vercel-ip-city') ?? '',
       region: req.headers.get('x-vercel-ip-country-region') ?? '',

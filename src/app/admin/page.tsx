@@ -124,6 +124,7 @@ import { units as yunaUnits } from '@/lib/yuna-data'
 import { lots as waveLots } from '@/lib/wave-data'
 import { shiftUnits } from '@/lib/shift-data'
 import rawOverrides from '@/data/availability-overrides.json'
+import { INVESTOR_DECKS, INVESTOR_DECK_IDS, InvestorDeck } from '@/lib/investor-decks'
 
 type Status = 'available' | 'sold' | 'negotiation'
 type WaveStatus = 'available' | 'sold' | 'negotiation' | 'opportunity'
@@ -266,7 +267,7 @@ export default function AdminPage() {
     if (authed && adminView === 'interesse') loadInterest(interestProduct, dateStart, dateEnd)
   }, [authed, adminView, interestProduct, dateStart, dateEnd, loadInterest])
 
-  // Investidores — apresentação /investidores
+  // Investidores — apresentações /investidores (grupo 1) e /investidores2 (grupo 2)
   type InvestorData = {
     since: string
     daily: { date: string; acessos: number; pessoas: number; telas: number; erros: number }[]
@@ -282,22 +283,28 @@ export default function AdminPage() {
   }
   const [invData, setInvData] = useState<InvestorData | null>(null)
   const [invLoading, setInvLoading] = useState(false)
+  const [invDeck, setInvDeck] = useState<InvestorDeck>('g1')
+  const invReq = useRef(0) // descarta respostas antigas ao trocar de grupo/período rápido
 
-  const loadInvestors = useCallback(async (start: string, end: string) => {
+  const loadInvestors = useCallback(async (deck: InvestorDeck, start: string, end: string) => {
     const pw = sessionStorage.getItem('admin_password') || ''
+    const req = ++invReq.current
     setInvLoading(true)
+    setInvData(null)
     const res = await fetch('/api/investidores/analytics', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: pw, startDate: start, endDate: end }),
+      body: JSON.stringify({ password: pw, startDate: start, endDate: end, deck }),
     })
-    if (res.ok) setInvData(await res.json())
+    const data = res.ok ? await res.json() : null
+    if (req !== invReq.current) return
+    setInvData(data)
     setInvLoading(false)
   }, [])
 
   useEffect(() => {
-    if (authed && adminView === 'investidores') loadInvestors(dateStart, dateEnd)
-  }, [authed, adminView, dateStart, dateEnd, loadInvestors])
+    if (authed && adminView === 'investidores') loadInvestors(invDeck, dateStart, dateEnd)
+  }, [authed, adminView, invDeck, dateStart, dateEnd, loadInvestors])
 
   const invChartDaily = useMemo(
     () => (invData?.daily ?? []).map(d => ({ date: d.date, visits: d.acessos, clicks: d.pessoas })),
@@ -913,17 +920,25 @@ export default function AdminPage() {
       )}
 
 
-      {/* Investidores — apresentação /investidores */}
+      {/* Investidores — uma apresentação por grupo (investor-decks.ts) */}
       {adminView === 'investidores' && (
         <div className="px-5 py-5 space-y-5">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Apresentação para investidores</p>
-              <p className="text-sm text-zinc-400 mt-1">
-                Seleção Porto Alegre · <a href="/investidores" target="_blank" rel="noopener" className="text-violet-300 hover:underline">/investidores</a> · acesso com senha
+              <div className="flex gap-1.5 mt-2 flex-wrap">
+                {INVESTOR_DECK_IDS.map(id => (
+                  <button key={id} onClick={() => setInvDeck(id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${invDeck === id ? 'bg-violet-500/20 text-violet-200 ring-1 ring-violet-400/40' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'}`}>
+                    {INVESTOR_DECKS[id].label}
+                  </button>
+                ))}
+              </div>
+              <p className="text-sm text-zinc-400 mt-2">
+                Seleção Porto Alegre · <a href={INVESTOR_DECKS[invDeck].path} target="_blank" rel="noopener" className="text-violet-300 hover:underline">{INVESTOR_DECKS[invDeck].path}</a> · acesso com senha
               </p>
             </div>
-            <button onClick={() => loadInvestors(dateStart, dateEnd)}
+            <button onClick={() => loadInvestors(invDeck, dateStart, dateEnd)}
               className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 rounded-lg text-xs transition-colors">
               ↻ Atualizar
             </button>
