@@ -62,16 +62,16 @@ Apenas estes existem em `src/components/ui/`:
 ## Condições de pagamento (tabela setembro/2026)
 | Produto | Plano |
 |---------|-------|
-| YUNA | Entrada 15%(5x) · Mensais 10%(10x) · Reforços 15%(2x) · Financiamento 60% (39%+20,9% pós 23x) |
-| EDITION | Entrada 20%(4x) · Mensais 15%(19x) · Reforços 15%(3x) · Financiamento 50% (pós 15x incluso) |
+| YUNA | Entrada 15%(5x) · Mensais 10%(9x) · Reforços 15%(2x) · Financiamento 60% (32%+27,8% pós 25x) |
+| EDITION | Entrada 20%(4x) · Mensais 15%(18x) · Reforços 15%(3x) · Financiamento 50% (pós 17x incluso) |
 | MOOD | Entrada 20%(1x) · Financiamento 80% |
 | ORBITALE | **100% Vendido** — sem tabela |
-| VERDANT | Entrada 15%(5x) · Mensais 10%(3x) · Reforços 10%(2x) · Financiamento 65% |
+| VERDANT | Entrada 20%(5x) · Mensais 5%(2x) · Reforços 10%(1x) · Financiamento 65% |
 | TREND Home | Entrada 15%(5x) · Mensais 10%(20x) · Reforços 15%(3x) · Financiamento 60% (54%+6,2% pós 13x) |
 | TREND Nano | Entrada 20%(3x) · Financiamento 80% |
 | WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
 | SHIFT | Entrada 12,5%(5x) · Mensais 9%(26x) · Reforços 13,5%(3x) · Financiamento 65% |
-| SYNTHÈ | Entrada 12,5%(5x) · Mensais 15%(30x) · Reforços 12,5%(5x) · Saldo 60% (58,55%+1,45% pós 3x) |
+| SYNTHÈ | Entrada 12,5%(5x) · Mensais 15%(29x) · Reforços 12,5%(5x) · Saldo 60% (57,41%+pós 5x) |
 
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 
