@@ -194,7 +194,8 @@
     "19": "available",
     "23": "available",
     "67": "available",
-    "69": "negotiation"
+    "69": "negotiation",
+    "78": "sold"
   },
   "shift": {
     "52": "sold",
