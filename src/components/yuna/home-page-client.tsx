@@ -10,7 +10,7 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
-  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/yuna-set26.pdf',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/yuna-out26-cCZOvgohUajwPsvYGVoco18VPMb3o9.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/yuna.pdf',
   bookHorizontal: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/yuna-horizontal.pdf',
 

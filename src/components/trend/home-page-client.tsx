@@ -32,7 +32,7 @@ const LINKS_CONFIG_HOME = {
 };
 
 const LINKS_CONFIG_NANO = {
-  tabela: `${B}/tabelas/trend-nano-set26.pdf`,
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/trend-nano-out26-GDK1ZehbSsDD0YUpMP0hnXxjhty3ZY.pdf',
   book: `${B}/books/trend-nano.pdf`,
 
   videos: [

@@ -11,7 +11,7 @@ import { ProductLinks } from '@/components/shared/product-links';
 
 const B = 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com';
 const LINKS_CONFIG = {
-  tabela: `${B}/tabelas/edition-set26.pdf`,
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/edition-out26-W3OtScoDwVBGHnR4ga6SjwqrxEONKc.pdf',
   book:   `${B}/books/edition.pdf`,
 
   videos: [

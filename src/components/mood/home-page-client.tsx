@@ -10,7 +10,7 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
-  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/mood-set26.pdf',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/mood-out26-h04IYxWWPKqaPyyYJHd5iCxWpRfdZ2.pdf',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/mood.pdf',
 
   videos: [
