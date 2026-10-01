@@ -2,13 +2,15 @@ import { NextRequest, NextResponse } from 'next/server'
 import { EngagementSlide, EngagementZoom, INVESTOR_EVENTS, InvestorEvent, trackInvestorEngagement, trackInvestorEvent } from '@/lib/redis'
 import { isInvestorDeck } from '@/lib/investor-decks'
 
-// Chamado pelas apresentações (/investidores, /investidores2) e pelas telas de senha delas.
+// Chamado pelas apresentações (/investidores, /investidores2, /serena) e pelas telas de senha.
 // `deck`: grupo da apresentação (g1, g2…); sem ele, conta no grupo 1.
 // `vid`: id aleatório do navegador (localStorage) — só para contar pessoas únicas.
 // Cidade/estado vêm dos cabeçalhos de geolocalização da Vercel; o IP não é guardado.
 const VID = /^[A-Za-z0-9-]{8,64}$/
 const ZOOM = /^[A-Za-z0-9_]{1,40}$/
-const PRODUCTS = new Set(['', 'ED', 'SY', 'CT'])
+// Seção de cada slide: empreendimentos (investidores) e seções da apresentação do Serena
+// (LO localização · PR produto · PL plantas · BR Breton · CO comercial).
+const PRODUCTS = new Set(['', 'ED', 'SY', 'CT', 'LO', 'PR', 'PL', 'BR', 'CO'])
 
 const text = (v: unknown) => (typeof v === 'string' ? v.replace(/[\r\n\t]/g, ' ').trim().slice(0, 80) : '')
 

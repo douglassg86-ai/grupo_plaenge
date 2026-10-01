@@ -124,7 +124,7 @@ import { units as yunaUnits } from '@/lib/yuna-data'
 import { lots as waveLots } from '@/lib/wave-data'
 import { shiftUnits } from '@/lib/shift-data'
 import rawOverrides from '@/data/availability-overrides.json'
-import { INVESTOR_DECKS, INVESTOR_DECK_IDS, InvestorDeck } from '@/lib/investor-decks'
+import { INVESTOR_DECKS, INVESTOR_GROUP_IDS, InvestorDeck } from '@/lib/investor-decks'
 
 type Status = 'available' | 'sold' | 'negotiation'
 type WaveStatus = 'available' | 'sold' | 'negotiation' | 'opportunity'
@@ -174,7 +174,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false)
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState('')
-  const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores' | 'interesse' | 'investidores'>('disponibilidade')
+  const [adminView, setAdminView] = useState<'disponibilidade' | 'gestores' | 'interesse' | 'investidores' | 'serena'>('disponibilidade')
   const [activeProduct, setActiveProduct] = useState(PRODUCTS[0].key)
   const [activeTower, setActiveTower] = useState(editionTowers[0])
   const [overrides, setOverrides] = useState<OverridesMap>(rawOverrides as OverridesMap)
@@ -312,7 +312,8 @@ export default function AdminPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: pw, startDate: start, endDate: end, deck: d, summary }),
     }).then(r => (r.ok ? r.json() : null)).catch(() => null)
-    const ids = [deck, ...INVESTOR_DECK_IDS.filter(d => d !== deck)]
+    // Totais dos outros grupos só na aba Investidores (a do Serena é uma apresentação só)
+    const ids = [deck, ...(INVESTOR_DECKS[deck].kind === 'investidores' ? INVESTOR_GROUP_IDS.filter(d => d !== deck) : [])]
     const results = await Promise.all(ids.map((d, i) => call(d, i > 0)))
     if (req !== invReq.current) return
     const totals: Partial<Record<InvestorDeck, { acessos: number; telas: number }>> = {}
@@ -323,9 +324,12 @@ export default function AdminPage() {
     setInvLoading(false)
   }, [])
 
+  // Aba Investidores: grupo escolhido nos botões · aba Serena: apresentação para corretores (/serena)
+  const isDeckView = adminView === 'investidores' || adminView === 'serena'
+  const activeInvDeck: InvestorDeck = adminView === 'serena' ? 'serena' : invDeck
   useEffect(() => {
-    if (authed && adminView === 'investidores') loadInvestors(invDeck, dateStart, dateEnd)
-  }, [authed, adminView, invDeck, dateStart, dateEnd, loadInvestors])
+    if (authed && isDeckView) loadInvestors(activeInvDeck, dateStart, dateEnd)
+  }, [authed, isDeckView, activeInvDeck, dateStart, dateEnd, loadInvestors])
 
   const invChartDaily = useMemo(
     () => (invData?.daily ?? []).map(d => ({ date: d.date, visits: d.acessos, clicks: d.pessoas })),
@@ -506,6 +510,7 @@ export default function AdminPage() {
           { key: 'gestores',        label: '📊 Gestores' },
           { key: 'interesse',       label: '🎯 Interesse' },
           { key: 'investidores',    label: '💼 Investidores' },
+          { key: 'serena',          label: '🌊 Serena' },
         ] as const).map(v => (
           <button key={v.key} onClick={() => setAdminView(v.key)}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${adminView === v.key ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
@@ -514,8 +519,8 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {/* Shared date range picker — shown in gestores, interesse and investidores */}
-      {(adminView === 'gestores' || adminView === 'interesse' || adminView === 'investidores') && (
+      {/* Shared date range picker — shown in gestores, interesse, investidores and serena */}
+      {(adminView === 'gestores' || adminView === 'interesse' || isDeckView) && (
         <div className="px-6 pt-4 pb-3 border-b border-gray-800 flex flex-wrap items-center gap-3">
           <span className="text-sm text-gray-400">Período:</span>
           <div className="flex items-center gap-2">
@@ -943,14 +948,22 @@ export default function AdminPage() {
       )}
 
 
-      {/* Investidores — uma apresentação por grupo (investor-decks.ts) */}
-      {adminView === 'investidores' && (
+      {/* Investidores (uma apresentação por grupo) e Serena (corretores) — investor-decks.ts */}
+      {isDeckView && (() => {
+        const isOpen = INVESTOR_DECKS[activeInvDeck].kind === 'corretores' // Serena: link aberto, sem tela de senha
+        const publico = isOpen ? 'corretores' : 'investidores'
+        return (
         <div className="px-5 py-5 space-y-5">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Apresentação para investidores</p>
+              <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-zinc-600">Apresentação para {publico}</p>
+              {isOpen ? (
+                <p className="text-sm text-zinc-400 mt-2">
+                  {INVESTOR_DECKS[activeInvDeck].label} · imersão em Atlântida · <a href={INVESTOR_DECKS[activeInvDeck].path} target="_blank" rel="noopener" className="text-violet-300 hover:underline">{INVESTOR_DECKS[activeInvDeck].path}</a> · link aberto, sem senha
+                </p>
+              ) : (<>
               <div className="flex gap-1.5 mt-2 flex-wrap">
-                {INVESTOR_DECK_IDS.map(id => {
+                {INVESTOR_GROUP_IDS.map(id => {
                   const t = invTotals[id]
                   return (
                     <button key={id} onClick={() => setInvDeck(id)} title={t ? `${t.acessos} acessos e ${t.telas} na tela de senha no período` : undefined}
@@ -964,6 +977,7 @@ export default function AdminPage() {
               <p className="text-sm text-zinc-400 mt-2">
                 Seleção Porto Alegre · <a href={INVESTOR_DECKS[invDeck].path} target="_blank" rel="noopener" className="text-violet-300 hover:underline">{INVESTOR_DECKS[invDeck].path}</a> · acesso com senha
               </p>
+              </>)}
             </div>
             <div className="flex items-center gap-2.5">
               {invUpdatedAt && (
@@ -972,7 +986,7 @@ export default function AdminPage() {
               <button onClick={() => {
                 const today = new Date().toISOString().slice(0, 10)
                 if (!endTouched.current && dateEnd < today) setDateEnd(today) // o efeito recarrega
-                else loadInvestors(invDeck, dateStart, dateEnd)
+                else loadInvestors(activeInvDeck, dateStart, dateEnd)
               }}
                 className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 rounded-lg text-xs transition-colors">
                 ↻ Atualizar
@@ -988,18 +1002,27 @@ export default function AdminPage() {
             const last = lastAccess
               ? new Date(lastAccess).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
               : null
-            const tiles = [
+            // Serena (sem senha): no lugar dos indicadores de login, tempo médio e ampliações
+            const prof = invData.profile
+            const secAll = prof ? prof.slides.reduce((a, s) => a + s.sec, 0) : 0
+            const zoomAll = prof ? prof.zooms.reduce((a, z) => a + z.count, 0) : 0
+            const tiles: { label: string; value: number | string; color: string; glow: string; note: string }[] = [
               { label: 'Acessos', value: p.acessos, color: 'text-violet-400', glow: '167,139,250', note: 'vezes que a apresentação foi aberta' },
               { label: 'Pessoas', value: p.pessoas, color: 'text-green-400', glow: '74,222,128', note: 'navegadores diferentes que abriram' },
-              { label: 'Tela de senha', value: p.pessoasTela, color: 'text-blue-400', glow: '96,165,250', note: 'navegadores que chegaram ao login' },
-              { label: 'Senhas incorretas', value: p.erros, color: 'text-amber-400', glow: '251,191,36', note: 'tentativas com a senha errada' },
+              ...(isOpen ? [
+                { label: 'Tempo médio', value: p.acessos ? fmtDuration(secAll / p.acessos) : '—', color: 'text-blue-400', glow: '96,165,250', note: 'por acesso, com a apresentação em uso' },
+                { label: 'Ampliações', value: zoomAll, color: 'text-amber-400', glow: '251,191,36', note: 'plantas, mapa e decorado ampliados' },
+              ] : [
+                { label: 'Tela de senha', value: p.pessoasTela, color: 'text-blue-400', glow: '96,165,250', note: 'navegadores que chegaram ao login' },
+                { label: 'Senhas incorretas', value: p.erros, color: 'text-amber-400', glow: '251,191,36', note: 'tentativas com a senha errada' },
+              ]),
             ]
             return (<>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
                 {tiles.map(t => (
                   <div key={t.label} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 relative overflow-hidden" style={{ boxShadow: `inset 0 0 40px rgba(${t.glow},0.04)` }}>
                     <p className="text-[10px] font-medium text-zinc-600 uppercase tracking-[0.08em] mb-1.5">{t.label}</p>
-                    <p className={`text-[1.75rem] font-extrabold ${t.color} tabular-nums leading-none`}>{t.value.toLocaleString('pt-BR')}</p>
+                    <p className={`text-[1.75rem] font-extrabold ${t.color} tabular-nums leading-none`}>{typeof t.value === 'number' ? t.value.toLocaleString('pt-BR') : t.value}</p>
                     <p className="text-[11px] text-zinc-500 mt-1.5">{t.note}</p>
                   </div>
                 ))}
@@ -1038,17 +1061,20 @@ export default function AdminPage() {
                 // apresentação ("Nome · Seção") — nada da apresentação fica neste código público.
                 const prods = [...new Set(sl.map(s => s.product).filter(Boolean))]
                 const prodName = (c: string) => sl.find(s => s.product === c && s.title)?.title.split(' · ')[0] || c
-                const PROD_COLORS = ['#c4b5fd', '#a78bfa', '#7c3aed', '#6d28d9']
+                const PROD_COLORS = ['#c4b5fd', '#a78bfa', '#7c3aed', '#6d28d9', '#ddd6fe']
+                // Serena: as "seções" (Localização, Produto, Plantas, Breton, Comercial) fazem o papel dos empreendimentos
                 const sections: Ranked[] = [
-                  { name: 'Abertura institucional', count: secOf((s, k) => !s.product && (firstProd < 0 || k < firstProd)) },
+                  { name: isOpen ? 'Abertura' : 'Abertura institucional', count: secOf((s, k) => !s.product && (firstProd < 0 || k < firstProd)) },
                   ...prods.map(c => ({ name: prodName(c), count: secOf(s => s.product === c) })),
-                  { name: 'Resumo e encerramento', count: secOf((s, k) => !s.product && firstProd >= 0 && k > lastProd) },
+                  { name: isOpen ? 'Encerramento (ficha cadastro)' : 'Resumo e encerramento', count: secOf((s, k) => !s.product && firstProd >= 0 && k > lastProd) },
                 ].filter(x => x.count > 0)
                 const totalSec = sl.reduce((a, s) => a + s.sec, 0)
                 const base = Math.max(p.acessos, 1)
                 const reach = (f: (s: Sl) => boolean) => { const s = sl.find(f); return s ? Math.min(100, Math.round((s.seen / base) * 100)) : null }
-                const resumo = reach(s => /Resumo/i.test(s.title))
-                const precos = prods.map(c => ({ name: prodName(c), v: reach(s => s.product === c && /Condição/i.test(s.title)) }))
+                const resumo = isOpen ? reach(s => /Ficha cadastro/i.test(s.title)) : reach(s => /Resumo/i.test(s.title))
+                const precos = isOpen
+                  ? prods.map(c => ({ name: prodName(c), v: reach(s => s.product === c) }))      // chegaram a cada seção
+                  : prods.map(c => ({ name: prodName(c), v: reach(s => s.product === c && /Condição/i.test(s.title)) }))
                 const totalZooms = pr.zooms.reduce((a, z) => a + z.count, 0)
                 const geoTotal = pr.geo.reduce((a, g) => a + g.count, 0)
                 const devTotal = pr.device.reduce((a, d) => a + d.count, 0)
@@ -1065,7 +1091,7 @@ export default function AdminPage() {
                   <div className={card}>
                     <p className={title}>Engajamento</p>
                     {sl.length === 0 ? (
-                      <p className="text-zinc-600 text-sm py-2">Ainda sem dados de engajamento no período — eles aparecem conforme os investidores navegam pela apresentação.</p>
+                      <p className="text-zinc-600 text-sm py-2">Ainda sem dados de engajamento no período — eles aparecem conforme os {publico} navegam pela apresentação.</p>
                     ) : (<>
                       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-5">
                         <div className={mini}>
@@ -1074,12 +1100,12 @@ export default function AdminPage() {
                           <p className="text-[11px] text-zinc-600 mt-0.5">com a apresentação aberta e em uso</p>
                         </div>
                         <div className={mini}>
-                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">Chegaram ao resumo</p>
+                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">{isOpen ? 'Chegaram à ficha cadastro' : 'Chegaram ao resumo'}</p>
                           <p className="text-xl font-bold text-green-300 tabular-nums">{resumo === null ? '—' : `${resumo}%`}</p>
-                          <p className="text-[11px] text-zinc-600 mt-0.5">dos acessos viram o slide final de valores</p>
+                          <p className="text-[11px] text-zinc-600 mt-0.5">{isOpen ? 'dos acessos viram o slide do QR Code' : 'dos acessos viram o slide final de valores'}</p>
                         </div>
                         <div className={mini}>
-                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">Viram o quadro de preços</p>
+                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">{isOpen ? 'Chegaram a cada seção' : 'Viram o quadro de preços'}</p>
                           <div className="space-y-0.5 mt-1">
                             {precos.map(x => (
                               <p key={x.name} className="text-sm text-zinc-300 flex justify-between"><span>{x.name}</span><b className="tabular-nums text-amber-300">{x.v === null ? '—' : `${x.v}%`}</b></p>
@@ -1087,18 +1113,18 @@ export default function AdminPage() {
                           </div>
                         </div>
                         <div className={mini}>
-                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">Plantas ampliadas</p>
+                          <p className="text-[10px] text-zinc-600 uppercase tracking-[0.08em] mb-1">{isOpen ? 'Ampliações' : 'Plantas ampliadas'}</p>
                           <p className="text-xl font-bold text-sky-300 tabular-nums">{totalZooms.toLocaleString('pt-BR')}</p>
-                          <p className="text-[11px] text-zinc-600 mt-0.5">cliques para ver planta ou implantação</p>
+                          <p className="text-[11px] text-zinc-600 mt-0.5">{isOpen ? 'cliques para ampliar plantas, mapa ou decorado' : 'cliques para ver planta ou implantação'}</p>
                         </div>
                       </div>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div>
-                          <p className={sub}>Tempo por empreendimento (soma do período)</p>
-                          <BarList items={sections} color="#a78bfa" format={fmtDuration} emptyText="Sem tempo registrado ainda." labelWidth="sm:w-52" max={6} />
+                          <p className={sub}>{isOpen ? 'Tempo por seção' : 'Tempo por empreendimento'} (soma do período)</p>
+                          <BarList items={sections} color="#a78bfa" format={fmtDuration} emptyText="Sem tempo registrado ainda." labelWidth="sm:w-52" max={8} />
                         </div>
                         <div>
-                          <p className={sub}>Plantas e implantações ampliadas</p>
+                          <p className={sub}>{isOpen ? 'Plantas, mapa e decorado ampliados' : 'Plantas e implantações ampliadas'}</p>
                           <BarList items={pr.zooms} color="#38bdf8" emptyText="Nenhuma planta ampliada no período." unit="ampliações" labelWidth="sm:w-64 xl:w-80" valueWidth="sm:w-10" />
                         </div>
                       </div>
@@ -1148,13 +1174,14 @@ export default function AdminPage() {
               })()}
 
               <p className="text-[11px] text-zinc-600 leading-relaxed">
-                Pessoas = navegadores diferentes (o mesmo investidor no celular e no computador conta como 2). Os primeiros acessos, anteriores à contagem de pessoas e do perfil, aparecem só em Acessos — por isso percentuais do início podem ficar abaixo do real.
+                Pessoas = navegadores diferentes (o mesmo {isOpen ? 'corretor' : 'investidor'} no celular e no computador conta como 2). {isOpen ? 'Tudo é anônimo: a apresentação não pede nome nem senha.' : 'Os primeiros acessos, anteriores à contagem de pessoas e do perfil, aparecem só em Acessos — por isso percentuais do início podem ficar abaixo do real.'}
                 Localização aproximada pelo provedor de internet, sem guardar IP (em redes de celular pode indicar a cidade da operadora). O tempo só conta com a apresentação visível e para após 2 minutos sem interação. Dias em horário UTC, como no restante do painel; hora e dia da semana em horário de Brasília.
               </p>
             </>)
           })()}
         </div>
-      )}
+        )
+      })()}
 
       {/* Interesse — mapa de cliques por unidade */}
       {adminView === 'interesse' && (
