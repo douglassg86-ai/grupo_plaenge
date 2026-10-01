@@ -5,7 +5,7 @@
 - **Local:** `/Users/douglasgoncalves/Desktop/IA 22-06-26/grupo_plaenge`
 - **Assets fonte:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/Produtos/`
 - **Disponibilidade (xlsx):** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/DISPONIBILIDADE/`
-- **Tabelas de pagamento (PDF):** pasta `ajustes/TABELAS SETEMBRO/` no projeto local (atualizar mensalmente — renomear pasta para o mês corrente)
+- **Tabelas de pagamento (PDF):** pasta `tabelas outubro 2026/` no Desktop/IA 22-06-26/ (atualizar mensalmente — renomear pasta para o mês corrente)
 - **Tabelas Google Drive (fonte prioritária):** `~/Library/CloudStorage/GoogleDrive-douglassg86@gmail.com/Meu Drive/MESA/Grupo Plaenge/COMERCIAL VA PL POA/GRUPO PLAENGE - EMPREENDIMENTOS/<PRODUTO>/Tabela/` — versão mais recente que a pasta local; usar esta quando disponível
 - **Books PDF:** `/Users/douglasgoncalves/Desktop/SITE PRODUTOS/BOOKS/` (alguns dentro da pasta do produto)
 
@@ -70,7 +70,7 @@ Apenas estes existem em `src/components/ui/`:
 | TREND Home | Entrada 15%(5x) · Mensais 10%(20x) · Reforços 15%(3x) · Financiamento 60% (54%+6,2% pós 13x) |
 | TREND Nano | Entrada 20%(3x) · Financiamento 80% |
 | WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
-| SHIFT | Entrada 12,5%(5x) · Mensais 9%(27x) · Reforços 13,5%(3x) · Financiamento 65% |
+| SHIFT | Entrada 12,5%(5x) · Mensais 9%(26x) · Reforços 13,5%(3x) · Financiamento 65% |
 | SYNTHÈ | Entrada 12,5%(5x) · Mensais 15%(30x) · Reforços 12,5%(5x) · Saldo 60% (58,55%+1,45% pós 3x) |
 
 Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
@@ -81,7 +81,7 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 3. Unidades **ausentes** do PDF = vendidas. Unidades **presentes** = disponíveis.
 4. `availability-overrides.json` é keyed por **id numérico** da unidade (não código). Sempre buscar por `id`.
 5. Ao atualizar preços linha a linha (não por replace em massa), usar o campo `id` para identificar a unidade unicamente — especialmente na EDITION onde o mesmo código existe em duas torres.
-6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/27` · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + 27×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`.
+6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/N` (N = nº parcelas mensais da tabela vigente, verificar na tabela PDF) · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + N×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`. **Outubro/2026: N=26.**
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
 8. **Fonte prioritária:** sempre usar a tabela do Google Drive (caminho acima) se disponível — pode ser versão mais recente que a pasta local. Caso o usuário compartilhe um PDF direto, usar este como verdade absoluta e auditar vs. dados do site.
 9. **Auditoria obrigatória pós-atualização:** cruzar PDF × dados para cada produto — usar `extract_pdf_codes()` com `re.match(r'^\d{3,4}$', c)` + `.zfill(4)` (códigos do PDF não têm zero à esquerda). Verificar: (a) unidades marcadas available mas ausentes do PDF → corrigir para sold; (b) unidades presentes no PDF mas marcadas sold nos dados → corrigir para available. Após corrigir status, revisar `availability-overrides.json` para remover overrides conflitantes ou redundantes. Unidades com status `negotiation` na base e override `available` contam como disponíveis — verificar também seus preços.
@@ -162,6 +162,41 @@ Book Nano: `/Users/douglasgoncalves/Desktop/IA 22-06-26/ajustes/book trend nano.
 - **ImageMagick v7:** usar `magick` (não `convert`) · `openpyxl` para xlsx · `inkscape` para .ai → PNG
 - **GA4:** `G-235EYLPY74` via `next/script` strategy `afterInteractive` em `layout.tsx`
 - **Vercel deploy:** automático ~2 min após push na main
+
+## Rastreamento padrão (obrigatório em toda criação nova)
+
+**Toda nova página, apresentação (PPT), link de material ou vídeo inserido no site DEVE ter rastreamento de cliques/visitas via Redis.**
+
+### Regra geral
+- **Visita a uma rota** → `trackEvent(slug, 'visit')` no `useEffect` inicial da página
+- **Clique em qualquer link de material** (book PDF, tabela, apresentação, link cliente, tour virtual) → chamar `/api/track-content` com `{ product, contentType, label }` antes de abrir o link
+- **Clique em vídeo** (play ou iframe load) → `/api/track-content` com `contentType: 'video'`
+- **Clique em WhatsApp** → já rastreado via `trackEvent(slug, 'click', product)`
+
+### Chaves Redis para conteúdo
+```
+content:click:{product}:{contentType}:{label}:{YYYY-MM-DD}   ← diário
+content:click:{product}:{contentType}:{label}:total          ← acumulado
+```
+Exemplos: `content:click:YUNA:download:book-pdf:2026-09-24`, `content:click:TREND NANO:video:empreendimento:total`
+
+### API route
+`src/app/api/track-content/route.ts` — POST com `{ product, contentType, label }`. Responde `{ ok: true }`.
+Chamar fire-and-forget (sem await que bloqueie UX): `fetch('/api/track-content', { method: 'POST', body: JSON.stringify({...}) })` sem `.then()`.
+
+### Admin — aba Gestores
+A aba Gestores do admin exibe por produto os conteúdos mais acessados no período selecionado.
+- A seção "Produto que gerou o clique no WA" em cada card de gestor é **expansível**: clicar na barra do produto abre sub-lista com todos os eventos de conteúdo registrados para aquele produto (downloads, views, acessos, visitas ao link cliente) ordenados por contagem.
+- O seletor de período tem botão **"Todo o período"** além dos atalhos 7d/30d/60d/90d — carrega desde a primeira data registrada.
+- Ao implementar o painel real: `getContentClicks(product, startDate, endDate)` em `src/lib/redis.ts` agregando as chaves de conteúdo do período.
+
+### ContentType padronizados
+| `contentType`  | Uso |
+|---|---|
+| `download`     | Books PDF, tabelas de pagamento, plantas PDF |
+| `video`        | Vídeos embed (YouTube iframe play) |
+| `acesso`       | Apresentações PPT, tour virtual 360° |
+| `visita`       | Link cliente (página pública do produto) |
 
 ## Referências detalhadas
 - **Produtos (notas, vídeos, contagens):** `docs/produtos.md`
