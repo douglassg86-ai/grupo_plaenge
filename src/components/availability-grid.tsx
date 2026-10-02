@@ -6,6 +6,7 @@ import type { Availability as AvailabilityType } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { SHIFT_MENSAIS } from '@/lib/payment-data';
 import { useManager, trackClick } from '@/lib/use-manager';
 import {
   Accordion,
@@ -178,7 +179,7 @@ export function AvailabilityGrid({ availability }: AvailabilityGridProps) {
                           <TableRow>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Total</TableHead>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Entrada 12,5% (5x)</TableHead>
-                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Mensais 9% (27x)</TableHead>
+                            <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Mensais 9% ({SHIFT_MENSAIS}x)</TableHead>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Reforços 13,5% (3x)</TableHead>
                             <TableHead className="text-center h-auto p-1 text-[10px] md:text-xs">Financiamento (65%)</TableHead>
                           </TableRow>

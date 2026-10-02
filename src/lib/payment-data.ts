@@ -1,3 +1,7 @@
+// SHIFT — nº de parcelas mensais da tabela vigente (outubro/2026: 26). Os valores abaixo são
+// calculados com este N (mi = total × 0,09 / N) e o cabeçalho do modal usa a mesma constante.
+export const SHIFT_MENSAIS = 26
+
 export const paymentData: Record<string, any> = {
   "201": { "total": "R$ 465.510,00", "downPayment": "R$ 11.637,75", "monthlyInstallment": "R$ 1.611,38", "reinforcement": "R$ 20.947,95", "financingBalance": "R$ 302.581,52" },
   "202": { "total": "R$ 432.230,00", "downPayment": "R$ 10.805,75", "monthlyInstallment": "R$ 1.296,69", "reinforcement": "R$ 18.729,97", "financingBalance": "R$ 283.110,65" },

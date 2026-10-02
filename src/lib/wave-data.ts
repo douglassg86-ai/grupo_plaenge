@@ -48,12 +48,24 @@ const lotData = {
         'H L5':  { price: '756.090,00', area: '346,21', type: 'LAGO' },
         'H L10': { price: '601.190,00', area: '287,93', type: 'LAGO' }
     },
-    'Quadra I': {},
-    'Quadra J': {},
-    'Quadra K': {},
+    'Quadra I': {
+        'I L1':  { price: '658.350,00', area: '301,45', type: 'LAGO' },
+        'I L19': { price: '542.810,00', area: '264,02', type: 'LAGO' },
+        'I L20': { price: '628.090,00', area: '305,50', type: 'LAGO' }
+    },
+    'Quadra J': { 'J L13': { price: '785.740,00', area: '339,87', type: 'LAGO' } },
+    'Quadra K': {
+        'K L20': { price: '501.990,00', area: '244,16', type: 'LAGO' },
+        'K L33': { price: '586.140,00', area: '253,53', type: 'LAGO' }
+    },
     'Quadra L': {},
     'Quadra M': {},
-    'Quadra N': {}
+    'Quadra N': {
+        'N L9':  { price: '510.030,00', area: '244,27', type: 'LAGO' },
+        'N L15': { price: '509.360,00', area: '243,95', type: 'LAGO' },
+        'N L18': { price: '552.400,00', area: '268,68', type: 'CANTO/LAGO' },
+        'N L20': { price: '515.940,00', area: '267,60', type: 'CANTO/LAGO' }
+    }
 };
 
 export const blockTotals: Record<string, number> = {

@@ -59,7 +59,7 @@ Apenas estes existem em `src/components/ui/`:
 11. **Admin push rejected** — antes de push, `git pull --rebase` (admin commita diretamente no GitHub)
 12. **EDITION tem duas torres** — `'Torre Jardim Cristofel'` e `'Torre Doutor Vale'`, ambas no mesmo `edition-data.ts`. Os códigos de andar se repetem (ex. `'0701'` existe em cada torre). Ao mapear código→ID sempre filtrar por campo `tower`. Atualizar preços e disponibilidade por `id`, nunca só por código.
 
-## Condições de pagamento (tabela setembro/2026)
+## Condições de pagamento (tabela outubro/2026)
 | Produto | Plano |
 |---------|-------|
 | YUNA | Entrada 15%(5x) · Mensais 10%(9x) · Reforços 15%(2x) · Financiamento 60% (32%+27,8% pós 25x) |
@@ -67,7 +67,7 @@ Apenas estes existem em `src/components/ui/`:
 | MOOD | Entrada 20%(1x) · Financiamento 80% |
 | ORBITALE | **100% Vendido** — sem tabela |
 | VERDANT | Entrada 20%(5x) · Mensais 5%(2x) · Reforços 10%(1x) · Financiamento 65% |
-| TREND Home | Entrada 15%(5x) · Mensais 10%(20x) · Reforços 15%(3x) · Financiamento 60% (54%+6,2% pós 13x) |
+| TREND Home | Entrada 15%(5x) · Mensais 10%(20x) · Reforços 15%(3x) · Financiamento 60% (53%+7% pós 14x) — **tabela de setembro** (a de outubro não veio na pasta) |
 | TREND Nano | Entrada 20%(3x) · Financiamento 80% |
 | WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
 | SHIFT | Entrada 12,5%(5x) · Mensais 9%(26x) · Reforços 13,5%(3x) · Financiamento 65% |
@@ -81,12 +81,13 @@ Sempre somar "Pós Finan" ao Financiamento. Todos os % devem somar 100%.
 3. Unidades **ausentes** do PDF = vendidas. Unidades **presentes** = disponíveis.
 4. `availability-overrides.json` é keyed por **id numérico** da unidade (não código). Sempre buscar por `id`.
 5. Ao atualizar preços linha a linha (não por replace em massa), usar o campo `id` para identificar a unidade unicamente — especialmente na EDITION onde o mesmo código existe em duas torres.
-6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/N` (N = nº parcelas mensais da tabela vigente, verificar na tabela PDF) · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + N×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`. **Outubro/2026: N=26.**
+6. **SHIFT** — preços em `src/lib/payment-data.ts` (não em `shift-data.ts`). Ao atualizar, recalcular todos os campos com as fórmulas exatas: `dp = total × 0,025` · `mi = total × 0,09/N` (N = nº parcelas mensais da tabela vigente, verificar na tabela PDF) · `rf = total × 0,045` · `fb = total × 0,65`. Verificar: `5×dp + N×mi + 3×rf + fb = total`. Disponibilidade via `soldCodes` Set em `shift-data.ts` + `availability-overrides.json` chave `"shift"`. **Outubro/2026: N=26.** O N fica na constante `SHIFT_MENSAIS` (topo de `payment-data.ts`), que também alimenta o cabeçalho "Mensais 9% (Nx)" do modal em `availability-grid.tsx` — atualizar a constante junto com os valores (em 01/10 o cabeçalho ficou em 27x por ser texto fixo).
 7. WAVE tem preços como string BRL com decimais (`'523.494,93'`) — preservar casas decimais ao atualizar.
 8. **Fonte prioritária:** sempre usar a tabela do Google Drive (caminho acima) se disponível — pode ser versão mais recente que a pasta local. Caso o usuário compartilhe um PDF direto, usar este como verdade absoluta e auditar vs. dados do site.
-9. **Auditoria obrigatória pós-atualização:** cruzar PDF × dados para cada produto — usar `extract_pdf_codes()` com `re.match(r'^\d{3,4}$', c)` + `.zfill(4)` (códigos do PDF não têm zero à esquerda). Verificar: (a) unidades marcadas available mas ausentes do PDF → corrigir para sold; (b) unidades presentes no PDF mas marcadas sold nos dados → corrigir para available. Após corrigir status, revisar `availability-overrides.json` para remover overrides conflitantes ou redundantes. Unidades com status `negotiation` na base e override `available` contam como disponíveis — verificar também seus preços.
+9. **Auditoria obrigatória pós-atualização:** cruzar PDF × dados para cada produto — usar `extract_pdf_codes()` com `re.match(r'^\d{3,4}$', c)` + `.zfill(4)` (códigos do PDF não têm zero à esquerda). Verificar: (a) unidades marcadas available mas ausentes do PDF → corrigir para sold; (b) unidades presentes no PDF mas marcadas sold nos dados → corrigir para available. Após corrigir status, revisar `availability-overrides.json` para remover overrides conflitantes ou redundantes. Unidades com status `negotiation` na base e override `available` contam como disponíveis — verificar também seus preços. **Antes de corrigir um status pelo PDF, ver a data do override no histórico do git** (`git log -- src/data/availability-overrides.json`): marcações do admin feitas **depois** da emissão da tabela (vendas/reservas do mês) prevalecem sobre o PDF. Unidades reservadas (`negotiation`) continuam no PDF até a venda — manter. Conferir também textos fixos com nº de parcelas fora do `PAYMENT_PLAN` (cabeçalho do SHIFT, PPTs corretor).
 10. **ORBITALE:** 100% Vendido desde setembro/2026 — sem tabela. Página mostra card de encerramento; card na home tem ribbon vermelho (`deliveryLabel: '100% Vendido'`).
-11. **WAVE lotes vendidos:** lotes com `price: 0` (quadras sem entradas no `lotData`) devem ser desabilitados no `lot-grid.tsx` — guard `disabled={lot.status === 'sold' || lot.price === 0}`. Overrides no `availability-overrides.json` para lotes sem preço devem ser removidos.
+11. **WAVE — todas as quadras:** `lotData` em `wave-data.ts` precisa ter os lotes de **todas** as quadras da tabela (A a N). Em 01/09 as quadras I–N foram esvaziadas por engano e 10 lotes à venda apareceram como vendidos até 02/10. IDs dos lotes são sequenciais por quadra (A1 = 1 … `blockTotals`), e não mudam ao incluir/remover lotes do `lotData`. O override `"23": "available"` (B L5) é intencional: desliga o destaque automático de "oportunidade" do lote mais barato.
+12. **WAVE lotes vendidos:** lotes com `price: 0` (quadras sem entradas no `lotData`) devem ser desabilitados no `lot-grid.tsx` — guard `disabled={lot.status === 'sold' || lot.price === 0}`. Overrides no `availability-overrides.json` para lotes sem preço devem ser removidos.
 
 ## Apresentações fullscreen
 Existem apresentações em **5 produtos** (mais 1 institucional e 1 multi-produto) — nem todos seguem o mesmo formato. Antes de criar uma nova, decida se ela é do tipo "roteiro de slides" (TREND/VERDANT, para cliente final) ou "PPT corretor" (SYNTHÈ/SHIFT/PPT-PORTIFOLIO, foco comercial/institucional).
