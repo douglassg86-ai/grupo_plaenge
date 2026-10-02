@@ -12,7 +12,7 @@ export const paymentData: Record<string, any> = {
   "207": { "total": "R$ 453.470,00", "downPayment": "R$ 11.336,75", "monthlyInstallment": "R$ 1.569,70", "reinforcement": "R$ 20.406,15", "financingBalance": "R$ 294.755,60" },
   "208": { "total": "R$ 441.130,00", "downPayment": "R$ 11.028,25", "monthlyInstallment": "R$ 1.417,92", "reinforcement": "R$ 19.850,85", "financingBalance": "R$ 286.734,50" },
   "209": { "total": "R$ 433.890,00", "downPayment": "R$ 10.847,25", "monthlyInstallment": "R$ 1.301,67", "reinforcement": "R$ 18.801,90", "financingBalance": "R$ 284.197,95" },
-  "210": { "total": "R$ 433.890,00", "downPayment": "R$ 10.847,25", "monthlyInstallment": "R$ 1.301,67", "reinforcement": "R$ 18.801,90", "financingBalance": "R$ 284.197,95" },
+  "210": { "total": "R$ 453.470,00", "downPayment": "R$ 11.336,75", "monthlyInstallment": "R$ 1.569,70", "reinforcement": "R$ 20.406,15", "financingBalance": "R$ 294.755,50" },
   "211": { "total": "R$ 433.890,00", "downPayment": "R$ 10.847,25", "monthlyInstallment": "R$ 1.301,67", "reinforcement": "R$ 18.801,90", "financingBalance": "R$ 284.197,95" },
   "212": { "total": "R$ 443.540,00", "downPayment": "R$ 11.088,50", "monthlyInstallment": "R$ 1.330,62", "reinforcement": "R$ 19.220,07", "financingBalance": "R$ 290.518,70" },
   "213": { "total": "R$ 571.010,00", "downPayment": "R$ 14.275,25", "monthlyInstallment": "R$ 1.713,03", "reinforcement": "R$ 24.743,77", "financingBalance": "R$ 374.011,55" },
