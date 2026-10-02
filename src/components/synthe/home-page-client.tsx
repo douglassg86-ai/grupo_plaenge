@@ -19,7 +19,6 @@ const LINKS_CONFIG = {
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe-1920x646.mp4',     title: 'Banner 1920×646' },
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-video-synthe-whats.mp4',        title: 'WhatsApp' },
     { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-videos-teaser.mp4',       title: 'Teaser' },
-    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/synthe-convite-sabado-11-7-convite-sab-11-7.mp4',      title: 'Convite' },
   ],
   clienteSlug:   'synthe',
   product: 'SYNTHE',
