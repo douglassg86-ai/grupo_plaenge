@@ -403,7 +403,8 @@ export default function AdminPage() {
     const res = await fetch('/api/admin/commit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: pw, overrides: cleaned }),
+      // base = estado com que a página abriu: o servidor aplica só o que mudou aqui sobre o arquivo atual
+      body: JSON.stringify({ password: pw, overrides: cleaned, base: rawOverrides }),
     })
 
     setSaving(false)

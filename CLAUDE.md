@@ -57,6 +57,7 @@ Apenas estes existem em `src/components/ui/`:
 9. **Hydration mismatch** — nunca `Math.random()` / `shuffle` no `useState` initializer; mover para `useEffect`. Também nunca usar `<style>{cssString}</style>` (React escapa como texto e diverge entre SSR/cliente) — usar sempre `<style dangerouslySetInnerHTML={{ __html: cssString }} />`
 10. **Route Handlers** — sempre `await` operações async antes do `return response`
 11. **Admin push rejected** — antes de push, `git pull --rebase` (admin commita diretamente no GitHub)
+    - Desde 02/10 o save do admin manda `base` (estado com que a página abriu) e `/api/admin/commit` aplica só o que mudou na aba sobre o arquivo atual do GitHub (antes gravava o arquivo inteiro e desfazia alterações feitas por commit/outra aba). Requisição sem `base` (aba antiga) recebe 409 pedindo para recarregar.
 12. **EDITION tem duas torres** — `'Torre Jardim Cristofel'` e `'Torre Doutor Vale'`, ambas no mesmo `edition-data.ts`. Os códigos de andar se repetem (ex. `'0701'` existe em cada torre). Ao mapear código→ID sempre filtrar por campo `tower`. Atualizar preços e disponibilidade por `id`, nunca só por código.
 
 ## Condições de pagamento (tabela outubro/2026)
