@@ -606,7 +606,7 @@ function SlideCta() {
           </div>
         </div>
         <div className="sn-a3 mt-14" style={{ height: '1px', width: '70px', background: `${ACC}45` }} />
-        <a href="https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/regulamentos/synthe-campanha-carros-pfGFcxENz2RQbLMB6iM0gSZiAzcGTF.pdf" target="_blank" rel="noopener noreferrer"
+        <a href="/visualizar?u=https%3A%2F%2Fsnmigf0anjlpuyzw.public.blob.vercel-storage.com%2Fregulamentos%2Fsynthe-campanha-carros-pfGFcxENz2RQbLMB6iM0gSZiAzcGTF.pdf&t=Regulamento+da+Campanha" target="_blank" rel="noopener noreferrer"
           className="sn sn-a4 mt-6 flex items-center gap-2 px-6 py-3 rounded-full transition-all hover:scale-105"
           style={{ border: `1px solid ${ACC}60`, background: `${ACC}18`, color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(0.75rem, 1vw, 0.9rem)', fontWeight: 500, letterSpacing: '0.12em', textDecoration: 'none', textTransform: 'uppercase' }}>
           📋 Regulamento da Campanha

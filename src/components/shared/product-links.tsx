@@ -4,6 +4,7 @@ import { Table2, BookOpen, Image as ImageIcon, Video, Globe, Copy, Check, FileTe
 import { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { managers } from '@/lib/managers';
+import { viewerHref } from '@/components/shared/pdf-viewer';
 
 export interface VideoItem {
   url: string;
@@ -191,13 +192,13 @@ export function ProductLinks({ config }: { config: ProductLinksConfig }) {
         <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-6">Materiais & Links</p>
         <div className="flex flex-wrap gap-3">
           {config.tabela && (
-            <LinkButton icon={Table2} label="Tabela de Preços" onClick={() => { trackContent(config.product, 'download', 'tabela-pagamento'); window.open(config.tabela, '_blank') }} />
+            <LinkButton icon={Table2} label="Tabela de Preços" onClick={() => { trackContent(config.product, 'download', 'tabela-pagamento'); window.open(viewerHref(config.tabela!, `Tabela de Preços${config.product ? ' — ' + config.product : ''}`), '_blank') }} />
           )}
           {config.book && (
-            <LinkButton icon={BookOpen} label="Book" onClick={() => { trackContent(config.product, 'download', 'book-pdf'); window.open(config.book, '_blank') }} />
+            <LinkButton icon={BookOpen} label="Book" onClick={() => { trackContent(config.product, 'download', 'book-pdf'); window.open(viewerHref(config.book!, `Book${config.product ? ' — ' + config.product : ''}`), '_blank') }} />
           )}
           {config.bookHorizontal && (
-            <LinkButton icon={BookOpen} label="Book Horizontal" onClick={() => { trackContent(config.product, 'download', 'book-horizontal'); window.open(config.bookHorizontal, '_blank') }} />
+            <LinkButton icon={BookOpen} label="Book Horizontal" onClick={() => { trackContent(config.product, 'download', 'book-horizontal'); window.open(viewerHref(config.bookHorizontal!, `Book Horizontal${config.product ? ' — ' + config.product : ''}`), '_blank') }} />
           )}
           {config.imagens && (
             <LinkButton href={config.imagens} icon={ImageIcon} label="Imagens (ZIP)" />

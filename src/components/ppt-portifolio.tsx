@@ -946,7 +946,7 @@ function SlideMeta1Car({ onFullscreen, isFullscreen }: FullscreenProps) {
         <p className="font-light mt-2" style={{ color: 'rgba(240,237,232,0.45)', fontSize: 'clamp(1rem, 1.5vw, 1.3rem)' }}>
           Veículo elétrico · Prêmio Meta 1
         </p>
-        <a href="https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/regulamentos/synthe-campanha-carros-pfGFcxENz2RQbLMB6iM0gSZiAzcGTF.pdf" target="_blank" rel="noopener noreferrer"
+        <a href="/visualizar?u=https%3A%2F%2Fsnmigf0anjlpuyzw.public.blob.vercel-storage.com%2Fregulamentos%2Fsynthe-campanha-carros-pfGFcxENz2RQbLMB6iM0gSZiAzcGTF.pdf&t=Regulamento+da+Campanha" target="_blank" rel="noopener noreferrer"
           className="mt-6 self-start flex items-center gap-2 px-5 py-2.5 rounded-full transition-all hover:opacity-80"
           style={{ border: `1px solid ${GOLD}55`, background: `${GOLD}15`, color: 'rgba(240,237,232,0.7)', fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', fontWeight: 500, letterSpacing: '0.1em', textDecoration: 'none', textTransform: 'uppercase' }}>
           📋 Conferir o Regulamento
@@ -1011,7 +1011,7 @@ function SlideMeta2Car({ onFullscreen, isFullscreen }: FullscreenProps) {
         <p className="font-light mb-4" style={{ color: 'rgba(240,237,232,0.55)', fontSize: 'clamp(1rem, 1.5vw, 1.3rem)' }}>
           Esportivo elétrico conversível · Prêmio Meta 2 · 15 unidades até 31/10/2026
         </p>
-        <a href="https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/regulamentos/synthe-campanha-carros-pfGFcxENz2RQbLMB6iM0gSZiAzcGTF.pdf" target="_blank" rel="noopener noreferrer"
+        <a href="/visualizar?u=https%3A%2F%2Fsnmigf0anjlpuyzw.public.blob.vercel-storage.com%2Fregulamentos%2Fsynthe-campanha-carros-pfGFcxENz2RQbLMB6iM0gSZiAzcGTF.pdf&t=Regulamento+da+Campanha" target="_blank" rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full transition-all hover:opacity-80"
           style={{ border: `1px solid ${GOLD}55`, background: `${GOLD}15`, color: 'rgba(240,237,232,0.7)', fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', fontWeight: 500, letterSpacing: '0.1em', textDecoration: 'none', textTransform: 'uppercase' }}>
           📋 Conferir o Regulamento

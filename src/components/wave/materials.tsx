@@ -5,12 +5,13 @@ import { Book, Video, Images, Table, Globe, Copy, Check } from "lucide-react";
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
+import { viewerHref } from '@/components/shared/pdf-viewer';
 
 const materials = [
-  { icon: Book, title: "E-book", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/wave.pdf" },
+  { icon: Book, title: "E-book", href: viewerHref("https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/wave.pdf", "Book — WAVE") },
   { icon: Video, title: "Vídeo", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/wave-video-wavehomeresort-pronto.mp4" },
   { icon: Images, title: "Fotos", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/wave-fotos.zip" },
-  { icon: Table, title: "Tabela", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/wave-out26-vpDx0y8xwnpwmj5dDZlgpcUXBNzAKw.pdf" },
+  { icon: Table, title: "Tabela", href: viewerHref("https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/wave-out26-vpDx0y8xwnpwmj5dDZlgpcUXBNzAKw.pdf", "Tabela de Preços — WAVE") },
   { icon: Globe, title: "Site Oficial", href: "https://www.vanguard.com.br/porto-alegre/wave" },
 ];
 
