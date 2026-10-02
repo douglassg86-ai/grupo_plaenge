@@ -245,6 +245,7 @@
     "108610": "sold",
     "108611": "sold",
     "108612": "sold",
+    "108614": "available",
     "108615": "sold",
     "108616": "sold",
     "108618": "sold",
@@ -270,11 +271,13 @@
     "108665": "sold",
     "108669": "sold",
     "108672": "sold",
+    "108674": "available",
     "108675": "sold",
     "108678": "sold",
     "108679": "sold",
     "108681": "sold",
     "108682": "sold",
+    "108685": "available",
     "108688": "sold",
     "108697": "sold"
   },
@@ -321,6 +324,7 @@
     "89865": "sold",
     "89866": "sold",
     "89867": "sold",
+    "89868": "available",
     "89869": "sold",
     "89870": "sold",
     "89871": "sold",
@@ -598,9 +602,14 @@
     "103470": "sold"
   },
   "wave": {
+    "5": "available",
+    "19": "available",
     "23": "available",
+    "67": "available",
     "69": "negotiation",
     "78": "sold"
   },
-  "shift": {}
+  "shift": {
+    "179": "available"
+  }
 }
