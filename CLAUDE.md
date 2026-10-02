@@ -68,7 +68,7 @@ Apenas estes existem em `src/components/ui/`:
 | MOOD | Entrada 20%(1x) · Financiamento 80% |
 | ORBITALE | **100% Vendido** — sem tabela |
 | VERDANT | Entrada 20%(5x) · Mensais 5%(2x) · Reforços 10%(1x) · Financiamento 65% |
-| TREND Home | Entrada 15%(5x) · Mensais 10%(20x) · Reforços 15%(3x) · Financiamento 60% (53%+7% pós 14x) — **tabela de setembro** (a de outubro não veio na pasta) |
+| TREND Home | **Fora do ar desde 24/09/2026** (página vai direto para o Nano; Home substituído por "Futuro Lançamento Torres 3 e 4") — sem tabela; não auditar enquanto estiver desativado |
 | TREND Nano | Entrada 20%(3x) · Financiamento 80% |
 | WAVE | Entrada 10%(1x) · 30 Dias 10%(1x) · Financiamento 80% |
 | SHIFT | Entrada 12,5%(5x) · Mensais 9%(26x) · Reforços 13,5%(3x) · Financiamento 65% |
