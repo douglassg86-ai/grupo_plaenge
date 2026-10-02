@@ -946,11 +946,6 @@ function SlideMeta1Car({ onFullscreen, isFullscreen }: FullscreenProps) {
         <p className="font-light mt-2" style={{ color: 'rgba(240,237,232,0.45)', fontSize: 'clamp(1rem, 1.5vw, 1.3rem)' }}>
           Veículo elétrico · Prêmio Meta 1
         </p>
-        <a href="https://drive.google.com/open?id=1dSK7ztNZ6PpfywJYX-1IL-d7WftLPb6e&usp=drive_fs" target="_blank" rel="noopener noreferrer"
-          className="mt-6 self-start flex items-center gap-2 px-5 py-2.5 rounded-full transition-all hover:opacity-80"
-          style={{ border: `1px solid ${GOLD}55`, background: `${GOLD}15`, color: 'rgba(240,237,232,0.7)', fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', fontWeight: 500, letterSpacing: '0.1em', textDecoration: 'none', textTransform: 'uppercase' }}>
-          📋 Conferir o Regulamento
-        </a>
       </div>
     </div>
   );
@@ -1011,11 +1006,6 @@ function SlideMeta2Car({ onFullscreen, isFullscreen }: FullscreenProps) {
         <p className="font-light mb-4" style={{ color: 'rgba(240,237,232,0.55)', fontSize: 'clamp(1rem, 1.5vw, 1.3rem)' }}>
           Esportivo elétrico conversível · Prêmio Meta 2 · 15 unidades até 31/10/2026
         </p>
-        <a href="https://drive.google.com/open?id=1dSK7ztNZ6PpfywJYX-1IL-d7WftLPb6e&usp=drive_fs" target="_blank" rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full transition-all hover:opacity-80"
-          style={{ border: `1px solid ${GOLD}55`, background: `${GOLD}15`, color: 'rgba(240,237,232,0.7)', fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', fontWeight: 500, letterSpacing: '0.1em', textDecoration: 'none', textTransform: 'uppercase' }}>
-          📋 Conferir o Regulamento
-        </a>
       </div>
     </div>
   );

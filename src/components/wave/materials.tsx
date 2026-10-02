@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Book, Video, Images, Table, Megaphone, Globe, Copy, Check } from "lucide-react";
+import { Book, Video, Images, Table, Globe, Copy, Check } from "lucide-react";
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
@@ -11,8 +11,6 @@ const materials = [
   { icon: Video, title: "Vídeo", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/wave-video-wavehomeresort-pronto.mp4" },
   { icon: Images, title: "Fotos", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/wave-fotos.zip" },
   { icon: Table, title: "Tabela", href: "https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/wave-out26-vpDx0y8xwnpwmj5dDZlgpcUXBNzAKw.pdf" },
-  { icon: Megaphone, title: "Materiais Promocionais", href: "https://drive.google.com/drive/folders/1IRHdPxpfZMnccssVzboPFiFtblHOcXIr" },
-  { icon: Book, title: "ADM Condomínio", href: "https://drive.google.com/drive/folders/1UfPI9c6zqQIdxbiXxIfnT1P3X0LBkJpk" },
   { icon: Globe, title: "Site Oficial", href: "https://www.vanguard.com.br/porto-alegre/wave" },
 ];
 

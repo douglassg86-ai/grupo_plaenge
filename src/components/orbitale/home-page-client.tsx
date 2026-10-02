@@ -10,7 +10,6 @@ import { ProductHeader } from '@/components/shared/product-header';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const LINKS_CONFIG = {
-  tabela: 'https://drive.google.com/open?id=1vnAEpjzQ_v_JKR6wCMzeX05vQ2edE-5v&usp=drive_fs',
   book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/orbitale.pdf',
 
   videos: [

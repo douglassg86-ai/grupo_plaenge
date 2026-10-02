@@ -3,11 +3,9 @@ import { placeholderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { LayoutPanelLeft, MapPin, Film, Camera } from 'lucide-react';
+import { LayoutPanelLeft, MapPin, Film } from 'lucide-react';
 import { ProjectCarousel } from '@/components/project-carousel';
 import { ProductHeader } from '@/components/shared/product-header';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 export const metadata = {
   title: 'SHIFT | Vanguard',
@@ -58,15 +56,6 @@ export default function ShiftClientePage() {
                       itemClassName="md:basis-1/2 lg:basis-1/2"
                       aspectRatioClassName="aspect-square"
                     />
-                    <div className="text-center mt-6">
-                      <p className="text-sm text-muted-foreground mb-2">Clique aqui para conhecer o apartamento decorado</p>
-                      <Button asChild size="lg">
-                        <Link href="https://drive.google.com/open?id=19ty8sjzOZqh_A0TL8onILqtRlX1rcMr9&usp=drive_fs" target="_blank">
-                          <Camera className="mr-2 h-4 w-4" />
-                          Fotos Decorado
-                        </Link>
-                      </Button>
-                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">

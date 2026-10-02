@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import { projects } from '@/lib/data';
 import { placeholderImages } from '@/lib/placeholder-images';
 import type { Metadata } from 'next';
@@ -8,24 +7,26 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { MapPin, Film, BedDouble, LayoutPanelLeft, AlertTriangle, Camera } from 'lucide-react';
+import { MapPin, Film, BedDouble, LayoutPanelLeft, AlertTriangle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectCarousel } from '@/components/project-carousel';
 import { AvailabilityGrid } from '@/components/availability-grid';
 import { SiteHeader } from '@/components/site-header';
 import { ProductHeader } from '@/components/shared/product-header';
 import { SiteFooter } from '@/components/site-footer';
-import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import ShiftEventPopup from '@/components/shift-event-popup';
 import { WhatsappButton } from '@/components/whatsapp-button';
 import { ProductLinks } from '@/components/shared/product-links';
 
 const SHIFT_LINKS = {
-  tabela: 'https://drive.google.com/open?id=11cd3uIwcpL9cLriCHuGNMPoHdT_5GbNL&usp=drive_fs',
-  book: 'https://drive.google.com/open?id=1NeTvdgNKT1Lq_I6AHh4UXkDY8dOlrajn&usp=drive_fs',
-  imagens: 'https://drive.google.com/open?id=1y7Tu5K82bW8KthcVXPwkXlm1iP6nMsml&usp=drive_fs',
-  video: 'https://drive.google.com/open?id=11Z-d0yf-itgzBqWbnSJTxbZ1GixvTKTx&usp=drive_fs',
+  tabela: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/tabelas/shift-out26-ckl6UifE4b5vYWY1yV5jbWNExTgCH6.pdf',
+  book: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/books/shift.pdf',
+  imagens: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/fotos/shift-fotos.zip',
+  videos: [
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/shift-videos-vida-em-movimento-horizontal.mp4', title: 'Vida em Movimento — Horizontal' },
+    { url: 'https://snmigf0anjlpuyzw.public.blob.vercel-storage.com/videos/shift-videos-vida-em-movimento-vertical.mp4', title: 'Vida em Movimento — Vertical' },
+  ],
   site: 'https://www.vanguard.com.br/porto-alegre/shift',
   clienteSlug: 'shift',
 };
@@ -184,15 +185,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                           itemClassName="md:basis-1/2 lg:basis-1/2"
                           aspectRatioClassName="aspect-square"
                         />
-                         <div className="text-center mt-6">
-                          <p className="text-sm text-muted-foreground mb-2">Clique aqui para conhecer o apartamento decorado</p>
-                          <Button asChild size="lg">
-                            <Link href="https://drive.google.com/open?id=19ty8sjzOZqh_A0TL8onILqtRlX1rcMr9&usp=drive_fs" target="_blank">
-                              <Camera className="mr-2 h-4 w-4" />
-                              Fotos Decorado
-                            </Link>
-                          </Button>
-                        </div>
                       </div>
                     </>
                   )}
